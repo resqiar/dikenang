@@ -1,8 +1,7 @@
 <p align="center">
   <a href="https://dikenang.netlify.app" target="blank"><img src="https://i.imgur.com/irBDntm.png" width="400" alt="Dikenang Logo" /></a>
 </p>
-  <h3 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</p>
-    <h3 align="center">
+  <h3 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</h3>
   <p align="center">A <a href="https://dikenang.netlify.app" target="_blank">dikenang</a> server-side codebase that build on top of NestJS, MongoDB, and GraphQL (under development stages)</p>
 
 ## Description
