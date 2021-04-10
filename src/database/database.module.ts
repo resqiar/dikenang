@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common'
-import { MongooseModule } from '@nestjs/mongoose'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 /**
- * @Database host URI
+ * @Database configurations options
  */
-const DB_HOST = process.env.DB_HOST
+import * as config from './config/ormconfig'
 
 @Module({
-	imports: [
-		MongooseModule.forRoot(DB_HOST, {
-			useNewUrlParser: true,
-			useCreateIndex: true,
-			useFindAndModify: true,
-			useUnifiedTopology: true,
-		}),
-	],
+	imports: [TypeOrmModule.forRoot(config)],
 })
 export class DatabaseModule {}
