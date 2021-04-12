@@ -29,8 +29,8 @@ export class User {
 	@Column({ select: false })
 	password: string
 
-	@Field(() => [String], { nullable: true })
-	@Column('text', { array: true, nullable: true })
+	@Field({ nullable: true })
+	@Column('text', { nullable: true })
 	access_token: string
 
 	@Field({ nullable: true })

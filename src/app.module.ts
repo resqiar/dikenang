@@ -4,6 +4,8 @@ import { DatabaseModule } from './database/database.module'
 import { UsersModule } from './users/users.module'
 import { join } from 'path'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
+import { AuthModule } from './auth/auth.module'
+import { UsersService } from './users/users.service'
 
 @Module({
 	imports: [
@@ -29,6 +31,7 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql'
 				return graphQLFormattedError
 			},
 		}),
+		AuthModule,
 	],
 	controllers: [],
 	providers: [],

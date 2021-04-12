@@ -6,7 +6,7 @@ type User {
   id: String!
   username: String!
   email: String!
-  access_token: [String!]
+  access_token: String
   bio: String
   avatar_url: String
   created_at: DateTime
@@ -20,11 +20,12 @@ scalar DateTime
 
 type Query {
   users: [User!]!
-  user(id: String!): User!
+  user(username: String!): User!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
+  signUp(createUserInput: CreateUserInput!): User!
+  login(loginInput: LoginInputDTO!): User!
 }
 
 input CreateUserInput {
@@ -32,4 +33,9 @@ input CreateUserInput {
   email: String!
   password: String!
   avatar_url: String
+}
+
+input LoginInputDTO {
+  username: String!
+  password: String!
 }
