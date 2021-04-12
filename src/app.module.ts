@@ -18,7 +18,9 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql'
 			 */
 			formatError: (error: GraphQLError) => {
 				const graphQLFormattedError: GraphQLFormattedError = {
-					message: error.message,
+					message:
+						error.extensions?.exception?.response?.message ||
+						error.message,
 					extensions: {
 						error: error.extensions.exception?.response?.error,
 						status: error.extensions.exception?.status,

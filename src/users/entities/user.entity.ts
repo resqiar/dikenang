@@ -1,5 +1,11 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	PrimaryGeneratedColumn,
+	UpdateDateColumn,
+} from 'typeorm'
 
 @ObjectType()
 @Entity()
@@ -35,4 +41,12 @@ export class User {
 	@Field({ nullable: true })
 	@Column('text', { nullable: true })
 	avatar_url: string
+
+	@Field({ nullable: true })
+	@CreateDateColumn()
+	created_at: Date
+
+	@Field({ nullable: true })
+	@UpdateDateColumn()
+	updated_at: Date
 }
