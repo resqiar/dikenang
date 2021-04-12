@@ -26,8 +26,7 @@ export class User {
 	})
 	email: string
 
-	@Field()
-	@Column()
+	@Column({ select: false })
 	password: string
 
 	@Field(() => [String], { nullable: true })

@@ -6,7 +6,6 @@ type User {
   id: String!
   username: String!
   email: String!
-  password: String!
   access_token: [String!]
   bio: String
   avatar_url: String
