@@ -25,7 +25,7 @@ export class User {
 	password: string
 
 	@Field(() => [String], { nullable: true })
-	@Column('text', { array: true })
+	@Column('text', { array: true, nullable: true })
 	access_token: string
 
 	@Field({ nullable: true })
