@@ -4,6 +4,7 @@ import { User } from './entities/user.entity'
 import { NotFoundException, UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
 import { UpdateUserInput } from './dto/update-user.input'
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -20,24 +21,16 @@ export class UsersResolver {
 	}
 
 	@Query(() => User, { name: 'user' })
-	@UseGuards(GqlAuthGuard)
 	async findOne(@Args('username') username: string): Promise<User> {
-		try {
-			return await this.usersService.findOne(username)
-		} catch (e) {
-			/**
-			 * @Error here means that client fails to get
-			 * correct data from the database/data not found
-			 */
-			throw new NotFoundException(e.message)
-		}
+		return await this.usersService.findOne(username)
 	}
 
 	@Mutation(() => User, { name: 'updateUser' })
 	@UseGuards(GqlAuthGuard)
 	async update(
-		@Args('updateUserInput') updateUserInput: Partial<UpdateUserInput>
-	) {
-		return await this.usersService.update(id, updateUserInput)
+		@CurrentUser() currentUser: User,
+		@Args('updateUserInput') updateUserInput: UpdateUserInput
+	): Promise<User> {
+		return await this.usersService.update(currentUser.id, updateUserInput)
 	}
 }

@@ -1,7 +1,9 @@
 import {
+	BadRequestException,
 	forwardRef,
 	Inject,
 	Injectable,
+	NotFoundException,
 	UnauthorizedException,
 } from '@nestjs/common'
 import { User } from 'src/users/entities/user.entity'
@@ -45,7 +47,7 @@ export class AuthService {
 				access_token: accessToken,
 			})
 		} else {
-			throw new UnauthorizedException('Invalid given username/password')
+			throw new BadRequestException('Invalid given username/password')
 		}
 	}
 

@@ -24,8 +24,17 @@ type Query {
 }
 
 type Mutation {
+  updateUser(updateUserInput: UpdateUserInput!): User!
   signUp(createUserInput: CreateUserInput!): User!
   login(loginInput: LoginInputDTO!): User!
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  access_token: String
+  bio: String
+  avatar_url: String
 }
 
 input CreateUserInput {

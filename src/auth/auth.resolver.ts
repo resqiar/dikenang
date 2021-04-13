@@ -1,4 +1,9 @@
-import { BadRequestException, Request, UseGuards } from '@nestjs/common'
+import {
+	BadRequestException,
+	Request,
+	UnauthorizedException,
+	UseGuards,
+} from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { CreateUserInput } from 'src/users/dto/create-user.input'
 import { User } from 'src/users/entities/user.entity'
@@ -17,15 +22,11 @@ export class AuthResolver {
 	async signUp(
 		@Args('createUserInput') createUserInput: CreateUserInput
 	): Promise<User> {
-		try {
-			return await this.usersService.create(createUserInput)
-		} catch (e) {
-			throw new BadRequestException(e.message)
-		}
+		return await this.usersService.create(createUserInput)
 	}
 
 	@Mutation(() => User, { name: 'login' })
-	async login(@Args('loginInput') loginInput: LoginInputDTO) {
+	async login(@Args('loginInput') loginInput: LoginInputDTO): Promise<User> {
 		return await this.authService.validateUser(
 			loginInput.username,
 			loginInput.password
