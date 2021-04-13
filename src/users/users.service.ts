@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { AuthService } from 'src/auth/auth.service'
 import { Repository } from 'typeorm'
 import { CreateUserInput } from './dto/create-user.input'
+import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
 
 @Injectable()
@@ -47,22 +48,15 @@ export class UsersService {
 		})
 	}
 
-	async updateToken(username: string, token: string) {
+	async update(id: string, updateUserInput: Partial<UpdateUserInput>) {
+		const user = await this.userRepository.findOneOrFail(id)
 		/**
-		 * update given token from JWT
-		 * to the database, this access_token
-		 * used to determine if the user is valid or not
+		 * update given input from @UpdateUserInput
 		 */
-		const user = await this.userRepository.findOneOrFail({
-			where: { username: username },
-		})
+		await this.userRepository.update(id, updateUserInput)
 		/**
-		 * Update token
+		 * @Returns updated User object
 		 */
-		user.access_token = token
-		/**
-		 * send back response
-		 */
-		return await this.userRepository.save(user)
+		return await this.userRepository.findOneOrFail(id)
 	}
 }

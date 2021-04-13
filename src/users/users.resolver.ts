@@ -3,6 +3,7 @@ import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { NotFoundException, UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
+import { UpdateUserInput } from './dto/update-user.input'
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -30,5 +31,13 @@ export class UsersResolver {
 			 */
 			throw new NotFoundException(e.message)
 		}
+	}
+
+	@Mutation(() => User, { name: 'updateUser' })
+	@UseGuards(GqlAuthGuard)
+	async update(
+		@Args('updateUserInput') updateUserInput: Partial<UpdateUserInput>
+	) {
+		return await this.usersService.update(id, updateUserInput)
 	}
 }

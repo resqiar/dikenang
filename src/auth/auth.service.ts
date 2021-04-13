@@ -33,16 +33,27 @@ export class AuthService {
 		 * return user data, otherwise return UnauthorizedException
 		 */
 		if (isValid) {
+			/**
+			 * Generate token from JWT package
+			 */
 			const accessToken = await this.generateToken(selectedUser)
-			return await this.UsersService.updateToken(
-				selectedUser.username,
-				accessToken
-			)
+
+			/**
+			 * @Return user with updated access_token
+			 */
+			return await this.UsersService.update(selectedUser.id, {
+				access_token: accessToken,
+			})
 		} else {
 			throw new UnauthorizedException('Invalid given username/password')
 		}
 	}
 
+	/**
+	 * @returns token assigned to current
+	 * authenticated user with payload of
+	 * id and username
+	 */
 	async generateToken(user: User) {
 		const payload = { id: user.id, username: user.username }
 		return await this.jwtService.signAsync(payload)
