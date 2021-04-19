@@ -18,15 +18,25 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Post {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
+  posts: [Post!]!
+  post(id: Int!): Post!
 }
 
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   signUp(createUserInput: CreateUserInput!): User!
   login(loginInput: LoginInputDTO!): User!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post!
 }
 
 input UpdateUserInput {
@@ -47,4 +57,15 @@ input CreateUserInput {
 input LoginInputDTO {
   username: String!
   password: String!
+}
+
+input CreatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdatePostInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
