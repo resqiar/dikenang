@@ -50,10 +50,24 @@ export class UsersService {
 		return await this.userRepository.find()
 	}
 
-	async findOne(username: string) {
+	async findByUsername(username: string) {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
+			})
+		} catch (e) {
+			/**
+			 * @Error here means that client fails to get
+			 * correct data from the database/data not found
+			 */
+			throw new NotFoundException(e.detail)
+		}
+	}
+
+	async findById(id: string) {
+		try {
+			return await this.userRepository.findOneOrFail({
+				where: { id: id },
 			})
 		} catch (e) {
 			/**
