@@ -65,12 +65,12 @@ input LoginInputDTO {
 }
 
 input CreatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  caption: String!
+  author_id: String!
 }
 
 input UpdatePostInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  caption: String
+  author_id: String
   id: Int!
 }

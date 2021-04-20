@@ -21,7 +21,7 @@ export class AuthService {
 	) {}
 
 	async validateUser(username: string, password: string): Promise<User> {
-		const selectedUser = await this.UsersService.findOne(username)
+		const selectedUser = await this.UsersService.findByUsername(username)
 		const hashedPassword = await this.UsersService.getCred(username)
 
 		/**

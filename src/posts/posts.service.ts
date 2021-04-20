@@ -1,26 +1,41 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { UsersService } from 'src/users/users.service'
+import { Repository } from 'typeorm'
+import { CreatePostInput } from './dto/create-post.input'
+import { UpdatePostInput } from './dto/update-post.input'
+import { Post } from './entities/post.entity'
 
 @Injectable()
 export class PostsService {
-  create(createPostInput: CreatePostInput) {
-    return 'This action adds a new post';
-  }
+	constructor(
+		@InjectRepository(Post)
+		private readonly postsRepository: Repository<Post>,
+		private readonly usersService: UsersService
+	) {}
 
-  findAll() {
-    return `This action returns all posts`;
-  }
+	async create(createPostInput: CreatePostInput) {
+		const createdPost = this.postsRepository.create(createPostInput)
+		return await this.postsRepository.save(createdPost)
+	}
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
-  }
+	async getAuthor(id: string) {
+		return await this.usersService.findById(id)
+	}
 
-  update(id: number, updatePostInput: UpdatePostInput) {
-    return `This action updates a #${id} post`;
-  }
+	findAll() {
+		return `This action returns all posts`
+	}
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
-  }
+	findOne(id: number) {
+		return `This action returns a #${id} post`
+	}
+
+	update(id: number, updatePostInput: UpdatePostInput) {
+		return `This action updates a #${id} post`
+	}
+
+	remove(id: number) {
+		return `This action removes a #${id} post`
+	}
 }
