@@ -2,6 +2,20 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Post {
+  id: String!
+  caption: String!
+  created_at: DateTime
+  updated_at: DateTime
+  author_id: String!
+  author: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type User {
   id: String!
   username: String!
@@ -11,16 +25,7 @@ type User {
   avatar_url: String
   created_at: DateTime
   updated_at: DateTime
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Post {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  contents: [Post!]
 }
 
 type Query {
