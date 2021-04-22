@@ -35,8 +35,8 @@ export class PostsResolver {
 	}
 
 	@Query(() => [Post], { name: 'posts' })
-	findAll() {
-		return this.postsService.findAll()
+	async findAll() {
+		return await this.postsService.findAll()
 	}
 
 	@Query(() => Post, { name: 'post' })

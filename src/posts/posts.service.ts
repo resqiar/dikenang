@@ -23,8 +23,8 @@ export class PostsService {
 		return await this.usersService.findById(id)
 	}
 
-	findAll() {
-		return `This action returns all posts`
+	async findAll() {
+		return await this.postsRepository.find()
 	}
 
 	findOne(id: number) {
