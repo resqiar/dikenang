@@ -41,27 +41,29 @@ describe('PostsResolver', () => {
 		expect(resolver).toBeDefined()
 	})
 
-	it('should create a new post content', async () => {
-		const expectedResult = {
-			id: expect.any(String),
-			caption: 'testing caption',
-			author_id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
-		}
-
-		expect(
-			await resolver.createPost({
+	describe('create new post', () => {
+		it('should create a new post content', async () => {
+			const expectedResult = {
+				id: expect.any(String),
 				caption: 'testing caption',
 				author_id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
-			})
-		).toEqual(expectedResult)
-	})
+			}
 
-	it('should throw an error if author_id is not provided', () => {
-		expect(async () => {
-			await resolver.createPost({
-				caption: 'testing caption',
-				author_id: '',
-			})
-		}).rejects.toThrowError(new BadRequestException())
+			expect(
+				await resolver.createPost({
+					caption: 'testing caption',
+					author_id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
+				})
+			).toEqual(expectedResult)
+		})
+
+		it('should throw an error if author_id is not provided', () => {
+			expect(async () => {
+				await resolver.createPost({
+					caption: 'testing caption',
+					author_id: '',
+				})
+			}).rejects.toThrowError(new BadRequestException())
+		})
 	})
 })
