@@ -32,7 +32,7 @@ type Query {
   users: [User!]!
   user(username: String!): User!
   posts: [Post!]!
-  post(id: Int!): Post!
+  post(id: String!): Post!
 }
 
 type Mutation {

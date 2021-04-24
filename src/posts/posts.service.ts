@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UsersService } from 'src/users/users.service'
 import { Repository } from 'typeorm'
@@ -27,8 +27,16 @@ export class PostsService {
 		return await this.postsRepository.find()
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} post`
+	async findById(id: string) {
+		try {
+			return await this.postsRepository.findOneOrFail(id)
+		} catch (e) {
+			/**
+			 * @Error here means that client fails to get
+			 * correct data from the database/data not found
+			 */
+			throw new NotFoundException(e.detail)
+		}
 	}
 
 	update(id: number, updatePostInput: UpdatePostInput) {

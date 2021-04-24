@@ -38,13 +38,13 @@ export class PostsResolver {
 	}
 
 	@Query(() => [Post], { name: 'posts' })
-	async findAll() {
+	async findAll(): Promise<Post[]> {
 		return await this.postsService.findAll()
 	}
 
 	@Query(() => Post, { name: 'post' })
-	findOne(@Args('id', { type: () => Int }) id: number) {
-		return this.postsService.findOne(id)
+	async findById(@Args('id') id: string): Promise<Post> {
+		return await this.postsService.findById(id)
 	}
 
 	@Mutation(() => Post)
