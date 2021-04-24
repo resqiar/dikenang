@@ -72,5 +72,5 @@ input CreatePostInput {
 input UpdatePostInput {
   caption: String
   author_id: String
-  id: Int!
+  id: String!
 }

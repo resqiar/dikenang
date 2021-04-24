@@ -14,6 +14,7 @@ import { UpdatePostInput } from './dto/update-post.input'
 import { User } from 'src/users/entities/user.entity'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
+import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -48,8 +49,12 @@ export class PostsResolver {
 	}
 
 	@Mutation(() => Post)
-	updatePost(@Args('updatePostInput') updatePostInput: UpdatePostInput) {
-		return this.postsService.update(updatePostInput.id, updatePostInput)
+	@UseGuards(GqlAuthGuard)
+	async updatePost(
+		@CurrentUser() user: User,
+		@Args('updatePostInput') updatePostInput: UpdatePostInput
+	) {
+		return await this.postsService.update(user, updatePostInput)
 	}
 
 	@Mutation(() => Post)

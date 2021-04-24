@@ -1,5 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import {
+	BadRequestException,
+	Injectable,
+	NotFoundException,
+	UnauthorizedException,
+} from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { User } from 'src/users/entities/user.entity'
 import { UsersService } from 'src/users/users.service'
 import { Repository } from 'typeorm'
 import { CreatePostInput } from './dto/create-post.input'
@@ -39,8 +45,45 @@ export class PostsService {
 		}
 	}
 
-	update(id: number, updatePostInput: UpdatePostInput) {
-		return `This action updates a #${id} post`
+	async update(currentUser: User, updatePostInput: UpdatePostInput) {
+		try {
+			const relatedPost = await this.postsRepository.findOneOrFail(
+				updatePostInput.id
+			)
+
+			/**
+			 * Check if current post is related to
+			 * the current user, if not, throw an exception
+			 */
+			if (relatedPost.author_id !== currentUser.id)
+				throw new NotFoundException()
+
+			/**
+			 * update given input from @UpdatePostInput
+			 */
+			await this.postsRepository.update(
+				updatePostInput.id,
+				Object.assign({}, updatePostInput)
+			)
+
+			/**
+			 * @Returns updated Post object
+			 */
+			return await this.postsRepository.findOneOrFail(updatePostInput.id)
+		} catch (e) {
+			switch (e.status) {
+				case 401:
+					throw new UnauthorizedException(e.message)
+					break
+
+				case 404:
+					throw new NotFoundException(e.message)
+
+				default:
+					throw new BadRequestException(e.message)
+					break
+			}
+		}
 	}
 
 	remove(id: number) {
