@@ -28,6 +28,12 @@ type User {
   contents: [Post!]
 }
 
+type DeletePostResponse {
+  previous_data: Post!
+  status: String!
+  code: Float!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
@@ -41,7 +47,7 @@ type Mutation {
   login(loginInput: LoginInputDTO!): User!
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
-  removePost(id: Int!): Post!
+  removePost(postId: String!): DeletePostResponse!
 }
 
 input UpdateUserInput {

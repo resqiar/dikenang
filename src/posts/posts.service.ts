@@ -9,6 +9,7 @@ import { User } from 'src/users/entities/user.entity'
 import { UsersService } from 'src/users/users.service'
 import { Repository } from 'typeorm'
 import { CreatePostInput } from './dto/create-post.input'
+import { DeletePostResponse } from './dto/delete-response.dto'
 import { UpdatePostInput } from './dto/update-post.input'
 import { Post } from './entities/post.entity'
 
@@ -86,7 +87,38 @@ export class PostsService {
 		}
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} post`
+	async remove(currentUser: User, postId: string) {
+		try {
+			const relatedPost = await this.postsRepository.findOneOrFail(postId)
+
+			/**
+			 * Check if current post is related to
+			 * the current user, if not, throw an exception
+			 */
+			if (relatedPost.author_id !== currentUser.id)
+				throw new NotFoundException()
+
+			await this.postsRepository.delete(postId)
+
+			/**
+			 * Return formatted delete result
+			 * Which is highly customizeable response
+			 * @see delete-response.dto.ts
+			 */
+			return new DeletePostResponse(relatedPost, 'DELETED', 200)
+		} catch (e) {
+			switch (e.status) {
+				case 401:
+					throw new UnauthorizedException(e.message)
+					break
+
+				case 404:
+					throw new NotFoundException(e.message)
+
+				default:
+					throw new BadRequestException(e.message)
+					break
+			}
+		}
 	}
 }

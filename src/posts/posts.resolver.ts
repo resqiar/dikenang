@@ -3,7 +3,6 @@ import {
 	Query,
 	Mutation,
 	Args,
-	Int,
 	Parent,
 	ResolveField,
 } from '@nestjs/graphql'
@@ -15,6 +14,7 @@ import { User } from 'src/users/entities/user.entity'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
+import { DeletePostResponse } from './dto/delete-response.dto'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -57,8 +57,12 @@ export class PostsResolver {
 		return await this.postsService.update(user, updatePostInput)
 	}
 
-	@Mutation(() => Post)
-	removePost(@Args('id', { type: () => Int }) id: number) {
-		return this.postsService.remove(id)
+	@Mutation(() => DeletePostResponse)
+	@UseGuards(GqlAuthGuard)
+	async removePost(
+		@CurrentUser() currentUser: User,
+		@Args('postId') postId: string
+	): Promise<DeletePostResponse> {
+		return this.postsService.remove(currentUser, postId)
 	}
 }
