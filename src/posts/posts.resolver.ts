@@ -44,8 +44,8 @@ export class PostsResolver {
 	}
 
 	@Query(() => Post, { name: 'post' })
-	async findById(@Args('id') id: string): Promise<Post> {
-		return await this.postsService.findById(id)
+	async findById(@Args('postId') postId: string): Promise<Post> {
+		return await this.postsService.findById(postId)
 	}
 
 	@Mutation(() => Post)

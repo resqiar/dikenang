@@ -26,23 +26,23 @@ export class PostsService {
 		return await this.postsRepository.save(createdPost)
 	}
 
-	async getAuthor(id: string) {
-		return await this.usersService.findById(id)
+	async getAuthor(authorId: string) {
+		return await this.usersService.findById(authorId)
 	}
 
 	async findAll() {
 		return await this.postsRepository.find()
 	}
 
-	async findById(id: string) {
+	async findById(postId: string) {
 		try {
-			return await this.postsRepository.findOneOrFail(id)
+			return await this.postsRepository.findOneOrFail(postId)
 		} catch (e) {
 			/**
 			 * @Error here means that client fails to get
 			 * correct data from the database/data not found
 			 */
-			throw new NotFoundException(e.detail)
+			throw new NotFoundException(e.message)
 		}
 	}
 
