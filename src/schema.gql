@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UriPath {
+  id: String!
+  uri: String!
+  attachments: Attachments!
+}
+
+type Attachments {
+  id: String!
+  type: String!
+  extensions: String!
+  path: [UriPath!]!
+}
+
 type Post {
   id: String!
   caption: String!
@@ -32,19 +45,6 @@ type DeletePostResponse {
   previous_data: Post!
   status: String!
   code: Float!
-}
-
-type UriPath {
-  id: String!
-  uri: String!
-  attachments: Attachments!
-}
-
-type Attachments {
-  id: String!
-  type: String!
-  extensions: String!
-  path: [UriPath!]!
 }
 
 type Query {

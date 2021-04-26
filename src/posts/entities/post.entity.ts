@@ -1,10 +1,13 @@
 import { ObjectType, Field } from '@nestjs/graphql'
+import { Attachments } from 'src/attachments/entities/attachments.entity'
 import { User } from 'src/users/entities/user.entity'
 import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinColumn,
 	ManyToOne,
+	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
@@ -35,4 +38,8 @@ export class Post {
 	@Field((type) => User)
 	@ManyToOne((type) => User, (author: User) => author.id)
 	author: User
+
+	@OneToOne(() => Attachments)
+	@JoinColumn()
+	attachments: Attachments
 }

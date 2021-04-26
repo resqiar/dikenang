@@ -1,5 +1,12 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Post } from 'src/posts/entities/post.entity'
+import {
+	Column,
+	Entity,
+	ManyToOne,
+	OneToMany,
+	PrimaryGeneratedColumn,
+} from 'typeorm'
 import { UriPath } from './uri-path.entity'
 
 @Entity()
