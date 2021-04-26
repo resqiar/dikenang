@@ -34,6 +34,19 @@ type DeletePostResponse {
   code: Float!
 }
 
+type UriPath {
+  id: String!
+  uri: String!
+  attachments: Attachments!
+}
+
+type Attachments {
+  id: String!
+  type: String!
+  extensions: String!
+  path: [UriPath!]!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
