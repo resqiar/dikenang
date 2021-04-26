@@ -7,6 +7,7 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import { AuthModule } from './auth/auth.module'
 import { UsersService } from './users/users.service'
 import { PostsModule } from './posts/posts.module';
+import { AttachmentsModule } from './attachments/attachments.module';
 
 @Module({
 	imports: [
@@ -34,6 +35,7 @@ import { PostsModule } from './posts/posts.module';
 		}),
 		AuthModule,
 		PostsModule,
+		AttachmentsModule,
 	],
 	controllers: [],
 	providers: [],
