@@ -36,7 +36,7 @@ export class Post {
 	author_id: string
 
 	@Field((type) => User)
-	@ManyToOne((type) => User, (author: User) => author.id)
+	@ManyToOne((type) => User, (author: User) => author.contents)
 	author: User
 
 	@OneToOne(() => Attachments)

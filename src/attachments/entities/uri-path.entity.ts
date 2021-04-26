@@ -16,7 +16,7 @@ export class UriPath {
 	@Field((type) => Attachments)
 	@ManyToOne(
 		(type) => Attachments,
-		(attachments: Attachments) => attachments.id
+		(attachments: Attachments) => attachments.path
 	)
 	attachments: Attachments
 }

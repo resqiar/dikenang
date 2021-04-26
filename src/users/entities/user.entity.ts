@@ -52,6 +52,6 @@ export class User {
 	updated_at: Date
 
 	@Field((type) => [Post], { nullable: true })
-	@OneToMany((type) => Post, (contents: Post) => contents.id)
+	@OneToMany((type) => Post, (contents: Post) => contents.author)
 	contents: Post[]
 }

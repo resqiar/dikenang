@@ -25,6 +25,6 @@ export class Attachments {
 	extensions: string
 
 	@Field((type) => [UriPath])
-	@OneToMany((type) => UriPath, (path: UriPath) => path.uri)
+	@OneToMany((type) => UriPath, (path: UriPath) => path.attachments)
 	path: UriPath[]
 }
