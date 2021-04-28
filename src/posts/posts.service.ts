@@ -62,10 +62,6 @@ export class PostsService {
 		return await this.postsRepository.save(createdPost)
 	}
 
-	async getAuthor(authorId: string) {
-		return await this.usersService.findById(authorId)
-	}
-
 	async findAll() {
 		return await this.postsRepository.find({
 			relations: ['author', 'attachments'],
