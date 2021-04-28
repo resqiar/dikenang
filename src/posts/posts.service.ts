@@ -26,9 +26,9 @@ export class PostsService {
 	) {}
 
 	async create(
+		currentUser: User,
 		createPostInput: CreatePostInput,
-		createAttachmentInput: CreateAttachmentInput,
-		currentUser: User
+		createAttachmentInput?: CreateAttachmentInput //optional args
 	) {
 		// search for corresponding user creating the post
 		const relatedUser = await this.usersService.findById(currentUser.id)
@@ -38,17 +38,25 @@ export class PostsService {
 		 * Client must provide Post data along with its attachments
 		 */
 		const createdPost = this.postsRepository.create(createPostInput)
-		const createdAttachments = this.attachmentsRepository.create(
-			createAttachmentInput
-		)
-		await this.attachmentsRepository.save(createdAttachments)
+		createdPost.author = relatedUser
 
 		/**
-		 * Bind relationship between @Post @User and @Attachments
-		 * This will create table relation in between.
+		 * If user does not have any attachments
+		 * in its post, set relation between post and
+		 * attachments to null
 		 */
-		createdPost.author = relatedUser
-		createdPost.attachments = createdAttachments
+		if (createAttachmentInput) {
+			const createdAttachments = this.attachmentsRepository.create(
+				createAttachmentInput
+			)
+
+			await this.attachmentsRepository.save(createdAttachments)
+			/**
+			 * Bind relationship between @Post @User and @Attachments
+			 * This will create table relation in between.
+			 */
+			createdPost.attachments = createdAttachments
+		}
 
 		// return finished data back to user
 		return await this.postsRepository.save(createdPost)

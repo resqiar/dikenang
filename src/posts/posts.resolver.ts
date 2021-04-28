@@ -17,15 +17,20 @@ export class PostsResolver {
 	@Mutation(() => Post)
 	@UseGuards(GqlAuthGuard)
 	async createPost(
+		@CurrentUser() currentUser: User,
 		@Args('createPostInput') createPostInput: CreatePostInput,
-		@Args('createAttachmentInput')
-		createAttachmentInput: CreateAttachmentInput,
-		@CurrentUser() currentUser: User
+		@Args('createAttachmentInput', { nullable: true })
+		createAttachmentInput?: CreateAttachmentInput //optional args
 	): Promise<Post> {
+		// If only there is no attachment provided
+		if (!createAttachmentInput) {
+			return await this.postsService.create(currentUser, createPostInput)
+		}
+
 		return await this.postsService.create(
+			currentUser,
 			createPostInput,
-			createAttachmentInput,
-			currentUser
+			createAttachmentInput
 		)
 	}
 

@@ -52,7 +52,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   signUp(createUserInput: CreateUserInput!): User!
   login(loginInput: LoginInputDTO!): User!
-  createPost(createAttachmentInput: CreateAttachmentInput!, createPostInput: CreatePostInput!): Post!
+  createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
 }
