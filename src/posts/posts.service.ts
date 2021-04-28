@@ -5,12 +5,14 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { CreateAttachmentInput } from 'src/posts/dto/create-attachments.input'
+import { Attachments } from '../posts/entities/attachments.entity'
 import { User } from 'src/users/entities/user.entity'
 import { UsersService } from 'src/users/users.service'
 import { Repository } from 'typeorm'
-import { CreatePostInput } from './dto/create-post.input'
-import { DeletePostResponse } from './dto/delete-response.dto'
-import { UpdatePostInput } from './dto/update-post.input'
+import { CreatePostInput } from '../posts/dto/create-post.input'
+import { DeletePostResponse } from '../posts/dto/delete-response.dto'
+import { UpdatePostInput } from '../posts/dto/update-post.input'
 import { Post } from './entities/post.entity'
 
 @Injectable()
@@ -18,11 +20,37 @@ export class PostsService {
 	constructor(
 		@InjectRepository(Post)
 		private readonly postsRepository: Repository<Post>,
+		@InjectRepository(Attachments)
+		private readonly attachmentsRepository: Repository<Attachments>,
 		private readonly usersService: UsersService
 	) {}
 
-	async create(createPostInput: CreatePostInput) {
+	async create(
+		createPostInput: CreatePostInput,
+		createAttachmentInput: CreateAttachmentInput,
+		currentUser: User
+	) {
+		// search for corresponding user creating the post
+		const relatedUser = await this.usersService.findById(currentUser.id)
+
+		/**
+		 * Create each data object for @Post and @Attachments
+		 * Client must provide Post data along with its attachments
+		 */
 		const createdPost = this.postsRepository.create(createPostInput)
+		const createdAttachments = this.attachmentsRepository.create(
+			createAttachmentInput
+		)
+		await this.attachmentsRepository.save(createdAttachments)
+
+		/**
+		 * Bind relationship between @Post @User and @Attachments
+		 * This will create table relation in between.
+		 */
+		createdPost.author = relatedUser
+		createdPost.attachments = createdAttachments
+
+		// return finished data back to user
 		return await this.postsRepository.save(createdPost)
 	}
 
@@ -31,7 +59,9 @@ export class PostsService {
 	}
 
 	async findAll() {
-		return await this.postsRepository.find()
+		return await this.postsRepository.find({
+			relations: ['author', 'attachments'],
+		})
 	}
 
 	async findById(postId: string) {
@@ -56,7 +86,7 @@ export class PostsService {
 			 * Check if current post is related to
 			 * the current user, if not, throw an exception
 			 */
-			if (relatedPost.author_id !== currentUser.id)
+			if (relatedPost.author.id !== currentUser.id)
 				throw new NotFoundException()
 
 			/**
@@ -67,9 +97,7 @@ export class PostsService {
 				Object.assign({}, updatePostInput)
 			)
 
-			/**
-			 * @Returns updated Post object
-			 */
+			// Returns updated Post object
 			return await this.postsRepository.findOneOrFail(updatePostInput.id)
 		} catch (e) {
 			switch (e.status) {
@@ -95,7 +123,7 @@ export class PostsService {
 			 * Check if current post is related to
 			 * the current user, if not, throw an exception
 			 */
-			if (relatedPost.author_id !== currentUser.id)
+			if (relatedPost.author.id !== currentUser.id)
 				throw new NotFoundException()
 
 			await this.postsRepository.delete(postId)

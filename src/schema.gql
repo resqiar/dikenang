@@ -2,17 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type UriPath {
-  id: String!
-  uri: String!
-  attachments: Attachments!
-}
-
 type Attachments {
   id: String!
   type: String!
   extensions: String!
-  path: [UriPath!]!
+  uri: [String!]!
 }
 
 type Post {
@@ -20,8 +14,8 @@ type Post {
   caption: String!
   created_at: DateTime
   updated_at: DateTime
-  author_id: String!
   author: User!
+  attachments: Attachments
 }
 
 """
@@ -58,7 +52,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   signUp(createUserInput: CreateUserInput!): User!
   login(loginInput: LoginInputDTO!): User!
-  createPost(createPostInput: CreatePostInput!): Post!
+  createPost(createAttachmentInput: CreateAttachmentInput!, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
 }
@@ -83,13 +77,17 @@ input LoginInputDTO {
   password: String!
 }
 
+input CreateAttachmentInput {
+  type: String!
+  extensions: String!
+  uri: [String!]!
+}
+
 input CreatePostInput {
   caption: String!
-  author_id: String!
 }
 
 input UpdatePostInput {
   caption: String
-  author_id: String
   id: String!
 }

@@ -6,8 +6,4 @@ export class CreatePostInput {
 	@Field()
 	@IsString()
 	caption: string
-
-	@Field()
-	@IsUUID('all')
-	author_id: string
 }

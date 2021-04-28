@@ -1,5 +1,4 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import { Post } from 'src/posts/entities/post.entity'
 import {
 	Column,
 	Entity,
@@ -7,7 +6,6 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm'
-import { UriPath } from './uri-path.entity'
 
 @Entity()
 @ObjectType()
@@ -24,7 +22,7 @@ export class Attachments {
 	@Column()
 	extensions: string
 
-	@Field((type) => [UriPath])
-	@OneToMany((type) => UriPath, (path: UriPath) => path.attachments)
-	path: UriPath[]
+	@Field((type) => [String])
+	@Column('text', { default: [], array: true })
+	uri: string[]
 }

@@ -1,20 +1,14 @@
-import {
-	Resolver,
-	Query,
-	Mutation,
-	Args,
-	Parent,
-	ResolveField,
-} from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { PostsService } from './posts.service'
 import { Post } from './entities/post.entity'
-import { CreatePostInput } from './dto/create-post.input'
-import { UpdatePostInput } from './dto/update-post.input'
+import { CreatePostInput } from '../posts/dto/create-post.input'
+import { UpdatePostInput } from '../posts/dto/update-post.input'
 import { User } from 'src/users/entities/user.entity'
 import { UseGuards } from '@nestjs/common'
 import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
 import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
-import { DeletePostResponse } from './dto/delete-response.dto'
+import { DeletePostResponse } from '../posts/dto/delete-response.dto'
+import { CreateAttachmentInput } from 'src/posts/dto/create-attachments.input'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -23,19 +17,16 @@ export class PostsResolver {
 	@Mutation(() => Post)
 	@UseGuards(GqlAuthGuard)
 	async createPost(
-		@Args('createPostInput') createPostInput: CreatePostInput
+		@Args('createPostInput') createPostInput: CreatePostInput,
+		@Args('createAttachmentInput')
+		createAttachmentInput: CreateAttachmentInput,
+		@CurrentUser() currentUser: User
 	): Promise<Post> {
-		return await this.postsService.create(createPostInput)
-	}
-
-	@ResolveField(() => User, { name: 'author' })
-	async getAuthor(@Parent() post: Post): Promise<User> {
-		/**
-		 * @Usage is to get parent field from Post object
-		 * Use them to get the author of the post.
-		 * @Return User object
-		 */
-		return await this.postsService.getAuthor(post.author_id)
+		return await this.postsService.create(
+			createPostInput,
+			createAttachmentInput,
+			currentUser
+		)
 	}
 
 	@Query(() => [Post], { name: 'posts' })

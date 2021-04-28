@@ -1,5 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Attachments } from 'src/attachments/entities/attachments.entity'
+import { Attachments } from 'src/posts/entities/attachments.entity'
 import { User } from 'src/users/entities/user.entity'
 import {
 	Column,
@@ -31,14 +31,11 @@ export class Post {
 	@UpdateDateColumn()
 	updated_at: Date
 
-	@Field()
-	@Column()
-	author_id: string
-
 	@Field((type) => User)
 	@ManyToOne((type) => User, (author: User) => author.contents)
 	author: User
 
+	@Field((type) => Attachments, { nullable: true })
 	@OneToOne(() => Attachments)
 	@JoinColumn()
 	attachments: Attachments
