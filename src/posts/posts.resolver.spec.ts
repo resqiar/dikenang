@@ -35,6 +35,12 @@ describe('PostsResolver', () => {
 				},
 			]
 		}),
+		findById: jest.fn((id: string) => {
+			return {
+				id: id,
+				caption: 'testing',
+			}
+		}),
 	}
 
 	beforeEach(async () => {
@@ -95,8 +101,8 @@ describe('PostsResolver', () => {
 		})
 	})
 
-	describe('find all posts', () => {
-		it('should return an array of Post', async () => {
+	describe('find posts', () => {
+		it('findAll should return an array of Post', async () => {
 			const expectedResult = [
 				{
 					id: expect.any(String),
@@ -108,6 +114,17 @@ describe('PostsResolver', () => {
 			]
 
 			expect(await resolver.findAll()).toEqual(expectedResult)
+		})
+
+		it('findById should return Post with corresponding id', async () => {
+			const expectedResult = {
+				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
+				caption: expect.any(String),
+			}
+
+			expect(await resolver.findById(expectedResult.id)).toEqual(
+				expectedResult
+			)
 		})
 	})
 })
