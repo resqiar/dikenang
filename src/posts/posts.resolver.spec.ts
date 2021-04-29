@@ -1,6 +1,8 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { User } from 'src/users/entities/user.entity'
+import { DeletePostResponse } from './dto/delete-response.dto'
+import { Attachments } from './entities/attachments.entity'
 import { PostsResolver } from './posts.resolver'
 import { PostsService } from './posts.service'
 
@@ -40,6 +42,24 @@ describe('PostsResolver', () => {
 				id: id,
 				caption: 'testing',
 			}
+		}),
+		update: jest.fn((currentUser: User, { id, caption }) => {
+			return {
+				id: id,
+				caption: caption,
+			}
+		}),
+		remove: jest.fn((currentUser: User, postId: string) => {
+			const previous_data = {
+				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
+				caption: 'testing',
+				created_at: new Date(),
+				updated_at: new Date(),
+				author: new User(),
+				attachments: new Attachments(),
+			}
+
+			return new DeletePostResponse(previous_data, 'DELETED', 200)
 		}),
 	}
 
@@ -125,6 +145,43 @@ describe('PostsResolver', () => {
 			expect(await resolver.findById(expectedResult.id)).toEqual(
 				expectedResult
 			)
+		})
+	})
+
+	describe('update post', () => {
+		it('should update post to a new provided data', async () => {
+			const currentUser = new User()
+			const expectedResult = {
+				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
+				caption: 'updated caption',
+			}
+
+			expect(
+				await resolver.updatePost(currentUser, {
+					id: expectedResult.id,
+					caption: expectedResult.caption,
+				})
+			).toEqual(expectedResult)
+		})
+	})
+
+	describe('delete post', () => {
+		it('should delete post and return DeletePostResponse', async () => {
+			const previous_data = {
+				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
+				caption: 'testing',
+				created_at: new Date(),
+				updated_at: new Date(),
+				author: new User(),
+				attachments: new Attachments(),
+			}
+			const expectedResult = new DeletePostResponse(
+				previous_data,
+				'DELETED',
+				200
+			)
+
+			expect(await resolver.removePost(new User(), previous_data.id))
 		})
 	})
 })
