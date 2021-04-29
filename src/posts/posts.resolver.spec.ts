@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { Post } from './entities/post.entity'
+import { User } from 'src/users/entities/user.entity'
 import { PostsResolver } from './posts.resolver'
 import { PostsService } from './posts.service'
 
@@ -8,21 +8,20 @@ describe('PostsResolver', () => {
 	let resolver: PostsResolver
 
 	const mockPostsService = {
-		create: jest.fn(({ caption, author_id }) => {
+		create: jest.fn((currentUser: User, { caption }, attachments) => {
 			/**
-			 * If caption is less than 3 chars &&
-			 * author_id is not provided throw error
+			 * If caption is less than 3 chars
 			 * normally this validation is taken care of
 			 * by class-validators, this is only for test-cases
 			 */
-			if (caption.length <= 3 || author_id.length <= 0) {
+			if (caption.length <= 3) {
 				throw new BadRequestException()
 			}
 
 			return {
 				id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
 				caption: caption,
-				author_id: author_id,
+				attachments: attachments ? attachments : null,
 			}
 		}),
 		findAll: jest.fn(() => {
@@ -54,28 +53,45 @@ describe('PostsResolver', () => {
 	})
 
 	describe('create new post', () => {
-		it('should create a new post content', async () => {
+		it('should create a new post content [without attachments]', async () => {
+			const currentUser = new User()
+
 			const expectedResult = {
 				id: expect.any(String),
 				caption: 'testing caption',
-				author_id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
+				attachments: null,
 			}
 
 			expect(
-				await resolver.createPost({
+				await resolver.createPost(currentUser, {
 					caption: 'testing caption',
-					author_id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
 				})
 			).toEqual(expectedResult)
 		})
 
-		it('should throw an error if author_id is not provided', () => {
-			expect(async () => {
-				await resolver.createPost({
-					caption: 'testing caption',
-					author_id: '',
-				})
-			}).rejects.toThrowError(new BadRequestException())
+		it('should create a new post content [with attachments]', async () => {
+			const currentUser = new User()
+			const attachmentsMock = {
+				type: 'image',
+				extensions: 'png',
+				uri: ['http://uri-to-resource.io'],
+			}
+
+			const expectedResult = {
+				id: expect.any(String),
+				caption: 'testing caption',
+				attachments: attachmentsMock,
+			}
+
+			expect(
+				await resolver.createPost(
+					currentUser,
+					{
+						caption: 'testing caption',
+					},
+					attachmentsMock // optional arguments
+				)
+			).toEqual(expectedResult)
 		})
 	})
 
