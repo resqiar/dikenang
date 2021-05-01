@@ -5,9 +5,9 @@ import {
 	UseGuards,
 } from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
-import { CreateUserInput } from 'src/users/dto/create-user.input'
-import { User } from 'src/users/entities/user.entity'
-import { UsersService } from 'src/users/users.service'
+import { CreateUserInput } from '../users/dto/create-user.input'
+import { User } from '../users/entities/user.entity'
+import { UsersService } from '../users/users.service'
 import { AuthService } from './auth.service'
 import { LoginInputDTO } from './dto/login-input.dto'
 

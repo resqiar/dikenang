@@ -2,9 +2,9 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
 import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { NotFoundException, UseGuards } from '@nestjs/common'
-import { GqlAuthGuard } from 'src/auth/guards/gql-jwt.guard'
 import { UpdateUserInput } from './dto/update-user.input'
-import { CurrentUser } from 'src/shared/decorators/current-user.decorator'
+import { GqlAuthGuard } from '../auth/guards/gql-jwt.guard'
+import { CurrentUser } from '../shared/decorators/current-user.decorator'
 
 @Resolver(() => User)
 export class UsersResolver {
