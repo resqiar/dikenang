@@ -6,8 +6,8 @@ import {
 	NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { AuthService } from 'src/auth/auth.service'
 import { Repository } from 'typeorm'
+import { AuthService } from '../auth/auth.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
