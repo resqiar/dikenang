@@ -1,5 +1,4 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql'
-import { Post } from 'src/posts/entities/post.entity'
 import {
 	Column,
 	CreateDateColumn,
@@ -8,6 +7,7 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Post } from '../../posts/entities/post.entity'
 
 @ObjectType()
 @Entity()
