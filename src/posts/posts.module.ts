@@ -3,7 +3,7 @@ import { PostsService } from './posts.service'
 import { PostsResolver } from './posts.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Post } from './entities/post.entity'
-import { UsersModule } from 'src/users/users.module'
+import { UsersModule } from '../users/users.module'
 import { Attachments } from './entities/attachments.entity'
 
 @Module({

@@ -5,14 +5,14 @@ import {
 	UnauthorizedException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateAttachmentInput } from 'src/posts/dto/create-attachments.input'
-import { Attachments } from '../posts/entities/attachments.entity'
-import { User } from 'src/users/entities/user.entity'
-import { UsersService } from 'src/users/users.service'
 import { Repository } from 'typeorm'
-import { CreatePostInput } from '../posts/dto/create-post.input'
-import { DeletePostResponse } from '../posts/dto/delete-response.dto'
-import { UpdatePostInput } from '../posts/dto/update-post.input'
+import { User } from '../users/entities/user.entity'
+import { UsersService } from '../users/users.service'
+import { CreateAttachmentInput } from './dto/create-attachments.input'
+import { CreatePostInput } from './dto/create-post.input'
+import { DeletePostResponse } from './dto/delete-response.dto'
+import { UpdatePostInput } from './dto/update-post.input'
+import { Attachments } from './entities/attachments.entity'
 import { Post } from './entities/post.entity'
 
 @Injectable()

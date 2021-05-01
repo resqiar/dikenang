@@ -1,6 +1,4 @@
 import { ObjectType, Field } from '@nestjs/graphql'
-import { Attachments } from 'src/posts/entities/attachments.entity'
-import { User } from 'src/users/entities/user.entity'
 import {
 	Column,
 	CreateDateColumn,
@@ -11,6 +9,8 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { User } from '../../users/entities/user.entity'
+import { Attachments } from './attachments.entity'
 
 @ObjectType()
 @Entity()

@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
-import { User } from 'src/users/entities/user.entity'
+import { User } from '../users/entities/user.entity'
 import { DeletePostResponse } from './dto/delete-response.dto'
 import { Attachments } from './entities/attachments.entity'
 import { PostsResolver } from './posts.resolver'
