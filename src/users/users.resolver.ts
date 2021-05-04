@@ -22,7 +22,7 @@ export class UsersResolver {
 
 	@Query(() => User, { name: 'user' })
 	async findOne(@Args('username') username: string): Promise<User> {
-		return await this.usersService.findOne(username)
+		return await this.usersService.findByUsername(username)
 	}
 
 	@Mutation(() => User, { name: 'updateUser' })

@@ -47,13 +47,29 @@ export class UsersService {
 	}
 
 	async findAll() {
-		return await this.userRepository.find()
+		return await this.userRepository.find({
+			relations: ['contents', 'contents.attachments'],
+		})
 	}
 
-	async findOne(username: string) {
+	async findByUsername(username: string) {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
+			})
+		} catch (e) {
+			/**
+			 * @Error here means that client fails to get
+			 * correct data from the database/data not found
+			 */
+			throw new NotFoundException(e.detail)
+		}
+	}
+
+	async findById(id: string) {
+		try {
+			return await this.userRepository.findOneOrFail({
+				where: { id: id },
 			})
 		} catch (e) {
 			/**

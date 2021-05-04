@@ -2,6 +2,27 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Attachments {
+  id: String!
+  type: String!
+  extensions: String!
+  uri: [String!]!
+}
+
+type Post {
+  id: String!
+  caption: String!
+  created_at: DateTime
+  updated_at: DateTime
+  author: User!
+  attachments: Attachments
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type User {
   id: String!
   username: String!
@@ -11,22 +32,29 @@ type User {
   avatar_url: String
   created_at: DateTime
   updated_at: DateTime
+  contents: [Post!]
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type DeletePostResponse {
+  previous_data: Post!
+  status: String!
+  code: Float!
+}
 
 type Query {
   users: [User!]!
   user(username: String!): User!
+  posts: [Post!]!
+  post(postId: String!): Post!
 }
 
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   signUp(createUserInput: CreateUserInput!): User!
   login(loginInput: LoginInputDTO!): User!
+  createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(postId: String!): DeletePostResponse!
 }
 
 input UpdateUserInput {
@@ -47,4 +75,19 @@ input CreateUserInput {
 input LoginInputDTO {
   username: String!
   password: String!
+}
+
+input CreateAttachmentInput {
+  type: String!
+  extensions: String!
+  uri: [String!]!
+}
+
+input CreatePostInput {
+  caption: String!
+}
+
+input UpdatePostInput {
+  caption: String
+  id: String!
 }
