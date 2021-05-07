@@ -1,13 +1,38 @@
+import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { CreateUserInput } from '../users/dto/create-user.input'
 import { UsersService } from '../users/users.service'
 import { AuthResolver } from './auth.resolver'
 import { AuthService } from './auth.service'
+import { LoginInputDTO } from './dto/login-input.dto'
 
 describe('AuthResolver', () => {
 	let resolver: AuthResolver
 
-	const mockAuthService = {}
+	const mockAuthService = {
+		validateUser: jest.fn((loginInput: LoginInputDTO) => {
+			const mockUser = {
+				username: 'testing',
+				password: 'password',
+			}
+
+			// [MOCK] if username || password mismatch
+			// if (
+			// 	loginInput.username !== mockUser.username ||
+			// 	loginInput.password !== mockUser.password
+			// ) {
+			// 	throw new BadRequestException()
+			// }
+
+			// [MOCK] return User + JWT token
+			return {
+				id: '1f85ac5e-4211-4b54-84cf-b202bfea344e',
+				username: mockUser.username,
+				access_token:
+					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJlbWFpbCI6InRlc3RpbmdAZXhhbXBsZS5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.ymAk4I3k0M4Qu67JCAMpyzibak66RVNwVwAH1uMEAOQ',
+			}
+		}),
+	}
 	const mockUsersService = {
 		create: jest.fn((createUserInput: CreateUserInput) => {
 			return {
@@ -54,6 +79,23 @@ describe('AuthResolver', () => {
 			}
 
 			expect(await resolver.signUp(newUserInput)).toEqual(expectedResult)
+		})
+	})
+
+	describe('login', () => {
+		it('should give a user new credentials key | should pass', async () => {
+			const newLoginInput: LoginInputDTO = {
+				username: 'testing',
+				password: 'password',
+			}
+
+			const expectedResult = {
+				id: expect.any(String),
+				username: newLoginInput.username,
+				access_token: expect.any(String),
+			}
+
+			expect(await resolver.login(newLoginInput)).toEqual(expectedResult)
 		})
 	})
 })
