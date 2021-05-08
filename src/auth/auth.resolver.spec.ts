@@ -10,24 +10,24 @@ describe('AuthResolver', () => {
 	let resolver: AuthResolver
 
 	const mockAuthService = {
-		validateUser: jest.fn((loginInput: LoginInputDTO) => {
+		validateUser: jest.fn((username: string, password: string) => {
 			const mockUser = {
 				username: 'testing',
 				password: 'password',
 			}
 
 			// [MOCK] if username || password mismatch
-			// if (
-			// 	loginInput.username !== mockUser.username ||
-			// 	loginInput.password !== mockUser.password
-			// ) {
-			// 	throw new BadRequestException()
-			// }
+			if (
+				username !== mockUser.username ||
+				password !== mockUser.password
+			) {
+				throw new BadRequestException()
+			}
 
 			// [MOCK] return User + JWT token
 			return {
 				id: '1f85ac5e-4211-4b54-84cf-b202bfea344e',
-				username: mockUser.username,
+				username: username,
 				access_token:
 					'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJlbWFpbCI6InRlc3RpbmdAZXhhbXBsZS5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.ymAk4I3k0M4Qu67JCAMpyzibak66RVNwVwAH1uMEAOQ',
 			}
@@ -96,6 +96,17 @@ describe('AuthResolver', () => {
 			}
 
 			expect(await resolver.login(newLoginInput)).toEqual(expectedResult)
+		})
+
+		it('should give an error if email/password mismatch | should not pass', () => {
+			const newLoginInput: LoginInputDTO = {
+				username: 'testing!', // should fail
+				password: 'password!', // should fail
+			}
+
+			expect(
+				async () => await resolver.login(newLoginInput)
+			).rejects.toThrow(BadRequestException)
 		})
 	})
 })
