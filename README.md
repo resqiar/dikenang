@@ -1,23 +1,26 @@
 <p align="center">
-  <a href="https://dikenang.netlify.app" target="blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
+  <a href="https://dikenang.netlify.app" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
 </p>
  <h4 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
  <p align="center">(Early Development in Progress)</p>
 <p align="center">
-  <a href="https://github.com/resqiar/dikenang-server">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/languages/top/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/license/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/stars/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - stars" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/forks/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - fork" />
+  </a>
+  <a href="https://paypal.me/resqiar" target="_blank">
+    <img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg?style=for-the-badge" alt="donate - paypal" />
   </a>
 </p>
 
