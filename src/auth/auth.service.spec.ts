@@ -19,7 +19,7 @@ describe('AuthService', () => {
 			}
 		}),
 		getCred: jest.fn(() => {
-			// [MOCK] hashed password example for 'password'
+			// [MOCK] return hashed password example for 'password'
 			return {
 				password:
 					'$2b$10$yRLm5SKOAt5j7NUepnmMDua1MINxwv5hmV5d4t8rkfRvIWSQrkPRq',
