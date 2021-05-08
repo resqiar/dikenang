@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test, TestingModule } from '@nestjs/testing'
+import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { AuthService } from './auth.service'
 import { LoginInputDTO } from './dto/login-input.dto'
@@ -93,6 +94,18 @@ describe('AuthService', () => {
 						newLoginInput.password
 					)
 			).rejects.toThrow(BadRequestException)
+		})
+	})
+
+	describe('generateToken()', () => {
+		it('should generate a token based on the payload', async () => {
+			let newUser: User = new User()
+			newUser.id = '4500fdce-c3ff-4646-bad5-d1b7748f4b54'
+			newUser.username = 'testing'
+
+			expect(await service.generateToken(newUser)).toEqual(
+				expect.any(String)
+			)
 		})
 	})
 })
