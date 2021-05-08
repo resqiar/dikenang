@@ -1,73 +1,114 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+  <a href="https://dikenang.netlify.app" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
+</p>
+ <h4 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
+ <p align="center">(Early Development in Progress)</p>
+<p align="center">
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+    <img src="https://img.shields.io/github/languages/top/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
+  </a>
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+    <img src="https://img.shields.io/github/license/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
+  </a>
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+    <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
+  </a>
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+    <img src="https://img.shields.io/github/stars/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - stars" />
+  </a>
+  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+    <img src="https://img.shields.io/github/forks/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - fork" />
+  </a>
+  <a href="https://paypal.me/resqiar" target="_blank">
+    <img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg?style=for-the-badge" alt="donate - paypal" />
+  </a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## What is dikenang?
 
-## Description
+Dikenang is actually my private project with my girlfriend, moved to public lately. Dikenang is a private social media used by me and my girlfriend to share our memories together. dikenang is like Facebook, Instagram, Quora, or whatever social media that exist, it should do its job to post a picture, video, conversation sound, story, etc, but with extra features that should protect its privacy and uniqueness. see [dikenang.netlify.app](https://dikenang.netlify.app) for preview (though you wouldn't be able to login/signup yet).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## What is this Repo contains?
 
-## Installation
+**This repository only contains server-side code** that will used in dikenang's client-side applications in the future. This repository was created on top of NestJS framework, which is typescript support out of the box. **Please take in mind that this project is in the early stages of development.**
 
+## Server Tech-Stack
+
+- NestJS Framework
+- Typescript
+- GraphQL
+- PostgreSQL
+- Typeorm
+- Websocket
+
+## Server Milestones
+
+- [x] Create User with email and password
+- [x] Login with email and password
+- [x] JWT Token
+- [x] Create Post with/without attachments(imageUrl, videoUrl, etc)
+- [ ] Each Post should have like/upvote and comment fields
+- [ ] Websocket connections
+- [ ] User should update their bio/avatarUrl in real-time
+- [ ] Post should show comments and like/upvote in real-time
+- [ ] Each User should have a partner relations field (Optional)
+- [ ] Post must be shared to partner by default
+- [ ] More...
+
+## Server Installation
+
+Install dependencies
 ```bash
-$ npm install
+$ yarn install
 ```
+Copy all `sample-env.txt`, create new file `.env`, then satisfy all the required value.
+```
+# Database Configurations
+DB_HOST=
+DB_PORT=
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
 
-## Running the app
+# Jwt Secret Key
+JWT_SECRET=
+```
+> You may need to create and spin up your own Postgres database to get configurations value
+
+## Running the server
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
+Server index endpoint is on `localhost:3000` and graphQL endpoint is by default `localhost:3000/graphql`
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Author - [Resqiar](https://github.com/resqiar)
+- Website - [https://dikenang.netlify.app](https://dikenang.netlify.app)
+- Instagram - [@resqiar_](https://instagram.com/resqiar)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+dikenang is [MIT licensed](LICENSE).
