@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://dikenang.netlify.app" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
 </p>
- <h4 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
+ <h4 align="center">Dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
  <p align="center">(Early Development in Progress)</p>
 <p align="center">
   <a href="https://github.com/resqiar/dikenang-server" target="_blank">
