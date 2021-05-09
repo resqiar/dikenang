@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://dikenang.netlify.app" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
 </p>
- <h4 align="center">dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
+ <h4 align="center">Dikenang is a private social media that focused on sharing memories to the linked relationship partners</h4>
  <p align="center">(Early Development in Progress)</p>
 <p align="center">
   <a href="https://github.com/resqiar/dikenang-server" target="_blank">
@@ -27,11 +27,11 @@
 
 ## What is dikenang?
 
-Dikenang is actually my private project with my girlfriend, moved to public lately. Dikenang is a private social media used by me and my girlfriend to share our memories together. dikenang is like Facebook, Instagram, Quora, or whatever social media that exist, it should do its job to post a picture, video, conversation sound, story, etc, but with extra features that should protect its privacy and uniqueness. see [dikenang.netlify.app](https://dikenang.netlify.app) for experimental preview.
+Dikenang is actually my private project with my girlfriend, moved to a public repository lately. Dikenang is a private social media to shares memories together with the user's linked partnership. Dikenang is like Facebook, Instagram, Quora, or whatever social media that exist, it should do its job to post a picture, video, conversation sound, story, etc, but with extra features that should protect its privacy and uniqueness. see [dikenang.netlify.app](https://dikenang.netlify.app) for experimental preview.
 
 ### How to preview dikenang webpage
 
-This website is used as an **experimental** and **preview** purpose only. This website doesn't even use this server repository. Future works will replace this website.
+This website is used as an **experimental** and **preview** purpose only. This website doesn't even use this server repository. Future works will replace the website.
 
 1. Open `https://dikenang.netlify.app` on your browser
 2. On the login section enter this credentials
@@ -58,4 +58,4 @@ This website is used as an **experimental** and **preview** purpose only. This w
 
 ## License
 
-dikenang is [MIT licensed](LICENSE).
+Dikenang is [MIT licensed](LICENSE).
