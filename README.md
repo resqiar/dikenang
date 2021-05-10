@@ -54,7 +54,7 @@ This website is used as an **experimental** and **preview** purpose only. This w
 
 - Author - [Resqiar](https://github.com/resqiar)
 - Website - [https://dikenang.netlify.app](https://dikenang.netlify.app)
-- Instagram - [@resqiar_](https://instagram.com/resqiar)
+- Instagram - [@resqiar_](https://instagram.com/resqiar_)
 
 ## License
 
