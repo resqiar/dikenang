@@ -1,0 +1,33 @@
+# For most of the time, this file will not need changing;
+# because this file is used only for fast local development.
+# However you could change the config to whatever you need.
+version: '3.9'
+services:
+    dikser:
+        # dikenang server API Image
+        build: ./dikser
+        depends_on:
+            - postgres
+        ports:
+            - '3000:3000'
+
+        # if you have .env file, delete this block
+        # .env file will automatically loaded by docker.
+        environment:
+            # edit this configurations
+            DB_HOST: postgres
+            DB_PORT: 5432
+            DB_USERNAME: postgres
+            DB_PASSWORD: admin
+            DB_NAME: dikenang-local
+            JWT_SECRET: secret-example-of-jwt-token
+
+    postgres:
+        # postgres database image
+        image: postgres:latest
+        ports:
+            - '35000:5432'
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: dikenang-local

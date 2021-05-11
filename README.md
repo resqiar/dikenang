@@ -24,7 +24,6 @@
   </a>
 </p>
 
-
 ## What is dikenang?
 
 Dikenang is actually my private project with my girlfriend, moved to a public repository lately. Dikenang is a private social media to shares memories together with the user's linked partnership. Dikenang is like Facebook, Instagram, Quora, or whatever social media that exist, it should do its job to post a picture, video, conversation sound, story, etc, but with extra features that should protect its privacy and uniqueness. see [dikenang.netlify.app](https://dikenang.netlify.app) for experimental preview.
@@ -39,22 +38,26 @@ This website is used as an **experimental** and **preview** purpose only. This w
     email: testing@example.com
     password: password
     ```
-    > You could signup/register actually, but it needs to be verified before going to index page, which is never.    
+    > You could signup/register actually, but it needs to be verified before going to index page, which is never.
 3. Enjoy the preview and make some Post.
 
 ## How is this Repo structured?
 
 |     Codebase     |     Description     | Availability |
-|:----------------:|:-------------------:|:------------:|
-| [dikser](dikser) | NestJS API Back-end |       ✔️      |
-| [dikweb](dikweb) |  ReactJS Front-end  |       ❌      |
-| [dikmob](dikmob) |  ReactNative Mobile |       ❌      |
+| :--------------: | :-----------------: | :----------: |
+| [dikser](dikser) | NestJS API Back-end |      ✔️      |
+| [dikweb](dikweb) |  ReactJS Front-end  |      ❌      |
+| [dikmob](dikmob) | ReactNative Mobile  |      ❌      |
+
+## How to run locally?
+
+Please check this <a href="https://github.com/resqiar/dikenang/blob/main/dikser/README.md#easy-running-using-docker">documentation</a> on how to run locally.
 
 ## Stay in touch
 
-- Author - [Resqiar](https://github.com/resqiar)
-- Website - [https://dikenang.netlify.app](https://dikenang.netlify.app)
-- Instagram - [@resqiar_](https://instagram.com/resqiar_)
+-   Author - [Resqiar](https://github.com/resqiar)
+-   Website - [https://dikenang.netlify.app](https://dikenang.netlify.app)
+-   Instagram - [@resqiar\_](https://instagram.com/resqiar_)
 
 ## License
 
