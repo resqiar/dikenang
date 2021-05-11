@@ -25,9 +25,9 @@
 
 ## Easy Running Using Docker
 
-Easy installation without bothering creating a .env file, installing a database, packages, etc, simply install docker and run the following commands, and the server will start on [localhost:3000](http://localhost:3000)
+Easy installation without bothering .env file, installing a database, packages, etc, simply install docker and run the following commands, and the server will start on [localhost:3000](http://localhost:3000)
 
-_Prerequites: installed docker & docker-compose on your system_
+_Prerequisites: installed docker & docker-compose in your system_
 
 1. Make sure you are in the root folder, **if you are in `/dikser` directory**, run this following command:
 
@@ -43,12 +43,12 @@ $ cd ..
 $ docker-compose up
 ```
 
-> If you want to run with your own config, see <a href="https://github.com/resqiar/dikenang/blob/main/docker.compose.yml">docker.compose.yml</a>
+> If you want to run with your own config, see <a href="https://github.com/resqiar/dikenang/blob/main/docker-compose.yml">docker-compose.yml</a>
 
 3. Server is now running
 
 ```bash
-# graphql default playground is on localhost:3000/graphql
+# open graphql playground
 $ xdg-open http://localhost:3000/graphql
 ```
 
