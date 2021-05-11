@@ -1,3 +1,6 @@
+# For most of the time, this file will not need changing;
+# because this file is used only for fast local development.
+# However you could change the config to whatever you need.
 version: '3.9'
 services:
     dikser:
@@ -7,7 +10,11 @@ services:
             - postgres
         ports:
             - '3000:3000'
+
+        # if you have .env file, delete this block
+        # .env file will automatically loaded by docker.
         environment:
+            # edit this configurations
             DB_HOST: postgres
             DB_PORT: 5432
             DB_USERNAME: postgres
