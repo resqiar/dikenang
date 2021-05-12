@@ -13,8 +13,8 @@
   <a href="https://github.com/resqiar/dikenang-server" target="_blank">
     <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
-  <a href="https://paypal.me/resqiar" target="_blank">
-    <img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg?style=for-the-badge" alt="donate - paypal" />
+  <a href="https://www.buymeacoffee.com/resqiar" target="_blank">
+    <img src="https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-yellow?style=for-the-badge" alt="donate - buymeacoffee" />
   </a>
 </p>
 
