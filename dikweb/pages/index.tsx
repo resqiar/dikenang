@@ -1,7 +1,9 @@
+import DikenangLogo from '../components/logo/DikenangLogo'
+
 export default function Home() {
 	return (
 		<div>
-			<h1>Hello world, my name is dikenang.</h1>
+			<DikenangLogo />
 		</div>
 	)
 }
