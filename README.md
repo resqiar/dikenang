@@ -40,7 +40,7 @@ This website is used as an **experimental** and **preview** purpose only. This w
 |     Codebase     |     Description     | Availability |
 | :--------------: | :-----------------: | :----------: |
 | [dikser](dikser) | NestJS API Back-end |      ✔️      |
-| [dikweb](dikweb) |  ReactJS Front-end  |      ❌      |
+| [dikweb](dikweb) |  ReactJS Front-end  |      ✔️      |
 | [dikmob](dikmob) | ReactNative Mobile  |      ❌      |
 
 ## How to run locally?
