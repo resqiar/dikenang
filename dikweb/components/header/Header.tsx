@@ -21,24 +21,30 @@ export default function Header() {
 				<DikenangLogo />
 
 				{/* Search Component */}
-				<Input
-					placeholder="Search anything..."
-					type="text"
-					hasIcon={true}
-					Icon={SearchOutlined}
-				/>
+				<div className={styles.headerSearchInput}>
+					<Input
+						placeholder="Search anything..."
+						type="text"
+						hasIcon={true}
+						Icon={SearchOutlined}
+					/>
+				</div>
 			</div>
 
 			{/* Right Side */}
-			<div className={styles.navList}>
-				{/* Mockup for now, future works will replace the following */}
-				<Icons Icon={FavoriteBorder} color="purple" hasIconButton />
-				<Icons Icon={ChatOutlined} hasIconButton />
-				<Icons Icon={NotificationsActiveOutlined} hasIconButton />
-				{/* Avatar Icon */}
-				<IconButton>
-					<Avatar className={styles.headerAvatarIcon} />
-				</IconButton>
+			<div className={styles.headerIconWrapper}>
+				<div className={styles.headerIconList}>
+					{/* Mockup for now, future works will replace the following */}
+					<Icons Icon={FavoriteBorder} color="purple" hasIconButton />
+					<Icons Icon={ChatOutlined} hasIconButton />
+					<Icons Icon={NotificationsActiveOutlined} hasIconButton />
+				</div>
+				<div className={styles.headerAvatarIconWrapper}>
+					{/* Avatar Icon */}
+					<IconButton>
+						<Avatar className={styles.headerAvatarIcon} />
+					</IconButton>
+				</div>
 			</div>
 		</div>
 	)

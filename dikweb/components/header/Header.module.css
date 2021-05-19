@@ -13,7 +13,12 @@
 	align-items: center;
 }
 
-.navList {
+.headerIconWrapper {
+	display: flex;
+	align-items: center;
+}
+
+.headerIconList {
 	display: flex;
 	align-items: center;
 }
@@ -21,4 +26,17 @@
 .headerAvatarIcon {
 	width: 35px !important;
 	height: 35px !important;
+}
+
+@media only screen and (max-width: 600px) {
+	.header {
+		justify-content: space-between;
+		padding: 0px 12px 0px 24px;
+	}
+	.headerSearchInput {
+		display: none;
+	}
+	.headerIconList {
+		display: none;
+	}
 }
