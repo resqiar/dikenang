@@ -22,6 +22,14 @@ services:
             DB_NAME: dikenang-local
             JWT_SECRET: secret-example-of-jwt-token
 
+    dikweb:
+        # dikenang next js frontend
+        build: ./dikweb
+        depends_on:
+            - dikser
+        ports:
+            - '3001:3001'
+
     postgres:
         # postgres database image
         image: postgres:latest
