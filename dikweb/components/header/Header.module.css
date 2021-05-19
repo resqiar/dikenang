@@ -1,0 +1,24 @@
+.header {
+	background-color: var(--background-dimmed);
+	padding: 2px;
+	display: flex;
+	min-height: 55px;
+	align-items: center;
+	justify-content: space-around;
+	box-shadow: var(--shadow);
+}
+
+.headerBrand {
+	display: flex;
+	align-items: center;
+}
+
+.navList {
+	display: flex;
+	align-items: center;
+}
+
+.headerAvatarIcon {
+	width: 35px !important;
+	height: 35px !important;
+}

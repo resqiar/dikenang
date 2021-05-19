@@ -1,0 +1,21 @@
+.inputField {
+	display: flex;
+	align-items: center;
+	margin: 0px 8px;
+	background: #191b1c;
+	border-radius: 4px;
+	background-color: #191b1c;
+}
+
+.inputField input {
+	color: grey;
+	background: transparent;
+	border: none;
+	padding: 9px;
+	outline: none;
+}
+
+.inputFieldIcon {
+	padding: 3px 4px 2px 8px;
+	margin-bottom: -2px;
+}

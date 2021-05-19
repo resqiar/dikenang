@@ -1,3 +1,4 @@
+/* default font for dikenang. (Inter) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 html,
@@ -18,4 +19,11 @@ a {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+}
+
+/* global variables */
+:root {
+	--background: #000;
+	--background-dimmed: #121314;
+	--shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }

@@ -1,9 +1,9 @@
-import DikenangLogo from '../components/logo/DikenangLogo'
+import Header from '../components/header/Header'
 
 export default function Home() {
 	return (
 		<div>
-			<DikenangLogo />
+			<Header />
 		</div>
 	)
 }
