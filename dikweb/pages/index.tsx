@@ -6,7 +6,7 @@ export default function Home() {
 	return (
 		<div>
 			{/* Default Head Meta Property */}
-			<Meta />
+			<Meta title="dikenang — Keep your memories alive, forever!" />
 
 			{/* Header Component */}
 			<Header />
