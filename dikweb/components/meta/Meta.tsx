@@ -62,6 +62,7 @@ export default function Meta({ title }: props) {
 				sizes="16x16"
 				href="/favicon-16x16.png"
 			></link>
+
 			<link rel="manifest" href="/manifest.json"></link>
 		</Head>
 	)
