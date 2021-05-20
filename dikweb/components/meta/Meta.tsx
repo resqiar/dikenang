@@ -10,8 +10,7 @@ export default function Meta({ title }: props) {
 			<title>{title ? title : 'dikenang.'}</title>
 			<meta
 				name="description"
-				content="Private social media used to share memories among linked relationship partners."
-				key="description"
+				content="Keep your memories alive with dikenang."
 			/>
 			<link
 				rel="apple-touch-icon"
