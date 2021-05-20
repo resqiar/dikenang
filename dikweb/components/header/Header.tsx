@@ -2,7 +2,6 @@ import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
 import styles from './Header.module.css'
 
-import MoreVertIcon from '@material-ui/icons/MoreVert'
 import {
 	SearchOutlined,
 	ChatOutlined,
