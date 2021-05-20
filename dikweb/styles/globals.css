@@ -3,11 +3,10 @@
 
 html,
 body {
+	background: var(--background);
 	padding: 0;
 	margin: 0;
-	font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-		sans-serif;
+	font-family: var(--font-family);
 }
 
 a {
@@ -23,7 +22,18 @@ a {
 
 /* global variables */
 :root {
-	--background: #000;
-	--background-dimmed: #121314;
-	--shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+	/* Colors */
+	--background: #0b0e10;
+	--background-dimmed-300: #252c37;
+	--background-dimmed-500: #151920;
+
+	/* Fonts */
+	--font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+		sans-serif;
+	--font-white-800: rgba(255, 255, 255, 0.8);
+	--font-gray: grey;
+
+	/* Others */
+	--box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 }

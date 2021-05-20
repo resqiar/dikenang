@@ -1,16 +1,21 @@
 .header {
-	background-color: var(--background-dimmed);
-	padding: 2px;
+	background-color: var(--background);
+	padding: 2px 10%;
 	display: flex;
 	min-height: 55px;
 	align-items: center;
-	justify-content: space-around;
-	box-shadow: var(--shadow);
+	justify-content: space-between;
 }
 
 .headerBrand {
 	display: flex;
 	align-items: center;
+	flex-grow: 1;
+}
+
+.headerSearchInput {
+	width: 100%;
+	padding: 0px 18px;
 }
 
 .headerIconWrapper {
