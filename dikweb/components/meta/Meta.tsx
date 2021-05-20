@@ -16,7 +16,7 @@ export default function Meta({ title }: props) {
 			></meta>
 			<meta
 				name="description"
-				content="Share everything, images, videos, stories, memories, and more!"
+				content="Share everything; images, videos, stories, memories, and more!"
 			></meta>
 
 			{/* <!-- Open Graph / Facebook --> */}
@@ -28,7 +28,7 @@ export default function Meta({ title }: props) {
 			></meta>
 			<meta
 				property="og:description"
-				content="Share everything, images, videos, stories, memories, and more!"
+				content="Share everything; images, videos, stories, memories, and more!"
 			></meta>
 			<meta property="og:image" content="/dikenang-logo.png"></meta>
 
@@ -41,7 +41,7 @@ export default function Meta({ title }: props) {
 			></meta>
 			<meta
 				property="twitter:description"
-				content="Share everything, images, videos, stories, memories, and more!"
+				content="Share everything; images, videos, stories, memories, and more!"
 			></meta>
 			<meta property="twitter:image" content="/dikenang-logo.png"></meta>
 
