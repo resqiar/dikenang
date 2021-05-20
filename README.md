@@ -22,9 +22,9 @@
 
 Dikenang is actually my private project with my girlfriend, moved to a public repository lately. Dikenang is a private social media to shares memories together with the user's linked partnership. Dikenang is like Facebook, Instagram, Quora, or whatever social media that exist, it should do its job to post a picture, video, conversation sound, story, etc, but with extra features that should protect its privacy and uniqueness. see [dikenang.netlify.app](https://dikenang.netlify.app) for experimental preview.
 
-### How to preview dikenang webpage
+### How to preview (old/deprecated) dikenang webpage
 
-This website is used as an **experimental** and **preview** purpose only. This website doesn't even use this server repository. Future works will replace the website.
+This website is used as an **experimental** and **idea preview** purpose only. This website doesn't even use this repository. Future works will replace the website.
 
 1. Open `https://dikenang.netlify.app` on your browser
 2. On the login section enter this credentials
