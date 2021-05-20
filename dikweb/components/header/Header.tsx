@@ -23,10 +23,14 @@ export default function Header() {
 				{/* Search Component */}
 				<div className={styles.headerSearchInput}>
 					<Input
-						placeholder="Search anything..."
+						placeholder="Search for memories, partners, and stuff"
 						type="text"
 						hasIcon={true}
+						iconColor="grey"
+						focusedIconColor="var(--font-white-800)"
 						Icon={SearchOutlined}
+						// value will dismissed when onBlur
+						isDismissedOnBlur={true}
 					/>
 				</div>
 			</div>
@@ -39,6 +43,7 @@ export default function Header() {
 					<Icons Icon={ChatOutlined} hasIconButton />
 					<Icons Icon={NotificationsActiveOutlined} hasIconButton />
 				</div>
+
 				<div className={styles.headerAvatarIconWrapper}>
 					{/* Avatar Icon */}
 					<IconButton>
