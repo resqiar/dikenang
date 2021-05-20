@@ -7,6 +7,7 @@
 		"strict": true,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitAny": true,
+		"noUnusedLocals": true,
 		"alwaysStrict": true,
 		"noUnusedParameters": true,
 		"noEmit": true,
