@@ -8,10 +8,10 @@
     <img src="https://img.shields.io/github/languages/top/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
   <a href="https://github.com/resqiar/dikenang-server" target="_blank">
-    <img src="https://img.shields.io/github/license/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
+    <img src="https://img.shields.io/github/license/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - license" />
   </a>
   <a href="https://github.com/resqiar/dikenang-server" target="_blank">
-    <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
+    <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - last commit" />
   </a>
   <a href="https://www.buymeacoffee.com/resqiar" target="_blank">
     <img src="https://img.shields.io/badge/-Buy%20Me%20a%20Coffee-yellow?style=for-the-badge" alt="donate - buymeacoffee" />
