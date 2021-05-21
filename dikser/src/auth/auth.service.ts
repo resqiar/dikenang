@@ -3,8 +3,7 @@ import {
 	forwardRef,
 	Inject,
 	Injectable,
-	NotFoundException,
-	UnauthorizedException,
+	RequestTimeoutException,
 } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 
@@ -59,5 +58,16 @@ export class AuthService {
 	async generateToken(user: User) {
 		const payload = { id: user.id, username: user.username }
 		return await this.jwtService.signAsync(payload)
+	}
+
+	async googleAuth(req: any) {
+		if (!req.user) {
+			return RequestTimeoutException
+		}
+
+		return {
+			user: req.user,
+			jwt_token: this.generateToken(req.user),
+		}
 	}
 }
