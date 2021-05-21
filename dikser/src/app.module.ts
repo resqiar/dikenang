@@ -24,8 +24,8 @@ import { PostsModule } from './posts/posts.module'
 						error.extensions?.exception?.response?.message ||
 						error.message,
 					extensions: {
-						error: error.extensions.exception?.response?.error,
-						status: error.extensions.exception?.status,
+						error: error.extensions?.exception?.response?.error,
+						status: error.extensions?.exception?.status,
 					},
 				}
 				return graphQLFormattedError

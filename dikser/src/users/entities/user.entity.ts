@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { ObjectType, Field } from '@nestjs/graphql'
 import {
 	Column,
 	CreateDateColumn,
@@ -51,7 +51,7 @@ export class User {
 	@UpdateDateColumn()
 	updated_at: Date
 
-	@Field((type) => [Post], { nullable: true })
-	@OneToMany((type) => Post, (contents: Post) => contents.author)
+	@Field((_) => [Post], { nullable: true })
+	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
 }

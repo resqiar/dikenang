@@ -31,11 +31,11 @@ export class Post {
 	@UpdateDateColumn()
 	updated_at: Date
 
-	@Field((type) => User)
-	@ManyToOne((type) => User, (author: User) => author.contents)
+	@Field((_) => User)
+	@ManyToOne((_) => User, (author: User) => author.contents)
 	author: User
 
-	@Field((type) => Attachments, { nullable: true })
+	@Field((_) => Attachments, { nullable: true })
 	@OneToOne(() => Attachments)
 	@JoinColumn()
 	attachments: Attachments
