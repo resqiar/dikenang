@@ -1,9 +1,3 @@
-import {
-	BadRequestException,
-	Request,
-	UnauthorizedException,
-	UseGuards,
-} from '@nestjs/common'
 import { Args, Mutation, Resolver } from '@nestjs/graphql'
 import { CreateUserInput } from '../users/dto/create-user.input'
 import { User } from '../users/entities/user.entity'

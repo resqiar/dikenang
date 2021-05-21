@@ -33,7 +33,7 @@ describe('AuthService', () => {
 		}),
 	}
 	const mockJwtService = {
-		signAsync: jest.fn((payload: Object) => {
+		signAsync: jest.fn((_: Object) => {
 			// [MOCK] return JWT token
 			return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJlbWFpbCI6InRlc3RpbmdAZXhhbXBsZS5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.ymAk4I3k0M4Qu67JCAMpyzibak66RVNwVwAH1uMEAOQ'
 		}),
