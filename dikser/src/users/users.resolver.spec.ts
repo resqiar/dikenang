@@ -15,7 +15,7 @@ describe('UsersResolver', () => {
 				username: username,
 			}
 		}),
-		update: jest.fn((id: string, updateUserInput: UpdateUserInput) => {
+		update: jest.fn((_: string, updateUserInput: UpdateUserInput) => {
 			return {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				...updateUserInput,

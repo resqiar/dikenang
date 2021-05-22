@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
-import { FindOneOptions } from 'typeorm'
-import { AuthService } from '../auth/auth.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -23,21 +21,11 @@ describe('UsersService', () => {
 				...userInput,
 			}
 		}),
-		findOneOrFail: jest.fn((options?: FindOneOptions<User>) => {
-			// check if has a password query
-			if (options.select?.includes('password')) {
-				return {
-					id: '1f85ac5e-4211-4b54-84cf-b202bfea344e',
-					email: 'testing@example.com',
-					username: 'testing',
-					password: 'hashed_password',
-				}
-			} else {
-				return {
-					id: '1f85ac5e-4211-4b54-84cf-b202bfea344e',
-					email: 'testing@example.com',
-					username: 'testing',
-				}
+		findOneOrFail: jest.fn(() => {
+			return {
+				id: '1f85ac5e-4211-4b54-84cf-b202bfea344e',
+				email: 'testing@example.com',
+				username: 'testing',
 			}
 		}),
 		update: jest.fn((id: string, updateUserInput: UpdateUserInput) => {
@@ -45,11 +33,6 @@ describe('UsersService', () => {
 				id: id,
 				...updateUserInput,
 			}
-		}),
-	}
-	const mockAuthService = {
-		generateToken: jest.fn(() => {
-			return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpbmciLCJlbWFpbCI6InRlc3RpbmdAZXhhbXBsZS5jb20iLCJpYXQiOjE1MTYyMzkwMjJ9.ymAk4I3k0M4Qu67JCAMpyzibak66RVNwVwAH1uMEAOQ'
 		}),
 	}
 
@@ -60,10 +43,6 @@ describe('UsersService', () => {
 				{
 					provide: getRepositoryToken(User),
 					useValue: mockUsersRepository,
-				},
-				{
-					provide: AuthService,
-					useValue: mockAuthService,
 				},
 			],
 		}).compile()
@@ -76,17 +55,16 @@ describe('UsersService', () => {
 	})
 
 	describe('create()', () => {
-		it('should create new user along with its access_token', async () => {
+		it('should create new user along with oauth_id', async () => {
 			const createUserInput: CreateUserInput = {
 				email: 'testing@example.com',
+				oauth_id: '123127312361283',
 				username: 'testing',
-				password: 'password',
-				avatar_url: null,
+				avatar_url: undefined,
 			}
 
 			const expectedResult = {
 				id: expect.any(String),
-				access_token: expect.any(String),
 				...createUserInput,
 			}
 
@@ -121,23 +99,6 @@ describe('UsersService', () => {
 			}
 
 			expect(await service.findById(searchedId)).toEqual(expectedResult)
-		})
-	})
-
-	describe('getCred()', () => {
-		it('should return a user with hashed_password', async () => {
-			const searchedUsername: string = 'testing'
-
-			const expectedResult = {
-				id: expect.any(String),
-				email: expect.any(String),
-				username: searchedUsername,
-				password: expect.any(String),
-			}
-
-			expect(await service.getCred(searchedUsername)).toEqual(
-				expectedResult
-			)
 		})
 	})
 
