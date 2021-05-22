@@ -1,13 +1,10 @@
 import {
 	BadRequestException,
-	forwardRef,
-	Inject,
 	Injectable,
 	NotFoundException,
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { AuthService } from '../auth/auth.service'
 import { CreateUserInput } from './dto/create-user.input'
 import { UpdateUserInput } from './dto/update-user.input'
 import { User } from './entities/user.entity'
@@ -16,24 +13,15 @@ import { User } from './entities/user.entity'
 export class UsersService {
 	constructor(
 		@InjectRepository(User)
-		private readonly userRepository: Repository<User>,
-		@Inject(forwardRef(() => AuthService))
-		private authService: AuthService
+		private readonly userRepository: Repository<User>
 	) {}
 
 	async create(createUserInput: CreateUserInput) {
 		try {
 			const createdUser = this.userRepository.create(createUserInput)
+
 			/**
-			 * update given token from JWT
-			 * to the database, this access_token
-			 * used to determine if the user is valid or not
-			 */
-			createdUser.access_token = await this.authService.generateToken(
-				createdUser
-			)
-			/**
-			 * Save the token and send back response
+			 * Save and return createdUser
 			 */
 			return await this.userRepository.save(createdUser)
 		} catch (e) {
@@ -49,6 +37,15 @@ export class UsersService {
 	async findAll() {
 		return await this.userRepository.find({
 			relations: ['contents', 'contents.attachments'],
+		})
+	}
+
+	async findOauth(oauthId: string) {
+		/**
+		 * @Usage is to search if user already signIn by its oauthId
+		 */
+		return await this.userRepository.findOne({
+			where: { oauth_id: oauthId },
 		})
 	}
 
@@ -70,21 +67,6 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { id: id },
-			})
-		} catch (e) {
-			/**
-			 * @Error here means that client fails to get
-			 * correct data from the database/data not found
-			 */
-			throw new NotFoundException(e.detail)
-		}
-	}
-
-	async getCred(username: string) {
-		try {
-			return await this.userRepository.findOneOrFail({
-				where: { username: username },
-				select: ['password'],
 			})
 		} catch (e) {
 			/**

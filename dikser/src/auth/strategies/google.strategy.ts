@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
-import { Strategy, VerifyCallback } from 'passport-google-oauth20'
+import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20'
+import { GoogleDTO } from '../dto/google.dto'
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
@@ -14,23 +15,25 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
 	}
 
 	async validate(
-		accessToken: string,
-		refreshToken: string,
-		profile: any,
+		_: string,
+		__: string,
+		profile: Profile,
 		done: VerifyCallback
 	): Promise<any> {
-		const { name, emails, photos } = profile
+		const { id, name, emails, photos } = profile
 
-		const user = {
-			email: emails[0].value,
-			firstName: name.givenName,
-			lastName: name.familyName,
-			picture: photos[0].value,
-			accessToken,
-			profile,
-			refreshToken,
+		// Get response object from Google API
+		const response: GoogleDTO = {
+			oauth_id: id,
+			email: emails![0].value,
+			given_name: name?.givenName,
+			profile_url: photos?.[0].value,
 		}
 
-		done(null, user)
+		/**
+		 * Redirect back to controller
+		 * As a "user" object
+		 */
+		done(null, response)
 	}
 }

@@ -6,13 +6,17 @@ import { join } from 'path'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
-
+import { PassportModule } from '@nestjs/passport'
 @Module({
 	imports: [
 		DatabaseModule,
 		UsersModule,
+		PassportModule.register({ session: true }),
 		GraphQLModule.forRoot({
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+			cors: {
+				origin: [process.env.CLIENT_ORIGIN || 'http://localhost:3001'],
+			},
 			/**
 			 * Intercept graphql error, bind a custom json object
 			 * @Example BadRequestException | UnauthorizedException | InvalidRequestException | etc

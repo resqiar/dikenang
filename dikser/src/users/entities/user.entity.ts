@@ -16,6 +16,9 @@ export class User {
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
+	@Column({ nullable: true, unique: true })
+	oauth_id: string
+
 	@Field()
 	@Column({
 		unique: true,
@@ -27,13 +30,6 @@ export class User {
 		unique: true,
 	})
 	email: string
-
-	@Column({ select: false })
-	password: string
-
-	@Field({ nullable: true })
-	@Column('text', { nullable: true })
-	access_token: string
 
 	@Field({ nullable: true })
 	@Column('text', { nullable: true, default: 'Hi there!' })

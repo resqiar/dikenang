@@ -3,8 +3,8 @@ import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { UseGuards } from '@nestjs/common'
 import { UpdateUserInput } from './dto/update-user.input'
-import { GqlAuthGuard } from '../auth/guards/gql-jwt.guard'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
+import { AuthStatusGuard } from '../auth/guards/auth.guard'
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -16,6 +16,7 @@ export class UsersResolver {
 	 * since this query is not used for public
 	 */
 	@Query(() => [User], { name: 'users' })
+	@UseGuards(AuthStatusGuard)
 	async findAll(): Promise<User[]> {
 		return await this.usersService.findAll()
 	}
@@ -26,7 +27,7 @@ export class UsersResolver {
 	}
 
 	@Mutation(() => User, { name: 'updateUser' })
-	@UseGuards(GqlAuthGuard)
+	@UseGuards(AuthStatusGuard)
 	async update(
 		@CurrentUser() currentUser: User,
 		@Args('updateUserInput') updateUserInput: UpdateUserInput

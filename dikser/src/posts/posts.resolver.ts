@@ -1,6 +1,6 @@
 import { UseGuards } from '@nestjs/common'
 import { Mutation, Query, Args, Resolver } from '@nestjs/graphql'
-import { GqlAuthGuard } from '../auth/guards/gql-jwt.guard'
+import { AuthStatusGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
 import { User } from '../users/entities/user.entity'
 import { CreateAttachmentInput } from './dto/create-attachments.input'
@@ -15,7 +15,7 @@ export class PostsResolver {
 	constructor(private readonly postsService: PostsService) {}
 
 	@Mutation(() => Post)
-	@UseGuards(GqlAuthGuard)
+	@UseGuards(AuthStatusGuard)
 	async createPost(
 		@CurrentUser() currentUser: User,
 		@Args('createPostInput') createPostInput: CreatePostInput,
@@ -45,7 +45,7 @@ export class PostsResolver {
 	}
 
 	@Mutation(() => Post)
-	@UseGuards(GqlAuthGuard)
+	@UseGuards(AuthStatusGuard)
 	async updatePost(
 		@CurrentUser() user: User,
 		@Args('updatePostInput') updatePostInput: UpdatePostInput
@@ -54,7 +54,7 @@ export class PostsResolver {
 	}
 
 	@Mutation(() => DeletePostResponse)
-	@UseGuards(GqlAuthGuard)
+	@UseGuards(AuthStatusGuard)
 	async removePost(
 		@CurrentUser() currentUser: User,
 		@Args('postId') postId: string
