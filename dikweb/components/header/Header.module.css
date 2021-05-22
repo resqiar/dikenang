@@ -1,5 +1,5 @@
 .header {
-	background-color: var(--background);
+	background: transparent;
 	padding: 2px 10%;
 	display: flex;
 	min-height: 55px;
