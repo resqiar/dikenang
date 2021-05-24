@@ -24,7 +24,7 @@ Dikenang is actually my private project with my girlfriend, moved to a public re
 
 ### How to preview (old/deprecated) dikenang webpage
 
-This website is used as an **experimental** and **idea preview** purpose only. This website doesn't even use this repository. Future works will replace the website.
+This website is used as an **experimental** and **idea preview** purpose only. This website doesn't even use this repository. Dikweb's future works will replace the website.
 
 1. Open `https://dikenang.netlify.app` on your browser
 2. On the login section enter this credentials
@@ -40,12 +40,43 @@ This website is used as an **experimental** and **idea preview** purpose only. T
 |     Codebase     |     Description     | Availability |
 | :--------------: | :-----------------: | :----------: |
 | [dikser](dikser) | NestJS API Back-end |      ✔️      |
-| [dikweb](dikweb) |  ReactJS Front-end  |      ✔️      |
+| [dikweb](dikweb) |  NextJS Front-end  |      ✔️      |
 | [dikmob](dikmob) | ReactNative Mobile  |      ❌      |
 
-## How to run locally?
+## Easy Running Using Docker
 
-Please check this <a href="https://github.com/resqiar/dikenang/blob/main/dikser/README.md#easy-running-using-docker">documentation</a> on how to run locally.
+Easy installation without bothering .env file, installing a database, packages, etc, simply install docker and run the following commands; dikser will start on [localhost:3000](http://localhost:3000) and dikweb on [localhost:3001](http://localhost:3001)
+
+_Prerequisites: installed docker & docker-compose in your system_
+
+1. Make sure you are in the root folder, **if you are in packages directory**, run this following command:
+
+```bash
+# navigate back to root folder
+$ cd ..
+```
+
+2. Start docker-compose
+
+```bash
+# start container process
+$ docker-compose up
+```
+
+> If you want to run with your own config, see <a href="https://github.com/resqiar/dikenang/blob/main/docker-compose.yml">docker-compose.yml</a>
+
+3. Application is now running
+
+```bash
+# server playground
+$ xdg-open http://localhost:3000/graphql
+
+# client web app
+$ xdg-open http://localhost:3001
+```
+
+## How to run manually on each package?
+Please refer to package documentations, navigate to `/dikser`, `/dikweb`, or `/dikmob` and check their own docs.
 
 ## Stay in touch
 
