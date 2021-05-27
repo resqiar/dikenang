@@ -10,7 +10,7 @@ describe('PostsResolver', () => {
 	let resolver: PostsResolver
 
 	const mockPostsService = {
-		create: jest.fn((currentUser: User, { caption }, attachments) => {
+		create: jest.fn((_: User, { caption }, attachments) => {
 			/**
 			 * If caption is less than 3 chars
 			 * normally this validation is taken care of
@@ -43,13 +43,13 @@ describe('PostsResolver', () => {
 				caption: 'testing',
 			}
 		}),
-		update: jest.fn((currentUser: User, { id, caption }) => {
+		update: jest.fn((_: User, { id, caption }) => {
 			return {
 				id: id,
 				caption: caption,
 			}
 		}),
-		remove: jest.fn((currentUser: User, postId: string) => {
+		remove: jest.fn((_: User, __: string) => {
 			const previous_data = {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				caption: 'testing',
@@ -166,22 +166,14 @@ describe('PostsResolver', () => {
 	})
 
 	describe('delete post', () => {
-		it('should delete post and return DeletePostResponse', async () => {
+		it('should delete post and return DeletePostResponse Object', async () => {
 			const previous_data = {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
-				caption: 'testing',
-				created_at: new Date(),
-				updated_at: new Date(),
-				author: new User(),
-				attachments: new Attachments(),
 			}
-			const expectedResult = new DeletePostResponse(
-				previous_data,
-				'DELETED',
-				200
-			)
 
-			expect(await resolver.removePost(new User(), previous_data.id))
+			expect(
+				await resolver.removePost(new User(), previous_data.id)
+			).toEqual(expect.any(Object))
 		})
 	})
 })

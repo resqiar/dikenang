@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { ObjectType, Field } from '@nestjs/graphql'
 import {
 	Column,
 	CreateDateColumn,
@@ -16,6 +16,9 @@ export class User {
 	@PrimaryGeneratedColumn('uuid')
 	id: string
 
+	@Column({ nullable: true, unique: true })
+	oauth_id: string
+
 	@Field()
 	@Column({
 		unique: true,
@@ -27,13 +30,6 @@ export class User {
 		unique: true,
 	})
 	email: string
-
-	@Column({ select: false })
-	password: string
-
-	@Field({ nullable: true })
-	@Column('text', { nullable: true })
-	access_token: string
 
 	@Field({ nullable: true })
 	@Column('text', { nullable: true, default: 'Hi there!' })
@@ -51,7 +47,7 @@ export class User {
 	@UpdateDateColumn()
 	updated_at: Date
 
-	@Field((type) => [Post], { nullable: true })
-	@OneToMany((type) => Post, (contents: Post) => contents.author)
+	@Field((_) => [Post], { nullable: true })
+	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
 }

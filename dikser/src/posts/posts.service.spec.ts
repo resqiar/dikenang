@@ -4,7 +4,6 @@ import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { CreateAttachmentInput } from './dto/create-attachments.input'
 import { CreatePostInput } from './dto/create-post.input'
-import { DeletePostResponse } from './dto/delete-response.dto'
 import { Attachments } from './entities/attachments.entity'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
@@ -42,7 +41,7 @@ describe('PostsService', () => {
 				...postInput,
 			})
 		}),
-		delete: jest.fn((postId: string) => ({})),
+		delete: jest.fn((_: string) => ({})),
 		save: jest.fn((postInput) =>
 			Promise.resolve({
 				id: Date.now().toString(),
@@ -51,7 +50,7 @@ describe('PostsService', () => {
 		),
 	}
 
-	// * Attachment Repository Mocking
+	// Attachment Repository Mocking
 	const mockAttachmentsRepository = {
 		create: jest.fn(
 			(attachmentInput: CreateAttachmentInput) => attachmentInput
@@ -64,7 +63,7 @@ describe('PostsService', () => {
 		),
 	}
 
-	// * UserService Mocking
+	// UserService Mocking
 	const mockUsersService = {
 		findById: jest.fn(() => {
 			return {
@@ -200,25 +199,17 @@ describe('PostsService', () => {
 	})
 
 	describe('delete()', () => {
-		it('should delete post and return DeletePostResponse', async () => {
+		it('should delete post and return DeletePostResponse Object', async () => {
 			let currentUser = new User()
 			currentUser.id = 'testing id'
 
 			const previous_data = {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
-				caption: 'testing',
-				created_at: new Date(),
-				updated_at: new Date(),
-				author: new User(),
-				attachments: new Attachments(),
 			}
-			const expectedResult = new DeletePostResponse(
-				previous_data,
-				'DELETED',
-				200
-			)
 
-			expect(await postService.remove(currentUser, previous_data.id))
+			expect(
+				await postService.remove(currentUser, previous_data.id)
+			).toEqual(expect.any(Object))
 		})
 	})
 })
