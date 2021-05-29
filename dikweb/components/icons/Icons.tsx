@@ -1,23 +1,37 @@
 import { IconButton } from '@material-ui/core'
-import styles from './Icons.module.css'
+import styled from 'styled-components'
 
-type props = {
+interface Props {
 	Icon: React.ElementType
 	color?: string
-	size?: string
+	size?: number
 	hasIconButton: boolean
 }
 
-export default function Icons({ Icon, color, hasIconButton }: props) {
+export default function Icons(props: Props) {
 	return (
-		<div className={styles.iconWrapper}>
-			{hasIconButton ? (
+		<IconWrapper>
+			{props.hasIconButton ? (
 				<IconButton>
-					<Icon style={{ color: color ? color : '#545b5f' }} />
+					<props.Icon
+						style={{
+							color: props.color ? props.color : '#545b5f',
+							fontSize: props.size,
+						}}
+					/>
 				</IconButton>
 			) : (
-				<Icon style={{ color: color ? color : '#545b5f' }} />
+				<props.Icon
+					style={{
+						color: props.color ? props.color : '#545b5f',
+						fontSize: props.size,
+					}}
+				/>
 			)}
-		</div>
+		</IconWrapper>
 	)
 }
+
+const IconWrapper = styled.div`
+	padding: 2px;
+`
