@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 
-export default function SidebarCard() {
-	return <SideBarCardWrapper></SideBarCardWrapper>
+interface Props {
+	children: JSX.Element
+}
+
+export default function SidebarCard({ children }: Props) {
+	return <SideBarCardWrapper>{children}</SideBarCardWrapper>
 }
 
 const SideBarCardWrapper = styled.div`
