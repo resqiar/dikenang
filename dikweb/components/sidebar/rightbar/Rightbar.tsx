@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 import SidebarCard from '../container/SidebarCard'
+import SidebarHeader from '../header/SidebarHeader'
 
 export default function Rightbar() {
 	return (
 		<RightBarWrapper>
 			{/* Card */}
-			<SidebarCard />
+			<SidebarCard>
+				<SidebarHeader bannerSrc="/images/bg-3.png" />
+			</SidebarCard>
 		</RightBarWrapper>
 	)
 }
