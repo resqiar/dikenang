@@ -1,11 +1,14 @@
 import styled from 'styled-components'
 import SidebarCard from '../container/SidebarCard'
+import SidebarHeader from '../header/SidebarHeader'
 
 export default function Leftbar() {
 	return (
 		<LeftBarWrapper>
 			{/* Card */}
-			<SidebarCard />
+			<SidebarCard>
+				<SidebarHeader />
+			</SidebarCard>
 		</LeftBarWrapper>
 	)
 }
