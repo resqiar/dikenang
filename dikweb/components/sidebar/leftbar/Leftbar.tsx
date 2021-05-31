@@ -1,11 +1,27 @@
+import styled from 'styled-components'
 import SidebarCard from '../container/SidebarCard'
-import styles from './Leftbar.module.css'
 
 export default function Leftbar() {
 	return (
-		<div className={styles.leftbarWrapper}>
+		<LeftBarWrapper>
 			{/* Card */}
 			<SidebarCard />
-		</div>
+		</LeftBarWrapper>
 	)
 }
+
+const LeftBarWrapper = styled.div`
+	flex: 0.2;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 18px 8px;
+	height: min-content;
+	top: 20px;
+
+	/* How mobile should behave */
+	@media (max-width: 600px) {
+		flex: 0;
+		display: none;
+	}
+`

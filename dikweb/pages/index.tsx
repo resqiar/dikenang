@@ -1,4 +1,4 @@
-import IndexBody from '../components/body/index/IndexBody'
+import IndexBody from '../components/body/IndexBody'
 import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
 

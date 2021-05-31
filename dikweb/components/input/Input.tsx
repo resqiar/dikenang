@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
+import styled, { css } from 'styled-components'
 import Icons from '../icons/Icons'
-import styles from './Input.module.css'
 
-type props = {
+interface Props {
 	hasIcon?: boolean
 	Icon?: React.ElementType
 	type: string
@@ -10,9 +10,10 @@ type props = {
 	iconColor?: string
 	focusedIconColor?: string
 	isDismissedOnBlur?: boolean
+	hasShadow?: boolean
 }
 
-export default function Input(props: props) {
+export default function Input(props: Props) {
 	/**
 	 * UseState to determine if input is focused or not.
 	 * This is useful to create a great visual representation
@@ -22,9 +23,9 @@ export default function Input(props: props) {
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	return (
-		<div className={styles.inputField}>
+		<InputFieldWrapper hasShadow={props.hasShadow ? true : false}>
 			{props.hasIcon ? (
-				<div className={styles.inputFieldIcon}>
+				<InputFieldIcon>
 					<Icons
 						Icon={props.Icon as any}
 						hasIconButton={false}
@@ -34,9 +35,9 @@ export default function Input(props: props) {
 								: props.iconColor
 						}
 					/>
-				</div>
+				</InputFieldIcon>
 			) : null}
-			<input
+			<InputElement
 				key="inputField"
 				type={props.type}
 				ref={inputRef}
@@ -54,8 +55,39 @@ export default function Input(props: props) {
 						}
 					}
 				}}
-				className={isMyInputFocused ? styles.inputFocused : ''}
 			/>
-		</div>
+		</InputFieldWrapper>
 	)
 }
+
+const InputFieldWrapper = styled.div<{ hasShadow?: boolean }>`
+	display: flex;
+	align-items: center;
+	margin: 0px 8px;
+	background: var(--background-dimmed-300);
+	border-radius: 8px;
+
+	/* If props has a shadow */
+	${(props) =>
+		props.hasShadow &&
+		css`
+			box-shadow: var(--box-shadow);
+		`}
+`
+
+const InputFieldIcon = styled.div`
+	padding: 3px 4px 2px 8px;
+	margin-bottom: -2px;
+`
+
+const InputElement = styled.input`
+	font-family: var(--font-family);
+	width: 100%;
+	font-size: 14px;
+	font-weight: 300;
+	color: var(--font-white-800);
+	background: transparent;
+	border: none;
+	padding: 9px;
+	outline: none;
+`
