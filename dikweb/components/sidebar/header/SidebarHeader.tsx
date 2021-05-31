@@ -1,4 +1,3 @@
-// import Image from 'next/image'
 import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 
