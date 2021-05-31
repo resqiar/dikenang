@@ -8,6 +8,7 @@ import * as session from 'express-session'
 import * as passport from 'passport'
 import * as redis from 'redis'
 import * as connectRedis from 'connect-redis'
+import { Client } from 'connect-redis'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
@@ -23,7 +24,8 @@ async function bootstrap() {
 	})
 
 	// Redis config
-	const redisClient = redis.createClient({ url: process.env.REDIS_URI })
+	const REDIS_URI = process.env.REDIS_URI || 'redis://localhost'
+	const redisClient = redis.createClient({ url: REDIS_URI })
 	const RedisStore = connectRedis(session)
 
 	// Express session config
@@ -31,12 +33,14 @@ async function bootstrap() {
 		session({
 			cookie: {
 				maxAge: 86400000, // 1 day
+				secure: true, // transmit only over https
+				httpOnly: true, // prevent client JS reading the cookie
 			},
 			secret: process.env.SESSION_KEY!,
 			resave: false,
 			saveUninitialized: false,
 			store: new RedisStore({
-				client: redisClient,
+				client: redisClient as Client,
 			}),
 		})
 	)
