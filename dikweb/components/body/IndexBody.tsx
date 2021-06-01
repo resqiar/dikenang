@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import FeedInputBox from '../feed/FeedInputBox'
 import Leftbar from '../sidebar/leftbar/Leftbar'
 import Rightbar from '../sidebar/rightbar/Rightbar'
 
@@ -8,8 +9,11 @@ export default function IndexBody() {
 			{/* Sidebar => Left */}
 			<Leftbar />
 
-			{/* Post => Middle */}
-			<IndexBodyMidWrapper></IndexBodyMidWrapper>
+			{/* Post Feed => Middle */}
+			<IndexBodyMidWrapper>
+				{/* Feed Input Box */}
+				<FeedInputBox />
+			</IndexBodyMidWrapper>
 
 			{/* Sidebar => Right */}
 			<Rightbar />
