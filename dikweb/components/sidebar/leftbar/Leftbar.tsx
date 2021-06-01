@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import SidebarCard from '../container/SidebarCard'
 import SidebarHeader from '../header/SidebarHeader'
+import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
 
 export default function Leftbar() {
 	return (
@@ -8,6 +9,10 @@ export default function Leftbar() {
 			{/* Card */}
 			<SidebarCard>
 				<SidebarHeader />
+				<SidebarHeaderProfile
+					username="dikenang.dev"
+					description="Hello and welcome to dikenang!"
+				/>
 			</SidebarCard>
 		</LeftBarWrapper>
 	)

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import SidebarCard from '../container/SidebarCard'
 import SidebarHeader from '../header/SidebarHeader'
+import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
 
 export default function Rightbar() {
 	return (
@@ -8,6 +9,10 @@ export default function Rightbar() {
 			{/* Card */}
 			<SidebarCard>
 				<SidebarHeader bannerSrc="/images/bg-3.png" />
+				<SidebarHeaderProfile
+					username="dikenang.official"
+					description="Hello and welcome to dikenang!"
+				/>
 			</SidebarCard>
 		</RightBarWrapper>
 	)
