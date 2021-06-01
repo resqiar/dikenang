@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface Props {
-	children: JSX.Element
+	children: JSX.Element | JSX.Element[]
 }
 
 export default function SidebarCard({ children }: Props) {
@@ -10,7 +10,7 @@ export default function SidebarCard({ children }: Props) {
 
 const SideBarCardWrapper = styled.div`
 	width: 100%;
-	height: 200px;
+	height: min-content;
 	text-align: center;
 	background-color: var(--background-dimmed-300);
 	border-radius: 8px;
