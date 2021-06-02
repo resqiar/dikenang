@@ -15,9 +15,12 @@ interface Props {
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	// hover
 	hoverColor?: string
 	hoverBg?: string
 	hoverBoxShadow?: string
+	// mobile
+	mobileFontSize?: string
 }
 
 export default function Button(props: Props) {
@@ -36,9 +39,12 @@ export default function Button(props: Props) {
 			padding={props.padding}
 			margin={props.margin}
 			boxShadow={props.boxShadow}
+			// hover
 			hoverColor={props.hoverColor}
 			hoverBg={props.hoverBg}
 			hoverBoxShadow={props.hoverBoxShadow}
+			// mobile
+			mobileFontSize={props.mobileFontSize}
 		>
 			{props.text}
 		</ButtonElement>
@@ -58,9 +64,12 @@ const ButtonElement = styled.button<{
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	// hover
 	hoverColor?: string
 	hoverBg?: string
 	hoverBoxShadow?: string
+	// mobile
+	mobileFontSize?: string
 }>`
 	outline: none;
 	cursor: pointer;
@@ -82,5 +91,10 @@ const ButtonElement = styled.button<{
 		background: ${(props) => props.hoverBg || undefined};
 		box-shadow: ${(props) => props.hoverBoxShadow || undefined};
 		color: ${(props) => props.hoverColor || undefined};
+	}
+
+	/* How mobile should behave */
+	@media (max-width: 600px) {
+		font-size: ${(props) => props.mobileFontSize || undefined};
 	}
 `

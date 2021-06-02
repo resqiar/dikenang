@@ -34,6 +34,8 @@ export default function FeedInputBox() {
 					hoverColor="var(--font-white)"
 					hoverBg="var(--background-dimmed-300)"
 					hoverBoxShadow="var(--box-shadow)"
+					// Mobile
+					mobileFontSize="14px"
 				/>
 			</FeedInputBoxWrapper>
 
@@ -72,12 +74,24 @@ const FeedInputWrapper = styled.div`
 	border-radius: 8px;
 	box-shadow: var(--box-shadow);
 	margin-bottom: 18px;
+
+	/* How mobile should behave */
+	@media (max-width: 600px) {
+		border-radius: 0px;
+		margin-bottom: 0px;
+		padding: 4px 18px;
+	}
 `
 
 const FeedInputBoxWrapper = styled.div`
 	align-items: center;
 	padding: 2px 18px;
 	display: flex;
+
+	/* How mobile should behave */
+	@media (max-width: 600px) {
+		padding: 0px 8px;
+	}
 `
 const FeedInputBoxAvatarWrapper = styled.div``
 
@@ -85,4 +99,9 @@ const FeedInputBoxAttachments = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
+
+	/* How mobile should behave */
+	@media (max-width: 600px) {
+		padding: 0px 12px;
+	}
 `
