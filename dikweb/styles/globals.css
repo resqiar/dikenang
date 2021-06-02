@@ -23,7 +23,7 @@ a {
 
 /* global variables */
 :root {
-	/* Colors */
+	/* Background Colors */
 	--background: #0b0e10;
 	--background-dimmed-300: #252c37;
 	--background-dimmed-500: #151920;
@@ -32,7 +32,20 @@ a {
 	--font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
 		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
 		sans-serif;
+
+	/* White Color */
+	--font-white: rgba(255, 255, 255);
+	--font-white-900: rgba(255, 255, 255, 0.9);
 	--font-white-800: rgba(255, 255, 255, 0.8);
+	--font-white-700: rgba(255, 255, 255, 0.7);
+	--font-white-600: rgba(255, 255, 255, 0.6);
+	--font-white-500: rgba(255, 255, 255, 0.5);
+	--font-white-400: rgba(255, 255, 255, 0.4);
+	--font-white-300: rgba(255, 255, 255, 0.3);
+	--font-white-200: rgba(255, 255, 255, 0.2);
+	--font-white-100: rgba(255, 255, 255, 0.1);
+
+	/* Grey Color */
 	--font-grey: grey;
 
 	/* Others */
