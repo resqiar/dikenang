@@ -7,7 +7,7 @@ export default function Rightbar() {
 	return (
 		<RightBarWrapper>
 			{/* Card */}
-			<SidebarCard>
+			<SidebarCard bgColor="var(--background-dimmed-500)">
 				<SidebarHeader bannerSrc="/images/bg-3.png" />
 				<SidebarHeaderProfile
 					username="dikenang.official"

@@ -7,7 +7,7 @@ export default function Leftbar() {
 	return (
 		<LeftBarWrapper>
 			{/* Card */}
-			<SidebarCard>
+			<SidebarCard bgColor="var(--background-dimmed-500)">
 				<SidebarHeader />
 				<SidebarHeaderProfile
 					username="dikenang.dev"
