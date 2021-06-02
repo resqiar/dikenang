@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface Props {
-	type: 'button' | 'submit' | 'reset' | undefined
+	type: 'button' | 'submit' | 'reset'
 	bgColor?: string
 	color?: string
 	fontSize?: string
@@ -15,6 +15,7 @@ interface Props {
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	hoverColor?: string
 	hoverBg?: string
 	hoverBoxShadow?: string
 }
@@ -35,6 +36,7 @@ export default function Button(props: Props) {
 			padding={props.padding}
 			margin={props.margin}
 			boxShadow={props.boxShadow}
+			hoverColor={props.hoverColor}
 			hoverBg={props.hoverBg}
 			hoverBoxShadow={props.hoverBoxShadow}
 		>
@@ -56,6 +58,7 @@ const ButtonElement = styled.button<{
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	hoverColor?: string
 	hoverBg?: string
 	hoverBoxShadow?: string
 }>`
@@ -78,5 +81,6 @@ const ButtonElement = styled.button<{
 	&:hover {
 		background: ${(props) => props.hoverBg || undefined};
 		box-shadow: ${(props) => props.hoverBoxShadow || undefined};
+		color: ${(props) => props.hoverColor || undefined};
 	}
 `
