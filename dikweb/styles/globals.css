@@ -51,4 +51,5 @@ a {
 	/* Others */
 	--box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
 	--box-shadow-18: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+	--border: 1px solid rgb(71, 35, 35);
 }
