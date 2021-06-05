@@ -26,6 +26,7 @@ const RightBarWrapper = styled.div`
 	margin: 18px 8px;
 	height: min-content;
 	top: 20px;
+	position: sticky;
 
 	/* How mobile should behave */
 	@media (max-width: 600px) {
