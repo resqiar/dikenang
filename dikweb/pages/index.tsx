@@ -1,8 +1,24 @@
+import { GetStaticProps } from 'next'
 import IndexBody from '../components/body/IndexBody'
 import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
+import { DummyPostType } from '../types/dummypost.type'
+import { dummy } from './api/dummy/dummy'
 
-export default function Home() {
+interface Props {
+	posts: DummyPostType
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+	/**
+	 * Get static data from dummy
+	 * @see './api/dummy/dummy'
+	 */
+	const posts = dummy
+	return { props: { posts } }
+}
+
+export default function Home({ posts }: Props) {
 	return (
 		<div>
 			{/* Default Head Meta Property */}
@@ -12,7 +28,7 @@ export default function Home() {
 			<Header />
 
 			{/* Body Component */}
-			<IndexBody />
+			<IndexBody posts={posts} />
 		</div>
 	)
 }
