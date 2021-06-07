@@ -21,6 +21,8 @@ interface Props {
 	hoverBoxShadow?: string
 	// mobile
 	mobileFontSize?: string
+	// onClick
+	onClick?: () => void
 }
 
 export default function Button(props: Props) {
@@ -45,6 +47,8 @@ export default function Button(props: Props) {
 			hoverBoxShadow={props.hoverBoxShadow}
 			// mobile
 			mobileFontSize={props.mobileFontSize}
+			// Mouse Event
+			onClick={props.onClick}
 		>
 			{props.text}
 		</ButtonElement>

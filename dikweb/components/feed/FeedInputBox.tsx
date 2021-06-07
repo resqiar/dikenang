@@ -2,6 +2,9 @@ import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import Button from '../button/Button'
 import FeedInputButton from './FeedInputButton'
+import { useState } from 'react'
+import ModalDialog from '../modal/ModalDialog'
+import FeedInputDialog from './FeedInputDialog'
 
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
@@ -9,6 +12,9 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled'
 import MicIcon from '@material-ui/icons/Mic'
 
 export default function FeedInputBox() {
+	/** Modal State */
+	const [openModal, setOpenModal] = useState<boolean>(false)
+
 	return (
 		<FeedInputWrapper>
 			<FeedInputBoxWrapper>
@@ -22,7 +28,6 @@ export default function FeedInputBox() {
 				{/* Box Button */}
 				<Button
 					type="button"
-					// Element props
 					text="What interest you to share this day?"
 					border="none"
 					textAlign="start"
@@ -30,13 +35,24 @@ export default function FeedInputBox() {
 					color="var(--font-white-600)"
 					padding="14px 18px"
 					borderRadius="100px"
-					// Hover
 					hoverColor="var(--font-white)"
 					hoverBg="var(--background-dimmed-300)"
 					hoverBoxShadow="var(--box-shadow)"
-					// Mobile
 					mobileFontSize="14px"
+					/** onClick to open modal dialog */
+					onClick={() => {
+						setOpenModal(true)
+					}}
 				/>
+
+				{/* Modal Dialog */}
+				<ModalDialog
+					onOpenCallback={openModal}
+					onCloseCallback={() => setOpenModal(false)}
+				>
+					{/* Feed Input Modal Component */}
+					<FeedInputDialog />
+				</ModalDialog>
 			</FeedInputBoxWrapper>
 
 			{/* Box Attachments */}
