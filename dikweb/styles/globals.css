@@ -21,6 +21,25 @@ a {
 	box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #191b1c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #373b3d;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
 /* global variables */
 :root {
 	/* Background Colors */
@@ -47,6 +66,9 @@ a {
 
 	/* Grey Color */
 	--font-grey: grey;
+
+	/* colors */
+	--color-primary: #8562c7;
 
 	/* Others */
 	--box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
