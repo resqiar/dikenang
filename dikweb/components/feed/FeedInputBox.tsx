@@ -51,7 +51,9 @@ export default function FeedInputBox() {
 					onCloseCallback={() => setOpenModal(false)}
 				>
 					{/* Feed Input Modal Component */}
-					<FeedInputDialog />
+					<FeedInputDialog
+						onCloseCallback={() => setOpenModal(false)}
+					/>
 				</ModalDialog>
 			</FeedInputBoxWrapper>
 
