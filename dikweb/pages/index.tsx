@@ -22,7 +22,7 @@ export default function Home({ posts }: Props) {
 	return (
 		<div>
 			{/* Default Head Meta Property */}
-			<Meta title="dikenang — Keep your memories alive, forever!" />
+			<Meta title="Dashboard — dikenang" />
 
 			{/* Header Component */}
 			<Header />
