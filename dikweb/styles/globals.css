@@ -44,7 +44,9 @@ a {
 :root {
 	/* Background Colors */
 	--background: #0b0e10;
+	--background-dimmed-200: #27313d;
 	--background-dimmed-300: #252c37;
+	--background-dimmed-400: #252c37;
 	--background-dimmed-500: #151920;
 
 	/* Fonts */

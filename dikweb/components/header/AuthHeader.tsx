@@ -15,24 +15,26 @@ export default function AuthHeader() {
 
 			{/* Right side */}
 			<HeaderTextWrapper>
-				{/* Terms and conditions */}
-				<HeaderLinkElement href="/misc/termsandconditions.html">
-					Terms & Conditions
-				</HeaderLinkElement>
+				<HeaderText>
+					{/* Terms and conditions */}
+					<HeaderLinkElement href="/misc/termsandconditions.html">
+						Terms & Conditions
+					</HeaderLinkElement>
 
-				{/* Privacy policy */}
-				<HeaderLinkElement href="/misc/privacypolicy.html">
-					Privacy policy
-				</HeaderLinkElement>
+					{/* Privacy policy */}
+					<HeaderLinkElement href="/misc/privacypolicy.html">
+						Privacy policy
+					</HeaderLinkElement>
 
-				{/* Report bug */}
-				<HeaderLinkElement
-					href="https://github.com/resqiar/dikenang/issues/new/choose"
-					target="_blank"
-					rel="noopener norefer"
-				>
-					Report a bug
-				</HeaderLinkElement>
+					{/* Report bug */}
+					<HeaderLinkElement
+						href="https://github.com/resqiar/dikenang/issues/new/choose"
+						target="_blank"
+						rel="noopener norefer"
+					>
+						Report a bug
+					</HeaderLinkElement>
+				</HeaderText>
 
 				{/* Github */}
 				<HeaderLinkElement
@@ -75,7 +77,15 @@ const HeaderTextWrapper = styled.div`
 	align-items: center;
 	gap: 24px;
 `
+const HeaderText = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 24px;
 
+	@media (max-width: 600px) {
+		display: none;
+	}
+`
 const HeaderLinkElement = styled.a`
 	font-size: 14px;
 	padding: 8px;
@@ -84,9 +94,5 @@ const HeaderLinkElement = styled.a`
 
 	&:hover {
 		color: var(--font-white-800);
-	}
-
-	@media (max-width: 600px) {
-		display: none;
 	}
 `
