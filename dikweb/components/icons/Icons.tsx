@@ -5,6 +5,7 @@ interface Props {
 	Icon: React.ElementType
 	color?: string
 	size?: number
+	onClickCallback?: () => void
 	hasIconButton: boolean
 }
 
@@ -12,7 +13,7 @@ export default function Icons(props: Props) {
 	return (
 		<IconWrapper>
 			{props.hasIconButton ? (
-				<IconButton>
+				<IconButton onClick={props.onClickCallback}>
 					<props.Icon
 						style={{
 							color: props.color ? props.color : '#545b5f',
