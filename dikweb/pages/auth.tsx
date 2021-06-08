@@ -83,7 +83,7 @@ const AuthBodyWrapper = styled.div`
 `
 const AuthBodyCard = styled.div`
 	height: fit-content;
-	width: 450px;
+	width: 400px;
 	margin: 36px 0px 0px 0px;
 	padding: 18px 36px;
 	border-radius: 8px;
@@ -111,5 +111,9 @@ const AuthCardTextSub = styled.p`
 `
 const AuthCardTextLink = styled.a`
 	color: #ff1d1d;
+
+	&:hover {
+		text-decoration: underline;
+	}
 `
 const AuthCardButtonWrapper = styled.div``
