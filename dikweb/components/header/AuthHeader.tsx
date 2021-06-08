@@ -85,4 +85,8 @@ const HeaderLinkElement = styled.a`
 	&:hover {
 		color: var(--font-white-800);
 	}
+
+	@media (max-width: 600px) {
+		display: none;
+	}
 `
