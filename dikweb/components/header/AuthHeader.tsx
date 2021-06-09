@@ -65,6 +65,9 @@ const HeaderWrapper = styled.div`
 	@media (max-width: 600px) {
 		justify-content: space-between;
 		padding: 0px 12px 0px 24px;
+		position: sticky;
+		top: 0;
+		z-index: 0;
 	}
 `
 const HeaderBrand = styled.div`

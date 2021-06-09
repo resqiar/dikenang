@@ -91,10 +91,13 @@ const AuthBodyCard = styled.div`
 	background-color: var(--background-dimmed-500);
 
 	@media (max-width: 600px) {
-		height: 100%;
+		height: 102%; // 102% when it is scrolled up; border radius will be occupied
 		width: 100%;
 		margin: 0px;
+		border-top-right-radius: 25px;
+		border-top-left-radius: 25px;
 		padding: 18px 24px;
+		z-index: 1;
 	}
 `
 const AuthCardTextWrapper = styled.div`
