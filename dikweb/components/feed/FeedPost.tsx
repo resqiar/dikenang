@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import Icons from '../icons/Icons'
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
-import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
 import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
 import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
@@ -28,7 +27,6 @@ export default function FeedPost({
 	caption,
 	imageSrc,
 	upSum,
-	downSum,
 	commentSum,
 }: Props) {
 	return (
@@ -80,19 +78,6 @@ export default function FeedPost({
 							}}
 						/>
 						<VotesAltText>{upSum}</VotesAltText>
-					</VotesWrapper>
-
-					<VotesWrapper>
-						{/* Down votes */}
-						<ThumbDownAltIcon
-							style={{
-								color: 'var(--font-white-500)',
-								width: '15px',
-								height: '18px',
-								border: 'none',
-							}}
-						/>
-						<VotesAltText>{downSum}</VotesAltText>
 					</VotesWrapper>
 
 					<VotesWrapper>
