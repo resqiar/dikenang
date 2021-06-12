@@ -1,8 +1,25 @@
 {
+	"version": "0.0.0-development",
+	"name": "dikenang",
 	"private": true,
-	"workspaces": [
-		"dikser",
-		"dikweb",
-		"dikmob"
-	]
+	"workspaces": {
+		"packages": [
+			"dikser",
+			"dikweb",
+			"dikmob"
+		],
+		"nohoist": [
+			"**"
+		]
+	},
+	"scripts": {
+		"semantic-release": "semantic-release --branches production"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/resqiar/dikenang.git"
+	},
+	"devDependencies": {
+		"semantic-release": "^17.4.3"
+	}
 }
