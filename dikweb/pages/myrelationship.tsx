@@ -18,7 +18,11 @@ export default function myrelationship() {
 			<BodyWrapper>
 				<ProfileDetailCardWrapper>
 					{/* Heading */}
-					<Heading color="var(--font-white-800)" fontSize="24px">
+					<Heading
+						color="var(--font-white-800)"
+						fontSize="24px"
+						padding="0px 8px"
+					>
 						Your Profile
 					</Heading>
 
@@ -36,7 +40,11 @@ export default function myrelationship() {
 					</Card>
 
 					{/* Heading */}
-					<Heading color="var(--font-white-800)" fontSize="24px">
+					<Heading
+						color="var(--font-white-800)"
+						fontSize="24px"
+						padding="0px 8px"
+					>
 						Your Partner
 					</Heading>
 
@@ -93,6 +101,11 @@ const ProfileDetailCardWrapper = styled.div`
 	flex: 0.8;
 	flex-direction: column;
 	gap: 18px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		flex: 1;
+	}
 `
 const RightBarWrapper = styled.div`
 	margin: 48px 8px 4px 8px;
@@ -100,4 +113,9 @@ const RightBarWrapper = styled.div`
 	display: flex;
 	flex: 0.2;
 	gap: 18px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		display: none;
+	}
 `
