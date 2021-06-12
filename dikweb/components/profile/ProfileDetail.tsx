@@ -72,15 +72,33 @@ const ProfileDetailBanner = styled.img`
 	object-fit: cover;
 	border-top-left-radius: 8px;
 	border-top-right-radius: 8px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		border-radius: 0px;
+		height: 150px;
+	}
 `
 const ProfileDetailAvatarWrapper = styled.div`
 	margin: -100px 8px 0px 24px;
 	display: flex;
-	align-items: start;
+	justify-content: start;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		justify-content: center;
+		margin: -100px 8px 0px 0px;
+	}
 `
 const ProfileDetailText = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: start;
+	align-items: flex-start;
 	margin: -4px 0px 8px 32px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		align-items: center;
+		margin: -4px 0px 8px 0px;
+	}
 `
