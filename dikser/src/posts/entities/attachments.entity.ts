@@ -1,11 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql'
-import {
-	Column,
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
-} from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 @ObjectType()
@@ -22,7 +16,7 @@ export class Attachments {
 	@Column()
 	extensions: string
 
-	@Field((type) => [String])
+	@Field((_) => [String])
 	@Column('text', { default: [], array: true })
 	uri: string[]
 }

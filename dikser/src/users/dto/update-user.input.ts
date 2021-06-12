@@ -21,9 +21,6 @@ export class UpdateUserInput {
 	email?: string
 
 	@Field({ nullable: true })
-	access_token?: string
-
-	@Field({ nullable: true })
 	bio?: string
 
 	@Field({ nullable: true })

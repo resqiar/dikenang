@@ -1,63 +1,44 @@
 import {
-	BadRequestException,
 	forwardRef,
 	Inject,
 	Injectable,
-	NotFoundException,
-	UnauthorizedException,
+	RequestTimeoutException,
 } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-
-import * as bcrypt from 'bcrypt'
-import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
+import { GoogleDTO } from './dto/google.dto'
+import Randomize from './utils/Randomize'
 
 @Injectable()
 export class AuthService {
 	constructor(
 		@Inject(forwardRef(() => UsersService))
-		private UsersService: UsersService,
-		private jwtService: JwtService
+		private usersService: UsersService
 	) {}
 
-	async validateUser(username: string, password: string): Promise<User> {
-		const selectedUser = await this.UsersService.findByUsername(username)
-		const hashedPassword = await this.UsersService.getCred(username)
-
-		/**
-		 * Compare Input Password with Hashed Password
-		 * Using bcrypt
-		 */
-		const isValid = await bcrypt.compare(password, hashedPassword.password)
-
-		/**
-		 * If password matches with hashed password,
-		 * return user data, otherwise return UnauthorizedException
-		 */
-		if (isValid) {
-			/**
-			 * Generate token from JWT package
-			 */
-			const accessToken = await this.generateToken(selectedUser)
-
-			/**
-			 * @Return user with updated access_token
-			 */
-			return await this.UsersService.update(selectedUser.id, {
-				access_token: accessToken,
-			})
-		} else {
-			throw new BadRequestException('Invalid given username/password')
+	async googleAuth(res: GoogleDTO) {
+		if (!res) {
+			return RequestTimeoutException
 		}
-	}
 
-	/**
-	 * @returns token assigned to current
-	 * authenticated user with payload of
-	 * id and username
-	 */
-	async generateToken(user: User) {
-		const payload = { id: user.id, username: user.username }
-		return await this.jwtService.signAsync(payload)
+		/**
+		 * Search for available user in database;
+		 * if none exist => create new
+		 * if exist => return back
+		 */
+		const user = await this.usersService.findOauth(res.oauth_id)
+
+		if (!user) {
+			//  Create new user with the data from google
+			return await this.usersService.create({
+				oauth_id: res.oauth_id,
+				email: res.email,
+				// create random username
+				// will generate something like 'res_phc56FWNRX2w'
+				username: Randomize(res.given_name),
+				avatar_url: res.profile_url,
+			})
+		}
+
+		return user
 	}
 }

@@ -13,7 +13,7 @@ export class CreateAttachmentInput {
 	@IsIn(['mp4', 'jpg', 'png', 'gif', 'mp3'])
 	extensions: string
 
-	@Field((type) => [String])
+	@Field((_) => [String])
 	@IsOptional()
 	@ArrayNotEmpty()
 	uri: string[]
