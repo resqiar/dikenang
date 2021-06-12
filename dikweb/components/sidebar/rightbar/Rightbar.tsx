@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import SidebarCard from '../container/SidebarCard'
+import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
 
@@ -7,13 +7,13 @@ export default function Rightbar() {
 	return (
 		<RightBarWrapper>
 			{/* Card */}
-			<SidebarCard bgColor="var(--background-dimmed-500)">
+			<Card bgColor="var(--background-dimmed-500)">
 				<SidebarHeader bannerSrc="/images/bg-3.png" />
 				<SidebarHeaderProfile
 					username="dikenang.official"
 					description="Hello and welcome to dikenang!"
 				/>
-			</SidebarCard>
+			</Card>
 		</RightBarWrapper>
 	)
 }
