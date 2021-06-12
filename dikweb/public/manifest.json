@@ -1,0 +1,15 @@
+{
+	"name": "dikenang — Keep your memories alive, forever!",
+	"short_name": "dikenang.",
+	"icons": [
+		{
+			"src": "dikenang-logo.png",
+			"type": "image/png",
+			"sizes": "500x500"
+		}
+	],
+	"start_url": "/",
+	"theme_color": "#000000",
+	"background_color": "#ffffff",
+	"display": "standalone"
+}

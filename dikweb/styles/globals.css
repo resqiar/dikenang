@@ -1,12 +1,13 @@
+/* default font for dikenang. (Inter) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 html,
 body {
+	background: var(--background);
 	padding: 0;
 	margin: 0;
-	font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-		sans-serif;
+	min-height: 100vh;
+	font-family: var(--font-family);
 }
 
 a {
@@ -18,4 +19,61 @@ a {
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #191b1c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #373b3d;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* global variables */
+:root {
+	/* Background Colors */
+	--background: #0b0e10;
+	--background-dimmed-200: #27313d;
+	--background-dimmed-300: #252c37;
+	--background-dimmed-400: #252c37;
+	--background-dimmed-500: #151920;
+
+	/* Fonts */
+	--font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+		Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+		sans-serif;
+
+	/* White Color */
+	--font-white: rgba(255, 255, 255);
+	--font-white-900: rgba(255, 255, 255, 0.9);
+	--font-white-800: rgba(255, 255, 255, 0.8);
+	--font-white-700: rgba(255, 255, 255, 0.7);
+	--font-white-600: rgba(255, 255, 255, 0.6);
+	--font-white-500: rgba(255, 255, 255, 0.5);
+	--font-white-400: rgba(255, 255, 255, 0.4);
+	--font-white-300: rgba(255, 255, 255, 0.3);
+	--font-white-200: rgba(255, 255, 255, 0.2);
+	--font-white-100: rgba(255, 255, 255, 0.1);
+
+	/* Grey Color */
+	--font-grey: grey;
+
+	/* colors */
+	--color-primary: #8562c7;
+
+	/* Others */
+	--box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+	--box-shadow-18: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
+	--border: 1px solid rgb(71, 35, 35);
 }
