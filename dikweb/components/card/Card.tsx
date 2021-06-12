@@ -7,12 +7,7 @@ interface Props {
 	hoverBg?: string
 }
 
-export default function SidebarCard({
-	children,
-	bgColor,
-	hasShadow,
-	hoverBg,
-}: Props) {
+export default function Card({ children, bgColor, hasShadow, hoverBg }: Props) {
 	return (
 		<SideBarCardWrapper
 			bgColor={bgColor}
