@@ -33,7 +33,7 @@ async function bootstrap() {
 		session({
 			cookie: {
 				maxAge: 86400000, // 1 day
-				secure: true, // transmit only over https
+				secure: process.env.NODE_ENV === 'production', // transmit only over https
 				httpOnly: true, // prevent client JS reading the cookie
 			},
 			secret: process.env.SESSION_KEY!,
