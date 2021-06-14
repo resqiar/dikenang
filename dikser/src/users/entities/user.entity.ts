@@ -32,7 +32,10 @@ export class User {
 	email: string
 
 	@Field({ nullable: true })
-	@Column('text', { nullable: true, default: 'Hi there!' })
+	@Column('text', {
+		nullable: true,
+		default: 'Hello and welcome to dikenang!',
+	})
 	bio: string
 
 	@Field({ nullable: true })
