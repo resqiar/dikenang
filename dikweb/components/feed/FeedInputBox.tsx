@@ -5,13 +5,18 @@ import FeedInputButton from './FeedInputButton'
 import { useState } from 'react'
 import ModalDialog from '../modal/ModalDialog'
 import FeedInputDialog from './FeedInputDialog'
+import { UserProfileType } from '../../types/profile.type'
 
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled'
 import MicIcon from '@material-ui/icons/Mic'
 
-export default function FeedInputBox() {
+interface Props {
+	profile: UserProfileType
+}
+
+export default function FeedInputBox({ profile }: Props) {
 	/** Modal State */
 	const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -21,7 +26,7 @@ export default function FeedInputBox() {
 				{/* Avatar */}
 				<FeedInputBoxAvatarWrapper>
 					<IconButton>
-						<Avatar />
+						<Avatar src={profile.avatar_url} />
 					</IconButton>
 				</FeedInputBoxAvatarWrapper>
 
@@ -52,6 +57,7 @@ export default function FeedInputBox() {
 				>
 					{/* Feed Input Modal Component */}
 					<FeedInputDialog
+						profile={profile}
 						onCloseCallback={() => setOpenModal(false)}
 					/>
 				</ModalDialog>

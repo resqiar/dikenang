@@ -2,6 +2,7 @@ import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import FeedInputButton from './FeedInputButton'
 import Button from '../button/Button'
+import { UserProfileType } from '../../types/profile.type'
 
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
@@ -10,6 +11,7 @@ import MicIcon from '@material-ui/icons/Mic'
 import CloseIcon from '@material-ui/icons/Close'
 
 interface Props {
+	profile: UserProfileType
 	onCloseCallback: () => void
 }
 
@@ -20,12 +22,12 @@ export default function FeedInputDialog(props: Props) {
 				<FeedInputProfileWrapper>
 					{/* Avatar */}
 					<IconButton>
-						<Avatar />
+						<Avatar src={props.profile.avatar_url} />
 					</IconButton>
 
 					{/* Username */}
 					<FeedInputDialogUsername>
-						dikenang.dev
+						{props.profile.username}
 					</FeedInputDialogUsername>
 				</FeedInputProfileWrapper>
 

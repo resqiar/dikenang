@@ -9,8 +9,13 @@ import {
 import Input from '../input/Input'
 import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
+import { UserProfileType } from '../../types/profile.type'
 
-export default function Header() {
+interface Props {
+	profile: UserProfileType
+}
+
+export default function Header({ profile }: Props) {
 	return (
 		<HeaderWrapper>
 			{/* Left Side */}
@@ -45,7 +50,7 @@ export default function Header() {
 				<HeaderAvatarWrapper>
 					{/* Avatar Icon */}
 					<IconButton>
-						<Avatar />
+						<Avatar src={profile.avatar_url} />
 					</IconButton>
 				</HeaderAvatarWrapper>
 			</HeaderIconsWrapper>

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { DummyPostType } from '../../types/dummypost.type'
+import { UserProfileType } from '../../types/profile.type'
 import FeedInputBox from '../feed/FeedInputBox'
 import FeedPost from '../feed/FeedPost'
 import Leftbar from '../sidebar/leftbar/Leftbar'
@@ -7,18 +8,19 @@ import Rightbar from '../sidebar/rightbar/Rightbar'
 
 interface Props {
 	posts: DummyPostType
+	profile: UserProfileType
 }
 
-export default function IndexBody({ posts }: Props) {
+export default function IndexBody({ posts, profile }: Props) {
 	return (
 		<IndexBodyWrapper>
 			{/* Sidebar => Left */}
-			<Leftbar />
+			<Leftbar profile={profile} />
 
 			{/* Post Feed => Middle */}
 			<IndexBodyMidWrapper>
 				{/* Feed Input Box */}
-				<FeedInputBox />
+				<FeedInputBox profile={profile} />
 
 				{/* Feed Posts */}
 				{posts?.map((value: any) => (

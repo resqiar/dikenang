@@ -1,17 +1,22 @@
 import styled from 'styled-components'
+import { UserProfileType } from '../../../types/profile.type'
 import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
 
-export default function Leftbar() {
+interface Props {
+	profile: UserProfileType
+}
+
+export default function Leftbar({ profile }: Props) {
 	return (
 		<LeftBarWrapper>
 			{/* Card */}
 			<Card bgColor="var(--background-dimmed-500)">
-				<SidebarHeader />
+				<SidebarHeader avatarSrc={profile.avatar_url} />
 				<SidebarHeaderProfile
-					username="dikenang.dev"
-					description="Hello and welcome to dikenang!"
+					username={profile.username}
+					description={profile.bio}
 				/>
 			</Card>
 		</LeftBarWrapper>
