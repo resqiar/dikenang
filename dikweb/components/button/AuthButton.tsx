@@ -5,11 +5,16 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 interface Props {
 	fontAwesomeIcon: IconProp
 	children: JSX.Element | JSX.Element[] | string
+	onClickCallback?: () => void
 }
 
-export default function AuthButton({ children, fontAwesomeIcon }: Props) {
+export default function AuthButton({
+	children,
+	fontAwesomeIcon,
+	onClickCallback,
+}: Props) {
 	return (
-		<AuthButtonElement>
+		<AuthButtonElement onClick={onClickCallback}>
 			<AuthButtonChildrenWrapper>
 				<FontAwesomeIcon
 					width="25"

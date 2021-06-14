@@ -45,7 +45,12 @@ export default function AuthPage() {
 					{/* Auth Button */}
 					<AuthCardButtonWrapper>
 						{/* Google */}
-						<AuthButton fontAwesomeIcon={faGoogle}>
+						<AuthButton
+							fontAwesomeIcon={faGoogle}
+							onClickCallback={() =>
+								(window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URI}/google`)
+							}
+						>
 							Google
 						</AuthButton>
 
