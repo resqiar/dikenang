@@ -35,7 +35,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
 	const posts = dummy
 	/**
 	 * Check if cookie is exist
-	 * if not => redirect to login
+	 * if not => redirect to login page
 	 */
 	const cookie = ctx.req?.headers.cookie
 
@@ -49,7 +49,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
 	/**
 	 * Get User data profile from server
-	 * if not exist => redirect to login
+	 * if not exist => redirect to login page
 	 */
 	const data = await checkAuth(ctx)
 
