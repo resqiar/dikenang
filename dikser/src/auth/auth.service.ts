@@ -29,7 +29,7 @@ export class AuthService {
 
 		if (!user) {
 			//  Create new user with the data from google
-			return await this.usersService.create({
+			const createdUser = await this.usersService.create({
 				oauth_id: res.oauth_id,
 				email: res.email,
 				// create random username
@@ -37,8 +37,24 @@ export class AuthService {
 				username: Randomize(res.given_name),
 				avatar_url: res.profile_url,
 			})
+
+			// return back to user
+			return {
+				id: createdUser.id,
+				email: createdUser.email,
+				username: createdUser.username,
+				avatar_url: createdUser.avatar_url,
+				bio: createdUser.bio,
+			}
 		}
 
-		return user
+		// return back to user
+		return {
+			id: user.id,
+			email: user.email,
+			username: user.username,
+			avatar_url: user.avatar_url,
+			bio: user.bio,
+		}
 	}
 }

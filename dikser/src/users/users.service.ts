@@ -46,6 +46,7 @@ export class UsersService {
 		 */
 		return await this.userRepository.findOne({
 			where: { oauth_id: oauthId },
+			select: ['id', 'email', 'username', 'avatar_url', 'bio'],
 		})
 	}
 
