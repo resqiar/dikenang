@@ -39,7 +39,7 @@ export class AuthController {
 	isLoggedIn(@Req() req: Request, @Res() res: Response) {
 		// Send back user information when they are logged in
 		const user = req?.user
-		// if (!user) return res.sendStatus(403)
+		if (!user) return res.sendStatus(403)
 		res.send(user)
 	}
 }
