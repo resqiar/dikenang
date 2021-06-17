@@ -24,8 +24,11 @@ async function bootstrap() {
 	})
 
 	// Redis config
-	const REDIS_URI = process.env.REDIS_URL || 'redis://localhost'
-	const redisClient = redis.createClient({ url: REDIS_URI })
+	const REDIS_URI = process.env.REDIS_TLS_URL || 'redis://localhost'
+	const redisClient = redis.createClient({
+		url: REDIS_URI,
+		tls: { rejectUnauthorized: false },
+	})
 	const RedisStore = connectRedis(session)
 
 	// Express session config
