@@ -43,6 +43,7 @@ async function bootstrap() {
 			},
 			secret: process.env.SESSION_KEY!,
 			resave: false,
+			proxy: true,
 			saveUninitialized: false,
 			store: new RedisStore({
 				client: redisClient as Client,
