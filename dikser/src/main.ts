@@ -19,7 +19,7 @@ async function bootstrap() {
 	 */
 	app.useGlobalPipes(new ValidationPipe())
 	app.enableCors({
-		origin: true,
+		origin: [process.env.CLIENT_ORIGIN!],
 		credentials: true,
 	})
 
@@ -36,13 +36,13 @@ async function bootstrap() {
 		session({
 			cookie: {
 				maxAge: 86400000, // 1 day
-				secure: true, // transmit only over https
+				secure: process.env.NODE_ENV === 'production', // transmit only over https
 				httpOnly: true, // prevent client JS reading the cookie
-				sameSite: 'none',
+				sameSite:
+					process.env.NODE_ENV === 'production' ? 'none' : 'lax',
 			},
 			secret: process.env.SESSION_KEY!,
 			resave: false,
-			proxy: true,
 			saveUninitialized: false,
 			store: new RedisStore({
 				client: redisClient as Client,
