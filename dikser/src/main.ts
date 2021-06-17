@@ -19,7 +19,7 @@ async function bootstrap() {
 	 */
 	app.useGlobalPipes(new ValidationPipe())
 	app.enableCors({
-		origin: [process.env.CLIENT_ORIGIN!, 'http://localhost:3001'],
+		origin: true,
 		credentials: true,
 	})
 
@@ -34,12 +34,12 @@ async function bootstrap() {
 	// Express session config
 	app.use(
 		session({
-			// cookie: {
-			// 	maxAge: 86400000, // 1 day
-			// 	secure: true, // transmit only over https
-			// 	httpOnly: true, // prevent client JS reading the cookie
-			// 	sameSite: 'none',
-			// },
+			cookie: {
+				maxAge: 86400000, // 1 day
+				secure: true, // transmit only over https
+				httpOnly: true, // prevent client JS reading the cookie
+				sameSite: 'none',
+			},
 			secret: process.env.SESSION_KEY!,
 			resave: false,
 			proxy: true,
