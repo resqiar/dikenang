@@ -24,10 +24,10 @@ async function bootstrap() {
 	})
 
 	// Redis config
-	const REDIS_URI = process.env.REDIS_TLS_URL || 'redis://localhost'
+	const REDIS_URI = process.env.REDIS_TLS_URL
 	const redisClient = redis.createClient({
 		url: REDIS_URI,
-		tls: { rejectUnauthorized: false },
+		tls: process.env.NODE_ENV === 'production' ? true : false,
 	})
 	const RedisStore = connectRedis(session)
 
@@ -38,8 +38,7 @@ async function bootstrap() {
 				maxAge: 86400000, // 1 day
 				secure: process.env.NODE_ENV === 'production', // transmit only over https
 				httpOnly: true, // prevent client JS reading the cookie
-				sameSite:
-					process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+				sameSite: 'lax',
 			},
 			secret: process.env.SESSION_KEY!,
 			resave: false,
