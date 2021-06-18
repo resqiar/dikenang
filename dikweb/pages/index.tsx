@@ -49,7 +49,7 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
 	/**
 	 * Get User data profile from server
-	 * if not exist => redirect to login
+	 * if not exist => redirect to login page
 	 */
 	const data = await checkAuth(ctx)
 
