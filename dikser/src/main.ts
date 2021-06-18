@@ -27,7 +27,9 @@ async function bootstrap() {
 	const REDIS_URI = process.env.REDIS_TLS_URL
 	const redisClient = redis.createClient({
 		url: REDIS_URI,
-		tls: process.env.NODE_ENV === 'production' ? true : false,
+		tls: {
+			rejectUnauthorized: false,
+		},
 	})
 	const RedisStore = connectRedis(session)
 
