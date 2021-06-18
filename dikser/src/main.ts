@@ -42,6 +42,7 @@ async function bootstrap() {
 				httpOnly: true, // prevent client JS reading the cookie
 				sameSite: 'lax',
 			},
+			proxy: true,
 			secret: process.env.SESSION_KEY!,
 			resave: false,
 			saveUninitialized: false,
