@@ -13,7 +13,6 @@ export class SessionSerializer extends PassportSerializer {
 		user: User,
 		done: (err: Error | null, user: User | null) => void
 	) {
-		console.log('USER', user)
 		done(null, user)
 	}
 
@@ -27,7 +26,6 @@ export class SessionSerializer extends PassportSerializer {
 		 * if not => do nothing
 		 */
 		const userDB = await this.usersService.findOauth(user.oauth_id)
-		console.log('USER DB', userDB)
 		return userDB ? done(null, userDB) : done(null, null)
 	}
 }

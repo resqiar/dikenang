@@ -20,7 +20,6 @@ export class AuthController {
 		 * @See - auth/strategies/google
 		 */
 		const response = await this.authService.googleAuth(req.user)
-		console.log(response)
 		if (response) return res.redirect(process.env.CLIENT_ORIGIN!)
 		res.sendStatus(400)
 	}
@@ -40,7 +39,6 @@ export class AuthController {
 	isLoggedIn(@Req() req: Request, @Res() res: Response) {
 		// Send back user information when they are logged in
 		const user = req?.user
-		console.log(user)
 		if (!user) return res.sendStatus(403)
 		res.send(user)
 	}
