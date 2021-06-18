@@ -37,10 +37,11 @@ async function bootstrap() {
 	app.use(
 		session({
 			cookie: {
+				domain: process.env.TOP_DOMAIN_CLIENT_ORIGIN! || undefined,
 				maxAge: 86400000, // 1 day
 				secure: process.env.NODE_ENV === 'production', // transmit only over https
 				httpOnly: true, // prevent client JS reading the cookie
-				sameSite: 'none',
+				sameSite: 'lax',
 			},
 			proxy: true,
 			secret: process.env.SESSION_KEY!,
