@@ -4,17 +4,18 @@
 -   Typescript
 -   GraphQL
 -   PostgreSQL
+-   OAuth
 -   Typeorm
 -   Websocket
 
 ## Server Milestones
 
--   [x] Create User with email and password
--   [x] Login with email and password
--   [x] JWT Token
+-   [x] Login with social media (google, github, twitter, and discord)
 -   [x] Create Post with/without attachments(imageUrl, videoUrl, etc)
--   [ ] Verify email
 -   [ ] Signup with google
+-   [ ] Signup with github
+-   [ ] Signup with discord
+-   [ ] Signup with twitter
 -   [ ] Each Post should have like/upvote and comment fields
 -   [ ] Websocket connections
 -   [ ] User should update their bio/avatarUrl in real-time
