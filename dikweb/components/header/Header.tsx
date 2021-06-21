@@ -102,11 +102,8 @@ export default function Header({ profile }: Props) {
 
 				<HeaderAvatarWrapper>
 					{/* Avatar Icon */}
-					<IconButton>
-						<Avatar
-							onClick={handleClick}
-							src={profile.avatar_url}
-						/>
+					<IconButton onClick={handleClick}>
+						<Avatar src={profile.avatar_url} />
 					</IconButton>
 
 					{/* Menu Tab */}
