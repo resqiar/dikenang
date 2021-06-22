@@ -50,6 +50,12 @@ type DeletePostResponse {
   code: Float!
 }
 
+type DeleteRelationshipResponse {
+  previous_data: Relationship!
+  status: String!
+  code: Float!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
@@ -63,6 +69,7 @@ type Mutation {
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
   createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
+  deleteRelationship: DeleteRelationshipResponse!
 }
 
 input UpdateUserInput {

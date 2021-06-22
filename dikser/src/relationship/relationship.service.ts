@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UsersService } from '../users/users.service'
 import { CreateRelationshipInput } from './dto/create-relationship.input'
+import { DeleteRelationshipResponse } from './dto/delete-relationship.dto'
 import { Relationship } from './entities/relationship.entity'
 
 @Injectable()
@@ -28,15 +29,15 @@ export class RelationshipService {
 		)
 
 		// if current user already has relationship, throw an error
-		if (currentUser.relationship.id)
-			throw new BadRequestException('you already has a relationship')
+		if (currentUser.relationship?.id)
+			throw new BadRequestException('You already have a relationship')
 
 		// if there is no target, throw an error
-		if (!partnerTarget) throw new NotFoundException('no target found')
+		if (!partnerTarget) throw new NotFoundException()
 
 		// if target already has relationship, throw an error
-		if (partnerTarget.relationship.id)
-			throw new BadRequestException('target already has relationship')
+		if (partnerTarget.relationship?.id)
+			throw new BadRequestException('Target already has relationship')
 
 		// create relationship if everything confirmed
 		const createdRelationship = this.relationshipRepository.create({
@@ -48,5 +49,48 @@ export class RelationshipService {
 
 		// return back data successfully
 		return await this.relationshipRepository.save(createdRelationship)
+	}
+
+	async delete(userId: string) {
+		const currentUser = await this.usersService.findById(userId)
+
+		// if there is no relationship
+		if (!currentUser.relationship)
+			throw new BadRequestException(
+				"You don't have relationship just yet"
+			)
+
+		// track previous relationship
+		const previousRelationship = await this.findById(
+			currentUser.relationship.id
+		)
+
+		// delete relationship from database
+		await this.relationshipRepository.delete(previousRelationship.id)
+
+		/**
+		 * Return formatted delete result
+		 * Which is highly customizeable response
+		 * @see delete-relationship.dto.ts
+		 */
+		return new DeleteRelationshipResponse(
+			previousRelationship,
+			'DELETED',
+			200
+		)
+	}
+
+	async findById(postId: string) {
+		try {
+			return await this.relationshipRepository.findOneOrFail(postId, {
+				relations: ['partnership'],
+			})
+		} catch (e) {
+			/**
+			 * @Error here means that client fails to get
+			 * correct data from the database/data not found
+			 */
+			throw new NotFoundException(e.message)
+		}
 	}
 }

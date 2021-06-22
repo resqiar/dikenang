@@ -121,8 +121,12 @@ export class PostsService {
 
 	async remove(currentUser: User, postId: string) {
 		try {
-			const relatedPost = await this.postsRepository.findOneOrFail(postId)
-
+			const relatedPost = await this.postsRepository.findOneOrFail(
+				postId,
+				{
+					relations: ['author'],
+				}
+			)
 			/**
 			 * Check if current post is related to
 			 * the current user, if not, throw an exception

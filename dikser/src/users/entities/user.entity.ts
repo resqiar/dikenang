@@ -57,6 +57,12 @@ export class User {
 	contents: Post[]
 
 	@Field((_) => Relationship)
-	@ManyToOne((_) => Relationship, (relationship: Relationship) => relationship.partnership)
+	@ManyToOne(
+		(_) => Relationship,
+		(relationship: Relationship) => relationship.partnership,
+		{
+			onDelete: 'SET NULL',
+		}
+	)
 	relationship: Relationship
 }

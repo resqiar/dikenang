@@ -35,6 +35,6 @@ export class Relationship {
 	updated_at: Date
 
 	@Field((_) => [User], { nullable: true })
-	@OneToMany((_) => User, (partnerhip: User) => partnerhip.relationship)
+	@OneToMany((_) => User, (partnership: User) => partnership.relationship)
 	partnership: User[]
 }
