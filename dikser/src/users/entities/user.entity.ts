@@ -3,11 +3,13 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
 import { Post } from '../../posts/entities/post.entity'
+import { Relationship } from '../../relationship/entities/relationship.entity'
 
 @ObjectType()
 @Entity()
@@ -53,4 +55,8 @@ export class User {
 	@Field((_) => [Post], { nullable: true })
 	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
+
+	@Field((_) => Relationship)
+	@ManyToOne((_) => Relationship, (relationship: Relationship) => relationship.partnership)
+	relationship: Relationship
 }

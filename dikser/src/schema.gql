@@ -23,6 +23,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Relationship {
+  id: String!
+  type: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  partnership: [User!]
+}
+
 type User {
   id: String!
   username: String!
@@ -32,6 +41,7 @@ type User {
   created_at: DateTime
   updated_at: DateTime
   contents: [Post!]
+  relationship: Relationship!
 }
 
 type DeletePostResponse {
@@ -52,6 +62,7 @@ type Mutation {
   createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
+  createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
 }
 
 input UpdateUserInput {
@@ -74,4 +85,10 @@ input CreatePostInput {
 input UpdatePostInput {
   caption: String
   id: String!
+}
+
+input CreateRelationshipInput {
+  type: String!
+  description: String!
+  target: String!
 }

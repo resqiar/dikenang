@@ -7,6 +7,7 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { PassportModule } from '@nestjs/passport'
+import { RelationshipModule } from './relationship/relationship.module';
 @Module({
 	imports: [
 		DatabaseModule,
@@ -37,6 +38,7 @@ import { PassportModule } from '@nestjs/passport'
 		}),
 		AuthModule,
 		PostsModule,
+		RelationshipModule,
 	],
 	controllers: [],
 	providers: [],
