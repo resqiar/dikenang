@@ -8,5 +8,6 @@ import { UsersModule } from '../users/users.module'
 @Module({
 	imports: [TypeOrmModule.forFeature([Relationship]), UsersModule],
 	providers: [RelationshipResolver, RelationshipService],
+	exports: [RelationshipService],
 })
 export class RelationshipModule {}
