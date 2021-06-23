@@ -13,6 +13,7 @@ import { PassportModule } from '@nestjs/passport'
 		UsersModule,
 		PassportModule.register({ session: true }),
 		GraphQLModule.forRoot({
+			playground: process.env.NODE_ENV !== 'production',
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 			cors: {
 				origin: [process.env.CLIENT_ORIGIN || 'http://localhost:3001'],
