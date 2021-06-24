@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 interface Props {
 	type: 'button' | 'submit' | 'reset'
@@ -15,6 +15,7 @@ interface Props {
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	disabled?: boolean
 	// hover
 	hoverColor?: string
 	hoverBg?: string
@@ -41,6 +42,7 @@ export default function Button(props: Props) {
 			padding={props.padding}
 			margin={props.margin}
 			boxShadow={props.boxShadow}
+			disabled={props.disabled}
 			// hover
 			hoverColor={props.hoverColor}
 			hoverBg={props.hoverBg}
@@ -68,6 +70,7 @@ const ButtonElement = styled.button<{
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	disabled?: boolean
 	// hover
 	hoverColor?: string
 	hoverBg?: string
@@ -96,6 +99,18 @@ const ButtonElement = styled.button<{
 		box-shadow: ${(props) => props.hoverBoxShadow || undefined};
 		color: ${(props) => props.hoverColor || undefined};
 	}
+
+	/* If button is disabled */
+	${(props) =>
+		props.disabled &&
+		css`
+			color: var(--font-white-100) !important;
+			cursor: not-allowed;
+			:hover {
+				background: transparent;
+				box-shadow: none;
+			}
+		`}
 
 	/* How mobile should behave */
 	@media (max-width: 600px) {
