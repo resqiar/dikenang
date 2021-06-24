@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import FeedInputButton from './FeedInputButton'
@@ -9,6 +10,9 @@ import MenuBookIcon from '@material-ui/icons/MenuBook'
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled'
 import MicIcon from '@material-ui/icons/Mic'
 import CloseIcon from '@material-ui/icons/Close'
+import DeleteSweepTwoToneIcon from '@material-ui/icons/DeleteSweepTwoTone'
+import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded'
+import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 
 interface Props {
 	profile: UserProfileType
@@ -16,6 +20,77 @@ interface Props {
 }
 
 export default function FeedInputDialog(props: Props) {
+	/**
+	 * @Caption
+	 * Handle and store user caption input
+	 * e.g determine if caption contains only whitespace
+	 */
+	const [caption, setCaption] = useState<string | null>(null)
+
+	/**
+	 * @ImageBlob
+	 * Handle and store user raw image input
+	 * e.g upload raw image to cloudinary
+	 */
+	const [rawImage, setRawImage] = useState<Blob | null>(null)
+
+	/**
+	 * @ImagePreview
+	 * Handle and store user image input
+	 * e.g show the preview of image that is just uploaded
+	 */
+	const [imagePreview, setImagePreview] = useState<
+		string | ArrayBuffer | null
+	>(null)
+
+	/**
+	 * @PreviewMinimized @MobileOnly
+	 * Handle minimize attachments preview
+	 * to save more space to write caption on mobile
+	 */
+	const [previewMinimized, setPreviewMinimized] = useState<boolean>(false)
+
+	/**
+	 * @ImageRef
+	 * Handle reference to <input> type image
+	 * i.e this hook is used to perform event to the element
+	 * e.g click, double click, etc
+	 */
+	const inputImageRef = useRef<HTMLInputElement | null>(null)
+
+	/**
+	 * @function handlePostSubmit()
+	 * Handle everything to upload post to database.
+	 * First thing first, upload all media to cloudinary,
+	 * Submit back to backend as a string URL
+	 */
+	const handlePostSubmit = () => {
+		if (!caption || !caption.replace(/\s/g, '').length) return
+	}
+
+	/**
+	 * This @useEffect hook is used to track uploaded media
+	 * And automatically re-render components
+	 * When some sort of media uploaded changes
+	 */
+	useEffect(() => {
+		if (rawImage) {
+			/**
+			 * If user uploaded image
+			 * Set the media to @useState hook to be
+			 * Used and rendered with image tag
+			 */
+			const reader = new FileReader()
+			reader.onloadend = () => {
+				// set image preview URL
+				setImagePreview(reader.result)
+			}
+			reader.readAsDataURL(rawImage)
+		} else {
+			setImagePreview(null)
+		}
+	}, [rawImage])
+
 	return (
 		<FeedInputDialogWrapper>
 			<FeedInputDialogHeader>
@@ -41,29 +116,108 @@ export default function FeedInputDialog(props: Props) {
 				{/* Text Area Input */}
 				<TextAreaElement
 					autoFocus={true}
+					onChange={(event) => setCaption(event.target.value)}
 					placeholder="What interest you to share this day?"
 				/>
 
-				{/* Preview Attachments */}
-				<FeedinputDialogPreview>
-					<FeedInputDialogPreviewText>
-						Attachment Preview
-					</FeedInputDialogPreviewText>
+				{/* If there is previewed media uploaded */}
+				{imagePreview ? (
+					<FeedinputDialogPreview>
+						{/* Preview Header */}
+						<FeedInputDialogPreviewHeader>
+							{/* Header Text */}
+							<FeedInputDialogPreviewText>
+								Attachment Preview
+							</FeedInputDialogPreviewText>
 
-					{/* Image Preview */}
-					<FeedInputDialogPreviewImage src="/images/bg.png" />
-				</FeedinputDialogPreview>
+							{/* Header Button */}
+							<FeedInputDialogPreviewButton>
+								{/* Minimize Button */}
+								<FeedInputDialogPreviewMinimize>
+									{!previewMinimized ? (
+										<IconButton
+											onClick={() =>
+												setPreviewMinimized(true)
+											}
+										>
+											<KeyboardArrowDownRoundedIcon
+												style={{
+													color: 'var(--font-white-800)',
+												}}
+											/>
+										</IconButton>
+									) : (
+										<IconButton
+											onClick={() =>
+												setPreviewMinimized(false)
+											}
+										>
+											<KeyboardArrowUpRoundedIcon
+												style={{
+													color: 'var(--font-white-800)',
+												}}
+											/>
+										</IconButton>
+									)}
+								</FeedInputDialogPreviewMinimize>
+
+								{/* Cancel Upload Attachments */}
+								<IconButton
+									onClick={() => {
+										setRawImage(null)
+										setPreviewMinimized(false)
+									}}
+								>
+									<DeleteSweepTwoToneIcon
+										style={{
+											color: 'var(--font-white-800)',
+										}}
+									/>
+								</IconButton>
+							</FeedInputDialogPreviewButton>
+						</FeedInputDialogPreviewHeader>
+
+						{/* Image Preview */}
+						<FeedInputDialogPreviewImage
+							src={imagePreview as string}
+							minimized={previewMinimized}
+						/>
+					</FeedinputDialogPreview>
+				) : undefined}
 			</FeedInputDialogBody>
 
 			<FeedInputDialogFooter>
-				{/* Attachments */}
+				{/* Upload Attachments Button*/}
 				<FeedInputDialogAttachments>
+					{/* Image */}
 					<FeedInputButton
 						title="Photo"
 						hideTitleOnMobile
 						Icon={PhotoSizeSelectActualIcon}
 						iconColor="#0091ff"
+						onClickCallback={() => inputImageRef.current!.click()}
 					/>
+					<input
+						type="file"
+						style={{ display: 'none' }}
+						ref={inputImageRef}
+						accept="image/*"
+						onChange={(event) => {
+							// If there is no uploaded file, return
+							if (!event.target.files) return
+
+							const file = event.target.files[0]
+
+							// Check if type is image or not
+							if (file && file.type.substr(0, 5) === 'image') {
+								setRawImage(file)
+							} else {
+								setRawImage(null)
+							}
+						}}
+					/>
+
+					{/* Video */}
 					<FeedInputButton
 						Icon={PlayCircleFilledIcon}
 						title="Video"
@@ -71,6 +225,7 @@ export default function FeedInputDialog(props: Props) {
 						iconColor="#b46e8b"
 					/>
 
+					{/* Audio */}
 					<FeedInputButton
 						Icon={MicIcon}
 						hideTitleOnMobile
@@ -78,6 +233,7 @@ export default function FeedInputDialog(props: Props) {
 						iconColor="#4cc04b"
 					/>
 
+					{/* Story */}
 					<FeedInputButton
 						Icon={MenuBookIcon}
 						hideTitleOnMobile
@@ -91,7 +247,7 @@ export default function FeedInputDialog(props: Props) {
 					<Button
 						text="Post"
 						type="button"
-						border="1px solid var(--background-dimmed-300)"
+						border="none"
 						color="var(--font-white-800)"
 						borderRadius="20px"
 						fontSize="16px"
@@ -99,6 +255,13 @@ export default function FeedInputDialog(props: Props) {
 						padding="8px 24px"
 						hoverBg="var(--color-primary)"
 						hoverBoxShadow="var(--box-shadow)"
+						// disable if there is no input OR input only contains whitespace
+						disabled={
+							!caption || !caption.replace(/\s/g, '').length
+								? true
+								: false
+						}
+						onClick={() => handlePostSubmit()}
 					/>
 				</FeedInputDialogUpload>
 			</FeedInputDialogFooter>
@@ -180,15 +343,38 @@ const FeedinputDialogPreview = styled.div`
 
 	@media (max-width: 600px) {
 		padding: 0px;
+		width: 100%;
 		max-width: 100%;
+	}
+`
+const FeedInputDialogPreviewHeader = styled.div`
+	padding: 0px 8px;
+	display: flex;
+	margin-bottom: 8px;
+	justify-content: space-between;
+	align-items: center;
+
+	@media (max-width: 600px) {
+		background-color: var(--background-dimmed-300);
 	}
 `
 
 /** PREVIEW */
-const FeedInputDialogPreviewImage = styled.img`
+const FeedInputDialogPreviewImage = styled.img<{
+	minimized?: boolean
+}>`
 	width: 100%;
 	height: 100%;
+	display: ${(props) => (props.minimized ? 'none' : 'inherit')};
+	max-width: 450px;
+	max-height: 350px;
 	object-fit: cover;
+
+	@media (max-width: 600px) {
+		max-width: 100%;
+		min-height: 300px;
+		max-height: 300px;
+	}
 `
 
 const FeedInputDialogPreviewText = styled.h3`
@@ -196,9 +382,22 @@ const FeedInputDialogPreviewText = styled.h3`
 	padding: 18px 0px;
 
 	@media (max-width: 600px) {
+		font-size: 14px;
+		padding: 4px;
+	}
+`
+
+const FeedInputDialogPreviewButton = styled.div`
+	display: flex;
+	align-items: center;
+`
+
+const FeedInputDialogPreviewMinimize = styled.div`
+	@media (min-width: 600px) {
 		display: none;
 	}
 `
+
 const FeedInputDialogFooter = styled.div`
 	justify-content: space-between;
 	align-items: center;
