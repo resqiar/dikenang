@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import FeedInputButton from './FeedInputButton'
 import Button from '../button/Button'
 import { UserProfileType } from '../../types/profile.type'
+import FeedTypeAttribute from './FeedTypeAttribute'
 
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
@@ -26,6 +27,13 @@ export default function FeedInputDialog(props: Props) {
 	 * e.g determine if caption contains only whitespace
 	 */
 	const [caption, setCaption] = useState<string | null>(null)
+
+	/**
+	 * @PostType
+	 * Handle and store post type
+	 * "public" or "private"
+	 */
+	const [postType, setPostType] = useState<string>('public')
 
 	/**
 	 * @ImageBlob
@@ -100,10 +108,24 @@ export default function FeedInputDialog(props: Props) {
 						<Avatar src={props.profile.avatar_url} />
 					</IconButton>
 
-					{/* Username */}
-					<FeedInputDialogUsername>
-						{props.profile.username}
-					</FeedInputDialogUsername>
+					<FeedInputProfileAttributeWrapper>
+						{/* Username */}
+						<FeedInputDialogUsername>
+							{props.profile.username}
+						</FeedInputDialogUsername>
+
+						{/* Feed Type Attribute */}
+						<FeedTypeAttribute
+							postTypeValue={postType}
+							onChangeCallbacks={(
+								event: React.ChangeEvent<{
+									value: unknown
+								}>
+							) => {
+								setPostType(event.target.value as string)
+							}}
+						/>
+					</FeedInputProfileAttributeWrapper>
 				</FeedInputProfileWrapper>
 
 				{/* Close Button */}
@@ -285,18 +307,35 @@ const FeedInputDialogWrapper = styled.div`
 `
 const FeedInputDialogHeader = styled.div`
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: space-between;
 	padding: 0px 8px;
+
+	@media (max-width: 600px) {
+		align-items: center;
+	}
 `
 const FeedInputProfileWrapper = styled.div`
 	display: flex;
 	align-items: center;
 `
+
+const FeedInputProfileAttributeWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 14px 4px 4px 4px;
+	gap: 6px;
+
+	@media (max-width: 600px) {
+		padding: 8px 4px;
+	}
+`
+
 const FeedInputDialogUsername = styled.p`
 	color: var(--font-white-800);
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 16px;
 `
 const FeedInputDialogBody = styled.div`
 	display: flex;
@@ -310,7 +349,6 @@ const FeedInputDialogBody = styled.div`
 		padding: 0px;
 	}
 `
-
 const TextAreaElement = styled.textarea`
 	width: 100%;
 	max-width: 100%;
@@ -376,7 +414,6 @@ const FeedInputDialogPreviewImage = styled.img<{
 		max-height: 300px;
 	}
 `
-
 const FeedInputDialogPreviewText = styled.h3`
 	color: var(--font-white-800);
 	padding: 18px 0px;
@@ -386,18 +423,15 @@ const FeedInputDialogPreviewText = styled.h3`
 		padding: 4px;
 	}
 `
-
 const FeedInputDialogPreviewButton = styled.div`
 	display: flex;
 	align-items: center;
 `
-
 const FeedInputDialogPreviewMinimize = styled.div`
 	@media (min-width: 600px) {
 		display: none;
 	}
 `
-
 const FeedInputDialogFooter = styled.div`
 	justify-content: space-between;
 	align-items: center;

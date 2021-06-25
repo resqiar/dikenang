@@ -5,13 +5,14 @@ interface Props {
 	Icon: React.ElementType
 	color?: string
 	size?: number
+	padding?: string
 	onClickCallback?: () => void
 	hasIconButton: boolean
 }
 
 export default function Icons(props: Props) {
 	return (
-		<IconWrapper>
+		<IconWrapper padding={props.padding}>
 			{props.hasIconButton ? (
 				<IconButton onClick={props.onClickCallback}>
 					<props.Icon
@@ -33,6 +34,6 @@ export default function Icons(props: Props) {
 	)
 }
 
-const IconWrapper = styled.div`
-	padding: 2px;
+const IconWrapper = styled.div<{ padding?: string }>`
+	padding: ${(props) => props.padding || '2px'};
 `
