@@ -1,3 +1,5 @@
+import { ApolloProvider } from '@apollo/client'
+import { initializeApollo } from '../lib/apollo'
 import { AppProps } from 'next/dist/next-server/lib/router/router'
 import Router from 'next/router'
 import NProgress from 'nprogress'
@@ -20,7 +22,19 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 function MyApp({ Component, pageProps }: AppProps) {
-	return <Component {...pageProps} />
+	/**
+	 * Apollo Configuration
+	 * Initialize apollo client on the browser
+	 * Wrap up component with ApolloProvider
+	 * @see apollo.ts for more
+	 */
+	const apolloClient = initializeApollo(null)
+
+	return (
+		<ApolloProvider client={apolloClient}>
+			<Component {...pageProps} />
+		</ApolloProvider>
+	)
 }
 
 export default MyApp
