@@ -56,7 +56,7 @@ export class User {
 	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
 
-	@Field((_) => Relationship)
+	@Field((_) => Relationship, { nullable: true })
 	@ManyToOne(
 		(_) => Relationship,
 		(relationship: Relationship) => relationship.partnership,

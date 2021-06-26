@@ -44,7 +44,7 @@ type User {
   created_at: DateTime
   updated_at: DateTime
   contents: [Post!]
-  relationship: Relationship!
+  relationship: Relationship
 }
 
 type DeleteRelationshipResponse {
@@ -62,6 +62,7 @@ type DeletePostResponse {
 type Query {
   users: [User!]!
   user(username: String!): User!
+  getMyProfile: User!
   posts: [Post!]!
   post(postId: String!): Post!
 }
