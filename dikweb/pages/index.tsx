@@ -50,6 +50,8 @@ export async function getServerSideProps(ctx: NextPageContext) {
 	/**
 	 * Get User data profile from server
 	 * if not exist => redirect to login page
+	 * @param pass NextPageContext in order to obtain
+	 * cookie when in server-side mode
 	 */
 	const data = await checkAuth(ctx)
 
@@ -61,5 +63,10 @@ export async function getServerSideProps(ctx: NextPageContext) {
 			},
 		}
 
-	return { props: { posts: posts, user: data } }
+	return {
+		props: {
+			posts: posts,
+			user: data,
+		},
+	}
 }
