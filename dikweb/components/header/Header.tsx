@@ -74,7 +74,7 @@ export default function Header({ profile }: Props) {
 			{/* Left Side */}
 			<HeaderBrand>
 				{/* Brand Logo */}
-				<DikenangLogo />
+				<DikenangLogo onClickCallback={() => Router.push('/')} />
 
 				{/* Search Component */}
 				<HeaderSearchInput>
@@ -116,7 +116,12 @@ export default function Header({ profile }: Props) {
 						onClose={handleClose}
 					>
 						{/* Profile */}
-						<MenuItem>
+						<MenuItem
+							onClick={() =>
+								// go to relationship page
+								Router.push('/myrelationship')
+							}
+						>
 							<Typography variant="inherit">
 								My Profile
 							</Typography>
