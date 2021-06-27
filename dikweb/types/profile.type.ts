@@ -4,7 +4,7 @@ export type UserProfileType = {
 	username: string
 	avatar_url: string
 	bio: string
-	partnership?: {
+	relationship?: {
 		id: string
 	} | null
 }

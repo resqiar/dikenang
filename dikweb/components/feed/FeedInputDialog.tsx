@@ -116,6 +116,9 @@ export default function FeedInputDialog(props: Props) {
 
 						{/* Feed Type Attribute */}
 						<FeedTypeAttribute
+							disablePrivate={
+								!props.profile.relationship ? true : false
+							}
 							postTypeValue={postType}
 							onChangeCallbacks={(
 								event: React.ChangeEvent<{
