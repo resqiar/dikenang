@@ -146,10 +146,12 @@ export default function FeedInputDialog(props: Props) {
 					</FeedInputProfileAttributeWrapper>
 				</FeedInputProfileWrapper>
 
-				{/* Close Button */}
-				<IconButton onClick={props.onCloseCallback}>
-					<CloseIcon style={{ color: '#fff' }} />
-				</IconButton>
+				<FeedInputDialogHeaderButton>
+					{/* Close Button */}
+					<IconButton onClick={props.onCloseCallback}>
+						<CloseIcon style={{ color: '#fff' }} />
+					</IconButton>
+				</FeedInputDialogHeaderButton>
 			</FeedInputDialogHeader>
 
 			<FeedInputDialogBody>
@@ -304,16 +306,10 @@ export default function FeedInputDialog(props: Props) {
 const FeedInputDialogWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: 90%;
-	width: 90%;
-	border-radius: 8px;
+	height: 100%;
+	width: 100%;
 	background-color: var(--background-dimmed-500);
 	padding: 8px;
-
-	@media (max-width: 600px) {
-		height: 100%;
-		width: 100%;
-	}
 `
 const FeedInputDialogHeader = styled.div`
 	display: flex;
@@ -379,6 +375,10 @@ const FeedInputDialogPreviewHeader = styled.div`
 	@media (max-width: 600px) {
 		background-color: var(--background-dimmed-300);
 	}
+`
+const FeedInputDialogHeaderButton = styled.div`
+	display: flex;
+	align-items: center;
 `
 
 /** PREVIEW */
