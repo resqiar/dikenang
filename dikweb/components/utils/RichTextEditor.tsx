@@ -27,6 +27,7 @@ export default function RichTextEditor(props: Props) {
 					new PrismDecorator({ defaultLanguage: 'javascript' }),
 				]}
 				blockTypes={[
+					{ type: BLOCK_TYPE.HEADER_ONE },
 					{ type: BLOCK_TYPE.HEADER_TWO },
 					{ type: BLOCK_TYPE.HEADER_THREE },
 					{ type: BLOCK_TYPE.HEADER_FOUR },
@@ -52,5 +53,9 @@ export default function RichTextEditor(props: Props) {
 const RichTextEditorWrapper = styled.div`
 	width: 100%;
 	height: 100%;
-	max-height: 430px;
+	max-height: 31rem;
+
+	@media (max-width: 600px) {
+		max-height: 29.5rem;
+	}
 `
