@@ -4829,6 +4829,11 @@ core-js-pure@^3.10.2:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.12.1.tgz#934da8b9b7221e2a2443dc71dfa5bd77a7ea00b8"
   integrity sha512-1cch+qads4JnDSWsvc7d6nzlKAippwjUlf6vykkTLW53VSV+NkE6muGBToAjEA8pG90cSfcud3JgVmW2ds5TaQ==
 
+core-js@^1.0.0:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
+  integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
+
 core-js@^3.0.1:
   version "3.12.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.12.1.tgz#6b5af4ff55616c08a44d386f1f510917ff204112"
@@ -5138,6 +5143,11 @@ decompress-response@^3.3.0:
   dependencies:
     mimic-response "^1.0.0"
 
+decorate-component-with-props@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/decorate-component-with-props/-/decorate-component-with-props-1.1.0.tgz#b496c814c6a2aba0cf2ad26e44cbedb8ead42f15"
+  integrity sha512-tTYQojixN64yK3/WBODMfvss/zbmyUx9HQXhzSxZiSiofeekVeRyyuToy9BCiTMrVEIKWxTcla2t3y5qdaUF7Q==
+
 deep-equal@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-2.0.5.tgz#55cd2fe326d83f9cbf7261ef0e060b3f724c5cb9"
@@ -5408,6 +5418,68 @@ dotenv@^8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.6.0.tgz#061af664d19f7f4d8fc6e4ff9b584ce237adcb8b"
   integrity sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==
 
+draft-js-buttons@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-buttons/-/draft-js-buttons-2.0.2.tgz#d96d0dcec9e224a9d62f2543a50f5f1cbef84000"
+  integrity sha512-qC3vkZ4ZvKe86Uskf5CsZxgo4Rt6ITAE51sbiI5YCMasanXdMVRwbF4fQonMyahds1tgj9EeBNePOBnlKTz9gQ==
+  dependencies:
+    clsx "^1.0.4"
+
+draft-js-inline-toolbar-plugin@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/draft-js-inline-toolbar-plugin/-/draft-js-inline-toolbar-plugin-3.0.1.tgz#2fc9da3d64c4b932c1edcccf6e32ace85de7c983"
+  integrity sha512-x3DyHKOnjTWHTn73Cb8ahfncKZvNECU+uuUOCq5LYCekCR7PFoHQnYIWXjoM6Mo+b7MBAsEY0uatW1N/KxinMw==
+  dependencies:
+    draft-js-buttons "^2.0.1"
+
+draft-js-plugins-editor@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.1.1.tgz#7c9aedd696737c6ddf45d47c978bd764ef33f688"
+  integrity sha512-fKGe71irNvFHJ5L/lUrh+3vPkBNq0de6x+cgiZUJ9zQERc5KPBtGXIFiarLFVHyrRTCPq+K6xmgfFSAERaFHPw==
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    find-with-regex "^1.1.3"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-side-toolbar-plugin@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-side-toolbar-plugin/-/draft-js-side-toolbar-plugin-3.0.2.tgz#fc3c78f1fe4325bd8366fd4d302afff62ab9a368"
+  integrity sha512-qz17ccc3ZFUxPWJ4neXGNPY6gaKF1Ex2bGrVgMPSvI347ty+SGYWwIPwfx/A0zjczo5yGb26flHR8wlVV5t9QA==
+  dependencies:
+    draft-js-buttons "^2.0.1"
+    prop-types "^15.5.8"
+
+draft-js@0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  integrity sha512-LE6jSCV9nkPhfVX2ggcRLA4FKs6zWq9ceuO/88BpXdNCS7mjRTgs0NsV6piUCJX9YxMsB9An33wnkMmU2sD2Zg==
+  dependencies:
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
+draftail@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/draftail/-/draftail-1.4.1.tgz#f93ee12941b5ab0844d3f75fa8085fc7af676fd9"
+  integrity sha512-JaVnNngJmoon31Mb/c/RLHaR00WFjIb80tRx+7a/l0LEtYK6zRbtXUNOGKEPqysTSnXLVb0VmWPkaC/DUPk4ww==
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js-plugins-editor "^2.1.1"
+    draftjs-conductor "^1.0.0"
+    draftjs-filters "^2.2.3"
+
+draftjs-conductor@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/draftjs-conductor/-/draftjs-conductor-1.2.0.tgz#629e5e6084a59659dc3a95dde4979bf568e51aab"
+  integrity sha512-cQ2f/XSvFFmvWfYhEzzhAKyULVG4zmlH+NbL4mOVFkwujTW1AjI0AEG8m4zBnR2U59UnwGLRbiUVIKR51ArlVg==
+
+draftjs-filters@^2.2.3:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/draftjs-filters/-/draftjs-filters-2.5.0.tgz#07c156b040cc0dc94fd35069082206bc9f545de7"
+  integrity sha512-ISJXDj+wQnEQ6krfGjW3B1mr4cd6GkRkDdc/IyCN8mGM/TwaSeb4CkCgnl+MTZsTY6UavhulXeHqRe2eNP1Wyg==
+
 duplexer2@~0.1.0:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -5488,7 +5560,7 @@ encodeurl@~1.0.2:
   resolved "https://registry.yarnpkg.com/encodeurl/-/encodeurl-1.0.2.tgz#ad3ff4c86ec2d029322f5a02c3a9a606c95b3f59"
   integrity sha1-rT/0yG7C0CkyL1oCw6mmBslbP1k=
 
-encoding@0.1.13, encoding@^0.1.12:
+encoding@0.1.13, encoding@^0.1.11, encoding@^0.1.12:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/encoding/-/encoding-0.1.13.tgz#56574afdd791f54a8e9b2785c0582a2d26210fa9"
   integrity sha512-ETBauow1T35Y/WZMkio9jiM0Z5xjHHmJ4XmjZOq1l/dXz3lr2sRn87nJy20RupqSh1F2m3HHPSp8ShIPQJrJ3A==
@@ -6038,6 +6110,19 @@ fbjs-css-vars@^1.0.0:
   resolved "https://registry.yarnpkg.com/fbjs-css-vars/-/fbjs-css-vars-1.0.2.tgz#216551136ae02fe255932c3ec8775f18e2c078b8"
   integrity sha512-b2XGFAFdWZWg0phtAWLHCk836A1Xann+I+Dgd3Gk64MHKZO44FfoD1KxyvbSh0qZsIoXQGGlVztIY+oitJPpRQ==
 
+fbjs@^0.8.15:
+  version "0.8.17"
+  resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
+  integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
+  dependencies:
+    core-js "^1.0.0"
+    isomorphic-fetch "^2.1.1"
+    loose-envify "^1.0.0"
+    object-assign "^4.1.0"
+    promise "^7.1.1"
+    setimmediate "^1.0.5"
+    ua-parser-js "^0.7.18"
+
 fbjs@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-3.0.0.tgz#0907067fb3f57a78f45d95f1eacffcacd623c165"
@@ -6145,6 +6230,11 @@ find-versions@^4.0.0:
   integrity sha512-wgpWy002tA+wgmO27buH/9KzyEOQnKsG/R0yrcjPT9BOFm0zRBVQbZ95nRGXWMywS8YR5knRbpohio0bcJABxQ==
   dependencies:
     semver-regex "^3.1.2"
+
+find-with-regex@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.1.3.tgz#d6c6f2debee898d36b6a77e05709b13dd5dc8a26"
+  integrity sha512-zkEVQ1H3PIQL/19ADKt1lCQU4QGM3OneiderUcFgn5EgTm/TnoUh7HxPAwP8w/vXxWSLC6KtpbDQpypJ5+majw==
 
 flat-cache@^3.0.4:
   version "3.0.4"
@@ -6895,7 +6985,7 @@ ignore@^5.1.4:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.8.tgz#f150a8b50a34289b33e22f5889abd4d8016f0e57"
   integrity sha512-BMpfD7PpiETpBl/A6S498BaIJ6Y/ABT93ETbby2fP00v4EbvPBXWEoaR1UBPKs3iR53pJY7EtZk5KACI57i1Uw==
 
-immutable@~3.7.6:
+immutable@~3.7.4, immutable@~3.7.6:
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
   integrity sha1-E7TTyxK++hVIKib+Gy665kAHHks=
@@ -7352,7 +7442,7 @@ is-set@^2.0.1, is-set@^2.0.2:
   resolved "https://registry.yarnpkg.com/is-set/-/is-set-2.0.2.tgz#90755fa4c2562dc1c5d4024760d6119b94ca18ec"
   integrity sha512-+2cnTEZeY5z/iXGbLhPrOAaK/Mau5k5eXq9j14CpRTftq0pAJu2MwVRSZhyZWBzx3o6X795Lz6Bpb6R0GKf37g==
 
-is-stream@^1.1.0:
+is-stream@^1.0.1, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
@@ -7469,6 +7559,14 @@ isobject@^3.0.0, isobject@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-3.0.1.tgz#4e431e92b11a9731636aa1f9c8d1ccbcfdab78df"
   integrity sha1-TkMekrEalzFjaqH5yNHMvP2reN8=
+
+isomorphic-fetch@^2.1.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
+  integrity sha1-YRrhrPFPXoH3KVB0coGf6XM1WKk=
+  dependencies:
+    node-fetch "^1.0.1"
+    whatwg-fetch ">=0.10.0"
 
 isomorphic-fetch@^3.0.0:
   version "3.0.0"
@@ -9230,6 +9328,14 @@ node-fetch@2.6.1, node-fetch@^2.2.0, node-fetch@^2.6.1:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
+node-fetch@^1.0.1:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
+  integrity sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
+  dependencies:
+    encoding "^0.1.11"
+    is-stream "^1.0.1"
+
 node-gyp@^7.1.0, node-gyp@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/node-gyp/-/node-gyp-7.1.2.tgz#21a810aebb187120251c3bcec979af1587b188ae"
@@ -10330,6 +10436,11 @@ pretty-format@^26.0.0, pretty-format@^26.6.2:
     ansi-styles "^4.0.0"
     react-is "^17.0.1"
 
+prismjs@^1.24.0:
+  version "1.24.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.24.0.tgz#0409c30068a6c52c89ef7f1089b3ca4de56be2ac"
+  integrity sha512-SqV5GRsNqnzCL8k5dfAjCNhUrF3pR0A9lTDSCUZeh/LIshheXJEaP0hwLz2t4XHivd2J/v2HR+gRnigzeKe3cQ==
+
 proc-log@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/proc-log/-/proc-log-1.0.0.tgz#0d927307401f69ed79341e83a0b2c9a13395eb77"
@@ -10395,7 +10506,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@15.7.2, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.8, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -12521,6 +12632,11 @@ unc-path-regex@^0.1.2:
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
   integrity sha1-5z3T17DXxe2G+6xrCufYxqadUPo=
 
+union-class-names@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/union-class-names/-/union-class-names-1.0.0.tgz#9259608adacc39094a2b0cfe16c78e6200617847"
+  integrity sha1-kllgitrMOQlKKwz+FseOYgBheEc=
+
 union-value@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/union-value/-/union-value-1.0.1.tgz#0b6fe7b835aecda61c6ea4d4f02c14221e109847"
@@ -12875,7 +12991,7 @@ whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@^3.4.1:
+whatwg-fetch@>=0.10.0, whatwg-fetch@^3.4.1:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
   integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
