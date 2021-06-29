@@ -5,6 +5,7 @@ import FeedInputButton from './FeedInputButton'
 import Button from '../button/Button'
 import { UserProfileType } from '../../types/profile.type'
 import FeedTypeAttribute from './FeedTypeAttribute'
+import RichTextEditor from '../utils/RichTextEditor'
 
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
@@ -27,6 +28,19 @@ export default function FeedInputDialog(props: Props) {
 	 * e.g determine if caption contains only whitespace
 	 */
 	const [caption, setCaption] = useState<string | null>(null)
+
+	/**
+	 * @usage to handle caption content which came from
+	 * RichTextEditor component. If there is an input
+	 * more than a letter, set caption hook.
+	 * Otherwise, set to null.
+	 */
+	const handleCaptionChange = (content: any) => {
+		if (!content) {
+			return setCaption(null)
+		}
+		setCaption(content)
+	}
 
 	/**
 	 * @PostType
@@ -73,7 +87,8 @@ export default function FeedInputDialog(props: Props) {
 	 * Submit back to backend as a string URL
 	 */
 	const handlePostSubmit = () => {
-		if (!caption || !caption.replace(/\s/g, '').length) return
+		if (!caption) return
+		console.log(caption)
 	}
 
 	/**
@@ -138,12 +153,8 @@ export default function FeedInputDialog(props: Props) {
 			</FeedInputDialogHeader>
 
 			<FeedInputDialogBody>
-				{/* Text Area Input */}
-				<TextAreaElement
-					autoFocus={true}
-					onChange={(event) => setCaption(event.target.value)}
-					placeholder="What interest you to share this day?"
-				/>
+				{/* Rich Text Area Input */}
+				<RichTextEditor onChangeCallback={handleCaptionChange} />
 
 				{/* If there is previewed media uploaded */}
 				{imagePreview ? (
@@ -280,12 +291,8 @@ export default function FeedInputDialog(props: Props) {
 						padding="8px 24px"
 						hoverBg="var(--color-primary)"
 						hoverBoxShadow="var(--box-shadow)"
-						// disable if there is no input OR input only contains whitespace
-						disabled={
-							!caption || !caption.replace(/\s/g, '').length
-								? true
-								: false
-						}
+						// disable if there is no caption input
+						disabled={!caption ? true : false}
 						onClick={() => handlePostSubmit()}
 					/>
 				</FeedInputDialogUpload>
@@ -350,32 +357,6 @@ const FeedInputDialogBody = styled.div`
 		flex-direction: column;
 		align-items: center;
 		padding: 0px;
-	}
-`
-const TextAreaElement = styled.textarea`
-	width: 100%;
-	max-width: 100%;
-	min-height: 150px;
-	height: 100%;
-	background-color: transparent;
-	color: var(--font-white-800);
-	font-family: var(--font-family);
-	outline: none;
-	padding: 18px;
-	font-size: 16px;
-	border: none;
-	resize: none;
-	overflow: auto;
-
-	::placeholder,
-	::-webkit-input-placeholder {
-		color: var(--font-white-500);
-		font-size: 18px;
-		font-family: var(--font-family);
-	}
-
-	@media (max-width: 600px) {
-		font-size: 14px;
 	}
 `
 const FeedinputDialogPreview = styled.div`
