@@ -4,14 +4,9 @@ import { ArrayNotEmpty, IsIn, IsOptional } from 'class-validator'
 @InputType()
 export class CreateAttachmentInput {
 	@Field()
-	@IsIn(['image', 'video', 'sound'])
+	@IsIn(['image', 'video', 'audio'])
 	@IsOptional()
 	type: string
-
-	@Field()
-	@IsOptional()
-	@IsIn(['mp4', 'jpg', 'png', 'gif', 'mp3'])
-	extensions: string
 
 	@Field((_) => [String])
 	@IsOptional()
