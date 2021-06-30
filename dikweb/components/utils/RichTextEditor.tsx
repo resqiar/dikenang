@@ -7,55 +7,81 @@ import 'draftail/dist/draftail.css'
 
 interface Props {
 	onChangeCallback: (content: any) => void
+	readOnly?: boolean
+	maxHeight?: string
+	mobileMaxHeight?: string
+	initialState?: string
 }
 
 export default function RichTextEditor(props: Props) {
 	return (
-		<RichTextEditorWrapper>
+		<RichTextEditorWrapper
+			maxHeight={props.maxHeight}
+			mobileMaxHeight={props.mobileMaxHeight}
+		>
 			<DraftailEditor
 				onSave={props.onChangeCallback}
-				rawContentState={null}
-				placeholder="What interest you to share this day?"
+				rawContentState={
+					props.initialState ? JSON.parse(props.initialState) : null
+				}
+				placeholder={
+					!props.readOnly
+						? 'What interest you to share this day?'
+						: ''
+				}
 				// Makes it easier to write automated tests retrieving the content.
 				stateSaveInterval={50}
-				enableHorizontalRule
-				enableLineBreak
-				showUndoControl
-				showRedoControl
-				spellCheck
+				enableHorizontalRule={!props.readOnly ? true : false}
+				readOnly={!props.readOnly ? false : true}
+				enableLineBreak={!props.readOnly ? true : false}
+				showUndoControl={!props.readOnly ? true : false}
+				showRedoControl={!props.readOnly ? true : false}
+				spellCheck={!props.readOnly ? true : false}
 				decorators={[
 					new PrismDecorator({ defaultLanguage: 'javascript' }),
 				]}
-				blockTypes={[
-					{ type: BLOCK_TYPE.HEADER_ONE },
-					{ type: BLOCK_TYPE.HEADER_TWO },
-					{ type: BLOCK_TYPE.HEADER_THREE },
-					{ type: BLOCK_TYPE.HEADER_FOUR },
-					{ type: BLOCK_TYPE.HEADER_FIVE },
-					{ type: BLOCK_TYPE.UNORDERED_LIST_ITEM },
-					{ type: BLOCK_TYPE.ORDERED_LIST_ITEM },
-					{ type: BLOCK_TYPE.CODE },
-					{ type: BLOCK_TYPE.BLOCKQUOTE },
-				]}
-				inlineStyles={[
-					{ type: INLINE_STYLE.BOLD },
-					{ type: INLINE_STYLE.ITALIC },
-					{ type: INLINE_STYLE.UNDERLINE },
-					{ type: INLINE_STYLE.STRIKETHROUGH },
-					{ type: INLINE_STYLE.SUPERSCRIPT },
-					{ type: INLINE_STYLE.SUBSCRIPT },
-				]}
+				blockTypes={
+					!props.readOnly
+						? [
+								{ type: BLOCK_TYPE.HEADER_ONE },
+								{ type: BLOCK_TYPE.HEADER_TWO },
+								{ type: BLOCK_TYPE.HEADER_THREE },
+								{ type: BLOCK_TYPE.HEADER_FOUR },
+								{ type: BLOCK_TYPE.HEADER_FIVE },
+								{ type: BLOCK_TYPE.UNORDERED_LIST_ITEM },
+								{ type: BLOCK_TYPE.ORDERED_LIST_ITEM },
+								{ type: BLOCK_TYPE.CODE },
+								{ type: BLOCK_TYPE.BLOCKQUOTE },
+						  ]
+						: undefined
+				}
+				inlineStyles={
+					!props.readOnly
+						? [
+								{ type: INLINE_STYLE.BOLD },
+								{ type: INLINE_STYLE.ITALIC },
+								{ type: INLINE_STYLE.UNDERLINE },
+								{ type: INLINE_STYLE.STRIKETHROUGH },
+								{ type: INLINE_STYLE.SUPERSCRIPT },
+								{ type: INLINE_STYLE.SUBSCRIPT },
+						  ]
+						: undefined
+				}
 			/>
 		</RichTextEditorWrapper>
 	)
 }
 
-const RichTextEditorWrapper = styled.div`
+const RichTextEditorWrapper = styled.div<{
+	maxHeight?: string
+	mobileMaxHeight?: string
+}>`
 	width: 100%;
 	height: 100%;
-	max-height: 31rem;
+	max-height: ${(props) => (props.maxHeight ? props.maxHeight : '31rem')};
 
 	@media (max-width: 600px) {
-		max-height: 29.5rem;
+		max-height: ${(props) =>
+			props.mobileMaxHeight ? props.mobileMaxHeight : '29.5rem'};
 	}
 `
