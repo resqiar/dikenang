@@ -12,10 +12,6 @@ export class Attachments {
 	@Column()
 	type: string
 
-	@Field()
-	@Column()
-	extensions: string
-
 	@Field((_) => [String])
 	@Column('text', { default: [], array: true })
 	uri: string[]
