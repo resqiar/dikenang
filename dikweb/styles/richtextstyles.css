@@ -7,13 +7,15 @@
 }
 
 /* Override default */
-.Draftail-Editor {
+.Draftail-Editor,
+.Draftail-Editor--readonly,
+.DraftEditor-editorContainer {
 	color: var(--font-white-800);
 	background: transparent !important;
 	border: none !important;
-	margin: 4px 0px !important;
 	width: 100% !important;
 	height: 100% !important;
+	opacity: 1 !important;
 }
 
 /* Override default */
