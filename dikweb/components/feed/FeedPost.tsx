@@ -2,6 +2,7 @@ import { Avatar, IconButton } from '@material-ui/core'
 import Image from 'next/image'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
+import RichTextEditor from '../utils/RichTextEditor'
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
@@ -49,7 +50,15 @@ export default function FeedPost({
 			</FeedPostHeaderWrapper>
 
 			<FeedPostBody>
-				<FeedPostCaption>{caption}</FeedPostCaption>
+				{/* Caption In read-only Rich Text Editor */}
+				<RichTextEditor
+					readOnly={true}
+					initialState={caption}
+					maxHeight="100%"
+					margin="-24px 0px 0px 0px"
+					padding="0px 8px 0px 8px"
+				/>
+
 				{/* Post Attachments */}
 				<FeedPostAttachments>
 					{/* If attachments contains image */}
@@ -156,16 +165,7 @@ const FeedPostTimeStamp = styled.p`
  * Body
  */
 const FeedPostBody = styled.div``
-const FeedPostCaption = styled.p`
-	word-break: break-word;
-	white-space: pre-wrap;
-	color: var(--font-white-800);
-	font-size: 14px;
-	padding: 4px 18px;
-	text-align: justify;
-	line-height: 18px;
-	font-weight: 400;
-`
+
 const FeedPostAttachments = styled.div`
 	width: 100%;
 	height: 100%;
