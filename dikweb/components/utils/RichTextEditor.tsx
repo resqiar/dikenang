@@ -6,11 +6,13 @@ import 'draft-js/dist/Draft.css'
 import 'draftail/dist/draftail.css'
 
 interface Props {
-	onChangeCallback: (content: any) => void
+	onChangeCallback?: (content: any) => void
 	readOnly?: boolean
 	maxHeight?: string
 	mobileMaxHeight?: string
 	initialState?: string
+	margin?: string
+	padding?: string
 }
 
 export default function RichTextEditor(props: Props) {
@@ -18,9 +20,13 @@ export default function RichTextEditor(props: Props) {
 		<RichTextEditorWrapper
 			maxHeight={props.maxHeight}
 			mobileMaxHeight={props.mobileMaxHeight}
+			margin={props.margin}
+			padding={props.padding}
 		>
 			<DraftailEditor
-				onSave={props.onChangeCallback}
+				onSave={
+					props.onChangeCallback ? props.onChangeCallback : undefined
+				}
 				rawContentState={
 					props.initialState ? JSON.parse(props.initialState) : null
 				}
@@ -75,9 +81,13 @@ export default function RichTextEditor(props: Props) {
 const RichTextEditorWrapper = styled.div<{
 	maxHeight?: string
 	mobileMaxHeight?: string
+	margin?: string
+	padding?: string
 }>`
 	width: 100%;
 	height: 100%;
+	margin: ${(props) => props.margin || undefined};
+	padding: ${(props) => props.padding || undefined};
 	max-height: ${(props) => (props.maxHeight ? props.maxHeight : '31rem')};
 
 	@media (max-width: 600px) {
