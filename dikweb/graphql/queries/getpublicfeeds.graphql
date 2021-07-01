@@ -1,0 +1,12 @@
+query getPublicFeeds {
+	posts {
+		id
+		caption
+		type
+		created_at
+		author {
+			username
+			avatar_url
+		}
+	}
+}
