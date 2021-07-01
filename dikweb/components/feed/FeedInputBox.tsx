@@ -14,9 +14,10 @@ import MicIcon from '@material-ui/icons/Mic'
 
 interface Props {
 	profile: UserProfileType
+	onUploadCallback: () => void
 }
 
-export default function FeedInputBox({ profile }: Props) {
+export default function FeedInputBox({ profile, onUploadCallback }: Props) {
 	/** Modal State */
 	const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -58,7 +59,10 @@ export default function FeedInputBox({ profile }: Props) {
 					{/* Feed Input Modal Component */}
 					<FeedInputDialog
 						profile={profile}
+						// When user close the dialog
 						onCloseCallback={() => setOpenModal(false)}
+						// When user successfully upload post, refecth parent feeds
+						onUploadCallback={() => onUploadCallback()}
 					/>
 				</ModalDialog>
 			</FeedInputBoxWrapper>
