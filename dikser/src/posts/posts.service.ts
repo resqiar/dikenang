@@ -106,6 +106,9 @@ export class PostsService {
 				'relationship',
 				'relationship.partnership',
 			],
+			order: {
+				created_at: 'DESC',
+			},
 		})
 	}
 
