@@ -2,17 +2,14 @@ import { NextPageContext } from 'next'
 import IndexBody from '../components/body/IndexBody'
 import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
-import { DummyPostType } from '../types/dummypost.type'
-import { dummy } from './api/dummy/dummy'
 import checkAuth from '../utils/auth'
 import { UserProfileType } from '../types/profile.type'
 
 interface Props {
-	posts: DummyPostType
 	user: UserProfileType
 }
 
-export default function Home({ posts, user }: Props) {
+export default function Home({ user }: Props) {
 	return (
 		<div>
 			{/* Default Head Meta Property */}
@@ -22,17 +19,12 @@ export default function Home({ posts, user }: Props) {
 			<Header profile={user} />
 
 			{/* Body Component */}
-			<IndexBody posts={posts} profile={user} />
+			<IndexBody profile={user} />
 		</div>
 	)
 }
 
 export async function getServerSideProps(ctx: NextPageContext) {
-	/**
-	 * Dummmy Post just yet
-	 * @NO APi calls
-	 */
-	const posts = dummy
 	/**
 	 * Check if cookie is exist
 	 * if not => redirect to login page.
@@ -65,7 +57,6 @@ export async function getServerSideProps(ctx: NextPageContext) {
 
 	return {
 		props: {
-			posts: posts,
 			user: data,
 		},
 	}
