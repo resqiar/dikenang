@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import Router from 'next/router'
 import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import FeedInputButton from './FeedInputButton'
@@ -123,8 +124,13 @@ export default function FeedInputDialog(props: Props) {
 
 		// Error handling, future works :)
 		if (requestToServer.error) {
-			setLoadingState(false)
-			console.log(requestToServer.error)
+			// If user auth is expired push to auth page
+			if (
+				requestToServer.error.graphQLErrors[0].extensions.status === 403
+			) {
+				return Router.push('/auth')
+			}
+			return setLoadingState(false)
 		}
 
 		// if everything goes well, set loading to false
