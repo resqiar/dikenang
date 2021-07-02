@@ -7,6 +7,7 @@ import Leftbar from '../sidebar/leftbar/Leftbar'
 import Rightbar from '../sidebar/rightbar/Rightbar'
 import { useGetPublicFeedsQuery } from '../../generated/graphql'
 import FeedPostSkeleton from '../feed/FeedPostSkeleton'
+import LoadingBrand from '../loading/LoadingBrand'
 
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -134,7 +135,7 @@ export default function IndexBody({ profile }: Props) {
 								justifyContent: 'center',
 							}}
 						>
-							Work in Progress...
+							<LoadingBrand height="400px" />
 						</h1>
 					</TabPanel>
 				</TabsPanelWrapper>
