@@ -3,12 +3,16 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import RichTextEditor from '../utils/RichTextEditor'
+import BulletDivider from '../utils/BulletDivider'
+import Moment from 'moment'
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
 import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import ModeCommentIcon from '@material-ui/icons/ModeComment'
+import PublicIcon from '@material-ui/icons/Public'
+import LockIcon from '@material-ui/icons/Lock'
 
 interface Props {
 	username: string
@@ -19,6 +23,7 @@ interface Props {
 	commentSum: number
 	avatarSrc?: string
 	imageSrc?: string
+	type: string
 }
 
 export default function FeedPost({
@@ -29,6 +34,7 @@ export default function FeedPost({
 	imageSrc,
 	upSum,
 	commentSum,
+	type,
 }: Props) {
 	return (
 		<FeedPostWrapper>
@@ -43,8 +49,25 @@ export default function FeedPost({
 						{/* Post Username */}
 						<FeedPostProfileH4>{username}</FeedPostProfileH4>
 
-						{/* Post TimeStamp */}
-						<FeedPostTimeStamp>{timestamp}</FeedPostTimeStamp>
+						<FeedPostTypeTimestampWrapper>
+							{/* Post Type Icon */}
+							<Icons
+								Icon={type === 'public' ? PublicIcon : LockIcon}
+								hasIconButton={false}
+								size={18}
+							/>
+
+							{/* Bullet Divider  */}
+							<BulletDivider
+								color="var(--font-white-300)"
+								margin="0px 0px 0px -2px"
+							/>
+
+							{/* Post TimeStamp */}
+							<FeedPostTimeStamp>
+								{Moment(timestamp).fromNow()}
+							</FeedPostTimeStamp>
+						</FeedPostTypeTimestampWrapper>
 					</FeedPostHeaderText>
 				</FeedPostProfile>
 			</FeedPostHeaderWrapper>
@@ -55,6 +78,7 @@ export default function FeedPost({
 					readOnly={true}
 					initialState={caption}
 					maxHeight="100%"
+					mobileMaxHeight="100%"
 					margin="-24px 0px 0px 0px"
 					padding="0px 8px 0px 8px"
 				/>
@@ -155,6 +179,11 @@ const FeedPostProfileH4 = styled.h4`
 	font-weight: bold;
 	font-size: 14px;
 `
+const FeedPostTypeTimestampWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 2px;
+`
 const FeedPostTimeStamp = styled.p`
 	color: var(--font-white-300);
 	margin-top: 2px;
@@ -170,7 +199,8 @@ const FeedPostAttachments = styled.div`
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	padding-top: 8px;
+	padding-top: 2px;
+	margin-top: -4px;
 `
 
 /**
