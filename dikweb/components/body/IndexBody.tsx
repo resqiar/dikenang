@@ -149,7 +149,7 @@ export default function IndexBody({ profile }: Props) {
 
 const IndexBodyWrapper = styled.div`
 	display: flex;
-	margin: 28px 128px;
+	margin: 28px 5%;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
