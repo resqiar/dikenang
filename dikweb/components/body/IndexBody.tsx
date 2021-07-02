@@ -85,8 +85,8 @@ export default function IndexBody({ profile }: Props) {
 						variant="fullWidth"
 					>
 						<Tab
-							label="Recommendation"
-							aria-label="recommendation"
+							label="Public Feeds"
+							aria-label="Public Feeds"
 							// when tab clicked, refecth/refresh feeds
 							onClick={() => publicFeedsHooks.refetch()}
 						/>
