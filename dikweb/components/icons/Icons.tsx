@@ -36,4 +36,5 @@ export default function Icons(props: Props) {
 
 const IconWrapper = styled.div<{ padding?: string }>`
 	padding: ${(props) => props.padding || '2px'};
+	margin-bottom: -4px;
 `
