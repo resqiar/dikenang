@@ -2,18 +2,19 @@ import styled from 'styled-components'
 
 interface Props {
 	text?: string
+	height?: string
 }
 
-export default function LoadingBrand({ text }: Props) {
+export default function LoadingBrand({ text, height }: Props) {
 	return (
-		<LoadingBrandWrapper>
+		<LoadingBrandWrapper height={height}>
 			<LoadingTextElement>{text ? text : 'dikenang.'}</LoadingTextElement>
 		</LoadingBrandWrapper>
 	)
 }
 
-const LoadingBrandWrapper = styled.div`
-	height: 100vh;
+const LoadingBrandWrapper = styled.div<{ height?: string }>`
+	height: ${(props) => props.height || '100vh'};
 	display: flex;
 	align-items: center;
 	justify-content: center;
