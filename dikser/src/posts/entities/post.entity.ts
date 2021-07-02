@@ -29,11 +29,15 @@ export class Post {
 	type: string
 
 	@Field({ nullable: true })
-	@CreateDateColumn()
+	@CreateDateColumn({
+		type: 'timestamp with time zone',
+	})
 	created_at: Date
 
 	@Field({ nullable: true })
-	@UpdateDateColumn()
+	@UpdateDateColumn({
+		type: 'timestamp with time zone',
+	})
 	updated_at: Date
 
 	@Field((_) => User)
