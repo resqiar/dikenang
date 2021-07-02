@@ -109,6 +109,7 @@ export default function IndexBody({ profile }: Props) {
 									<FeedPost
 										key={value.id}
 										caption={value.caption}
+										type={value.type as string}
 										username={value.author.username}
 										timestamp={value.created_at}
 										avatarSrc={
