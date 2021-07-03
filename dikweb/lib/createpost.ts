@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { MutationFunctionOptions } from '@apollo/client'
 import { Maybe } from 'graphql/jsutils/Maybe'
 import {
@@ -55,6 +56,17 @@ export default async function CreatePost(props: Props) {
 			 * @second get url from cloudinary
 			 * @final fire everything to backend
 			 */
+			const media = new FormData()
+			media.append('file', props.rawImage)
+			media.append('upload_preset', 'dikenang-posts-media')
+			media.append('cloud_name', 'dikenang')
+
+			// Upload To Cloudinary Storage
+			const requestToCloudinary = await axios.post(
+				'https://api.cloudinary.com/v1_1/dikenang/image/upload',
+				media
+			)
+
 			const { data } = await props.useHook({
 				variables: {
 					createPostinput: {
@@ -63,7 +75,7 @@ export default async function CreatePost(props: Props) {
 					},
 					createAttachmentInput: {
 						type: 'image',
-						uri: ['something'],
+						uri: [requestToCloudinary.data.secure_url],
 					},
 				},
 			})

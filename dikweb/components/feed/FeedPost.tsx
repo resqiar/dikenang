@@ -22,7 +22,7 @@ interface Props {
 	downSum: number
 	commentSum: number
 	avatarSrc?: string
-	imageSrc?: string
+	imageSrc?: string[]
 	type: string
 }
 
@@ -88,9 +88,10 @@ export default function FeedPost({
 					{/* If attachments contains image */}
 					{imageSrc && (
 						<Image
-							width="1080"
-							height="1080"
-							src={imageSrc}
+							width={800}
+							height={700}
+							layout="responsive"
+							src={imageSrc[0]}
 							objectFit="cover"
 						/>
 					)}
@@ -198,7 +199,7 @@ const FeedPostBody = styled.div``
 const FeedPostAttachments = styled.div`
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	position: relative;
 	padding-top: 2px;
 	margin-top: -4px;
 `

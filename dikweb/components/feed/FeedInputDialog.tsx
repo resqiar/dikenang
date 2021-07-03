@@ -130,6 +130,7 @@ export default function FeedInputDialog(props: Props) {
 			) {
 				return Router.push('/auth')
 			}
+			console.log(requestToServer.error)
 			return setLoadingState(false)
 		}
 

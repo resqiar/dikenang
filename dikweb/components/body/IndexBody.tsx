@@ -113,6 +113,7 @@ export default function IndexBody({ profile }: Props) {
 										type={value.type as string}
 										username={value.author.username}
 										timestamp={value.created_at}
+										imageSrc={value.attachments?.uri}
 										avatarSrc={
 											value.author.avatar_url as
 												| string
