@@ -187,7 +187,10 @@ export type GetPublicFeedsQuery = (
     & { author: (
       { __typename?: 'User' }
       & Pick<User, 'username' | 'avatar_url'>
-    ) }
+    ), attachments?: Maybe<(
+      { __typename?: 'Attachments' }
+      & Pick<Attachments, 'id' | 'type' | 'uri'>
+    )> }
   )> }
 );
 
@@ -245,6 +248,11 @@ export const GetPublicFeedsDocument = gql`
     author {
       username
       avatar_url
+    }
+    attachments {
+      id
+      type
+      uri
     }
   }
 }
