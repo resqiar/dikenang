@@ -207,7 +207,12 @@ export default function FeedInputDialog(props: Props) {
 
 			<FeedInputDialogBody>
 				{/* Rich Text Area Input */}
-				<RichTextEditor onChangeCallback={handleCaptionChange} />
+				<RichTextAreaWrapper
+					previewMinimized={previewMinimized}
+					hasAttachments={rawImage ? true : false}
+				>
+					<RichTextEditor onChangeCallback={handleCaptionChange} />
+				</RichTextAreaWrapper>
 
 				{/* If there is previewed media uploaded */}
 				{imagePreview ? (
@@ -414,6 +419,19 @@ const FeedInputDialogBody = styled.div`
 		padding: 0px;
 	}
 `
+
+const RichTextAreaWrapper = styled.div<{
+	previewMinimized?: boolean
+	hasAttachments?: boolean
+}>`
+	@media (max-width: 600px) {
+		max-height: ${(props) =>
+			!props.previewMinimized ? '200px' : undefined};
+		overflow: auto;
+		flex-grow: 1;
+	}
+`
+
 const FeedinputDialogPreview = styled.div`
 	padding: 8px 18px;
 	max-width: 350px;
