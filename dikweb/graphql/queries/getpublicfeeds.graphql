@@ -8,5 +8,10 @@ query getPublicFeeds {
 			username
 			avatar_url
 		}
+		attachments {
+			id
+			type
+			uri
+		}
 	}
 }
