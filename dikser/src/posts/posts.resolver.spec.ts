@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Relationship } from '../relationship/entities/relationship.entity'
 import { User } from '../users/entities/user.entity'
 import { DeletePostResponse } from './dto/delete-response.dto'
 import { Attachments } from './entities/attachments.entity'
@@ -10,7 +11,7 @@ describe('PostsResolver', () => {
 	let resolver: PostsResolver
 
 	const mockPostsService = {
-		create: jest.fn((_: User, { caption }, attachments) => {
+		create: jest.fn((_: User, { type, caption }, attachments) => {
 			/**
 			 * If caption is less than 3 chars
 			 * normally this validation is taken care of
@@ -22,6 +23,7 @@ describe('PostsResolver', () => {
 
 			return {
 				id: 'c85ea02a-2d5b-4842-90dd-9e0be3235620',
+				type: type,
 				caption: caption,
 				attachments: attachments ? attachments : null,
 			}
@@ -53,10 +55,12 @@ describe('PostsResolver', () => {
 			const previous_data = {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				caption: 'testing',
+				type: 'public',
 				created_at: new Date(),
 				updated_at: new Date(),
 				author: new User(),
 				attachments: new Attachments(),
+				relationship: new Relationship(),
 			}
 
 			return new DeletePostResponse(previous_data, 'DELETED', 200)
@@ -85,12 +89,14 @@ describe('PostsResolver', () => {
 			const expectedResult = {
 				id: expect.any(String),
 				caption: 'testing caption',
+				type: 'public',
 				attachments: null,
 			}
 
 			expect(
 				await resolver.createPost(currentUser, {
 					caption: 'testing caption',
+					type: 'public',
 				})
 			).toEqual(expectedResult)
 		})
@@ -106,6 +112,7 @@ describe('PostsResolver', () => {
 			const expectedResult = {
 				id: expect.any(String),
 				caption: 'testing caption',
+				type: 'public',
 				attachments: attachmentsMock,
 			}
 
@@ -114,6 +121,7 @@ describe('PostsResolver', () => {
 					currentUser,
 					{
 						caption: 'testing caption',
+						type: 'public',
 					},
 					attachmentsMock // optional arguments
 				)
