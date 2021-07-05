@@ -80,11 +80,14 @@ export class RelationshipService {
 		)
 	}
 
-	async findById(postId: string) {
+	async findById(relationshipId: string) {
 		try {
-			return await this.relationshipRepository.findOneOrFail(postId, {
-				relations: ['partnership'],
-			})
+			return await this.relationshipRepository.findOneOrFail(
+				relationshipId,
+				{
+					relations: ['partnership'],
+				}
+			)
 		} catch (e) {
 			/**
 			 * @Error here means that client fails to get
