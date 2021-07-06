@@ -424,6 +424,9 @@ const RichTextAreaWrapper = styled.div<{
 	previewMinimized?: boolean
 	hasAttachments?: boolean
 }>`
+	width: 100%;
+	height: 100%;
+
 	@media (max-width: 600px) {
 		max-height: ${(props) =>
 			!props.previewMinimized ? '200px' : undefined};
