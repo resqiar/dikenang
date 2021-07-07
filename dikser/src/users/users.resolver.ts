@@ -15,11 +15,11 @@ export class UsersResolver {
 	 * shouldnt be published to production
 	 * since this query is not used for public
 	 */
-	@Query(() => [User], { name: 'users' })
-	@UseGuards(AuthStatusGuard)
-	async findAll(): Promise<User[]> {
-		return await this.usersService.findAll()
-	}
+	// @Query(() => [User], { name: 'users' })
+	// @UseGuards(AuthStatusGuard)
+	// async findAll(): Promise<User[]> {
+	// 	return await this.usersService.findAll()
+	// }
 
 	@Query(() => User, { name: 'user' })
 	async findOne(@Args('username') username: string): Promise<User> {
