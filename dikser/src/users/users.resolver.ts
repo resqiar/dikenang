@@ -26,6 +26,12 @@ export class UsersResolver {
 		return await this.usersService.findByUsername(username)
 	}
 
+	@Query(() => User, { name: 'getMyProfile' })
+	@UseGuards(AuthStatusGuard)
+	async getMyProfile(@CurrentUser() currentUser: User): Promise<User> {
+		return await this.usersService.findByUsername(currentUser.username)
+	}
+
 	@Mutation(() => User, { name: 'updateUser' })
 	@UseGuards(AuthStatusGuard)
 	async update(

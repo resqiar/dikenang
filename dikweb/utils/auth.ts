@@ -1,12 +1,49 @@
+import { gql } from '@apollo/client'
 import { NextPageContext } from 'next'
-import axiosConfig from './axios'
+import { initializeApollo } from '../lib/apollo'
 
 export default async function checkAuth(ctx: NextPageContext) {
 	try {
-		const resp = await axiosConfig.get('/auth/status', {
-			headers: { cookie: ctx.req!.headers.cookie },
+		/**
+		 * Apollo Configuration
+		 * Initialize apollo client on the server
+		 * and pass NextPageContext in order to send
+		 * cookie to server
+		 * @see apollo.ts for more
+		 */
+		const apolloClient = initializeApollo(ctx)
+
+		/**
+		 * @Usage query basic information of user upfront
+		 * This information is necessary to be used in
+		 * index page
+		 */
+		const QUERY_PROFILE = gql`
+			query {
+				getMyProfile {
+					id
+					username
+					avatar_url
+					email
+					bio
+					relationship {
+						id
+					}
+				}
+			}
+		`
+
+		/**
+		 * @see QUERY_PROFILE
+		 * Query data from graphql resolver
+		 * This data will be used in index page for
+		 * Initial state value
+		 */
+		const gqlRequest = await apolloClient.query({
+			query: QUERY_PROFILE,
 		})
-		return resp.data
+
+		return gqlRequest.data.getMyProfile
 	} catch (e) {
 		return
 	}

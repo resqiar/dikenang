@@ -1,0 +1,17 @@
+mutation CreatePost(
+	$createPostinput: CreatePostInput!
+	$createAttachmentInput: CreateAttachmentInput
+) {
+	createPost(
+		createPostInput: $createPostinput
+		createAttachmentInput: $createAttachmentInput
+	) {
+		caption
+		author {
+			id
+			username
+			avatar_url
+		}
+		type
+	}
+}
