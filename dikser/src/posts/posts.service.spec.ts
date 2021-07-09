@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
+import { RelationshipService } from '../relationship/relationship.service'
 import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { CreateAttachmentInput } from './dto/create-attachments.input'
@@ -74,6 +75,8 @@ describe('PostsService', () => {
 		}),
 	}
 
+	const mockRelationshipService = {}
+
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
@@ -90,6 +93,10 @@ describe('PostsService', () => {
 					provide: UsersService,
 					useValue: mockUsersService,
 				},
+				{
+					provide: RelationshipService,
+					useValue: mockRelationshipService,
+				},
 			],
 		}).compile()
 
@@ -105,6 +112,7 @@ describe('PostsService', () => {
 			const currentUser = new User()
 			const postsMock: CreatePostInput = {
 				caption: 'testing caption',
+				type: 'public',
 			}
 
 			const attachmentsMock = {
@@ -116,6 +124,7 @@ describe('PostsService', () => {
 			const expectedResult = {
 				id: expect.any(String),
 				caption: 'testing caption',
+				type: 'public',
 				author: expect.any(Object),
 				attachments: attachmentsMock,
 			}
@@ -133,11 +142,13 @@ describe('PostsService', () => {
 			const currentUser = new User()
 			const postsMock: CreatePostInput = {
 				caption: 'testing caption',
+				type: 'public',
 			}
 
 			const expectedResult = {
 				id: expect.any(String),
 				caption: 'testing caption',
+				type: 'public',
 				author: expect.any(Object),
 			}
 

@@ -1,6 +1,7 @@
 import DikenangLogo from '../logo/DikenangLogo'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
+import Router from 'next/router'
 
 import GitHubIcon from '@material-ui/icons/GitHub'
 
@@ -10,7 +11,7 @@ export default function AuthHeader() {
 			{/* Left Side */}
 			<HeaderBrand>
 				{/* Brand Logo */}
-				<DikenangLogo />
+				<DikenangLogo onClickCallback={() => Router.push('/')} />
 			</HeaderBrand>
 
 			{/* Right side */}

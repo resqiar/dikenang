@@ -2,26 +2,37 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Attachments {
+type Relationship {
   id: String!
-  type: String!
-  extensions: String!
-  uri: [String!]!
-}
-
-type Post {
-  id: String!
-  caption: String!
+  type: String
+  description: String
   created_at: DateTime
   updated_at: DateTime
-  author: User!
-  attachments: Attachments
+  partnership: [User!]
+  posts: [Post!]
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Attachments {
+  id: String!
+  type: String!
+  uri: [String!]!
+}
+
+type Post {
+  id: String!
+  caption: String!
+  type: String
+  created_at: DateTime
+  updated_at: DateTime
+  author: User!
+  attachments: Attachments
+  relationship: Relationship
+}
 
 type User {
   id: String!
@@ -32,6 +43,13 @@ type User {
   created_at: DateTime
   updated_at: DateTime
   contents: [Post!]
+  relationship: Relationship
+}
+
+type DeleteRelationshipResponse {
+  previous_data: Relationship!
+  status: String!
+  code: Float!
 }
 
 type DeletePostResponse {
@@ -43,6 +61,7 @@ type DeletePostResponse {
 type Query {
   users: [User!]!
   user(username: String!): User!
+  getMyProfile: User!
   posts: [Post!]!
   post(postId: String!): Post!
 }
@@ -52,6 +71,8 @@ type Mutation {
   createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
+  createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
+  deleteRelationship: DeleteRelationshipResponse!
 }
 
 input UpdateUserInput {
@@ -63,15 +84,22 @@ input UpdateUserInput {
 
 input CreateAttachmentInput {
   type: String!
-  extensions: String!
   uri: [String!]!
 }
 
 input CreatePostInput {
   caption: String!
+  type: String!
 }
 
 input UpdatePostInput {
   caption: String
+  type: String
   id: String!
+}
+
+input CreateRelationshipInput {
+  type: String!
+  description: String!
+  target: String!
 }

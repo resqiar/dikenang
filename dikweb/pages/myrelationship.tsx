@@ -39,7 +39,7 @@ export default function myrelationship({ user }: Props) {
 						hasShadow={true}
 					>
 						<ProfileDetail
-							bannerSrc="/images/bg-3.png"
+							bannerSrc="/images/bg.png"
 							username="dikenang.dev"
 							description="Official Dikenang Development Account | Software Engineering"
 							origin="Indonesia"

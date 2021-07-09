@@ -54,6 +54,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
+				relations: ['relationship'],
 			})
 		} catch (e) {
 			/**
@@ -68,6 +69,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { id: id },
+				relations: ['relationship'],
 			})
 		} catch (e) {
 			/**

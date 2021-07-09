@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 interface Props {
 	text?: string
+	onClickCallback?: () => void
 }
 
 export default function DikenangLogo(props: Props) {
@@ -10,7 +11,7 @@ export default function DikenangLogo(props: Props) {
 	 * Crafted by hand
 	 */
 	return (
-		<DikenangLogoWrapper>
+		<DikenangLogoWrapper onClick={props.onClickCallback}>
 			<DikenangLogoH1>
 				{props.text ? props.text : 'dikenang.'}
 			</DikenangLogoH1>

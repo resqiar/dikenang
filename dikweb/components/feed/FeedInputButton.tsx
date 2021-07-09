@@ -6,6 +6,7 @@ interface Props {
 	title: string
 	iconColor: string
 	hideTitleOnMobile?: boolean
+	onClickCallback?: () => void
 }
 
 export default function FeedInputButton({
@@ -13,9 +14,10 @@ export default function FeedInputButton({
 	title,
 	iconColor,
 	hideTitleOnMobile,
+	onClickCallback,
 }: Props) {
 	return (
-		<FeedInputButtonWrapper>
+		<FeedInputButtonWrapper onClick={onClickCallback}>
 			{/* Icon */}
 			<IconButton>
 				<Icon style={{ color: iconColor }} />

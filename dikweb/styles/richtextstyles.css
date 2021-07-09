@@ -1,0 +1,42 @@
+/* Override default */
+.Draftail-Toolbar {
+	background: transparent !important;
+	color: var(--font-white-800) !important;
+	border-radius: 8px !important;
+	border: none !important;
+}
+
+/* Override default */
+.Draftail-Editor,
+.Draftail-Editor--readonly,
+.DraftEditor-editorContainer {
+	color: var(--font-white-800);
+	background: transparent !important;
+	border: none !important;
+	width: 100% !important;
+	height: 100% !important;
+	opacity: 1 !important;
+}
+
+/* Override default */
+.public-DraftEditor-content {
+	font-family: var(--font-family);
+	color: var(--font-white-800);
+}
+
+/* Override default */
+.public-DraftEditorPlaceholder-inner {
+	font-family: var(--font-family);
+}
+
+.Draftail-block--blockquote {
+	background: var(--background-dimmed-400);
+	padding: 8px;
+	border-left: 2px solid var(--font-white-300);
+}
+
+.public-DraftStyleDefault-pre {
+	background: var(--background-dimmed-400) !important;
+	padding: 8px 16px;
+	border-radius: 8px;
+}

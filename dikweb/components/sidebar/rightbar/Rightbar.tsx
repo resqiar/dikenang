@@ -8,7 +8,7 @@ export default function Rightbar() {
 		<RightBarWrapper>
 			{/* Card */}
 			<Card bgColor="var(--background-dimmed-500)">
-				<SidebarHeader bannerSrc="/images/bg-3.png" />
+				<SidebarHeader bannerSrc="/images/bg.png" />
 				<SidebarHeaderProfile
 					username="dikenang.official"
 					description="Hello and welcome to dikenang!"
