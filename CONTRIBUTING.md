@@ -24,6 +24,8 @@ The code of conduct is described in [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 This project is using the [conventional commits message](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) standard. Please follow these steps to ensure your
 commit messages are standardized, for more informations see [semantic commit message](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
 
+If you somehow commit with non conventional messages, it will automatically canceled due to bad commit message. You can run `yarn commit` to commit with following guidelines
+
 ## Code Styleguide
 All JS/TS code is linted with [Prettier](https://prettier.io/).
 * Prefer relative path import whenever possible instead of absolute. (Jest kinda have an issue with absolute path, we will fix this in the future)
@@ -32,41 +34,7 @@ All JS/TS code is linted with [Prettier](https://prettier.io/).
 * Whenever possible, use single quote instead of double.
 > More about code style/formatting see [.prettierrc](.prettierrc)
 
-If you somehow disagree with these styleguide, you can do whatever style you think its best, 
-but **please run `yarn format` to format your code following our conventions before commit/creating any PR.**
-
-## How to Run server locally
-1. Install dependencies
-```bash
-$ yarn install
-```
-2. Copy all `sample-env.txt`, create new file `.env`, then satisfy all the required value.
-```
-# Database Configurations
-DB_HOST=
-DB_PORT=
-DB_USERNAME=
-DB_PASSWORD=
-DB_NAME=
-
-# Jwt Secret Key
-JWT_SECRET=
-```
-> You may need to create and spin up your own Postgres database to get configurations value, docker support will be the future work.
-
-3. Running the server
-
-```bash
-# development
-$ yarn start
-
-# watch mode
-$ yarn start:dev
-
-# production mode
-$ yarn start:prod
-```
-Server index endpoint is on `localhost:3000` and graphQL endpoint is by default `localhost:3000/graphql`
+If you somehow non following our conventions, Prettier will automatically format them when you are committing changes 
 
 ## Issues
 We use GitHub issues to track public bugs. Please ensure your description is
