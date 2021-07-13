@@ -16,6 +16,11 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AddUserABadgeInput = {
+  userId: Scalars['String'];
+  badgeId: Scalars['String'];
+};
+
 export type Attachments = {
   __typename?: 'Attachments';
   id: Scalars['String'];
@@ -23,9 +28,28 @@ export type Attachments = {
   uri: Array<Scalars['String']>;
 };
 
+export type Badge = {
+  __typename?: 'Badge';
+  id: Scalars['String'];
+  label: Scalars['String'];
+  variant: Scalars['String'];
+  color?: Maybe<Scalars['String']>;
+  background?: Maybe<Scalars['String']>;
+  border?: Maybe<Scalars['String']>;
+  owners?: Maybe<Array<User>>;
+};
+
 export type CreateAttachmentInput = {
   type: Scalars['String'];
   uri: Array<Scalars['String']>;
+};
+
+export type CreateBadgeInput = {
+  label: Scalars['String'];
+  variant?: Maybe<Scalars['String']>;
+  color?: Maybe<Scalars['String']>;
+  background?: Maybe<Scalars['String']>;
+  border?: Maybe<Scalars['String']>;
 };
 
 export type CreatePostInput = {
@@ -62,6 +86,8 @@ export type Mutation = {
   removePost: DeletePostResponse;
   createRelationship: Relationship;
   deleteRelationship: DeleteRelationshipResponse;
+  createBadge: Badge;
+  addUserABadge: User;
 };
 
 
@@ -90,6 +116,16 @@ export type MutationCreateRelationshipArgs = {
   createRelationshipInput: CreateRelationshipInput;
 };
 
+
+export type MutationCreateBadgeArgs = {
+  createBadgeInput: CreateBadgeInput;
+};
+
+
+export type MutationAddUserABadgeArgs = {
+  addUserABadgeInput: AddUserABadgeInput;
+};
+
 export type Post = {
   __typename?: 'Post';
   id: Scalars['String'];
@@ -109,6 +145,7 @@ export type Query = {
   getMyProfile: User;
   posts: Array<Post>;
   post: Post;
+  badges: Array<Badge>;
 };
 
 
@@ -156,6 +193,7 @@ export type User = {
   updated_at?: Maybe<Scalars['DateTime']>;
   contents?: Maybe<Array<Post>>;
   relationship?: Maybe<Relationship>;
+  badges?: Maybe<Array<Badge>>;
 };
 
 export type CreatePostMutationVariables = Exact<{
@@ -187,6 +225,10 @@ export type GetPublicFeedsQuery = (
     & { author: (
       { __typename?: 'User' }
       & Pick<User, 'username' | 'avatar_url'>
+      & { badges?: Maybe<Array<(
+        { __typename?: 'Badge' }
+        & Pick<Badge, 'id' | 'label' | 'variant' | 'color' | 'background' | 'border'>
+      )>> }
     ), attachments?: Maybe<(
       { __typename?: 'Attachments' }
       & Pick<Attachments, 'id' | 'type' | 'uri'>
@@ -248,6 +290,14 @@ export const GetPublicFeedsDocument = gql`
     author {
       username
       avatar_url
+      badges {
+        id
+        label
+        variant
+        color
+        background
+        border
+      }
     }
     attachments {
       id
