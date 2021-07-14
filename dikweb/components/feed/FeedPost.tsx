@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import RichTextEditor from '../utils/RichTextEditor'
 import BulletDivider from '../utils/BulletDivider'
+import { Badge } from '../../generated/graphql'
 import Moment from 'moment'
 
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -19,6 +20,7 @@ import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
 
 interface Props {
 	username: string
+	badge?: Badge
 	timestamp: string
 	caption: string
 	upSum: number
@@ -32,6 +34,7 @@ interface Props {
 export default function FeedPost({
 	avatarSrc,
 	username,
+	badge,
 	timestamp,
 	caption,
 	imageSrc,
@@ -78,8 +81,25 @@ export default function FeedPost({
 					</IconButton>
 
 					<FeedPostHeaderText>
-						{/* Post Username */}
-						<FeedPostProfileH4>{username}</FeedPostProfileH4>
+						<FeedPostHeaderUsernameWrapper>
+							{/* Post Username */}
+							<FeedPostProfileH4>{username}</FeedPostProfileH4>
+
+							{/* Badge (if any) */}
+							{badge ? (
+								<Chip
+									label={badge.label}
+									variant={badge.variant as any}
+									size="small"
+									style={{
+										height: '21px',
+										color: `${badge.color}`,
+										background: `${badge.background}`,
+										borderColor: `${badge.border}`,
+									}}
+								/>
+							) : undefined}
+						</FeedPostHeaderUsernameWrapper>
 
 						<FeedPostTypeTimestampWrapper>
 							{/* Post Type Icon */}
@@ -217,6 +237,11 @@ const FeedPostHeaderWrapper = styled.div`
 const FeedPostHeaderText = styled.div`
 	display: flex;
 	flex-direction: column;
+`
+const FeedPostHeaderUsernameWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
 `
 const FeedPostProfile = styled.div`
 	display: flex;

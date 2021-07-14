@@ -180,6 +180,11 @@ export default function IndexBody({ profile }: Props) {
 										caption={value.caption}
 										type={value.type as string}
 										username={value.author.username}
+										badge={
+											value.author.badges
+												? value.author.badges[0]
+												: undefined
+										}
 										timestamp={value.created_at}
 										imageSrc={value.attachments?.uri}
 										avatarSrc={
