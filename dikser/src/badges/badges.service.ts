@@ -42,6 +42,10 @@ export class BadgesService {
 		return await this.usersRepository.save(targetUser)
 	}
 
+	async findOne(label: string) {
+		return await this.badgesRepository.findOne({ where: { label: label } })
+	}
+
 	async findAll() {
 		return await this.badgesRepository.find()
 	}

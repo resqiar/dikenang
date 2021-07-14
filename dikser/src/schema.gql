@@ -57,6 +57,12 @@ type User {
   badges: [Badge!]
 }
 
+type DeleteBadgeResponse {
+  previous_data: Badge!
+  status: String!
+  code: Float!
+}
+
 type DeleteRelationshipResponse {
   previous_data: Relationship!
   status: String!
@@ -69,32 +75,26 @@ type DeletePostResponse {
   code: Float!
 }
 
-type DeleteBadgeResponse {
-  previous_data: Badge!
-  status: String!
-  code: Float!
-}
-
 type Query {
   users: [User!]!
   user(username: String!): User!
   getMyProfile: User!
+  badges: [Badge!]!
   posts: [Post!]!
   post(postId: String!): Post!
-  badges: [Badge!]!
 }
 
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
+  createBadge(createBadgeInput: CreateBadgeInput!): Badge!
+  addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
+  removeBadge(label: String!): DeleteBadgeResponse!
+  removeBadgeFromUser(userId: String!, label: String!): User!
   createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
   createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
   deleteRelationship: DeleteRelationshipResponse!
-  createBadge(createBadgeInput: CreateBadgeInput!): Badge!
-  addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
-  removeBadge(label: String!): DeleteBadgeResponse!
-  removeBadgeFromUser(userId: String!, label: String!): User!
 }
 
 input UpdateUserInput {
@@ -102,6 +102,19 @@ input UpdateUserInput {
   email: String
   bio: String
   avatar_url: String
+}
+
+input CreateBadgeInput {
+  label: String!
+  variant: String
+  color: String
+  background: String
+  border: String
+}
+
+input AddUserABadgeInput {
+  userId: String!
+  badgeLabel: String!
 }
 
 input CreateAttachmentInput {
@@ -124,17 +137,4 @@ input CreateRelationshipInput {
   type: String!
   description: String!
   target: String!
-}
-
-input CreateBadgeInput {
-  label: String!
-  variant: String
-  color: String
-  background: String
-  border: String
-}
-
-input AddUserABadgeInput {
-  userId: String!
-  badgeLabel: String!
 }
