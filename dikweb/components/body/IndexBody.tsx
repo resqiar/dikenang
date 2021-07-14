@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Collapse from '@material-ui/core/Collapse'
 import CloseIcon from '@material-ui/icons/Close'
 import ContactSupportIcon from '@material-ui/icons/ContactSupport'
+import { Chip } from '@material-ui/core'
 
 interface Props {
 	profile: UserProfileType
@@ -135,7 +136,7 @@ export default function IndexBody({ profile }: Props) {
 							action={
 								<IconButton
 									aria-label="close"
-									color="inherit"
+									style={{ color: 'var(--font-white-200)' }}
 									size="small"
 									onClick={() =>
 										dismissAlert({
@@ -151,13 +152,32 @@ export default function IndexBody({ profile }: Props) {
 								Hello dikenang users, welcome to the memorable
 								community.
 							</AlertTitle>
-							First of all, we would like to thank you for
-							participating in the testing phase for dikenang.co
-							version 1.3.0. As we said, dikenang is currently in
-							early development, some features may or may not
-							work, this is the point where we need your help! the
-							process will involve testing the update and then
-							reporting your feedback to our GitHub repository.
+							Dikenang is currently in early development, some
+							features may or may not work, this is the point
+							where we need your help! please report any bug or
+							your feedback to our GitHub Issues{' '}
+							<a
+								href="https://github.com/resqiar/dikenang/issues"
+								target="_blank"
+								style={{ textDecoration: 'underline' }}
+							>
+								here
+							</a>
+							. As a small reward for joining dikenang, we will
+							compensate you this badge{' '}
+							{
+								<Chip
+									label="Tester"
+									variant="outlined"
+									size="small"
+									style={{
+										color: 'var(--font-white-800)',
+										borderColor: 'var(--font-white-800)',
+									}}
+								/>
+							}{' '}
+							that will be shown in feeds everytime you post
+							something!
 						</Alert>
 					</Collapse>
 				</AlertWrapper>

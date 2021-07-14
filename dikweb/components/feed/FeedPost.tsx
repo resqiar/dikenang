@@ -92,7 +92,6 @@ export default function FeedPost({
 									variant={badge.variant as any}
 									size="small"
 									style={{
-										height: '21px',
 										color: `${badge.color}`,
 										background: `${badge.background}`,
 										borderColor: `${badge.border}`,
