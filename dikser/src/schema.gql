@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Badge {
+  id: String!
+  label: String!
+  variant: String!
+  color: String
+  background: String
+  border: String
+  owners: [User!]
+}
+
 type Relationship {
   id: String!
   type: String
@@ -44,6 +54,7 @@ type User {
   updated_at: DateTime
   contents: [Post!]
   relationship: Relationship
+  badges: [Badge!]
 }
 
 type DeleteRelationshipResponse {
@@ -58,12 +69,19 @@ type DeletePostResponse {
   code: Float!
 }
 
+type DeleteBadgeResponse {
+  previous_data: Badge!
+  status: String!
+  code: Float!
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
   getMyProfile: User!
   posts: [Post!]!
   post(postId: String!): Post!
+  badges: [Badge!]!
 }
 
 type Mutation {
@@ -73,6 +91,10 @@ type Mutation {
   removePost(postId: String!): DeletePostResponse!
   createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
   deleteRelationship: DeleteRelationshipResponse!
+  createBadge(createBadgeInput: CreateBadgeInput!): Badge!
+  addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
+  removeBadge(label: String!): DeleteBadgeResponse!
+  removeBadgeFromUser(userId: String!, label: String!): User!
 }
 
 input UpdateUserInput {
@@ -102,4 +124,17 @@ input CreateRelationshipInput {
   type: String!
   description: String!
   target: String!
+}
+
+input CreateBadgeInput {
+  label: String!
+  variant: String
+  color: String
+  background: String
+  border: String
+}
+
+input AddUserABadgeInput {
+  userId: String!
+  badgeLabel: String!
 }

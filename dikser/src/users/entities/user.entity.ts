@@ -3,11 +3,14 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinTable,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Badge } from '../../badges/entities/badge.entity'
 import { Post } from '../../posts/entities/post.entity'
 import { Relationship } from '../../relationship/entities/relationship.entity'
 
@@ -65,4 +68,9 @@ export class User {
 		}
 	)
 	relationship: Relationship
+
+	@Field((_) => [Badge], { nullable: true })
+	@ManyToMany(() => Badge)
+	@JoinTable()
+	badges: Badge[]
 }
