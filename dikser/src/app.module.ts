@@ -7,7 +7,9 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql'
 import { AuthModule } from './auth/auth.module'
 import { PostsModule } from './posts/posts.module'
 import { PassportModule } from '@nestjs/passport'
-import { RelationshipModule } from './relationship/relationship.module';
+import { RelationshipModule } from './relationship/relationship.module'
+import { BadgesModule } from './badges/badges.module'
+
 @Module({
 	imports: [
 		DatabaseModule,
@@ -17,7 +19,7 @@ import { RelationshipModule } from './relationship/relationship.module';
 			playground: process.env.NODE_ENV !== 'production',
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 			cors: {
-				origin: [process.env.CLIENT_ORIGIN || 'http://localhost:3001'],
+				origin: [process.env.CLIENT_ORIGIN!, process.env.A_ORIGIN!],
 			},
 			/**
 			 * Intercept graphql error, bind a custom json object
@@ -40,6 +42,7 @@ import { RelationshipModule } from './relationship/relationship.module';
 		AuthModule,
 		PostsModule,
 		RelationshipModule,
+		BadgesModule,
 	],
 	controllers: [],
 	providers: [],
