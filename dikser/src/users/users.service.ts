@@ -34,11 +34,11 @@ export class UsersService {
 		}
 	}
 
-	// async findAll() {
-	// 	return await this.userRepository.find({
-	// 		relations: ['contents', 'contents.attachments'],
-	// 	})
-	// }
+	async findAll() {
+		return await this.userRepository.find({
+			relations: ['contents', 'badges', 'contents.attachments'],
+		})
+	}
 
 	async findOauth(oauthId: string) {
 		/**

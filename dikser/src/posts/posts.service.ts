@@ -102,6 +102,7 @@ export class PostsService {
 		return await this.postsRepository.find({
 			relations: [
 				'author',
+				'author.badges',
 				'attachments',
 				'relationship',
 				'relationship.partnership',
