@@ -54,7 +54,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
-				relations: ['relationship'],
+				relations: ['contents', 'badges', 'contents.attachments'],
 			})
 		} catch (e) {
 			/**
