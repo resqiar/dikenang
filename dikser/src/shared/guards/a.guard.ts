@@ -1,17 +1,21 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common'
 import { GqlExecutionContext } from '@nestjs/graphql'
-import { Observable } from 'rxjs'
+import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class AGuard implements CanActivate {
-	canActivate(
-		ctx: ExecutionContext
-	): boolean | Promise<boolean> | Observable<boolean> {
+	async canActivate(ctx: ExecutionContext): Promise<boolean> {
 		const context = GqlExecutionContext.create(ctx)
-		const token = context.getContext().req.headers.key
-		if (token !== process.env.A_KEY) {
-			return false
+		const SPECIAL_ACCESS_KEY = context.getContext().req.headers.key
+
+		if (SPECIAL_ACCESS_KEY) {
+			const SPECIAL_ACCESS_GRANTED = await bcrypt.compare(
+				SPECIAL_ACCESS_KEY,
+				process.env.A_KEY!
+			)
+			if (SPECIAL_ACCESS_GRANTED) return true
 		}
-		return true
+
+		return false
 	}
 }
