@@ -36,4 +36,13 @@ export class UsersResolver {
 	): Promise<User> {
 		return await this.usersService.update(currentUser.id, updateUserInput)
 	}
+
+	@Mutation(() => User, { name: 'specialUpdateUser' })
+	@UseGuards(AGuard)
+	async specialUpdate(
+		@Args('id') id: string,
+		@Args('updateUserInput') updateUserInput: UpdateUserInput
+	): Promise<User> {
+		return await this.usersService.update(id, updateUserInput)
+	}
 }

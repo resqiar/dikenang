@@ -87,6 +87,7 @@ type Query {
 
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
+  specialUpdateUser(updateUserInput: UpdateUserInput!, id: String!): User!
   createBadge(createBadgeInput: CreateBadgeInput!): Badge!
   addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
   removeBadge(label: String!): DeleteBadgeResponse!
