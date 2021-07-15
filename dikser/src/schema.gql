@@ -80,6 +80,7 @@ type Query {
   user(username: String!): User!
   getMyProfile: User!
   badges: [Badge!]!
+  badge(label: String!): Badge!
   posts: [Post!]!
   post(postId: String!): Post!
 }

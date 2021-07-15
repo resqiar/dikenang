@@ -10,7 +10,7 @@ export class Badge {
 	id: string
 
 	@Field()
-	@Column()
+	@Column({ unique: true })
 	label: string
 
 	@Field()
@@ -30,6 +30,8 @@ export class Badge {
 	border: string
 
 	@Field(() => [User], { nullable: true })
-	@ManyToMany(() => User, (owners: User) => owners.badges)
+	@ManyToMany(() => User, (owners: User) => owners.badges, {
+		onDelete: 'CASCADE',
+	})
 	owners: User[]
 }

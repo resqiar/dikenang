@@ -32,6 +32,11 @@ export class BadgesResolver {
 		return await this.badgesService.findAll()
 	}
 
+	@Query(() => Badge, { name: 'badge' })
+	async findOne(@Args('label') label: string): Promise<Badge> {
+		return await this.badgesService.findOne(label)
+	}
+
 	@Mutation(() => DeleteBadgeResponse)
 	async removeBadge(
 		@Args('label') label: string

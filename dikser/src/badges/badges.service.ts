@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -17,48 +18,72 @@ export class BadgesService {
 	) {}
 
 	async create(createBadgeInput: CreateBadgeInput) {
+		/**
+		 * Check if badge already exist
+		 * If there is already exist badge in database,
+		 * Skip the mutations and throw error
+		 */
+		const isAvailable = await this.badgesRepository.findOne({
+			where: {
+				label: createBadgeInput.label,
+			},
+		})
+
+		if (isAvailable)
+			throw new BadRequestException(
+				`Badge already available with the name of "${isAvailable.label}"`
+			)
+
 		const createdBadge = this.badgesRepository.create(createBadgeInput)
 		return await this.badgesRepository.save(createdBadge)
 	}
 
 	async addUserABadge(addUserABadgeInput: AddUserABadgeInput) {
-		// get target user
+		// Get target user from database
 		const targetUser = await this.usersRepository.findOne(
 			addUserABadgeInput.userId
 		)
-		// get target badge
+
+		// Get target badge from database
 		const targetBadge = await this.badgesRepository.findOne({
 			where: {
 				label: addUserABadgeInput.badgeLabel,
 			},
 		})
 
-		// if there is no either badge or user
+		// If there is no either badge or user throw Exception
 		if (!targetUser || !targetBadge) throw new NotFoundException()
 
-		// set target user with target badge
+		// Set badge to user entity
 		targetUser.badges = [targetBadge]
 
+		// save to database and return back the data
 		return await this.usersRepository.save(targetUser)
 	}
 
 	async findOne(label: string) {
-		return await this.badgesRepository.findOne({ where: { label: label } })
+		const result = await this.badgesRepository.findOne({
+			where: { label: label },
+			relations: ['owners'],
+		})
+
+		if (!result) throw new NotFoundException()
+		return result
 	}
 
 	async findAll() {
-		return await this.badgesRepository.find()
+		return await this.badgesRepository.find({ relations: ['owners'] })
 	}
 
 	async remove(label: string) {
-		// get target badge
+		// Get target badge from the database
 		const targetBadge = await this.badgesRepository.findOne({
 			where: {
 				label: label,
 			},
 		})
 
-		// if there is no badge
+		// If there is no corresponding badge, throw Exception
 		if (!targetBadge) throw new NotFoundException()
 
 		await this.badgesRepository.delete(targetBadge)
@@ -66,25 +91,27 @@ export class BadgesService {
 	}
 
 	async removeBadgeFromUser(label: string, userId: string) {
-		// get target user
+		// Get target user from the database
 		const targetUser = await this.usersRepository.findOne(userId, {
 			relations: ['badges'],
 		})
-		// get badge
+
+		// Get badge target from the database
 		const targetBadge = await this.badgesRepository.findOne({
 			where: {
 				label: label,
 			},
 		})
 
-		// if there is no either badge or user
+		// If there is no either badge or user, throw new Exception
 		if (!targetUser || !targetBadge) throw new NotFoundException()
 
-		// set target user with target badge
+		// Remove badge from target user entity
 		targetUser.badges = targetUser.badges.filter((badges) => {
 			badges.id !== targetBadge.id
 		})
 
+		// Save and return back the data
 		return await this.usersRepository.save(targetUser)
 	}
 }
