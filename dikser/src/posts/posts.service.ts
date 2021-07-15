@@ -100,6 +100,9 @@ export class PostsService {
 
 	async findAll() {
 		return await this.postsRepository.find({
+			where: {
+				type: 'public'
+			},
 			relations: [
 				'author',
 				'author.badges',
