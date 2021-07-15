@@ -70,7 +70,7 @@ export class User {
 	relationship: Relationship
 
 	@Field((_) => [Badge], { nullable: true })
-	@ManyToMany(() => Badge)
+	@ManyToMany(() => Badge, (badges: Badge) => badges.owners)
 	@JoinTable()
 	badges: Badge[]
 }
