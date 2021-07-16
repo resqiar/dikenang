@@ -21,7 +21,7 @@ async function bootstrap() {
 	app.enableCors({
 		origin: [process.env.CLIENT_ORIGIN!, process.env.A_ORIGIN!],
 		credentials: true,
-		allowedHeaders: '*',
+		allowedHeaders: ['Content-Type', 'key'],
 	})
 
 	// Redis config
