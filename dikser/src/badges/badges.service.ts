@@ -62,13 +62,10 @@ export class BadgesService {
 	}
 
 	async findOne(label: string) {
-		const result = await this.badgesRepository.findOne({
+		 return await this.badgesRepository.findOne({
 			where: { label: label },
 			relations: ['owners'],
 		})
-
-		if (!result) throw new NotFoundException()
-		return result
 	}
 
 	async findAll() {

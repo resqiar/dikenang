@@ -33,7 +33,7 @@ export class BadgesResolver {
 	}
 
 	@Query(() => Badge, { name: 'badge' })
-	async findOne(@Args('label') label: string): Promise<Badge> {
+	async findOne(@Args('label') label: string): Promise<Badge | undefined> {
 		return await this.badgesService.findOne(label)
 	}
 
