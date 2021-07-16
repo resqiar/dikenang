@@ -153,9 +153,9 @@ export default function IndexBody({ profile }: Props) {
 								community.
 							</AlertTitle>
 							Dikenang is currently in early development, some
-							features may or may not work, this is the point
-							where we need your help! please report any bug or
-							your feedback to our GitHub Issues{' '}
+							features may not work, this is the point where we
+							need your help! please report any bug or your
+							feedback to our GitHub Issues{' '}
 							<a
 								href="https://github.com/resqiar/dikenang/issues"
 								target="_blank"
