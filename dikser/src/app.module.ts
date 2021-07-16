@@ -21,6 +21,7 @@ import { BadgesModule } from './badges/badges.module'
 			cors: {
 				origin: [process.env.CLIENT_ORIGIN!, process.env.A_ORIGIN!],
 				credentials: true,
+				allowedHeaders: '*',
 			},
 			/**
 			 * Intercept graphql error, bind a custom json object
