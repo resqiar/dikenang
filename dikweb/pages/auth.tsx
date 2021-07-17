@@ -55,17 +55,17 @@ export default function AuthPage() {
 						</AuthButton>
 
 						{/* Twitter */}
-						<AuthButton fontAwesomeIcon={faTwitter}>
+						<AuthButton fontAwesomeIcon={faTwitter} disabled={true}>
 							Twitter
 						</AuthButton>
 
 						{/* Github */}
-						<AuthButton fontAwesomeIcon={faGithub}>
+						<AuthButton fontAwesomeIcon={faGithub} disabled={true}>
 							GitHub
 						</AuthButton>
 
 						{/* Discord */}
-						<AuthButton fontAwesomeIcon={faDiscord}>
+						<AuthButton fontAwesomeIcon={faDiscord} disabled={true}>
 							Discord
 						</AuthButton>
 					</AuthCardButtonWrapper>
