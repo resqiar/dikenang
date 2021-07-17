@@ -22,13 +22,13 @@
 		"url": "https://github.com/resqiar/dikenang.git"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^12.1.4",
-		"@commitlint/config-conventional": "^12.1.4",
-		"commitizen": "^4.2.4",
-		"cz-conventional-changelog": "^3.3.0",
-		"husky": "^7.0.0",
-		"prettier": "^2.3.2",
-		"pretty-quick": "^3.1.1",
+		"@commitlint/cli": "12.1.4",
+		"@commitlint/config-conventional": "12.1.4",
+		"commitizen": "4.2.4",
+		"cz-conventional-changelog": "3.3.0",
+		"husky": "7.0.1",
+		"prettier": "2.3.2",
+		"pretty-quick": "3.1.1",
 		"semantic-release": "17.4.4"
 	},
 	"release": {

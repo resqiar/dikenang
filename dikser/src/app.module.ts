@@ -20,6 +20,8 @@ import { BadgesModule } from './badges/badges.module'
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 			cors: {
 				origin: [process.env.CLIENT_ORIGIN!, process.env.A_ORIGIN!],
+				credentials: true,
+				allowedHeaders: ['Content-Type', 'key'],
 			},
 			/**
 			 * Intercept graphql error, bind a custom json object
