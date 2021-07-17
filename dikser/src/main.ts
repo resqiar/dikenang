@@ -19,8 +19,9 @@ async function bootstrap() {
 	 */
 	app.useGlobalPipes(new ValidationPipe())
 	app.enableCors({
-		origin: [process.env.CLIENT_ORIGIN!],
+		origin: [process.env.CLIENT_ORIGIN!, process.env.A_ORIGIN!],
 		credentials: true,
+		allowedHeaders: ['Content-Type', 'key'],
 	})
 
 	// Redis config

@@ -4,6 +4,7 @@ import {
 	Injectable,
 	RequestTimeoutException,
 } from '@nestjs/common'
+import { BadgesService } from '../badges/badges.service'
 import { UsersService } from '../users/users.service'
 import { GoogleDTO } from './dto/google.dto'
 import Randomize from './utils/Randomize'
@@ -12,7 +13,8 @@ import Randomize from './utils/Randomize'
 export class AuthService {
 	constructor(
 		@Inject(forwardRef(() => UsersService))
-		private usersService: UsersService
+		private usersService: UsersService,
+		private readonly badgesService: BadgesService
 	) {}
 
 	async googleAuth(res: GoogleDTO) {
@@ -37,6 +39,29 @@ export class AuthService {
 				username: Randomize(res.given_name),
 				avatar_url: res.profile_url,
 			})
+
+			// limited time only
+			// we give user a "Tester" badge for joining dikenang
+			const testerBadge = await this.badgesService.findOne('Tester')
+			if (!testerBadge) {
+				const createdBadge = await this.badgesService.create({
+					label: 'Tester',
+					variant: 'outlined',
+					color: 'var(--font-white-800)',
+					border: 'var(--font-white-800)',
+					background: 'transparent',
+				})
+
+				await this.badgesService.addUserABadge({
+					badgeLabel: createdBadge.label,
+					userId: createdUser.id,
+				})
+			} else {
+				await this.badgesService.addUserABadge({
+					badgeLabel: testerBadge.label,
+					userId: createdUser.id,
+				})
+			}
 
 			// return back to user
 			return {

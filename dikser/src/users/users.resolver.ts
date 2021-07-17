@@ -5,25 +5,27 @@ import { UseGuards } from '@nestjs/common'
 import { UpdateUserInput } from './dto/update-user.input'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
 import { AuthStatusGuard } from '../auth/guards/auth.guard'
+import { AGuard } from '../shared/guards/a.guard'
 
 @Resolver(() => User)
 export class UsersResolver {
 	constructor(private readonly usersService: UsersService) {}
 
-	/**
-	 * @Usage Development Purpose Only,
-	 * shouldnt be published to production
-	 * since this query is not used for public
-	 */
-	// @Query(() => [User], { name: 'users' })
-	// @UseGuards(AuthStatusGuard)
-	// async findAll(): Promise<User[]> {
-	// 	return await this.usersService.findAll()
-	// }
+	@Query(() => [User], { name: 'users' })
+	@UseGuards(AGuard)
+	async findAll(): Promise<User[]> {
+		return await this.usersService.findAll()
+	}
 
 	@Query(() => User, { name: 'user' })
 	async findOne(@Args('username') username: string): Promise<User> {
 		return await this.usersService.findByUsername(username)
+	}
+
+	@Query(() => User, { name: 'getMyProfile' })
+	@UseGuards(AuthStatusGuard)
+	async getMyProfile(@CurrentUser() currentUser: User): Promise<User> {
+		return await this.usersService.findByUsername(currentUser.username)
 	}
 
 	@Mutation(() => User, { name: 'updateUser' })
@@ -33,5 +35,14 @@ export class UsersResolver {
 		@Args('updateUserInput') updateUserInput: UpdateUserInput
 	): Promise<User> {
 		return await this.usersService.update(currentUser.id, updateUserInput)
+	}
+
+	@Mutation(() => User, { name: 'specialUpdateUser' })
+	@UseGuards(AGuard)
+	async specialUpdate(
+		@Args('id') id: string,
+		@Args('updateUserInput') updateUserInput: UpdateUserInput
+	): Promise<User> {
+		return await this.usersService.update(id, updateUserInput)
 	}
 }

@@ -34,11 +34,11 @@ export class UsersService {
 		}
 	}
 
-	// async findAll() {
-	// 	return await this.userRepository.find({
-	// 		relations: ['contents', 'contents.attachments'],
-	// 	})
-	// }
+	async findAll() {
+		return await this.userRepository.find({
+			relations: ['contents', 'badges', 'contents.attachments'],
+		})
+	}
 
 	async findOauth(oauthId: string) {
 		/**
@@ -54,6 +54,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
+				relations: ['badges'],
 			})
 		} catch (e) {
 			/**
@@ -68,6 +69,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { id: id },
+				relations: ['relationship'],
 			})
 		} catch (e) {
 			/**

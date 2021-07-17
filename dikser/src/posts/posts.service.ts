@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { RelationshipService } from '../relationship/relationship.service'
 import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { CreateAttachmentInput } from './dto/create-attachments.input'
@@ -22,7 +23,8 @@ export class PostsService {
 		private readonly postsRepository: Repository<Post>,
 		@InjectRepository(Attachments)
 		private readonly attachmentsRepository: Repository<Attachments>,
-		private readonly usersService: UsersService
+		private readonly usersService: UsersService,
+		private readonly relationshipService: RelationshipService
 	) {}
 
 	async create(
@@ -39,6 +41,40 @@ export class PostsService {
 		 */
 		const createdPost = this.postsRepository.create(createPostInput)
 		createdPost.author = relatedUser
+
+		/**
+		 * If user set @type to private
+		 * configure relation table between
+		 * Post and Relationship
+		 */
+		if (createPostInput.type === 'private') {
+			// if there is no relationship, throw an error
+			if (!relatedUser.relationship)
+				throw new BadRequestException(
+					'You do not have relationship just yet'
+				)
+
+			/**
+			 * After validate if user has a relationship,
+			 * Search for that corresponding relationship.
+			 */
+			const currentRelationship = await this.relationshipService.findById(
+				relatedUser.relationship.id
+			)
+
+			// if there is no relationship, throw an error
+			if (!currentRelationship)
+				throw new BadRequestException(
+					'You do not have relationship just yet'
+				)
+
+			/**
+			 * Bind @Post entity and @Relationship entity.
+			 * This relation means a post should only have one relationship
+			 * And one relationship could have a lot of posts
+			 */
+			createdPost.relationship = currentRelationship
+		}
 
 		/**
 		 * If user does not have any attachments
@@ -64,7 +100,19 @@ export class PostsService {
 
 	async findAll() {
 		return await this.postsRepository.find({
-			relations: ['author', 'attachments'],
+			where: {
+				type: 'public'
+			},
+			relations: [
+				'author',
+				'author.badges',
+				'attachments',
+				'relationship',
+				'relationship.partnership',
+			],
+			order: {
+				created_at: 'DESC',
+			},
 		})
 	}
 
@@ -121,8 +169,12 @@ export class PostsService {
 
 	async remove(currentUser: User, postId: string) {
 		try {
-			const relatedPost = await this.postsRepository.findOneOrFail(postId)
-
+			const relatedPost = await this.postsRepository.findOneOrFail(
+				postId,
+				{
+					relations: ['author'],
+				}
+			)
 			/**
 			 * Check if current post is related to
 			 * the current user, if not, throw an exception
