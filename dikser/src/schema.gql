@@ -2,20 +2,24 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Attachments {
-  id: String!
-  type: String!
-  extensions: String!
-  uri: [String!]!
+type Badge {
+	id: String!
+	label: String!
+	variant: String!
+	color: String
+	background: String
+	border: String
+	owners: [User!]
 }
 
-type Post {
-  id: String!
-  caption: String!
-  created_at: DateTime
-  updated_at: DateTime
-  author: User!
-  attachments: Attachments
+type Relationship {
+	id: String!
+	type: String
+	description: String
+	created_at: DateTime
+	updated_at: DateTime
+	partnership: [User!]
+	posts: [Post!]
 }
 
 """
@@ -23,55 +27,121 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Attachments {
+	id: String!
+	type: String!
+	uri: [String!]!
+}
+
+type Post {
+	id: String!
+	caption: String!
+	type: String
+	created_at: DateTime
+	updated_at: DateTime
+	author: User!
+	attachments: Attachments
+	relationship: Relationship
+}
+
 type User {
-  id: String!
-  username: String!
-  email: String!
-  bio: String
-  avatar_url: String
-  created_at: DateTime
-  updated_at: DateTime
-  contents: [Post!]
+	id: String!
+	username: String!
+	email: String!
+	bio: String
+	avatar_url: String
+	created_at: DateTime
+	updated_at: DateTime
+	contents: [Post!]
+	relationship: Relationship
+	badges: [Badge!]
+}
+
+type DeleteBadgeResponse {
+	previous_data: Badge!
+	status: String!
+	code: Float!
+}
+
+type DeleteRelationshipResponse {
+	previous_data: Relationship!
+	status: String!
+	code: Float!
 }
 
 type DeletePostResponse {
-  previous_data: Post!
-  status: String!
-  code: Float!
+	previous_data: Post!
+	status: String!
+	code: Float!
 }
 
 type Query {
-  users: [User!]!
-  user(username: String!): User!
-  posts: [Post!]!
-  post(postId: String!): Post!
+	users: [User!]!
+	user(username: String!): User!
+	getMyProfile: User!
+	badges: [Badge!]!
+	badge(label: String!): Badge!
+	posts: [Post!]!
+	post(postId: String!): Post!
 }
 
 type Mutation {
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
-  updatePost(updatePostInput: UpdatePostInput!): Post!
-  removePost(postId: String!): DeletePostResponse!
+	updateUser(updateUserInput: UpdateUserInput!): User!
+	specialUpdateUser(updateUserInput: UpdateUserInput!, id: String!): User!
+	createBadge(createBadgeInput: CreateBadgeInput!): Badge!
+	addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
+	removeBadge(label: String!): DeleteBadgeResponse!
+	removeBadgeFromUser(userId: String!, label: String!): User!
+	createPost(
+		createAttachmentInput: CreateAttachmentInput
+		createPostInput: CreatePostInput!
+	): Post!
+	updatePost(updatePostInput: UpdatePostInput!): Post!
+	removePost(postId: String!): DeletePostResponse!
+	createRelationship(
+		createRelationshipInput: CreateRelationshipInput!
+	): Relationship!
+	deleteRelationship: DeleteRelationshipResponse!
 }
 
 input UpdateUserInput {
-  username: String
-  email: String
-  bio: String
-  avatar_url: String
+	username: String
+	email: String
+	bio: String
+	avatar_url: String
+}
+
+input CreateBadgeInput {
+	label: String!
+	variant: String
+	color: String
+	background: String
+	border: String
+}
+
+input AddUserABadgeInput {
+	userId: String!
+	badgeLabel: String!
 }
 
 input CreateAttachmentInput {
-  type: String!
-  extensions: String!
-  uri: [String!]!
+	type: String!
+	uri: [String!]!
 }
 
 input CreatePostInput {
-  caption: String!
+	caption: String!
+	type: String!
 }
 
 input UpdatePostInput {
-  caption: String
-  id: String!
+	caption: String
+	type: String
+	id: String!
+}
+
+input CreateRelationshipInput {
+	type: String!
+	description: String!
+	target: String!
 }

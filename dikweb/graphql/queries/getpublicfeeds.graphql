@@ -1,0 +1,25 @@
+query getPublicFeeds {
+	posts {
+		id
+		caption
+		type
+		created_at
+		author {
+			username
+			avatar_url
+			badges {
+				id
+				label
+				variant
+				color
+				background
+				border
+			}
+		}
+		attachments {
+			id
+			type
+			uri
+		}
+	}
+}

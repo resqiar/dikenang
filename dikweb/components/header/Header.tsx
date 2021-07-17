@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
 import {
@@ -7,21 +8,73 @@ import {
 	NotificationsActiveOutlined,
 } from '@material-ui/icons'
 import Input from '../input/Input'
-import { Avatar, IconButton } from '@material-ui/core'
+import {
+	Avatar,
+	Menu,
+	MenuItem,
+	IconButton,
+	MenuProps,
+	Typography,
+} from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import { UserProfileType } from '../../types/profile.type'
+import { MouseEvent, useState } from 'react'
+import axiosConfig from '../../utils/axios'
 
 interface Props {
 	profile: UserProfileType
 }
 
+const StyledMenu = withStyles({
+	paper: {
+		background: 'var(--background-dimmed-500)',
+		color: 'var(--font-white-800)',
+	},
+})((props: MenuProps) => (
+	<Menu
+		elevation={0}
+		getContentAnchorEl={null}
+		anchorOrigin={{
+			vertical: 'bottom',
+			horizontal: 'center',
+		}}
+		transformOrigin={{
+			vertical: 'top',
+			horizontal: 'center',
+		}}
+		{...props}
+	/>
+))
+
+async function handleLogOut() {
+	try {
+		// go to authentication page
+		Router.push('/auth')
+		// call server to delete cookies
+		await axiosConfig.get('/auth/logout')
+	} catch (e) {
+		return
+	}
+}
+
 export default function Header({ profile }: Props) {
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+	// Handle Open Menu
+	const handleClick = (event: MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget)
+	}
+	// Handle Close Menu
+	const handleClose = () => {
+		setAnchorEl(null)
+	}
+
 	return (
 		<HeaderWrapper>
 			{/* Left Side */}
 			<HeaderBrand>
 				{/* Brand Logo */}
-				<DikenangLogo />
+				<DikenangLogo onClickCallback={() => Router.push('/')} />
 
 				{/* Search Component */}
 				<HeaderSearchInput>
@@ -49,9 +102,38 @@ export default function Header({ profile }: Props) {
 
 				<HeaderAvatarWrapper>
 					{/* Avatar Icon */}
-					<IconButton>
+					<IconButton onClick={handleClick}>
 						<Avatar src={profile.avatar_url} />
 					</IconButton>
+
+					{/* Menu Tab */}
+					<StyledMenu
+						id="header-avatar-menu"
+						elevation={0}
+						anchorEl={anchorEl}
+						keepMounted
+						open={Boolean(anchorEl)}
+						onClose={handleClose}
+					>
+						{/* Profile */}
+						<MenuItem
+							onClick={() =>
+								// go to relationship page
+								Router.push('/myrelationship')
+							}
+						>
+							<Typography variant="inherit">
+								My Profile
+							</Typography>
+						</MenuItem>
+
+						{/* Logout */}
+						<MenuItem onClick={handleLogOut}>
+							<Typography variant="inherit">
+								Switch Account
+							</Typography>
+						</MenuItem>
+					</StyledMenu>
 				</HeaderAvatarWrapper>
 			</HeaderIconsWrapper>
 		</HeaderWrapper>

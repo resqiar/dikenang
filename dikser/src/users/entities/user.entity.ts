@@ -3,11 +3,16 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinTable,
+	ManyToMany,
+	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Badge } from '../../badges/entities/badge.entity'
 import { Post } from '../../posts/entities/post.entity'
+import { Relationship } from '../../relationship/entities/relationship.entity'
 
 @ObjectType()
 @Entity()
@@ -53,4 +58,19 @@ export class User {
 	@Field((_) => [Post], { nullable: true })
 	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
+
+	@Field((_) => Relationship, { nullable: true })
+	@ManyToOne(
+		(_) => Relationship,
+		(relationship: Relationship) => relationship.partnership,
+		{
+			onDelete: 'SET NULL',
+		}
+	)
+	relationship: Relationship
+
+	@Field((_) => [Badge], { nullable: true })
+	@ManyToMany(() => Badge, (badges: Badge) => badges.owners)
+	@JoinTable()
+	badges: Badge[]
 }

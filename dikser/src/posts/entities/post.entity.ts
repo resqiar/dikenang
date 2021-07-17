@@ -9,6 +9,7 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Relationship } from '../../relationship/entities/relationship.entity'
 import { User } from '../../users/entities/user.entity'
 import { Attachments } from './attachments.entity'
 
@@ -24,11 +25,19 @@ export class Post {
 	caption: string
 
 	@Field({ nullable: true })
-	@CreateDateColumn()
+	@Column({ nullable: true, default: 'public' })
+	type: string
+
+	@Field({ nullable: true })
+	@CreateDateColumn({
+		type: 'timestamp with time zone',
+	})
 	created_at: Date
 
 	@Field({ nullable: true })
-	@UpdateDateColumn()
+	@UpdateDateColumn({
+		type: 'timestamp with time zone',
+	})
 	updated_at: Date
 
 	@Field((_) => User)
@@ -39,4 +48,15 @@ export class Post {
 	@OneToOne(() => Attachments)
 	@JoinColumn()
 	attachments: Attachments
+
+	// Relation table with partner relationship
+	@Field((_) => Relationship, { nullable: true })
+	@ManyToOne(
+		(_) => Relationship,
+		(relationship: Relationship) => relationship.posts,
+		{
+			onDelete: 'SET NULL',
+		}
+	)
+	relationship: Relationship
 }
