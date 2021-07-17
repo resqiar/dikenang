@@ -5,6 +5,7 @@ import {
 	RequestTimeoutException,
 } from '@nestjs/common'
 import { BadgesService } from '../badges/badges.service'
+import { MailingService } from '../mailing/mailing.service'
 import { UsersService } from '../users/users.service'
 import { GoogleDTO } from './dto/google.dto'
 import Randomize from './utils/Randomize'
@@ -14,7 +15,8 @@ export class AuthService {
 	constructor(
 		@Inject(forwardRef(() => UsersService))
 		private usersService: UsersService,
-		private readonly badgesService: BadgesService
+		private readonly badgesService: BadgesService,
+		private readonly mailingService: MailingService
 	) {}
 
 	async googleAuth(res: GoogleDTO) {
@@ -62,6 +64,16 @@ export class AuthService {
 					userId: createdUser.id,
 				})
 			}
+
+			/**
+			 *  Send email to newcomer user
+			 * 	use nodemailer for sending emails
+			 * 	see implementation in @see mailing.module.ts
+			 */
+			await this.mailingService.sendGreetingEmail(
+				createdUser.email,
+				res.given_name!
+			)
 
 			// return back to user
 			return {
