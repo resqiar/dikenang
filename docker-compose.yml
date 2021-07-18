@@ -1,6 +1,10 @@
 # For most of the time, this file will not need changing;
 # because this file is used only for fast local development.
 # However you could change the config to whatever you need.
+
+# IMPORTANT NOTE:
+# This docker compose provides RANDOM environtment variables
+# You need to specify with your real one in environment field down below
 version: '3.9'
 services:
     dikser:
@@ -8,19 +12,32 @@ services:
         build: ./dikser
         depends_on:
             - postgres
+            - redis
         ports:
             - '3000:3000'
-
-        # if you have .env file, delete this block
-        # .env file will automatically loaded by docker.
         environment:
-            # edit this configurations
-            DB_HOST: postgres
-            DB_PORT: 5432
-            DB_USERNAME: postgres
-            DB_PASSWORD: admin
-            DB_NAME: dikenang-local
-            JWT_SECRET: secret-example-of-jwt-token
+            # POSTGRES URL
+            DATABASE_URL: postgres://postgres:admin@postgres:5432/dikenang-local-database
+
+            # REDIS URL
+            REDIS_TLS_URL: redis://redis:6379
+
+            # GOOGLE OAUTH TOKEN
+            GOOGLE_CLIENT_ID: BlaBlablaBlaxxxx
+            GOOGLE_SECRET: secretkeyxxxxx
+            GOOGLE_REDIRECT_URL: http://localhost:3000/google/redirect
+
+            # SESSION KEY
+            SESSION_KEY: secretkeyxxxxx
+
+            # MAILING TRANSPORT
+            MAILING_HOST: smtp.yours.com
+            MAILING_USERNAME: test@test.com
+            MAILING_PASSWORD: yourmailingpassword
+            MAILING_FROM_DEFAULT: '"No Reply" <test@test.com>'
+
+            # DIKWEB
+            CLIENT_ORIGIN: http://localhost:3001
 
     dikweb:
         # dikenang next js frontend
@@ -38,4 +55,10 @@ services:
         environment:
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: admin
-            POSTGRES_DB: dikenang-local
+            POSTGRES_DB: dikenang-local-database
+
+    redis:
+        # redis image
+        image: redis:latest
+        ports:
+            - '6379:6379'
