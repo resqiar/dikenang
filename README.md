@@ -1,16 +1,16 @@
 <p align="center">
-  <a href="https://dikenang.netlify.app" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
+  <a href="https://dikenang.co" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
 </p>
  <h4 align="center">Dikenang is an open-source social media that focused on sharing memories to the linked relationship partners</h4>
  <p align="center">(Early Development in Progress)</p>
 <p align="center">
-  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+  <a href="https://github.com/resqiar/dikenang" target="_blank">
     <img src="https://img.shields.io/github/languages/top/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - top language" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+  <a href="https://github.com/resqiar/dikenang" target="_blank">
     <img src="https://img.shields.io/github/license/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - license" />
   </a>
-  <a href="https://github.com/resqiar/dikenang-server" target="_blank">
+  <a href="https://github.com/resqiar/dikenang" target="_blank">
     <img src="https://img.shields.io/github/last-commit/resqiar/dikenang-server?style=for-the-badge" alt="dikenang - last commit" />
   </a>
   <a href="https://www.buymeacoffee.com/resqiar" target="_blank">
@@ -32,9 +32,12 @@ Dikenang is an open-source social media to shares memories together with the use
 
 ## Easy Running Using Docker
 
-Easy installation without bothering .env file, installing a database, packages, etc, simply install docker and run the following commands; dikser will start on [localhost:3000](http://localhost:3000) and dikweb on [localhost:3001](http://localhost:3001)
+Easy installation without bothering installing database, packages, etc, simply install docker and run the following commands; dikser will start on [localhost:3000](http://localhost:3000) and dikweb on [localhost:3001](http://localhost:3001)
 
 _Prerequisites: installed docker & docker-compose in your system_
+
+> IMPORTANT NOTE:
+This docker compose provides "RANDOM" environtment variables, you need to specify with the real one, see <a href="https://github.com/resqiar/dikenang/blob/main/docker-compose.yml">docker-compose.yml</a>
 
 1. Make sure you are in the root folder, **if you are in packages directory**, run this following command:
 
@@ -46,11 +49,13 @@ $ cd ..
 2. Start docker-compose
 
 ```bash
-# start container process
-$ docker-compose up
-```
 
-> If you want to run with your own config, see <a href="https://github.com/resqiar/dikenang/blob/main/docker-compose.yml">docker-compose.yml</a>
+# build the container
+$ docker-compose build --no-cache
+
+# start container process
+$ docker-compose up -d
+```
 
 3. Application is now running
 
