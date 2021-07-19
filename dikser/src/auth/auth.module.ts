@@ -5,8 +5,10 @@ import { AuthController } from './auth.controller'
 import { GoogleStrategy } from './strategies/google.strategy'
 import { SessionSerializer } from './utils/SessionSerializer'
 import { BadgesModule } from '../badges/badges.module'
+import { MailingModule } from '../mailing/mailing.module'
+
 @Module({
-	imports: [forwardRef(() => UsersModule), BadgesModule],
+	imports: [forwardRef(() => UsersModule), BadgesModule, MailingModule],
 	providers: [AuthService, SessionSerializer, GoogleStrategy],
 	exports: [AuthService],
 	controllers: [AuthController],
