@@ -9,6 +9,7 @@ import { PostsModule } from './posts/posts.module'
 import { PassportModule } from '@nestjs/passport'
 import { RelationshipModule } from './relationship/relationship.module'
 import { BadgesModule } from './badges/badges.module'
+import { MailingModule } from './mailing/mailing.module'
 
 @Module({
 	imports: [
@@ -45,6 +46,7 @@ import { BadgesModule } from './badges/badges.module'
 		PostsModule,
 		RelationshipModule,
 		BadgesModule,
+		MailingModule,
 	],
 	controllers: [],
 	providers: [],
