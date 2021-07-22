@@ -17,6 +17,11 @@ import { MailingModule } from './mailing/mailing.module'
 		UsersModule,
 		PassportModule.register({ session: true }),
 		GraphQLModule.forRoot({
+			// GraphQl subscriptions over WebSocket
+			installSubscriptionHandlers: true,
+			subscriptions: {
+				path: '/subscriptions',
+			},
 			playground: process.env.NODE_ENV !== 'production',
 			autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
 			cors: {
