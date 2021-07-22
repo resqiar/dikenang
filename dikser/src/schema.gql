@@ -37,6 +37,8 @@ type Post {
 	id: String!
 	caption: String!
 	type: String
+	upvoter: [User!]
+	downvoter: [User!]
 	created_at: DateTime
 	updated_at: DateTime
 	author: User!
@@ -53,6 +55,8 @@ type User {
 	created_at: DateTime
 	updated_at: DateTime
 	contents: [Post!]
+	upvotes: [Post!]
+	downvotes: [Post!]
 	relationship: Relationship
 	badges: [Badge!]
 }
@@ -98,6 +102,10 @@ type Mutation {
 	): Post!
 	updatePost(updatePostInput: UpdatePostInput!): Post!
 	removePost(postId: String!): DeletePostResponse!
+	addUpvote(postId: String!): Post!
+	removeUpvote(postId: String!): Post!
+	addDownvote(postId: String!): Post!
+	removeDownvote(postId: String!): Post!
 	createRelationship(
 		createRelationshipInput: CreateRelationshipInput!
 	): Relationship!
@@ -144,4 +152,9 @@ input CreateRelationshipInput {
 	type: String!
 	description: String!
 	target: String!
+}
+
+type Subscription {
+	upvoteSubscription(postId: String!): Post!
+	downvoteSubscription(postId: String!): Post!
 }

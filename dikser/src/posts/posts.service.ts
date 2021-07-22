@@ -101,7 +101,7 @@ export class PostsService {
 	async findAll() {
 		return await this.postsRepository.find({
 			where: {
-				type: 'public'
+				type: 'public',
 			},
 			relations: [
 				'author',
@@ -109,6 +109,8 @@ export class PostsService {
 				'attachments',
 				'relationship',
 				'relationship.partnership',
+				'upvoter',
+				'downvoter',
 			],
 			order: {
 				created_at: 'DESC',
@@ -118,7 +120,9 @@ export class PostsService {
 
 	async findById(postId: string) {
 		try {
-			return await this.postsRepository.findOneOrFail(postId)
+			return await this.postsRepository.findOneOrFail(postId, {
+				relations: ['upvoter', 'downvoter'],
+			})
 		} catch (e) {
 			/**
 			 * @Error here means that client fails to get
@@ -204,5 +208,47 @@ export class PostsService {
 					break
 			}
 		}
+	}
+
+	/**
+	 * @Upvotes
+	 * Services to handle changes when user
+	 * Downvoting a post then save it to the database
+	 */
+	async addUpvote(postId: string, userId: string) {
+		const targetPost = await this.findById(postId)
+		const upvoter = await this.usersService.findById(userId)
+		targetPost.upvoter = [upvoter]
+		return await this.postsRepository.save(targetPost)
+	}
+
+	async removeUpvote(postId: string, userId: string) {
+		const targetPost = await this.findById(postId)
+		const upvoter = await this.usersService.findById(userId)
+		targetPost.upvoter = targetPost.upvoter.filter((voter) => {
+			voter.id !== upvoter.id
+		})
+		return await this.postsRepository.save(targetPost)
+	}
+
+	/**
+	 * @Downvotes
+	 * Services to handle changes when user
+	 * Downvoting a post then save it to the database
+	 */
+	async addDownvote(postId: string, userId: string) {
+		const targetPost = await this.findById(postId)
+		const downVoter = await this.usersService.findById(userId)
+		targetPost.downvoter = [downVoter]
+		return await this.postsRepository.save(targetPost)
+	}
+
+	async removeDownvote(postId: string, userId: string) {
+		const targetPost = await this.findById(postId)
+		const downVoter = await this.usersService.findById(userId)
+		targetPost.downvoter = targetPost.downvoter.filter((voter) => {
+			voter.id !== downVoter.id
+		})
+		return await this.postsRepository.save(targetPost)
 	}
 }
