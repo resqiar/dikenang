@@ -197,6 +197,8 @@ export default function IndexBody({ profile }: Props) {
 								publicFeedsHooks.data?.posts.map((value) => (
 									<FeedPost
 										key={value.id}
+										profile={profile}
+										postId={value.id}
 										caption={value.caption}
 										type={value.type as string}
 										username={value.author.username}
@@ -212,8 +214,6 @@ export default function IndexBody({ profile }: Props) {
 												| string
 												| undefined
 										}
-										upSum={0}
-										downSum={0}
 										commentSum={0}
 									/>
 								)),

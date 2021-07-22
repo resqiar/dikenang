@@ -1,16 +1,29 @@
-import { useLayoutEffect, useRef, useState } from 'react'
-import { Avatar, IconButton } from '@material-ui/core'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { UserProfileType } from '../../types/profile.type'
 import Image from 'next/image'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import RichTextEditor from '../utils/RichTextEditor'
 import BulletDivider from '../utils/BulletDivider'
-import { Badge } from '../../generated/graphql'
+import {
+	Badge,
+	useAddDownvoteMutation,
+	useAddUpvoteMutation,
+	useDownvoteSubscription,
+	useGetPostVotesQuery,
+	useRemoveDownvoteMutation,
+	useRemoveUpvoteMutation,
+	useUpvoteSubscription,
+} from '../../generated/graphql'
 import Moment from 'moment'
 
+import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import ThumbUpIcon from '@material-ui/icons/ThumbUp'
 import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
 import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
+import ThumbDownIcon from '@material-ui/icons/ThumbDown'
+import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import ModeCommentIcon from '@material-ui/icons/ModeComment'
 import PublicIcon from '@material-ui/icons/Public'
@@ -19,12 +32,12 @@ import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
 
 interface Props {
+	profile: UserProfileType
+	postId: string
 	username: string
 	badge?: Badge
 	timestamp: string
 	caption: string
-	upSum: number
-	downSum: number
 	commentSum: number
 	avatarSrc?: string
 	imageSrc?: string[]
@@ -32,13 +45,14 @@ interface Props {
 }
 
 export default function FeedPost({
+	profile,
+	postId,
 	avatarSrc,
 	username,
 	badge,
 	timestamp,
 	caption,
 	imageSrc,
-	upSum,
 	commentSum,
 	type,
 }: Props) {
@@ -57,6 +71,77 @@ export default function FeedPost({
 	 */
 	const [truncate, setTruncate] = useState<boolean>(false)
 
+	/**
+	 * @Subscriptions
+	 * used as a real-time communications to provide
+	 * low latency update of how many votes in current post
+	 */
+	const getUpvoteSubscriptions = useUpvoteSubscription({
+		variables: {
+			postId: postId,
+		},
+	})
+	const getDownvoteSubscriptions = useDownvoteSubscription({
+		variables: {
+			postId: postId,
+		},
+	})
+
+	/**
+	 * State to keep track of votes,
+	 * e.g, if user already voted current post,
+	 * then bind to correspond state value
+	 */
+	const [isUpvoted, setIsUpvoted] = useState<boolean>(false)
+	const [isDownvoted, setIsDownvoted] = useState<boolean>(false)
+
+	/**
+	 * @Mutations
+	 * Define mutations to update
+	 * Votes either upvotes or downvotes
+	 */
+	const [addUpvote] = useAddUpvoteMutation()
+	const [removeUpvote] = useRemoveUpvoteMutation()
+	const [addDownvote] = useAddDownvoteMutation()
+	const [removeDownvote] = useRemoveDownvoteMutation()
+
+	/**
+	 * @Queries
+	 * Define query to the database to get the initial
+	 * value of post votes, eiher upvotes or downvotes
+	 */
+	const getPostVotes = useGetPostVotesQuery({
+		variables: {
+			postId: postId,
+		},
+	})
+
+	useEffect(() => {
+		/**
+		 * Check if post is already voted or not
+		 * If current user is already upvoted, then set upvoted to true
+		 * If current user is already downvoted, then set downvoted to true
+		 */
+		const checkUpvoted = async () => {
+			if (!getPostVotes.data) return null
+			getPostVotes.data?.post?.upvoter?.map((value) => {
+				if (value.id === profile.id) {
+					setIsUpvoted(true)
+				}
+			})
+		}
+		const checkDownvoted = async () => {
+			if (!getPostVotes.data) return null
+			getPostVotes.data?.post?.downvoter?.map((value) => {
+				if (value.id === profile.id) {
+					setIsDownvoted(true)
+				}
+			})
+		}
+		checkUpvoted()
+		checkDownvoted()
+	}, [getPostVotes.data])
+
 	useLayoutEffect(() => {
 		/**
 		 * When component mounted,
@@ -70,6 +155,80 @@ export default function FeedPost({
 			}
 		}
 	}, [])
+
+	/**
+	 * This function is used to handle Upvotes
+	 * e.g if user clicks "Upvote", it should
+	 * add Upvote to the post or remove the upvote
+	 */
+	const handleUpvotes = () => {
+		// If post is already downvoted
+		if (isDownvoted) {
+			// Remove downvote first
+			removeDownvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsDownvoted(false)
+		}
+
+		// If post is not upvoted yet
+		if (!isUpvoted) {
+			// Add Upvote
+			addUpvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsUpvoted(true)
+		} else {
+			// If already upvoted, remove Upvote
+			removeUpvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsUpvoted(false)
+		}
+	}
+
+	/**
+	 * This function is used to handle Downvotes
+	 * e.g if user clicks "Downvote", it should
+	 * add Downvote to the post or remove the Downvote
+	 */
+	const handleDownvotes = () => {
+		// If post is already upvoted
+		if (isUpvoted) {
+			// Remove Upvote first
+			removeUpvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsUpvoted(false)
+		}
+
+		// If not Downvoted yet,
+		if (!isDownvoted) {
+			// Add Downvote
+			addDownvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsDownvoted(true)
+		} else {
+			// If already downvoted, remove Downvote
+			removeDownvote({
+				variables: {
+					postId: postId,
+				},
+			})
+			setIsDownvoted(false)
+		}
+	}
 
 	return (
 		<FeedPostWrapper>
@@ -177,7 +336,34 @@ export default function FeedPost({
 								border: 'none',
 							}}
 						/>
-						<VotesAltText>{upSum}</VotesAltText>
+						<VotesAltText>
+							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+							{getUpvoteSubscriptions.data
+								? getUpvoteSubscriptions.data.upvoteSubscription
+										.upvoter?.length
+								: getPostVotes.data?.post.upvoter?.length}
+						</VotesAltText>
+					</VotesWrapper>
+
+					<VotesWrapper>
+						{/* Downvotes */}
+						<ThumbDownAltIcon
+							style={{
+								color: 'var(--font-white-500)',
+								width: '15px',
+								height: '18px',
+								border: 'none',
+							}}
+						/>
+						<VotesAltText>
+							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+							{getDownvoteSubscriptions.data
+								? getDownvoteSubscriptions.data
+										.downvoteSubscription.downvoter?.length
+								: getPostVotes.data?.post.downvoter?.length}
+						</VotesAltText>
 					</VotesWrapper>
 
 					<VotesWrapper>
@@ -197,10 +383,24 @@ export default function FeedPost({
 				{/* Votes || Comment */}
 				<FeedPostButtonWrapper>
 					{/* Upvotes */}
-					<Icons Icon={ThumbUpIconOutlined} hasIconButton={true} />
+					<Icons
+						Icon={!isUpvoted ? ThumbUpIconOutlined : ThumbUpIcon}
+						color={!isUpvoted ? undefined : 'var(--color-primary)'}
+						hasIconButton={true}
+						onClickCallback={handleUpvotes}
+					/>
 
 					{/* Downvotes */}
-					<Icons Icon={ThumbDownIconOutlined} hasIconButton={true} />
+					<Icons
+						Icon={
+							!isDownvoted ? ThumbDownIconOutlined : ThumbDownIcon
+						}
+						color={
+							!isDownvoted ? undefined : 'var(--color-primary)'
+						}
+						hasIconButton={true}
+						onClickCallback={handleDownvotes}
+					/>
 
 					{/* Commment */}
 					<Icons
