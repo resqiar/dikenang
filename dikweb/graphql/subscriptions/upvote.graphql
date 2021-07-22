@@ -1,0 +1,7 @@
+subscription upvote($postId: String!) {
+	upvoteSubscription(postId: $postId) {
+		upvoter {
+			id
+		}
+	}
+}

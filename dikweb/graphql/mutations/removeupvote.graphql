@@ -1,0 +1,7 @@
+mutation removeUpvote($postId: String!) {
+	removeUpvote(postId: $postId) {
+		upvoter {
+			id
+		}
+	}
+}

@@ -1,0 +1,7 @@
+mutation addUpvote($postId: String!) {
+	addUpvote(postId: $postId) {
+		upvoter {
+			id
+		}
+	}
+}

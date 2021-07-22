@@ -1,0 +1,12 @@
+query getPostVotes($postId: String!) {
+	post(postId: $postId) {
+		upvoter {
+			id
+			username
+		}
+		downvoter {
+			id
+			username
+		}
+	}
+}
