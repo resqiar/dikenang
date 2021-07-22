@@ -59,6 +59,16 @@ export class User {
 	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
 
+	@Field((_) => [Post], { nullable: true })
+	@ManyToMany(() => Post, (upvotes: Post) => upvotes.upvoter)
+	@JoinTable()
+	upvotes: Post[]
+
+	@Field((_) => [Post], { nullable: true })
+	@ManyToMany(() => Post, (downvotes: Post) => downvotes.downvoter)
+	@JoinTable()
+	downvotes: Post[]
+
 	@Field((_) => Relationship, { nullable: true })
 	@ManyToOne(
 		(_) => Relationship,

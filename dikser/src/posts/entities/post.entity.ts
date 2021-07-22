@@ -4,6 +4,7 @@ import {
 	CreateDateColumn,
 	Entity,
 	JoinColumn,
+	ManyToMany,
 	ManyToOne,
 	OneToOne,
 	PrimaryGeneratedColumn,
@@ -27,6 +28,14 @@ export class Post {
 	@Field({ nullable: true })
 	@Column({ nullable: true, default: 'public' })
 	type: string
+
+	@Field(() => [User], { nullable: true })
+	@ManyToMany((_) => User, (upvoter: User) => upvoter.upvotes)
+	upvoter: User[]
+
+	@Field(() => [User], { nullable: true })
+	@ManyToMany((_) => User, (downvoter: User) => downvoter.downvotes)
+	downvoter: User[]
 
 	@Field({ nullable: true })
 	@CreateDateColumn({
