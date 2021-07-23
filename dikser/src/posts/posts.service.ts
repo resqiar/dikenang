@@ -218,16 +218,22 @@ export class PostsService {
 	async addUpvote(postId: string, userId: string) {
 		const targetPost = await this.findById(postId)
 		const upvoter = await this.usersService.findById(userId)
-		targetPost.upvoter = [upvoter]
+
+		// Add User Upvote
+		targetPost.upvoter = [...targetPost.upvoter, upvoter]
+
 		return await this.postsRepository.save(targetPost)
 	}
 
 	async removeUpvote(postId: string, userId: string) {
 		const targetPost = await this.findById(postId)
 		const upvoter = await this.usersService.findById(userId)
-		targetPost.upvoter = targetPost.upvoter.filter((voter) => {
-			voter.id !== upvoter.id
-		})
+
+		// Delete User Upvote
+		targetPost.upvoter = targetPost.upvoter.filter(
+			(voter) => voter.id !== upvoter.id
+		)
+
 		return await this.postsRepository.save(targetPost)
 	}
 
@@ -239,16 +245,22 @@ export class PostsService {
 	async addDownvote(postId: string, userId: string) {
 		const targetPost = await this.findById(postId)
 		const downVoter = await this.usersService.findById(userId)
-		targetPost.downvoter = [downVoter]
+
+		// Add User Downvote
+		targetPost.downvoter = [...targetPost.downvoter, downVoter]
+
 		return await this.postsRepository.save(targetPost)
 	}
 
 	async removeDownvote(postId: string, userId: string) {
 		const targetPost = await this.findById(postId)
 		const downVoter = await this.usersService.findById(userId)
-		targetPost.downvoter = targetPost.downvoter.filter((voter) => {
-			voter.id !== downVoter.id
-		})
+
+		// Delete User Downvote
+		targetPost.downvoter = targetPost.downvoter.filter(
+			(voter) => voter.id !== downVoter.id
+		)
+
 		return await this.postsRepository.save(targetPost)
 	}
 }
