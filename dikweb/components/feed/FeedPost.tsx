@@ -16,6 +16,7 @@ import {
 	useUpvoteSubscription,
 } from '../../generated/graphql'
 import Moment from 'moment'
+import { useSpring, animated } from 'react-spring'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -85,6 +86,26 @@ export default function FeedPost({
 		variables: {
 			postId: postId,
 		},
+	})
+
+	// React-spring fade animation hook
+	const fade = useSpring({ from: { opacity: 0 }, opacity: 1 })
+	/**
+	 * @Animation
+	 * These two hooks below is used to animate votes
+	 * When update is called, these hooks will take care
+	 * of animation when number changes
+	 */
+	const upvoteAnimation = useSpring({
+		upvotes:
+			getUpvoteSubscriptions.data?.upvoteSubscription.upvoter?.length,
+		from: { upvotes: 0 },
+	})
+	const downvoteAnimation = useSpring({
+		downvotes:
+			getDownvoteSubscriptions.data?.downvoteSubscription.downvoter
+				?.length,
+		from: { downvotes: 0 },
 	})
 
 	/**
@@ -231,7 +252,7 @@ export default function FeedPost({
 	}
 
 	return (
-		<FeedPostWrapper>
+		<FeedPostWrapper style={fade}>
 			<FeedPostHeaderWrapper>
 				<FeedPostProfile>
 					{/* Post Avatar */}
@@ -336,12 +357,13 @@ export default function FeedPost({
 								border: 'none',
 							}}
 						/>
-						<VotesAltText>
+						<VotesAltText style={fade}>
 							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
 							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
 							{getUpvoteSubscriptions.data
-								? getUpvoteSubscriptions.data.upvoteSubscription
-										.upvoter?.length
+								? upvoteAnimation.upvotes.to((value) =>
+										Math.floor(value)
+								  )
 								: getPostVotes.data?.post.upvoter?.length}
 						</VotesAltText>
 					</VotesWrapper>
@@ -356,12 +378,13 @@ export default function FeedPost({
 								border: 'none',
 							}}
 						/>
-						<VotesAltText>
+						<VotesAltText style={fade}>
 							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
 							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
 							{getDownvoteSubscriptions.data
-								? getDownvoteSubscriptions.data
-										.downvoteSubscription.downvoter?.length
+								? downvoteAnimation.downvotes.to((value) =>
+										Math.floor(value)
+								  )
 								: getPostVotes.data?.post.downvoter?.length}
 						</VotesAltText>
 					</VotesWrapper>
@@ -413,7 +436,7 @@ export default function FeedPost({
 	)
 }
 
-const FeedPostWrapper = styled.div`
+const FeedPostWrapper = styled(animated.div)`
 	background-color: var(--background-dimmed-500);
 	height: fit-content;
 	border-radius: 8px;
@@ -500,7 +523,7 @@ const VotesWrapper = styled.div`
 	display: flex;
 	align-items: center;
 `
-const VotesAltText = styled.p`
+const VotesAltText = styled(animated.p)`
 	color: var(--font-white-500);
 	font-size: 12px;
 	padding: 0px 4px;

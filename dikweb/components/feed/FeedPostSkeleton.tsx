@@ -1,11 +1,15 @@
 import styled from 'styled-components'
+import { useSpring, animated } from 'react-spring'
 
 import Skeleton from '@material-ui/lab/Skeleton'
 import Avatar from '@material-ui/core/Avatar'
 
 export default function FeedPostSkeleton() {
+	// React-spring fade animation hook
+	const fade = useSpring({ from: { opacity: 0 }, opacity: 1 })
+
 	return (
-		<FeedPostSkeletonWrapper>
+		<FeedPostSkeletonWrapper style={fade}>
 			<FeedPostHeaderSkeletonWrapper>
 				<FeedPostSkeletonProfile>
 					<Skeleton variant="rect" animation="wave">
@@ -39,7 +43,7 @@ export default function FeedPostSkeleton() {
 	)
 }
 
-const FeedPostSkeletonWrapper = styled.div`
+const FeedPostSkeletonWrapper = styled(animated.div)`
 	background-color: var(--background-dimmed-500);
 	height: fit-content;
 	border-radius: 8px;
