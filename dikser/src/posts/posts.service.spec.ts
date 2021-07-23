@@ -32,6 +32,8 @@ describe('PostsService', () => {
 				author: {
 					id: 'testing id',
 				},
+				upvoter: [new User(), new User()],
+				downvoter: [new User(), new User()],
 				created_at: Date.now().toString(),
 				updated_at: Date.now().toString(),
 			})
@@ -177,6 +179,8 @@ describe('PostsService', () => {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				caption: expect.any(String),
 				author: expect.any(Object),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
 				created_at: expect.any(String),
 				updated_at: expect.any(String),
 			}
@@ -196,6 +200,8 @@ describe('PostsService', () => {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				author: expect.any(Object),
 				caption: expect.any(String),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
 				created_at: expect.any(String),
 				updated_at: expect.any(String),
 			}
@@ -221,6 +227,78 @@ describe('PostsService', () => {
 			expect(
 				await postService.remove(currentUser, previous_data.id)
 			).toEqual(expect.any(Object))
+		})
+	})
+
+	describe('addUpvote', () => {
+		it('it should add upvote and return new upvote value', async () => {
+			const expectedResult = {
+				id: 'testing',
+				author: expect.any(Object),
+				caption: expect.any(String),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
+				created_at: expect.any(String),
+				updated_at: expect.any(String),
+			}
+
+			expect(
+				await postService.addUpvote('testing', 'currentUserId')
+			).toEqual(expectedResult)
+		})
+	})
+
+	describe('addDownvote', () => {
+		it('it should add downvote and return new downvote value', async () => {
+			const expectedResult = {
+				id: 'testing',
+				author: expect.any(Object),
+				caption: expect.any(String),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
+				created_at: expect.any(String),
+				updated_at: expect.any(String),
+			}
+
+			expect(
+				await postService.addDownvote('testing', 'currentUserId')
+			).toEqual(expectedResult)
+		})
+	})
+
+	describe('removeUpvote', () => {
+		it('it should remove upvote and return new upvote value', async () => {
+			const expectedResult = {
+				id: 'testing',
+				author: expect.any(Object),
+				caption: expect.any(String),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
+				created_at: expect.any(String),
+				updated_at: expect.any(String),
+			}
+
+			expect(
+				await postService.removeUpvote('testing', 'currentUserId')
+			).toEqual(expectedResult)
+		})
+	})
+
+	describe('removeDownvote', () => {
+		it('it should remove downvote and return new downvote value', async () => {
+			const expectedResult = {
+				id: 'testing',
+				author: expect.any(Object),
+				caption: expect.any(String),
+				upvoter: expect.any(Array),
+				downvoter: expect.any(Array),
+				created_at: expect.any(String),
+				updated_at: expect.any(String),
+			}
+
+			expect(
+				await postService.removeDownvote('testing', 'currentUserId')
+			).toEqual(expectedResult)
 		})
 	})
 })

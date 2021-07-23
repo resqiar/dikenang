@@ -56,6 +56,8 @@ describe('PostsResolver', () => {
 				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
 				caption: 'testing',
 				type: 'public',
+				upvoter: [new User(), new User()],
+				downvoter: [new User(), new User()],
 				created_at: new Date(),
 				updated_at: new Date(),
 				author: new User(),
