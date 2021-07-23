@@ -10,15 +10,7 @@ import { UpdatePostInput } from './dto/update-post.input'
 import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
-import * as Redis from 'ioredis'
-
-const redisOptions = {
-	host: process.env.REDIS_IP_ADDRESS,
-	retryStrategy: (times: number) => {
-		// reconnect after
-		return Math.min(times * 50, 2000)
-	},
-}
+import { configureRedisPubSub } from '../shared/utils/redispubsub'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -27,11 +19,9 @@ export class PostsResolver {
 		/**
 		 * Redis Pub/Sub configurations
 		 * @see https://github.com/davidyaha/graphql-redis-subscriptions
+		 * @function src/shared/utils/redispubsub.ts
 		 */
-		this.pubSub = new RedisPubSub({
-			publisher: new Redis(redisOptions),
-			subscriber: new Redis(redisOptions),
-		})
+		this.pubSub = configureRedisPubSub()
 	}
 
 	@Mutation(() => Post)
