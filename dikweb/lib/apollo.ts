@@ -39,7 +39,7 @@ export function initializeApollo(ctx: NextPageContext | null) {
 						operation === 'subscription'
 					)
 				},
-				wsLink,
+				wsLink!,
 				httpLink
 		  )
 		: httpLink
