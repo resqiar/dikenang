@@ -10,8 +10,8 @@ export default function Rightbar() {
 			<Card bgColor="var(--background-dimmed-500)">
 				<SidebarHeader bannerSrc="/images/bg.png" />
 				<SidebarHeaderProfile
-					username="dikenang.official"
-					description="Hello and welcome to dikenang!"
+					username="Your Future Partner"
+					description="Stay tune for future partner feature!"
 				/>
 			</Card>
 		</RightBarWrapper>
