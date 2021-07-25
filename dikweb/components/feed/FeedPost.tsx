@@ -97,15 +97,15 @@ export default function FeedPost({
 	 * of animation when number changes
 	 */
 	const upvoteAnimation = useSpring({
-		upvotes:
-			getUpvoteSubscriptions.data?.upvoteSubscription.upvoter?.length,
+		upvotes: getUpvoteSubscriptions.data?.upvoteSubscription.upvotes,
 		from: { upvotes: 0 },
+		config: { mass: 1, tension: 500, friction: 0, clamp: true },
 	})
 	const downvoteAnimation = useSpring({
 		downvotes:
-			getDownvoteSubscriptions.data?.downvoteSubscription.downvoter
-				?.length,
+			getDownvoteSubscriptions.data?.downvoteSubscription.downvotes,
 		from: { downvotes: 0 },
+		config: { mass: 1, tension: 500, friction: 0, clamp: true },
 	})
 
 	/**
