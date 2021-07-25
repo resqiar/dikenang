@@ -1,5 +1,12 @@
 import { UseGuards } from '@nestjs/common'
-import { Mutation, Query, Args, Resolver, Subscription } from '@nestjs/graphql'
+import {
+	Mutation,
+	Query,
+	Args,
+	Resolver,
+	Subscription,
+	Int,
+} from '@nestjs/graphql'
 import { AuthStatusGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
 import { User } from '../users/entities/user.entity'
@@ -11,6 +18,8 @@ import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { configureRedisPubSub } from '../shared/utils/redispubsub'
+import { UpvoteDTO } from './dto/upvote.dto'
+import { DownvoteDTO } from './dto/downvote.dto'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -77,17 +86,25 @@ export class PostsResolver {
 	 * @param postId
 	 * @returns event to update 'upvote' subscription with the new value
 	 */
-	@Mutation(() => Post)
+	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
 	async addUpvote(@CurrentUser() user: User, @Args('postId') postId: string) {
 		const newUpvoteValue = await this.postsService.addUpvote(
 			postId,
 			user.id
 		)
+
+		const returnValue = new UpvoteDTO(
+			postId,
+			newUpvoteValue.upvoter.length,
+			newUpvoteValue.upvoter
+		)
+
 		await this.pubSub.publish('upvoteSubscriptions', {
-			upvoteSubscription: newUpvoteValue,
+			upvoteSubscription: returnValue,
 		})
-		return newUpvoteValue
+
+		return 200
 	}
 
 	/**
@@ -95,7 +112,7 @@ export class PostsResolver {
 	 * @param postId
 	 * @returns event to update 'upvote' subscription with the new value
 	 */
-	@Mutation(() => Post)
+	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
 	async removeUpvote(
 		@CurrentUser() user: User,
@@ -105,10 +122,18 @@ export class PostsResolver {
 			postId,
 			user.id
 		)
+
+		const returnValue = new UpvoteDTO(
+			postId,
+			newUpvoteValue.upvoter.length,
+			newUpvoteValue.upvoter
+		)
+
 		await this.pubSub.publish('upvoteSubscriptions', {
-			upvoteSubscription: newUpvoteValue,
+			upvoteSubscription: returnValue,
 		})
-		return newUpvoteValue
+
+		return 200
 	}
 
 	/**
@@ -116,7 +141,7 @@ export class PostsResolver {
 	 * @param postId
 	 * @returns event to update 'downvote' subscription with the new value
 	 */
-	@Mutation(() => Post)
+	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
 	async addDownvote(
 		@CurrentUser() user: User,
@@ -126,10 +151,18 @@ export class PostsResolver {
 			postId,
 			user.id
 		)
+
+		const returnValue = new DownvoteDTO(
+			postId,
+			newDownvoteValue.downvoter.length,
+			newDownvoteValue.downvoter
+		)
+
 		await this.pubSub.publish('downvoteSubscriptions', {
-			downvoteSubscription: newDownvoteValue,
+			downvoteSubscription: returnValue,
 		})
-		return newDownvoteValue
+
+		return 200
 	}
 
 	/**
@@ -137,7 +170,7 @@ export class PostsResolver {
 	 * @param postId
 	 * @returns event to update 'downvote' subscription with the new value
 	 */
-	@Mutation(() => Post)
+	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
 	async removeDownvote(
 		@CurrentUser() user: User,
@@ -147,10 +180,18 @@ export class PostsResolver {
 			postId,
 			user.id
 		)
+
+		const returnValue = new DownvoteDTO(
+			postId,
+			newDownvoteValue.downvoter.length,
+			newDownvoteValue.downvoter
+		)
+
 		await this.pubSub.publish('downvoteSubscriptions', {
-			downvoteSubscription: newDownvoteValue,
+			downvoteSubscription: returnValue,
 		})
-		return newDownvoteValue
+
+		return 200
 	}
 
 	/**
@@ -158,17 +199,17 @@ export class PostsResolver {
 	 * Graphql subscriptions for upvote and
 	 * downvote, provide real-time update
 	 */
-	@Subscription(() => Post, {
+	@Subscription(() => UpvoteDTO, {
 		filter: (payload, variables) =>
-			payload.upvoteSubscription.id === variables.postId,
+			payload.upvoteSubscription.postId === variables.postId,
 	})
 	upvoteSubscription(@Args('postId') _postId: string) {
 		return this.pubSub.asyncIterator('upvoteSubscriptions')
 	}
 
-	@Subscription(() => Post, {
+	@Subscription(() => DownvoteDTO, {
 		filter: (payload, variables) =>
-			payload.downvoteSubscription.id === variables.postId,
+			payload.downvoteSubscription.postId === variables.postId,
 	})
 	downvoteSubscription(@Args('postId') _postId: string) {
 		return this.pubSub.asyncIterator('downvoteSubscriptions')

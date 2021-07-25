@@ -79,6 +79,18 @@ type DeletePostResponse {
 	code: Float!
 }
 
+type UpvoteDTO {
+	postId: String!
+	upvotes: Int!
+	upvoters: [User!]!
+}
+
+type DownvoteDTO {
+	postId: String!
+	downvotes: Int!
+	downvoters: [User!]!
+}
+
 type Query {
 	users: [User!]!
 	user(username: String!): User!
@@ -102,10 +114,10 @@ type Mutation {
 	): Post!
 	updatePost(updatePostInput: UpdatePostInput!): Post!
 	removePost(postId: String!): DeletePostResponse!
-	addUpvote(postId: String!): Post!
-	removeUpvote(postId: String!): Post!
-	addDownvote(postId: String!): Post!
-	removeDownvote(postId: String!): Post!
+	addUpvote(postId: String!): Int!
+	removeUpvote(postId: String!): Int!
+	addDownvote(postId: String!): Int!
+	removeDownvote(postId: String!): Int!
 	createRelationship(
 		createRelationshipInput: CreateRelationshipInput!
 	): Relationship!
@@ -155,6 +167,6 @@ input CreateRelationshipInput {
 }
 
 type Subscription {
-	upvoteSubscription(postId: String!): Post!
-	downvoteSubscription(postId: String!): Post!
+	upvoteSubscription(postId: String!): UpvoteDTO!
+	downvoteSubscription(postId: String!): DownvoteDTO!
 }
