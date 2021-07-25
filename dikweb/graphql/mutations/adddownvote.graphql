@@ -1,7 +1,3 @@
 mutation addDownvote($postId: String!) {
-	addDownvote(postId: $postId) {
-		downvoter {
-			id
-		}
-	}
+	addDownvote(postId: $postId)
 }

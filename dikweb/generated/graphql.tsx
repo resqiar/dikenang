@@ -88,6 +88,13 @@ export type DeleteRelationshipResponse = {
 	code: Scalars['Float']
 }
 
+export type DownvoteDto = {
+	__typename?: 'DownvoteDTO'
+	postId: Scalars['String']
+	downvotes: Scalars['Int']
+	downvoters: Array<User>
+}
+
 export type Mutation = {
 	__typename?: 'Mutation'
 	updateUser: User
@@ -99,10 +106,10 @@ export type Mutation = {
 	createPost: Post
 	updatePost: Post
 	removePost: DeletePostResponse
-	addUpvote: Post
-	removeUpvote: Post
-	addDownvote: Post
-	removeDownvote: Post
+	addUpvote: Scalars['Int']
+	removeUpvote: Scalars['Int']
+	addDownvote: Scalars['Int']
+	removeDownvote: Scalars['Int']
 	createRelationship: Relationship
 	deleteRelationship: DeleteRelationshipResponse
 }
@@ -216,8 +223,8 @@ export type Relationship = {
 
 export type Subscription = {
 	__typename?: 'Subscription'
-	upvoteSubscription: Post
-	downvoteSubscription: Post
+	upvoteSubscription: UpvoteDto
+	downvoteSubscription: DownvoteDto
 }
 
 export type SubscriptionUpvoteSubscriptionArgs = {
@@ -241,6 +248,13 @@ export type UpdateUserInput = {
 	avatar_url?: Maybe<Scalars['String']>
 }
 
+export type UpvoteDto = {
+	__typename?: 'UpvoteDTO'
+	postId: Scalars['String']
+	upvotes: Scalars['Int']
+	upvoters: Array<User>
+}
+
 export type User = {
 	__typename?: 'User'
 	id: Scalars['String']
@@ -261,21 +275,19 @@ export type AddDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type AddDownvoteMutation = { __typename?: 'Mutation' } & {
-	addDownvote: { __typename?: 'Post' } & {
-		downvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
-}
+export type AddDownvoteMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'addDownvote'
+>
 
 export type AddUpvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type AddUpvoteMutation = { __typename?: 'Mutation' } & {
-	addUpvote: { __typename?: 'Post' } & {
-		upvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
-}
+export type AddUpvoteMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'addUpvote'
+>
 
 export type CreatePostMutationVariables = Exact<{
 	createPostinput: CreatePostInput
@@ -295,21 +307,19 @@ export type RemoveDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type RemoveDownvoteMutation = { __typename?: 'Mutation' } & {
-	removeDownvote: { __typename?: 'Post' } & {
-		downvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
-}
+export type RemoveDownvoteMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'removeDownvote'
+>
 
 export type RemoveUpvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type RemoveUpvoteMutation = { __typename?: 'Mutation' } & {
-	removeUpvote: { __typename?: 'Post' } & {
-		upvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
-}
+export type RemoveUpvoteMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'removeUpvote'
+>
 
 export type GetPostVotesQueryVariables = Exact<{
 	postId: Scalars['String']
@@ -367,9 +377,10 @@ export type DownvoteSubscriptionVariables = Exact<{
 }>
 
 export type DownvoteSubscription = { __typename?: 'Subscription' } & {
-	downvoteSubscription: { __typename?: 'Post' } & {
-		downvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
+	downvoteSubscription: { __typename?: 'DownvoteDTO' } & Pick<
+		DownvoteDto,
+		'downvotes'
+	> & { downvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
 }
 
 export type UpvoteSubscriptionVariables = Exact<{
@@ -377,18 +388,15 @@ export type UpvoteSubscriptionVariables = Exact<{
 }>
 
 export type UpvoteSubscription = { __typename?: 'Subscription' } & {
-	upvoteSubscription: { __typename?: 'Post' } & {
-		upvoter?: Maybe<Array<{ __typename?: 'User' } & Pick<User, 'id'>>>
-	}
+	upvoteSubscription: { __typename?: 'UpvoteDTO' } & Pick<
+		UpvoteDto,
+		'upvotes'
+	> & { upvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
 }
 
 export const AddDownvoteDocument = gql`
 	mutation addDownvote($postId: String!) {
-		addDownvote(postId: $postId) {
-			downvoter {
-				id
-			}
-		}
+		addDownvote(postId: $postId)
 	}
 `
 export type AddDownvoteMutationFn = Apollo.MutationFunction<
@@ -436,11 +444,7 @@ export type AddDownvoteMutationOptions = Apollo.BaseMutationOptions<
 >
 export const AddUpvoteDocument = gql`
 	mutation addUpvote($postId: String!) {
-		addUpvote(postId: $postId) {
-			upvoter {
-				id
-			}
-		}
+		addUpvote(postId: $postId)
 	}
 `
 export type AddUpvoteMutationFn = Apollo.MutationFunction<
@@ -549,11 +553,7 @@ export type CreatePostMutationOptions = Apollo.BaseMutationOptions<
 >
 export const RemoveDownvoteDocument = gql`
 	mutation removeDownvote($postId: String!) {
-		removeDownvote(postId: $postId) {
-			downvoter {
-				id
-			}
-		}
+		removeDownvote(postId: $postId)
 	}
 `
 export type RemoveDownvoteMutationFn = Apollo.MutationFunction<
@@ -601,11 +601,7 @@ export type RemoveDownvoteMutationOptions = Apollo.BaseMutationOptions<
 >
 export const RemoveUpvoteDocument = gql`
 	mutation removeUpvote($postId: String!) {
-		removeUpvote(postId: $postId) {
-			upvoter {
-				id
-			}
-		}
+		removeUpvote(postId: $postId)
 	}
 `
 export type RemoveUpvoteMutationFn = Apollo.MutationFunction<
@@ -796,7 +792,8 @@ export type GetPublicFeedsQueryResult = Apollo.QueryResult<
 export const DownvoteDocument = gql`
 	subscription downvote($postId: String!) {
 		downvoteSubscription(postId: $postId) {
-			downvoter {
+			downvotes
+			downvoters {
 				id
 			}
 		}
@@ -839,7 +836,8 @@ export type DownvoteSubscriptionResult =
 export const UpvoteDocument = gql`
 	subscription upvote($postId: String!) {
 		upvoteSubscription(postId: $postId) {
-			upvoter {
+			upvotes
+			upvoters {
 				id
 			}
 		}
