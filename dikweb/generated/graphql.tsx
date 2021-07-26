@@ -106,6 +106,7 @@ export type Mutation = {
 	createPost: Post
 	updatePost: Post
 	removePost: DeletePostResponse
+	addPostReachs: Scalars['Int']
 	addUpvote: Scalars['Int']
 	removeUpvote: Scalars['Int']
 	addDownvote: Scalars['Int']
@@ -153,6 +154,10 @@ export type MutationRemovePostArgs = {
 	postId: Scalars['String']
 }
 
+export type MutationAddPostReachsArgs = {
+	postId: Scalars['String']
+}
+
 export type MutationAddUpvoteArgs = {
 	postId: Scalars['String']
 }
@@ -180,6 +185,7 @@ export type Post = {
 	type?: Maybe<Scalars['String']>
 	upvoter?: Maybe<Array<User>>
 	downvoter?: Maybe<Array<User>>
+	reachs?: Maybe<Array<User>>
 	created_at?: Maybe<Scalars['DateTime']>
 	updated_at?: Maybe<Scalars['DateTime']>
 	author: User
@@ -196,6 +202,7 @@ export type Query = {
 	badge: Badge
 	posts: Array<Post>
 	post: Post
+	getPostReachs: Scalars['Int']
 }
 
 export type QueryUserArgs = {
@@ -207,6 +214,10 @@ export type QueryBadgeArgs = {
 }
 
 export type QueryPostArgs = {
+	postId: Scalars['String']
+}
+
+export type QueryGetPostReachsArgs = {
 	postId: Scalars['String']
 }
 
@@ -267,6 +278,7 @@ export type User = {
 	contents?: Maybe<Array<Post>>
 	upvotes?: Maybe<Array<Post>>
 	downvotes?: Maybe<Array<Post>>
+	viewed?: Maybe<Array<Post>>
 	relationship?: Maybe<Relationship>
 	badges?: Maybe<Array<Badge>>
 }
@@ -319,6 +331,24 @@ export type RemoveUpvoteMutationVariables = Exact<{
 export type RemoveUpvoteMutation = { __typename?: 'Mutation' } & Pick<
 	Mutation,
 	'removeUpvote'
+>
+
+export type SetCurrentPostReachMutationVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type SetCurrentPostReachMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'addPostReachs'
+>
+
+export type GetPublicFeedReachsQueryVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type GetPublicFeedReachsQuery = { __typename?: 'Query' } & Pick<
+	Query,
+	'getPostReachs'
 >
 
 export type GetPostVotesQueryVariables = Exact<{
@@ -646,6 +676,110 @@ export type RemoveUpvoteMutationResult =
 export type RemoveUpvoteMutationOptions = Apollo.BaseMutationOptions<
 	RemoveUpvoteMutation,
 	RemoveUpvoteMutationVariables
+>
+export const SetCurrentPostReachDocument = gql`
+	mutation setCurrentPostReach($postId: String!) {
+		addPostReachs(postId: $postId)
+	}
+`
+export type SetCurrentPostReachMutationFn = Apollo.MutationFunction<
+	SetCurrentPostReachMutation,
+	SetCurrentPostReachMutationVariables
+>
+
+/**
+ * __useSetCurrentPostReachMutation__
+ *
+ * To run a mutation, you first call `useSetCurrentPostReachMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetCurrentPostReachMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setCurrentPostReachMutation, { data, loading, error }] = useSetCurrentPostReachMutation({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useSetCurrentPostReachMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		SetCurrentPostReachMutation,
+		SetCurrentPostReachMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<
+		SetCurrentPostReachMutation,
+		SetCurrentPostReachMutationVariables
+	>(SetCurrentPostReachDocument, options)
+}
+export type SetCurrentPostReachMutationHookResult = ReturnType<
+	typeof useSetCurrentPostReachMutation
+>
+export type SetCurrentPostReachMutationResult =
+	Apollo.MutationResult<SetCurrentPostReachMutation>
+export type SetCurrentPostReachMutationOptions = Apollo.BaseMutationOptions<
+	SetCurrentPostReachMutation,
+	SetCurrentPostReachMutationVariables
+>
+export const GetPublicFeedReachsDocument = gql`
+	query getPublicFeedReachs($postId: String!) {
+		getPostReachs(postId: $postId)
+	}
+`
+
+/**
+ * __useGetPublicFeedReachsQuery__
+ *
+ * To run a query within a React component, call `useGetPublicFeedReachsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPublicFeedReachsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPublicFeedReachsQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useGetPublicFeedReachsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetPublicFeedReachsQuery,
+		GetPublicFeedReachsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetPublicFeedReachsQuery,
+		GetPublicFeedReachsQueryVariables
+	>(GetPublicFeedReachsDocument, options)
+}
+export function useGetPublicFeedReachsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetPublicFeedReachsQuery,
+		GetPublicFeedReachsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetPublicFeedReachsQuery,
+		GetPublicFeedReachsQueryVariables
+	>(GetPublicFeedReachsDocument, options)
+}
+export type GetPublicFeedReachsQueryHookResult = ReturnType<
+	typeof useGetPublicFeedReachsQuery
+>
+export type GetPublicFeedReachsLazyQueryHookResult = ReturnType<
+	typeof useGetPublicFeedReachsLazyQuery
+>
+export type GetPublicFeedReachsQueryResult = Apollo.QueryResult<
+	GetPublicFeedReachsQuery,
+	GetPublicFeedReachsQueryVariables
 >
 export const GetPostVotesDocument = gql`
 	query getPostVotes($postId: String!) {
