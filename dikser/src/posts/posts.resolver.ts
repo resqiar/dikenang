@@ -18,8 +18,8 @@ import { Post } from './entities/post.entity'
 import { PostsService } from './posts.service'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { configureRedisPubSub } from '../shared/utils/redispubsub'
-import { UpvoteDTO } from './dto/upvote.dto'
-import { DownvoteDTO } from './dto/downvote.dto'
+import { UpvoteDTO } from './dto/votes/upvote.dto'
+import { DownvoteDTO } from './dto/votes/downvote.dto'
 
 @Resolver(() => Post)
 export class PostsResolver {
