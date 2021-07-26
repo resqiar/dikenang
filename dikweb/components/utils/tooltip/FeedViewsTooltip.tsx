@@ -3,6 +3,7 @@ import { ReactElement, Fragment } from 'react'
 import InfoIconOutlined from '@material-ui/icons/InfoOutlined'
 import { Tooltip, withStyles } from '@material-ui/core'
 import Icons from '../../icons/Icons'
+import styled from 'styled-components'
 
 interface Props {
 	children: ReactElement
@@ -33,10 +34,10 @@ export default function FeedViewsTooltip(props: Props) {
 						hasIconButton={false}
 					/>
 
-					<p>
+					<TooltipText>
 						Dikenang counts post views when the content is displayed
 						in someone's feed.
-					</p>
+					</TooltipText>
 				</Fragment>
 			}
 		>
@@ -44,3 +45,5 @@ export default function FeedViewsTooltip(props: Props) {
 		</HtmlTooltip>
 	)
 }
+
+const TooltipText = styled.p``
