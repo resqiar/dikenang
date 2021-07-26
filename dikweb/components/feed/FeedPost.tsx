@@ -11,8 +11,10 @@ import {
 	useAddUpvoteMutation,
 	useDownvoteSubscription,
 	useGetPostVotesQuery,
+	useGetPublicFeedReachsQuery,
 	useRemoveDownvoteMutation,
 	useRemoveUpvoteMutation,
+	useSetCurrentPostReachMutation,
 	useUpvoteSubscription,
 } from '../../generated/graphql'
 import Moment from 'moment'
@@ -117,6 +119,13 @@ export default function FeedPost({
 	const [isDownvoted, setIsDownvoted] = useState<boolean>(false)
 
 	/**
+	 * @Mutation
+	 * Define mutations to update
+	 * current post reach (view)
+	 */
+	const [setPostReach] = useSetCurrentPostReachMutation()
+
+	/**
 	 * @Mutations
 	 * Define mutations to update
 	 * Votes either upvotes or downvotes
@@ -127,7 +136,18 @@ export default function FeedPost({
 	const [removeDownvote] = useRemoveDownvoteMutation()
 
 	/**
-	 * @Queries
+	 * @Query
+	 * Define query to the database to get the initial
+	 * value of post reach views
+	 */
+	const getPostReachViews = useGetPublicFeedReachsQuery({
+		variables: {
+			postId: postId,
+		},
+	})
+
+	/**
+	 * @Query
 	 * Define query to the database to get the initial
 	 * value of post votes, eiher upvotes or downvotes
 	 */
@@ -136,6 +156,21 @@ export default function FeedPost({
 			postId: postId,
 		},
 	})
+
+	useEffect(() => {
+		/**
+		 * This use effect is used to bind current user to post reach/views.
+		 * When this post is shown in feeds, this function below will be called
+		 * executing graphql mutations to server, providing user current id.
+		 * When mutations finished, current post views should be increased.
+		 * @see posts.service.ts in the back-end for more info
+		 */
+		setPostReach({
+			variables: {
+				postId: postId,
+			},
+		})
+	}, [])
 
 	useEffect(() => {
 		/**
@@ -345,63 +380,81 @@ export default function FeedPost({
 			</FeedPostBody>
 
 			<FeedPostFooter>
-				{/* Votes Alt */}
-				<FeedPostVotes>
-					<VotesWrapper>
-						{/* Up votes */}
-						<ThumbUpAltIcon
-							style={{
-								color: 'var(--font-white-500)',
-								width: '15px',
-								height: '18px',
-								border: 'none',
-							}}
-						/>
-						<VotesAltText style={fade}>
-							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
-							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
-							{getUpvoteSubscriptions.data
-								? upvoteAnimation.upvotes.to((value) =>
-										Math.floor(value)
-								  )
-								: getPostVotes.data?.post.upvoter?.length}
-						</VotesAltText>
-					</VotesWrapper>
+				<FooterAltWrapper>
+					{/* Votes Alt */}
+					<FeedPostVotes>
+						<VotesWrapper>
+							{/* Up votes */}
+							<ThumbUpAltIcon
+								style={{
+									color: 'var(--font-white-500)',
+									width: '15px',
+									height: '18px',
+									border: 'none',
+								}}
+							/>
+							<VotesAltText style={fade}>
+								{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+								{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+								{getUpvoteSubscriptions.data
+									? upvoteAnimation.upvotes.to((value) =>
+											Math.floor(value)
+									  )
+									: getPostVotes.data?.post.upvoter?.length}
+							</VotesAltText>
+						</VotesWrapper>
 
-					<VotesWrapper>
-						{/* Downvotes */}
-						<ThumbDownAltIcon
-							style={{
-								color: 'var(--font-white-500)',
-								width: '15px',
-								height: '18px',
-								border: 'none',
-							}}
-						/>
-						<VotesAltText style={fade}>
-							{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
-							{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
-							{getDownvoteSubscriptions.data
-								? downvoteAnimation.downvotes.to((value) =>
-										Math.floor(value)
-								  )
-								: getPostVotes.data?.post.downvoter?.length}
-						</VotesAltText>
-					</VotesWrapper>
+						<VotesWrapper>
+							{/* Downvotes */}
+							<ThumbDownAltIcon
+								style={{
+									color: 'var(--font-white-500)',
+									width: '15px',
+									height: '18px',
+									border: 'none',
+								}}
+							/>
+							<VotesAltText style={fade}>
+								{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+								{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+								{getDownvoteSubscriptions.data
+									? downvoteAnimation.downvotes.to((value) =>
+											Math.floor(value)
+									  )
+									: getPostVotes.data?.post.downvoter?.length}
+							</VotesAltText>
+						</VotesWrapper>
 
-					<VotesWrapper>
-						{/* comments */}
-						<ModeCommentIcon
-							style={{
-								color: 'var(--font-white-500)',
-								width: '15px',
-								height: '18px',
-								border: 'none',
-							}}
-						/>
-						<VotesAltText>{commentSum}</VotesAltText>
-					</VotesWrapper>
-				</FeedPostVotes>
+						<VotesWrapper>
+							{/* comments */}
+							<ModeCommentIcon
+								style={{
+									color: 'var(--font-white-500)',
+									width: '15px',
+									height: '18px',
+									border: 'none',
+								}}
+							/>
+							<VotesAltText>{commentSum}</VotesAltText>
+						</VotesWrapper>
+					</FeedPostVotes>
+
+					{/* Reach Views Alt */}
+					<FeedReachViews>
+						<FeedReachViewsText>
+							{/* GET VIEWS DATA */}
+							{getPostReachViews?.data?.getPostReachs}
+						</FeedReachViewsText>
+						<FeedReachViewsSpan>
+							{/* IF VIEWS MORE THAN 2, THAT MEANS PLURAL */}
+							{getPostReachViews.data
+								? getPostReachViews?.data?.getPostReachs >= 2
+									? 'views'
+									: 'view'
+								: undefined}
+						</FeedReachViewsSpan>
+					</FeedReachViews>
+				</FooterAltWrapper>
 
 				{/* Votes || Comment */}
 				<FeedPostButtonWrapper>
@@ -510,6 +563,28 @@ const FeedPostAttachments = styled.div`
 /**
  * Footer
  */
+const FooterAltWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+`
+const FeedReachViews = styled.div`
+	display: flex;
+	padding: 8px 18px 2px;
+	align-items: center;
+`
+const FeedReachViewsText = styled.p`
+	color: var(--font-white-500);
+	font-weight: 500;
+	font-size: 12px;
+	padding: 0px 4px;
+`
+const FeedReachViewsSpan = styled.p`
+	color: var(--font-white-500);
+	font-size: 12px;
+	font-weight: 500;
+	padding: 0px 4px 0px 0px;
+`
 const FeedPostFooter = styled.div`
 	padding: 4px;
 `
