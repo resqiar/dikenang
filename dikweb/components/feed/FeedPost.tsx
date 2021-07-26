@@ -33,6 +33,7 @@ import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
+import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
 
 interface Props {
 	profile: UserProfileType
@@ -439,21 +440,25 @@ export default function FeedPost({
 						</VotesWrapper>
 					</FeedPostVotes>
 
-					{/* Reach Views Alt */}
-					<FeedReachViews>
-						<FeedReachViewsText>
-							{/* GET VIEWS DATA */}
-							{getPostReachViews?.data?.getPostReachs}
-						</FeedReachViewsText>
-						<FeedReachViewsSpan>
-							{/* IF VIEWS MORE THAN 2, THAT MEANS PLURAL */}
-							{getPostReachViews.data
-								? getPostReachViews?.data?.getPostReachs >= 2
-									? 'views'
-									: 'view'
-								: undefined}
-						</FeedReachViewsSpan>
-					</FeedReachViews>
+					{/* VIEWS TOOLTIP */}
+					<FeedViewsTooltip>
+						{/* Reach Views Alt */}
+						<FeedReachViews>
+							<FeedReachViewsText>
+								{/* GET VIEWS DATA */}
+								{getPostReachViews?.data?.getPostReachs}
+							</FeedReachViewsText>
+							<FeedReachViewsSpan>
+								{/* IF VIEWS MORE THAN 2, THAT MEANS PLURAL */}
+								{getPostReachViews.data
+									? getPostReachViews?.data?.getPostReachs >=
+									  2
+										? 'views'
+										: 'view'
+									: undefined}
+							</FeedReachViewsSpan>
+						</FeedReachViews>
+					</FeedViewsTooltip>
 				</FooterAltWrapper>
 
 				{/* Votes || Comment */}
@@ -570,6 +575,7 @@ const FooterAltWrapper = styled.div`
 `
 const FeedReachViews = styled.div`
 	display: flex;
+	cursor: help;
 	padding: 8px 18px 2px;
 	align-items: center;
 `
