@@ -109,6 +109,7 @@ export class PostsService {
 				'attachments',
 				'relationship',
 				'relationship.partnership',
+				'reachs',
 				'upvoter',
 				'downvoter',
 			],
@@ -120,9 +121,16 @@ export class PostsService {
 
 	async findById(postId: string) {
 		try {
-			return await this.postsRepository.findOneOrFail(postId, {
-				relations: ['upvoter', 'downvoter'],
-			})
+			const relatedPost = await this.postsRepository.findOneOrFail(
+				postId,
+				{
+					relations: ['upvoter', 'author', 'reachs', 'downvoter'],
+				}
+			)
+
+			// if post is not public, throw an error
+			if (relatedPost.type === 'private') throw new NotFoundException()
+			return relatedPost
 		} catch (e) {
 			/**
 			 * @Error here means that client fails to get
@@ -208,6 +216,34 @@ export class PostsService {
 					break
 			}
 		}
+	}
+
+	/**
+	 * These two services below used to handle post reachs/views
+	 * When "public" post is shown in someone feeds
+	 * @addPostReachs should be called
+	 */
+	async getPostReachs(postId: string) {
+		const targetPost = await this.findById(postId)
+		if (!targetPost.reachs) return 0
+		return targetPost.reachs.length
+	}
+
+	async addPostReachs(postId: string, userId: string) {
+		const targetPost = await this.findById(postId)
+		const user = await this.usersService.findById(userId)
+
+		// if user already viewed
+		if (targetPost.reachs.find((value) => value.id === user.id)) return 200
+
+		// if user is the author of the post => exclude
+		if (targetPost.author.id === user.id) return 200
+
+		// Add User
+		targetPost.reachs = [...targetPost.reachs, user]
+		await this.postsRepository.save(targetPost)
+
+		return 200
 	}
 
 	/**

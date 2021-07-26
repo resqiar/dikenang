@@ -69,6 +69,10 @@ export class User {
 	@JoinTable()
 	downvotes: Post[]
 
+	@Field(() => [Post], { nullable: true })
+	@ManyToMany((_) => Post)
+	viewed: Post[]
+
 	@Field((_) => Relationship, { nullable: true })
 	@ManyToOne(
 		(_) => Relationship,
