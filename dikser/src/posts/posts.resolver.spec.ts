@@ -58,6 +58,7 @@ describe('PostsResolver', () => {
 				type: 'public',
 				upvoter: [new User(), new User()],
 				downvoter: [new User(), new User()],
+				reachs: [new User()],
 				created_at: new Date(),
 				updated_at: new Date(),
 				author: new User(),
