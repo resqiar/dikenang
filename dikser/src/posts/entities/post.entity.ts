@@ -31,11 +31,15 @@ export class Post {
 	type: string
 
 	@Field(() => [User], { nullable: true })
-	@ManyToMany((_) => User, (upvoter: User) => upvoter.upvotes)
+	@ManyToMany((_) => User, (upvoter: User) => upvoter.upvotes, {
+		onDelete: 'CASCADE',
+	})
 	upvoter: User[]
 
 	@Field(() => [User], { nullable: true })
-	@ManyToMany((_) => User, (downvoter: User) => downvoter.downvotes)
+	@ManyToMany((_) => User, (downvoter: User) => downvoter.downvotes, {
+		onDelete: 'CASCADE',
+	})
 	downvoter: User[]
 
 	@Field(() => [User], { nullable: true })
