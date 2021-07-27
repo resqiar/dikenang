@@ -117,7 +117,7 @@ export default function FeedMoreItem(props: Props) {
 					</ListItemIcon>
 					<ListItemText
 						primary="Post Visibility"
-						secondary="Post is declared as Public and can be seen by anyone"
+						secondary="Post is public and can be seen by anyone"
 					/>
 				</StyledMenuItem>
 
