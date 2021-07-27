@@ -5,6 +5,7 @@ query getPublicFeeds {
 		type
 		created_at
 		author {
+			id
 			username
 			avatar_url
 			badges {
