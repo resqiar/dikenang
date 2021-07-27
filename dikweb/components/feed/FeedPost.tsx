@@ -212,7 +212,7 @@ export default function FeedPost({
 		 */
 		if (captionRef.current) {
 			// @ts-ignore considering this next line will always be defined
-			if (captionRef.current.clientHeight >= 350) {
+			if (captionRef.current.clientHeight >= 500) {
 				setTruncate(true)
 			}
 		}
@@ -363,6 +363,7 @@ export default function FeedPost({
 						margin="-24px 0px 0px 0px"
 						padding="0px 8px 0px 8px"
 					/>
+					<FadeEffect isTruncated={truncate} />
 				</CaptionWrapper>
 
 				{/* If Caption is More than 350px */}
@@ -562,19 +563,36 @@ const FeedPostTimeStamp = styled.p`
 const FeedPostBody = styled.div``
 
 const CaptionWrapper = styled.div<{ ref?: any; isTruncated?: boolean }>`
-	max-height: ${(props) => (props.isTruncated ? '350px' : '100%')};
+	max-height: ${(props) => (props.isTruncated ? '300px' : '100%')};
+	position: relative;
 	overflow: hidden;
+`
+const FadeEffect = styled.div<{ isTruncated?: boolean }>`
+	display: ${(props) => (!props.isTruncated ? 'none' : undefined)};
+	position: absolute;
+	z-index: 1;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	background: rgb(21, 25, 32);
+	background: linear-gradient(
+		0deg,
+		rgba(21, 25, 32, 1) 0%,
+		rgba(21, 25, 32, 0) 100%
+	);
 `
 const ReadMoreChipWrapper = styled.div`
 	display: flex;
+	background: transparent;
 	justify-content: center;
-	padding-top: 8px;
+	padding-top: 4px;
 `
 const FeedPostAttachments = styled.div`
 	width: 100%;
 	height: 100%;
 	position: relative;
-	padding-top: 2px;
+	padding-top: 18px;
 	margin-top: -4px;
 `
 
