@@ -201,6 +201,7 @@ export default function IndexBody({ profile }: Props) {
 										postId={value.id}
 										caption={value.caption}
 										type={value.type as string}
+										authorId={value.author.id}
 										username={value.author.username}
 										badge={
 											value.author.badges
@@ -215,6 +216,9 @@ export default function IndexBody({ profile }: Props) {
 												| undefined
 										}
 										commentSum={0}
+										onRefecthCallback={() =>
+											publicFeedsHooks.refetch()
+										}
 									/>
 								)),
 							]

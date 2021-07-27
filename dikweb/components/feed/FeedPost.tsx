@@ -34,10 +34,13 @@ import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
 import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
+import FeedMoreItem from './FeedMoreItem'
 
 interface Props {
 	profile: UserProfileType
+	onRefecthCallback: () => void
 	postId: string
+	authorId: string
 	username: string
 	badge?: Badge
 	timestamp: string
@@ -51,6 +54,7 @@ interface Props {
 export default function FeedPost({
 	profile,
 	postId,
+	authorId,
 	avatarSrc,
 	username,
 	badge,
@@ -59,6 +63,7 @@ export default function FeedPost({
 	imageSrc,
 	commentSum,
 	type,
+	onRefecthCallback,
 }: Props) {
 	/**
 	 * This ref attached to CaptionWrapper
@@ -337,6 +342,14 @@ export default function FeedPost({
 						</FeedPostTypeTimestampWrapper>
 					</FeedPostHeaderText>
 				</FeedPostProfile>
+
+				{/* POST MORE ITEM COMPONENT */}
+				<FeedMoreItem
+					profile={profile}
+					postAuthorId={authorId}
+					postId={postId}
+					onRefecthCallback={() => onRefecthCallback()}
+				/>
 			</FeedPostHeaderWrapper>
 
 			<FeedPostBody>

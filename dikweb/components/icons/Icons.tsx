@@ -6,7 +6,7 @@ interface Props {
 	color?: string
 	size?: number
 	padding?: string
-	onClickCallback?: () => void
+	onClickCallback?: (props?: any) => void
 	hasIconButton: boolean
 }
 
