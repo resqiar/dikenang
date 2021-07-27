@@ -79,6 +79,19 @@ a {
 	--font-white-200: rgba(255, 255, 255, 0.2);
 	--font-white-100: rgba(255, 255, 255, 0.1);
 
+	/* Black color */
+
+	--font-black: rgba(0, 0, 0);
+	--font-black-900: rgba(0, 0, 0, 0.9);
+	--font-black-800: rgba(0, 0, 0, 0.8);
+	--font-black-700: rgba(0, 0, 0, 0.7);
+	--font-black-600: rgba(0, 0, 0, 0.6);
+	--font-black-500: rgba(0, 0, 0, 0.5);
+	--font-black-400: rgba(0, 0, 0, 0.4);
+	--font-black-300: rgba(0, 0, 0, 0.3);
+	--font-black-200: rgba(0, 0, 0, 0.2);
+	--font-black-100: rgba(0, 0, 0, 0.1);
+
 	/* Grey Color */
 	--font-grey: grey;
 
