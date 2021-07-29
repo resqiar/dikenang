@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
-import ModalDialog from '../modal/ModalDialog'
-import Button from '../button/Button'
+import ConfirmationModal from '../modal/ConfirmationModal'
 import { UserProfileType } from '../../types/profile.type'
 import { useDeletePostMutation } from '../../generated/graphql'
 
@@ -17,7 +16,6 @@ import {
 } from '@material-ui/core'
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded'
 import FaceIcon from '@material-ui/icons/Face'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
 interface Props {
 	onRefecthCallback: () => void
@@ -142,101 +140,17 @@ export default function FeedMoreItem(props: Props) {
 			</StyledMenu>
 
 			{/* Delete Post Modal */}
-			<ModalDialog
+			<ConfirmationModal
+				headerText="Delete this post?"
+				bodyText="You will not be able to recover this post after delete,
+				are you sure?"
 				onOpenCallback={openDeleteModal}
 				onCloseCallback={() => setOpenDeleteModal(false)}
-			>
-				<DeleteDialogWrapper>
-					<DeleteDialogHeader>
-						<DeleteDialogHeaderText>
-							Delete this post?
-						</DeleteDialogHeaderText>
-					</DeleteDialogHeader>
-
-					<DeleteDialogBody>
-						<DeleteDialogBodyText>
-							You will not be able to recover this post after
-							delete, are you sure?
-						</DeleteDialogBodyText>
-					</DeleteDialogBody>
-
-					<DeleteDialogFooter>
-						<DeleteDialogFooterButtonWrapper>
-							{deletePostData.loading ? (
-								<CircularProgress
-									size={25}
-									style={{
-										color: 'var(--color-primary)',
-									}}
-								/>
-							) : (
-								<>
-									{/* CANCEL */}
-									<Button
-										onClick={() =>
-											setOpenDeleteModal(false)
-										}
-										text="Cancel"
-										type="button"
-										padding="8px"
-										border="none"
-										bgColor="var(--color-primary)"
-										color="var(--font-white-800)"
-										borderRadius="20px"
-									/>
-
-									{/* DELETE */}
-									<Button
-										onClick={handlePostDelete}
-										text="Delete"
-										type="button"
-										padding="8px"
-										border="none"
-										color="red"
-										borderRadius="20px"
-									/>
-								</>
-							)}
-						</DeleteDialogFooterButtonWrapper>
-					</DeleteDialogFooter>
-				</DeleteDialogWrapper>
-			</ModalDialog>
+				onSubmitCallback={handlePostDelete}
+				isLoading={deletePostData.loading ? true : false}
+			/>
 		</FeedMoreItemWrapper>
 	)
 }
 
 const FeedMoreItemWrapper = styled.div``
-const DeleteDialogWrapper = styled.div`
-	display: flex;
-	border-radius: 8px;
-	flex-direction: column;
-	height: fit-content;
-	width: fit-content;
-	background-color: var(--background-dimmed-500);
-	padding: 8px;
-`
-const DeleteDialogHeader = styled.div`
-	padding: 16px;
-	display: flex;
-	width: 100%;
-	justify-content: center;
-`
-const DeleteDialogHeaderText = styled.p`
-	font-weight: bold;
-	color: var(--font-white-800);
-	font-size: 18px;
-`
-const DeleteDialogBody = styled.div`
-	padding: 4px 16px 18px 16px;
-`
-const DeleteDialogBodyText = styled.p`
-	color: var(--font-white-600);
-`
-const DeleteDialogFooter = styled.div`
-	padding: 8px;
-`
-const DeleteDialogFooterButtonWrapper = styled.div`
-	display: flex;
-	justify-content: center;
-	gap: 8px;
-`
