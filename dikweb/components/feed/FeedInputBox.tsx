@@ -53,6 +53,7 @@ export default function FeedInputBox({ profile, onUploadCallback }: Props) {
 
 				{/* Modal Dialog */}
 				<ModalDialog
+					disableEscapeKeyDown
 					onOpenCallback={openModal}
 					onCloseCallback={() => setOpenModal(false)}
 				>

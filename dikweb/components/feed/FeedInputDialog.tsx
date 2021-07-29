@@ -19,6 +19,7 @@ import DeleteSweepTwoToneIcon from '@material-ui/icons/DeleteSweepTwoTone'
 import KeyboardArrowDownRoundedIcon from '@material-ui/icons/KeyboardArrowDownRounded'
 import KeyboardArrowUpRoundedIcon from '@material-ui/icons/KeyboardArrowUpRounded'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import ConfirmationModal from '../modal/ConfirmationModal'
 
 interface Props {
 	profile: UserProfileType
@@ -165,6 +166,8 @@ export default function FeedInputDialog(props: Props) {
 		}
 	}, [rawImage])
 
+	const [openCloseModal, setOpenCloseModal] = useState<boolean>(false)
+
 	return (
 		<FeedInputDialogWrapper>
 			<FeedInputDialogHeader>
@@ -199,9 +202,28 @@ export default function FeedInputDialog(props: Props) {
 
 				<FeedInputDialogHeaderButton>
 					{/* Close Button */}
-					<IconButton onClick={props.onCloseCallback}>
+					<IconButton
+						onClick={() => {
+							// Check if there is no caption
+							if (!caption) return props.onCloseCallback()
+
+							// If there is a caption, show confirmation dialog
+							setOpenCloseModal(true)
+						}}
+					>
 						<CloseIcon style={{ color: '#fff' }} />
 					</IconButton>
+
+					{/* Confirmation to Close Modal */}
+					<ConfirmationModal
+						headerText="Discard Post?"
+						bodyText="You can't continue after discard, proceed with caution"
+						cancelButtonText="keep writing"
+						submitButtonText="Discard"
+						onOpenCallback={openCloseModal}
+						onCloseCallback={() => setOpenCloseModal(false)}
+						onSubmitCallback={props.onCloseCallback}
+					/>
 				</FeedInputDialogHeaderButton>
 			</FeedInputDialogHeader>
 

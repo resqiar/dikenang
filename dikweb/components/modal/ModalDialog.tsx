@@ -6,6 +6,7 @@ import Fade from '@material-ui/core/Fade'
 interface Props {
 	ariaLabel?: string
 	ariaDescribe?: string
+	disableEscapeKeyDown?: boolean
 	onOpenCallback: boolean
 	onCloseCallback: () => void
 	children: ReactElement
@@ -25,6 +26,7 @@ export default function ModalDialog({
 	ariaDescribe,
 	onOpenCallback,
 	onCloseCallback,
+	disableEscapeKeyDown,
 	children,
 }: Props) {
 	/** Material UI styles */
@@ -32,6 +34,7 @@ export default function ModalDialog({
 
 	return (
 		<Modal
+			disableEscapeKeyDown={disableEscapeKeyDown ? true : false}
 			aria-labelledby={ariaLabel ? ariaLabel : 'modal-title'}
 			aria-describedby={ariaDescribe ? ariaDescribe : 'modal-description'}
 			className={styles.modal}

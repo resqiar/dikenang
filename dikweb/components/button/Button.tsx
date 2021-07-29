@@ -15,6 +15,7 @@ interface Props {
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	isUppercase?: boolean
 	disabled?: boolean
 	// hover
 	hoverColor?: string
@@ -42,6 +43,7 @@ export default function Button(props: Props) {
 			padding={props.padding}
 			margin={props.margin}
 			boxShadow={props.boxShadow}
+			isUppercase={props.isUppercase}
 			disabled={props.disabled}
 			// hover
 			hoverColor={props.hoverColor}
@@ -70,6 +72,7 @@ const ButtonElement = styled.button<{
 	padding?: string
 	margin?: string
 	boxShadow?: string
+	isUppercase?: boolean
 	disabled?: boolean
 	// hover
 	hoverColor?: string
@@ -93,6 +96,7 @@ const ButtonElement = styled.button<{
 	padding: ${(props) => props.padding || undefined};
 	margin: ${(props) => props.margin || undefined};
 	box-shadow: ${(props) => props.boxShadow || undefined};
+	text-transform: ${(props) => (props.isUppercase ? 'uppercase' : undefined)};
 
 	&:hover {
 		background: ${(props) => props.hoverBg || undefined};

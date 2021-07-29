@@ -48,8 +48,14 @@ export default function ConfirmationModal(props: Props) {
 								{/* CLOSE MODAL */}
 								<Button
 									onClick={props.onCloseCallback}
-									text="Cancel"
+									text={
+										props.cancelButtonText
+											? props.cancelButtonText
+											: 'Cancel'
+									}
+									isUppercase={true}
 									type="button"
+									fontWeight="600"
 									padding="8px"
 									border="none"
 									bgColor="var(--color-primary)"
@@ -60,8 +66,14 @@ export default function ConfirmationModal(props: Props) {
 								{/* SUBMIT */}
 								<Button
 									onClick={props.onSubmitCallback}
-									text="Delete"
+									text={
+										props.submitButtonText
+											? props.submitButtonText
+											: 'Delete'
+									}
+									isUppercase={true}
 									type="button"
+									fontWeight="600"
 									padding="8px"
 									border="none"
 									color="red"
