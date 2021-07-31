@@ -20,8 +20,6 @@
 		"@material-ui/lab": "4.0.0-alpha.58",
 		"axios": "0.21.1",
 		"draft-js": "0.10.5",
-		"draft-js-inline-toolbar-plugin": "3.0.1",
-		"draft-js-side-toolbar-plugin": "3.0.2",
 		"draftail": "1.4.1",
 		"graphql": "15.5.1",
 		"moment": "2.29.1",
