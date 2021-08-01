@@ -125,13 +125,7 @@ export default function FeedInputDialog(props: Props) {
 
 		// Error handling, future works :)
 		if (requestToServer.error) {
-			// If user auth is expired push to auth page
-			if (
-				requestToServer.error.graphQLErrors[0].extensions.status === 403
-			) {
-				return Router.push('/auth')
-			}
-			console.log(requestToServer.error)
+			alert(requestToServer.error)
 			return setLoadingState(false)
 		}
 
@@ -323,11 +317,20 @@ export default function FeedInputDialog(props: Props) {
 							if (!event.target.files) return
 
 							const file = event.target.files[0]
+							if (!file) return setRawImage(null)
 
-							// Check if type is image or not
-							if (file && file.type.substr(0, 5) === 'image') {
+							// Check if type is allowed or not
+							if (
+								file.type === 'image/jpg' ||
+								file.type === 'image/jpeg' ||
+								file.type === 'image/png'
+							) {
 								setRawImage(file)
 							} else {
+								// If image is not jpg jpeg or png
+								alert(
+									'only JPG, JPEG and PNG images are supported'
+								)
 								setRawImage(null)
 							}
 						}}
