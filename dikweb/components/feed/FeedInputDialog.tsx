@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import Router from 'next/router'
 import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import FeedInputButton from './FeedInputButton'
