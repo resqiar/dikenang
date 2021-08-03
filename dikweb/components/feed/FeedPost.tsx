@@ -19,6 +19,7 @@ import {
 } from '../../generated/graphql'
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
+import CommentContainer from '../comment/CommentContainer'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -27,6 +28,7 @@ import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
 import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
+import InsertCommentIcon from '@material-ui/icons/InsertComment'
 import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
 import ModeCommentIcon from '@material-ui/icons/ModeComment'
 import PublicIcon from '@material-ui/icons/Public'
@@ -292,6 +294,11 @@ export default function FeedPost({
 		}
 	}
 
+	const [openComment, setOpenComment] = useState<boolean>(false)
+
+	// Comment section toggle fade
+	const commentContainerFade = useSpring({ opacity: openComment ? 1 : 0 })
+
 	return (
 		<FeedPostWrapper style={fade}>
 			<FeedPostHeaderWrapper>
@@ -499,11 +506,26 @@ export default function FeedPost({
 
 					{/* Commment */}
 					<Icons
-						Icon={InsertCommentOutlinedIcon}
+						Icon={
+							!openComment
+								? InsertCommentOutlinedIcon
+								: InsertCommentIcon
+						}
 						hasIconButton={true}
+						onClickCallback={() => {
+							if (!openComment) return setOpenComment(true)
+							setOpenComment(false)
+						}}
 					/>
 				</FeedPostButtonWrapper>
 			</FeedPostFooter>
+
+			{/* Feed Comment Component */}
+			{openComment ? (
+				<CommentSection style={commentContainerFade}>
+					<CommentContainer />
+				</CommentSection>
+			) : undefined}
 		</FeedPostWrapper>
 	)
 }
@@ -650,3 +672,5 @@ const FeedPostButtonWrapper = styled.div`
 	padding: 0px 8px;
 	border-top: var(--border);
 `
+
+const CommentSection = styled(animated.div)``
