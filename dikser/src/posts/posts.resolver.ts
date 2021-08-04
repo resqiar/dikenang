@@ -103,7 +103,10 @@ export class PostsResolver {
 	 */
 	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
-	async addUpvote(@CurrentUser() user: User, @Args('postId') postId: string) {
+	async addUpvote(
+		@CurrentUser() user: User,
+		@Args('postId') postId: string
+	): Promise<number> {
 		const newUpvoteValue = await this.postsService.addUpvote(
 			postId,
 			user.id
@@ -132,7 +135,7 @@ export class PostsResolver {
 	async removeUpvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newUpvoteValue = await this.postsService.removeUpvote(
 			postId,
 			user.id
@@ -161,7 +164,7 @@ export class PostsResolver {
 	async addDownvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newDownvoteValue = await this.postsService.addDownvote(
 			postId,
 			user.id
@@ -190,7 +193,7 @@ export class PostsResolver {
 	async removeDownvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newDownvoteValue = await this.postsService.removeDownvote(
 			postId,
 			user.id
@@ -228,5 +231,11 @@ export class PostsResolver {
 	})
 	downvoteSubscription(@Args('postId') _postId: string) {
 		return this.pubSub.asyncIterator('downvoteSubscriptions')
+	}
+
+	@Query(() => Post)
+	@UseGuards(AuthStatusGuard)
+	async getPostComments(@Args('postId') postId: string): Promise<Post> {
+		return this.postsService.getPostComments(postId)
 	}
 }

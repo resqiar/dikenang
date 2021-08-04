@@ -14,5 +14,6 @@ import { RelationshipModule } from '../relationship/relationship.module'
 		RelationshipModule,
 	],
 	providers: [PostsResolver, PostsService],
+	exports: [PostsService],
 })
 export class PostsModule {}
