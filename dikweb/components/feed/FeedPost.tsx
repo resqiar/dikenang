@@ -20,6 +20,8 @@ import {
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
 import CommentContainer from '../comment/CommentContainer'
+import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
+import FeedMoreItem from './FeedMoreItem'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -35,8 +37,6 @@ import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
-import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
-import FeedMoreItem from './FeedMoreItem'
 
 interface Props {
 	profile: UserProfileType
@@ -523,7 +523,7 @@ export default function FeedPost({
 			{/* Feed Comment Component */}
 			{openComment ? (
 				<CommentSection style={commentContainerFade}>
-					<CommentContainer />
+					<CommentContainer postId={postId} profile={profile} />
 				</CommentSection>
 			) : undefined}
 		</FeedPostWrapper>

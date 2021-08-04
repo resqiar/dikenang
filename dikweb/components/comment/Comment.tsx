@@ -1,39 +1,68 @@
 import styled from 'styled-components'
+import Moment from 'moment'
 import { animated, config, useSpring } from 'react-spring'
-import BulletDivider from '../utils/BulletDivider'
+import { useGetUserBadgeQuery, User } from '../../generated/graphql'
 
 import { Avatar, Chip, IconButton } from '@material-ui/core'
 
-export default function Comment() {
+interface Props {
+	author: User
+	text: string
+	timestamp: Date
+}
+
+export default function Comment(props: Props) {
 	const commentItemFade = useSpring({
 		opacity: 1,
 		from: { opacity: 0 },
-		config: config.gentle,
+		config: config.slow,
+	})
+
+	/**
+	 * @Query
+	 * Define query to the database to get the user badges
+	 */
+	const getUserBadge = useGetUserBadgeQuery({
+		variables: {
+			username: props.author.username,
+		},
 	})
 
 	return (
 		<CommentItemWrapper style={commentItemFade}>
 			<IconButton>
-				<Avatar />
+				<Avatar src={props.author.avatar_url as string} />
 			</IconButton>
 
 			<CommentItemBody>
 				<CommentBodyHeader>
-					<CommentBodyUsername>Historyan</CommentBodyUsername>
+					<CommentBodyUsername>
+						{props.author.username}
+					</CommentBodyUsername>
 
 					{/* Badge (if any) */}
-					<Chip label="Tester" size="small" />
+					{getUserBadge.data?.user.badges ? (
+						<Chip
+							label={getUserBadge.data.user.badges[0].label}
+							variant={
+								getUserBadge.data.user?.badges[0].variant as any
+							}
+							size="small"
+							style={{
+								color: `${getUserBadge.data.user?.badges[0].color}`,
+								background: `${getUserBadge.data.user?.badges[0].background}`,
+								borderColor: `${getUserBadge.data.user?.badges[0].border}`,
+							}}
+						/>
+					) : undefined}
 				</CommentBodyHeader>
 
 				{/* TimeStamp */}
-				<CommentTimestamp>2 Hours ago</CommentTimestamp>
+				<CommentTimestamp>
+					{Moment(props.timestamp).fromNow()}
+				</CommentTimestamp>
 
-				<CommentBodyText>
-					Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-					Maxime, totam quas sequi labore alias assumenda fugit quod
-					voluptatum incidunt, optio dolores, amet esse inventore
-					molestias! Vitae odit doloribus enim assumenda.
-				</CommentBodyText>
+				<CommentBodyText>{props.text}</CommentBodyText>
 			</CommentItemBody>
 		</CommentItemWrapper>
 	)
