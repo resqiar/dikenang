@@ -1,0 +1,15 @@
+query GetPostComments($postId: String!) {
+	getPostComments(postId: $postId) {
+		comments {
+			id
+			text
+			created_at
+			author {
+				id
+				email
+				username
+				avatar_url
+			}
+		}
+	}
+}

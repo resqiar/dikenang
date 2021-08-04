@@ -43,6 +43,23 @@ export type Badge = {
 	owners?: Maybe<Array<User>>
 }
 
+export type Comment = {
+	__typename?: 'Comment'
+	id: Scalars['String']
+	text: Scalars['String']
+	created_at?: Maybe<Scalars['DateTime']>
+	updated_at?: Maybe<Scalars['DateTime']>
+	author: User
+	post: Post
+}
+
+export type CommentsDto = {
+	__typename?: 'CommentsDTO'
+	postId: Scalars['String']
+	comment: Comment
+	commentsSum?: Maybe<Scalars['Int']>
+}
+
 export type CreateAttachmentInput = {
 	type: Scalars['String']
 	uri: Array<Scalars['String']>
@@ -54,6 +71,11 @@ export type CreateBadgeInput = {
 	color?: Maybe<Scalars['String']>
 	background?: Maybe<Scalars['String']>
 	border?: Maybe<Scalars['String']>
+}
+
+export type CreateCommentInput = {
+	text: Scalars['String']
+	postId: Scalars['String']
 }
 
 export type CreatePostInput = {
@@ -113,6 +135,7 @@ export type Mutation = {
 	removeDownvote: Scalars['Int']
 	createRelationship: Relationship
 	deleteRelationship: DeleteRelationshipResponse
+	createComment: Scalars['Int']
 }
 
 export type MutationUpdateUserArgs = {
@@ -178,6 +201,10 @@ export type MutationCreateRelationshipArgs = {
 	createRelationshipInput: CreateRelationshipInput
 }
 
+export type MutationCreateCommentArgs = {
+	createCommentInput: CreateCommentInput
+}
+
 export type Post = {
 	__typename?: 'Post'
 	id: Scalars['String']
@@ -191,6 +218,7 @@ export type Post = {
 	author: User
 	attachments?: Maybe<Attachments>
 	relationship?: Maybe<Relationship>
+	comments?: Maybe<Array<Comment>>
 }
 
 export type Query = {
@@ -203,6 +231,7 @@ export type Query = {
 	posts: Array<Post>
 	post: Post
 	getPostReachs: Scalars['Int']
+	getPostComments: Post
 }
 
 export type QueryUserArgs = {
@@ -221,6 +250,10 @@ export type QueryGetPostReachsArgs = {
 	postId: Scalars['String']
 }
 
+export type QueryGetPostCommentsArgs = {
+	postId: Scalars['String']
+}
+
 export type Relationship = {
 	__typename?: 'Relationship'
 	id: Scalars['String']
@@ -236,6 +269,7 @@ export type Subscription = {
 	__typename?: 'Subscription'
 	upvoteSubscription: UpvoteDto
 	downvoteSubscription: DownvoteDto
+	commentsSubscription: CommentsDto
 }
 
 export type SubscriptionUpvoteSubscriptionArgs = {
@@ -243,6 +277,10 @@ export type SubscriptionUpvoteSubscriptionArgs = {
 }
 
 export type SubscriptionDownvoteSubscriptionArgs = {
+	postId: Scalars['String']
+}
+
+export type SubscriptionCommentsSubscriptionArgs = {
 	postId: Scalars['String']
 }
 
@@ -276,6 +314,7 @@ export type User = {
 	created_at?: Maybe<Scalars['DateTime']>
 	updated_at?: Maybe<Scalars['DateTime']>
 	contents?: Maybe<Array<Post>>
+	comments?: Maybe<Array<Comment>>
 	upvotes?: Maybe<Array<Post>>
 	downvotes?: Maybe<Array<Post>>
 	viewed?: Maybe<Array<Post>>
@@ -299,6 +338,15 @@ export type AddUpvoteMutationVariables = Exact<{
 export type AddUpvoteMutation = { __typename?: 'Mutation' } & Pick<
 	Mutation,
 	'addUpvote'
+>
+
+export type CreateCommentMutationVariables = Exact<{
+	createCommentInput: CreateCommentInput
+}>
+
+export type CreateCommentMutation = { __typename?: 'Mutation' } & Pick<
+	Mutation,
+	'createComment'
 >
 
 export type CreatePostMutationVariables = Exact<{
@@ -352,6 +400,28 @@ export type SetCurrentPostReachMutation = { __typename?: 'Mutation' } & Pick<
 	Mutation,
 	'addPostReachs'
 >
+
+export type GetPostCommentsQueryVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type GetPostCommentsQuery = { __typename?: 'Query' } & {
+	getPostComments: { __typename?: 'Post' } & {
+		comments?: Maybe<
+			Array<
+				{ __typename?: 'Comment' } & Pick<
+					Comment,
+					'id' | 'text' | 'created_at'
+				> & {
+						author: { __typename?: 'User' } & Pick<
+							User,
+							'id' | 'email' | 'username' | 'avatar_url'
+						>
+					}
+			>
+		>
+	}
+}
 
 export type GetPublicFeedReachsQueryVariables = Exact<{
 	postId: Scalars['String']
@@ -411,6 +481,51 @@ export type GetPublicFeedsQuery = { __typename?: 'Query' } & {
 				>
 			}
 	>
+}
+
+export type GetUserBadgeQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserBadgeQuery = { __typename?: 'Query' } & {
+	user: { __typename?: 'User' } & {
+		badges?: Maybe<
+			Array<
+				{ __typename?: 'Badge' } & Pick<
+					Badge,
+					| 'id'
+					| 'label'
+					| 'variant'
+					| 'color'
+					| 'background'
+					| 'border'
+				>
+			>
+		>
+	}
+}
+
+export type CommentsSubscriptionSubscriptionVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type CommentsSubscriptionSubscription = {
+	__typename?: 'Subscription'
+} & {
+	commentsSubscription: { __typename?: 'CommentsDTO' } & Pick<
+		CommentsDto,
+		'postId' | 'commentsSum'
+	> & {
+			comment: { __typename?: 'Comment' } & Pick<
+				Comment,
+				'id' | 'text' | 'created_at'
+			> & {
+					author: { __typename?: 'User' } & Pick<
+						User,
+						'id' | 'username' | 'email' | 'avatar_url'
+					>
+				}
+		}
 }
 
 export type DownvoteSubscriptionVariables = Exact<{
@@ -529,6 +644,54 @@ export type AddUpvoteMutationResult = Apollo.MutationResult<AddUpvoteMutation>
 export type AddUpvoteMutationOptions = Apollo.BaseMutationOptions<
 	AddUpvoteMutation,
 	AddUpvoteMutationVariables
+>
+export const CreateCommentDocument = gql`
+	mutation CreateComment($createCommentInput: CreateCommentInput!) {
+		createComment(createCommentInput: $createCommentInput)
+	}
+`
+export type CreateCommentMutationFn = Apollo.MutationFunction<
+	CreateCommentMutation,
+	CreateCommentMutationVariables
+>
+
+/**
+ * __useCreateCommentMutation__
+ *
+ * To run a mutation, you first call `useCreateCommentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCommentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCommentMutation, { data, loading, error }] = useCreateCommentMutation({
+ *   variables: {
+ *      createCommentInput: // value for 'createCommentInput'
+ *   },
+ * });
+ */
+export function useCreateCommentMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		CreateCommentMutation,
+		CreateCommentMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<
+		CreateCommentMutation,
+		CreateCommentMutationVariables
+	>(CreateCommentDocument, options)
+}
+export type CreateCommentMutationHookResult = ReturnType<
+	typeof useCreateCommentMutation
+>
+export type CreateCommentMutationResult =
+	Apollo.MutationResult<CreateCommentMutation>
+export type CreateCommentMutationOptions = Apollo.BaseMutationOptions<
+	CreateCommentMutation,
+	CreateCommentMutationVariables
 >
 export const CreatePostDocument = gql`
 	mutation CreatePost(
@@ -785,6 +948,74 @@ export type SetCurrentPostReachMutationOptions = Apollo.BaseMutationOptions<
 	SetCurrentPostReachMutation,
 	SetCurrentPostReachMutationVariables
 >
+export const GetPostCommentsDocument = gql`
+	query GetPostComments($postId: String!) {
+		getPostComments(postId: $postId) {
+			comments {
+				id
+				text
+				created_at
+				author {
+					id
+					email
+					username
+					avatar_url
+				}
+			}
+		}
+	}
+`
+
+/**
+ * __useGetPostCommentsQuery__
+ *
+ * To run a query within a React component, call `useGetPostCommentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostCommentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostCommentsQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useGetPostCommentsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetPostCommentsQuery,
+		GetPostCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetPostCommentsQuery, GetPostCommentsQueryVariables>(
+		GetPostCommentsDocument,
+		options
+	)
+}
+export function useGetPostCommentsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetPostCommentsQuery,
+		GetPostCommentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetPostCommentsQuery,
+		GetPostCommentsQueryVariables
+	>(GetPostCommentsDocument, options)
+}
+export type GetPostCommentsQueryHookResult = ReturnType<
+	typeof useGetPostCommentsQuery
+>
+export type GetPostCommentsLazyQueryHookResult = ReturnType<
+	typeof useGetPostCommentsLazyQuery
+>
+export type GetPostCommentsQueryResult = Apollo.QueryResult<
+	GetPostCommentsQuery,
+	GetPostCommentsQueryVariables
+>
 export const GetPublicFeedReachsDocument = gql`
 	query getPublicFeedReachs($postId: String!) {
 		getPostReachs(postId: $postId)
@@ -984,6 +1215,124 @@ export type GetPublicFeedsQueryResult = Apollo.QueryResult<
 	GetPublicFeedsQuery,
 	GetPublicFeedsQueryVariables
 >
+export const GetUserBadgeDocument = gql`
+	query GetUserBadge($username: String!) {
+		user(username: $username) {
+			badges {
+				id
+				label
+				variant
+				color
+				background
+				border
+			}
+		}
+	}
+`
+
+/**
+ * __useGetUserBadgeQuery__
+ *
+ * To run a query within a React component, call `useGetUserBadgeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserBadgeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserBadgeQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserBadgeQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserBadgeQuery,
+		GetUserBadgeQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetUserBadgeQuery, GetUserBadgeQueryVariables>(
+		GetUserBadgeDocument,
+		options
+	)
+}
+export function useGetUserBadgeLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserBadgeQuery,
+		GetUserBadgeQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<GetUserBadgeQuery, GetUserBadgeQueryVariables>(
+		GetUserBadgeDocument,
+		options
+	)
+}
+export type GetUserBadgeQueryHookResult = ReturnType<
+	typeof useGetUserBadgeQuery
+>
+export type GetUserBadgeLazyQueryHookResult = ReturnType<
+	typeof useGetUserBadgeLazyQuery
+>
+export type GetUserBadgeQueryResult = Apollo.QueryResult<
+	GetUserBadgeQuery,
+	GetUserBadgeQueryVariables
+>
+export const CommentsSubscriptionDocument = gql`
+	subscription CommentsSubscription($postId: String!) {
+		commentsSubscription(postId: $postId) {
+			postId
+			comment {
+				id
+				text
+				created_at
+				author {
+					id
+					username
+					email
+					avatar_url
+				}
+			}
+			commentsSum
+		}
+	}
+`
+
+/**
+ * __useCommentsSubscriptionSubscription__
+ *
+ * To run a query within a React component, call `useCommentsSubscriptionSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useCommentsSubscriptionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCommentsSubscriptionSubscription({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useCommentsSubscriptionSubscription(
+	baseOptions: Apollo.SubscriptionHookOptions<
+		CommentsSubscriptionSubscription,
+		CommentsSubscriptionSubscriptionVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useSubscription<
+		CommentsSubscriptionSubscription,
+		CommentsSubscriptionSubscriptionVariables
+	>(CommentsSubscriptionDocument, options)
+}
+export type CommentsSubscriptionSubscriptionHookResult = ReturnType<
+	typeof useCommentsSubscriptionSubscription
+>
+export type CommentsSubscriptionSubscriptionResult =
+	Apollo.SubscriptionResult<CommentsSubscriptionSubscription>
 export const DownvoteDocument = gql`
 	subscription downvote($postId: String!) {
 		downvoteSubscription(postId: $postId) {

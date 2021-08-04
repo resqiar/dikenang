@@ -1,0 +1,12 @@
+query GetUserBadge($username: String!) {
+	user(username: $username) {
+		badges {
+			id
+			label
+			variant
+			color
+			background
+			border
+		}
+	}
+}
