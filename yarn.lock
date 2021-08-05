@@ -1760,7 +1760,7 @@
   resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
   integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
-"@nestjs-modules/mailer@^1.6.0":
+"@nestjs-modules/mailer@1.6.0":
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/@nestjs-modules/mailer/-/mailer-1.6.0.tgz#75e8aa8064b03cb54654e6abde9295036d64a49b"
   integrity sha512-TSEy5REGD+7WA+/3WQFZmxdlW7drPpDResBuqQj1kifxYQ+qRyYUEVD5wOiBPoQaJDHCcBUJQQLvcUoNPUQOWw==
@@ -2718,7 +2718,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/inline-css@^3.0.1":
+"@types/inline-css@3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/inline-css/-/inline-css-3.0.1.tgz#b98708cfc8c13c247ce11f3c82a509ce468d181b"
   integrity sha512-1bs+MjVvZIuF71D8P+FZf79LcqccqVBNF6txnabXT1vGnRMqZO0agtdyC585fcjuSs7Nj9qal8CF9rfWVQxnTQ==
@@ -2873,7 +2873,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/nodemailer@^6.4.4":
+"@types/nodemailer@6.4.4":
   version "6.4.4"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.4.tgz#c265f7e7a51df587597b3a49a023acaf0c741f4b"
   integrity sha512-Ksw4t7iliXeYGvIQcSIgWQ5BLuC/mljIEbjf615svhZL10PE9t+ei8O9gDaD3FPCasUJn9KTLwz2JFJyiiyuqw==
@@ -7417,7 +7417,7 @@ graphql-extensions@^0.14.0:
     apollo-server-env "^3.1.0"
     apollo-server-types "^0.8.0"
 
-graphql-redis-subscriptions@^2.4.0:
+graphql-redis-subscriptions@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/graphql-redis-subscriptions/-/graphql-redis-subscriptions-2.4.0.tgz#a18e3bfe2351f1a74ba9cfa5db40fdc4981a08fb"
   integrity sha512-McIJK9R8sVbjTlkkaFMRAG5dOF6CPEPO+8PcyHlKARd64d4h4bwl0q/DnR2RA494ZrfykEvFWAnwuIM45470Vw==
@@ -10411,7 +10411,7 @@ netmask@^2.0.1:
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-newrelic@^7.5.2:
+newrelic@7.5.2:
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-7.5.2.tgz#2ba6510b8fda6e2650fadbddbfaee3604ef04650"
   integrity sha512-hCprBt1GWnZ4e0Ks3xjb9HfMR/Fhuqr7m5p6U2Q4r+v9q91WRJLuqrZbe19qJ75wDi3RTV8izvOEw/rzQ5jyLg==
@@ -12102,7 +12102,7 @@ react-refresh@0.8.3:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
   integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
 
-react-spring@^9.2.4:
+react-spring@9.2.4:
   version "9.2.4"
   resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-9.2.4.tgz#9d89b0321664d594f957dca9459b13d94b3dfa39"
   integrity sha512-bMjbyTW0ZGd+/h9cjtohLqCwOGqX2OuaTvalOVfLCGmhzEg/u3GgopI3LAm4UD2Br3MNdVdGgNVoESg4MGqKFQ==
@@ -13437,6 +13437,17 @@ stylis@3.5.4:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.4.tgz#f665f25f5e299cf3d64654ab949a57c768b73fbe"
   integrity sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==
 
+subscriptions-transport-ws@0.9.19:
+  version "0.9.19"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
+  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
+  dependencies:
+    backo2 "^1.0.2"
+    eventemitter3 "^3.1.0"
+    iterall "^1.2.1"
+    symbol-observable "^1.0.4"
+    ws "^5.2.0 || ^6.0.0 || ^7.0.0"
+
 subscriptions-transport-ws@^0.9.11, subscriptions-transport-ws@^0.9.16, subscriptions-transport-ws@^0.9.18:
   version "0.9.18"
   resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.18.tgz#bcf02320c911fbadb054f7f928e51c6041a37b97"
@@ -13447,17 +13458,6 @@ subscriptions-transport-ws@^0.9.11, subscriptions-transport-ws@^0.9.16, subscrip
     iterall "^1.2.1"
     symbol-observable "^1.0.4"
     ws "^5.2.0"
-
-subscriptions-transport-ws@^0.9.19:
-  version "0.9.19"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.19.tgz#10ca32f7e291d5ee8eb728b9c02e43c52606cdcf"
-  integrity sha512-dxdemxFFB0ppCLg10FTtRqH/31FNRL1y1BQv8209MK5I4CwALb7iihQg+7p65lFcIl8MHatINWBLOqpgU4Kyyw==
-  dependencies:
-    backo2 "^1.0.2"
-    eventemitter3 "^3.1.0"
-    iterall "^1.2.1"
-    symbol-observable "^1.0.4"
-    ws "^5.2.0 || ^6.0.0 || ^7.0.0"
 
 superagent-proxy@^2.1.0:
   version "2.1.0"
@@ -13589,9 +13589,9 @@ tapable@^2.1.1, tapable@^2.2.0:
   integrity sha512-FBk4IesMV1rBxX2tfiK8RAmogtWn53puLOQlvO8XuwlgxcYbP4mVPS9Ph4aeamSyyVjOl24aYWAuc8U5kCVwMw==
 
 tar@^6.0.2, tar@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.0.tgz#d1724e9bcc04b977b18d5c573b333a2207229a83"
-  integrity sha512-DUCttfhsnLCjwoDoFcI+B2iJgYa93vBnDUATYEeRx6sntCTdN01VnqsIuTlALXla/LWooNg0yEGeB+Y8WdFxGA==
+  version "6.1.5"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.5.tgz#6e25bee1cfda94317aedc3f5d49290ae68361d73"
+  integrity sha512-FiK6MQyyaqd5vHuUjbg/NpO8BuEGeSXcmlH7Pt/JkugWS8s0w8nKybWjHDJiwzCAIKZ66uof4ghm4tBADjcqRA==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
