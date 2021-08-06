@@ -10,11 +10,13 @@ import {
 	useAddDownvoteMutation,
 	useAddUpvoteMutation,
 	useDownvoteSubscription,
+	useGetPostCommentsQuery,
 	useGetPostVotesQuery,
 	useGetPublicFeedReachsQuery,
 	useRemoveDownvoteMutation,
 	useRemoveUpvoteMutation,
 	useSetCurrentPostReachMutation,
+	useTotalCommentsSubscriptionSubscription,
 	useUpvoteSubscription,
 } from '../../generated/graphql'
 import Moment from 'moment'
@@ -294,10 +296,51 @@ export default function FeedPost({
 		}
 	}
 
+	/**
+	 * State to keep track of comment container,
+	 * e.g, if open comments container,
+	 * then render comment container and comment items
+	 */
 	const [openComment, setOpenComment] = useState<boolean>(false)
 
 	// Comment section toggle fade
 	const commentContainerFade = useSpring({ opacity: openComment ? 1 : 0 })
+
+	/**
+	 * @Query
+	 * Define query to the database to get the initial
+	 * value of post total comments
+	 */
+	const getPostInitialComments = useGetPostCommentsQuery({
+		variables: {
+			postId: postId,
+		},
+	})
+
+	/**
+	 * @Subscriptions
+	 * used as a real-time communications to provide
+	 * low latency update of how many comments in the current post
+	 */
+	const getTotalCommentSubscription =
+		useTotalCommentsSubscriptionSubscription({
+			variables: {
+				postId: postId,
+			},
+		})
+
+	/**
+	 * @Animation
+	 * This hooks below is used to animate comments
+	 * When update is called, these hooks will take care
+	 * of animation when number changes
+	 */
+	const commentsAnimation = useSpring({
+		comments:
+			getTotalCommentSubscription.data?.commentsSubscription.commentsSum,
+		from: { comments: 0 },
+		config: { mass: 1, tension: 500, friction: 0, clamp: true },
+	})
 
 	return (
 		<FeedPostWrapper style={fade}>
@@ -457,7 +500,16 @@ export default function FeedPost({
 									border: 'none',
 								}}
 							/>
-							<VotesAltText>{commentSum}</VotesAltText>
+							<VotesAltText>
+								{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+								{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+								{getTotalCommentSubscription.data
+									? commentsAnimation.comments.to((value) =>
+											Math.floor(value)
+									  )
+									: getPostInitialComments.data
+											?.getPostComments.comments?.length}
+							</VotesAltText>
 						</VotesWrapper>
 					</FeedPostVotes>
 
