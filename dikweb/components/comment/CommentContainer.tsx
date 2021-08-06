@@ -80,14 +80,37 @@ export default function CommentContainer(props: Props) {
 		 * new comment data to the array object of @postComments
 		 */
 		if (commentsSubscriptions.data) {
-			setPostComments(
-				(prev: CommentType[]) =>
-					[
-						...prev,
-						commentsSubscriptions.data?.commentsSubscription
-							.comment,
-					] as CommentType[]
-			)
+			if (
+				commentsSubscriptions.data.commentsSubscription.type === 'added'
+			) {
+				/**
+				 * If incoming comment from graphql subscription is
+				 * supposed to be added, i.e new comments, bind that
+				 * comment to the array object of @postComments
+				 */
+				setPostComments(
+					(prev: CommentType[]) =>
+						[
+							...prev,
+							commentsSubscriptions.data?.commentsSubscription
+								.comment,
+						] as CommentType[]
+				)
+			} else {
+				/**
+				 * Instead, If incoming comment from graphql subscription is
+				 * supposed to be removed, i.e deleted by user, filter
+				 * @postComments array to remove the comment.
+				 */
+				setPostComments((prev: CommentType[]) =>
+					prev.filter(
+						(comment) =>
+							comment.id !==
+							commentsSubscriptions.data?.commentsSubscription
+								.comment.id
+					)
+				)
+			}
 
 			/**
 			 * This function is used to auto-scroll container to the bottom
@@ -123,9 +146,11 @@ export default function CommentContainer(props: Props) {
 					? postComments.map((value) => (
 							<Comment
 								key={value.id}
+								commentId={value.id}
 								author={value.author}
 								text={value.text}
 								timestamp={value.created_at}
+								profile={props.profile}
 							/>
 					  ))
 					: undefined}

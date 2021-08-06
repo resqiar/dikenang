@@ -2,10 +2,14 @@ import styled from 'styled-components'
 import Moment from 'moment'
 import { animated, config, useSpring } from 'react-spring'
 import { useGetUserBadgeQuery, User } from '../../generated/graphql'
+import CommentMoreItem from './CommentMoreItem'
+import { UserProfileType } from '../../types/profile.type'
 
 import { Avatar, Chip, IconButton } from '@material-ui/core'
 
 interface Props {
+	profile: UserProfileType
+	commentId: string
 	author: User
 	text: string
 	timestamp: Date
@@ -64,6 +68,13 @@ export default function Comment(props: Props) {
 
 				<CommentBodyText>{props.text}</CommentBodyText>
 			</CommentItemBody>
+
+			{/* MORE ITEM COMPONENT */}
+			<CommentMoreItem
+				profile={props.profile}
+				commentId={props.commentId}
+				authorId={props.author.id}
+			/>
 		</CommentItemWrapper>
 	)
 }
