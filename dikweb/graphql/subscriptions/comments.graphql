@@ -12,5 +12,6 @@ subscription CommentsSubscription($postId: String!) {
 				avatar_url
 			}
 		}
+		type
 	}
 }
