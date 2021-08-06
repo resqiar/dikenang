@@ -43,6 +43,37 @@ export class CommentsService {
 			createCommentInput.postId
 		)
 
-		return new CommentsDTO(result.id, createComment, result.comments.length)
+		return new CommentsDTO(
+			result.id,
+			createComment,
+			result.comments.length,
+			'added'
+		)
+	}
+
+	async deleteComment(commentId: string, userId: string) {
+		// find comment
+		const targetComment = await this.commentsRepository.findOne(commentId, {
+			relations: ['post', 'author'],
+		})
+
+		// find author
+		const author = await this.usersService.findById(userId)
+
+		if (!targetComment || !author) throw new NotFoundException()
+		if (targetComment.author.id !== author.id) throw new NotFoundException()
+
+		// delete comment
+		await this.commentsRepository.delete(targetComment.id)
+
+		// find result
+		const result = await this.postsService.findById(targetComment.post.id)
+
+		return new CommentsDTO(
+			result.id,
+			targetComment,
+			result.comments.length,
+			'removed'
+		)
 	}
 }

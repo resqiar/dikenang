@@ -41,6 +41,25 @@ export class CommentsResolver {
 		return 200
 	}
 
+	@Mutation(() => Int)
+	@UseGuards(AuthStatusGuard)
+	async deleteComment(
+		@CurrentUser() user: User,
+		@Args('commentId') commentId: string
+	): Promise<number> {
+		const newCommentsValue = await this.commentsService.deleteComment(
+			commentId,
+			user.id
+		)
+
+		// send value via web socket (subscriptions)
+		await this.pubSub.publish('commentsSubscriptions', {
+			commentsSubscription: newCommentsValue,
+		})
+
+		return 200
+	}
+
 	/**
 	 * @Subscriptions
 	 * Graphql subscriptions for comments,

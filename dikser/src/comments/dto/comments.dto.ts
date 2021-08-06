@@ -3,9 +3,15 @@ import { Comment } from '../entities/comment.entity'
 
 @ObjectType()
 export class CommentsDTO {
-	constructor(postId: string, comment: Comment, commentsSum: number) {
+	constructor(
+		postId: string,
+		comment: Comment,
+		commentsSum: number,
+		type: 'added' | 'removed'
+	) {
 		this.postId = postId
 		this.comment = comment
+		this.type = type
 		this.commentsSum = commentsSum
 	}
 
@@ -14,6 +20,9 @@ export class CommentsDTO {
 
 	@Field(() => Comment)
 	comment: Comment
+
+	@Field()
+	type: string
 
 	@Field(() => Int, { nullable: true })
 	commentsSum: number

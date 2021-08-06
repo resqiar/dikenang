@@ -107,6 +107,7 @@ type DownvoteDTO {
 type CommentsDTO {
 	postId: String!
 	comment: Comment!
+	type: String!
 	commentsSum: Int
 }
 
@@ -145,6 +146,7 @@ type Mutation {
 	): Relationship!
 	deleteRelationship: DeleteRelationshipResponse!
 	createComment(createCommentInput: CreateCommentInput!): Int!
+	deleteComment(commentId: String!): Int!
 }
 
 input UpdateUserInput {
