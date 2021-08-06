@@ -514,7 +514,7 @@ export type CommentsSubscriptionSubscription = {
 } & {
 	commentsSubscription: { __typename?: 'CommentsDTO' } & Pick<
 		CommentsDto,
-		'postId' | 'commentsSum'
+		'postId'
 	> & {
 			comment: { __typename?: 'Comment' } & Pick<
 				Comment,
@@ -537,6 +537,19 @@ export type DownvoteSubscription = { __typename?: 'Subscription' } & {
 		DownvoteDto,
 		'downvotes'
 	> & { downvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
+}
+
+export type TotalCommentsSubscriptionSubscriptionVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type TotalCommentsSubscriptionSubscription = {
+	__typename?: 'Subscription'
+} & {
+	commentsSubscription: { __typename?: 'CommentsDTO' } & Pick<
+		CommentsDto,
+		'postId' | 'commentsSum'
+	>
 }
 
 export type UpvoteSubscriptionVariables = Exact<{
@@ -1295,7 +1308,6 @@ export const CommentsSubscriptionDocument = gql`
 					avatar_url
 				}
 			}
-			commentsSum
 		}
 	}
 `
@@ -1377,6 +1389,48 @@ export type DownvoteSubscriptionHookResult = ReturnType<
 >
 export type DownvoteSubscriptionResult =
 	Apollo.SubscriptionResult<DownvoteSubscription>
+export const TotalCommentsSubscriptionDocument = gql`
+	subscription TotalCommentsSubscription($postId: String!) {
+		commentsSubscription(postId: $postId) {
+			postId
+			commentsSum
+		}
+	}
+`
+
+/**
+ * __useTotalCommentsSubscriptionSubscription__
+ *
+ * To run a query within a React component, call `useTotalCommentsSubscriptionSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTotalCommentsSubscriptionSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTotalCommentsSubscriptionSubscription({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useTotalCommentsSubscriptionSubscription(
+	baseOptions: Apollo.SubscriptionHookOptions<
+		TotalCommentsSubscriptionSubscription,
+		TotalCommentsSubscriptionSubscriptionVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useSubscription<
+		TotalCommentsSubscriptionSubscription,
+		TotalCommentsSubscriptionSubscriptionVariables
+	>(TotalCommentsSubscriptionDocument, options)
+}
+export type TotalCommentsSubscriptionSubscriptionHookResult = ReturnType<
+	typeof useTotalCommentsSubscriptionSubscription
+>
+export type TotalCommentsSubscriptionSubscriptionResult =
+	Apollo.SubscriptionResult<TotalCommentsSubscriptionSubscription>
 export const UpvoteDocument = gql`
 	subscription upvote($postId: String!) {
 		upvoteSubscription(postId: $postId) {

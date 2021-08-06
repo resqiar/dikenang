@@ -1,0 +1,6 @@
+subscription TotalCommentsSubscription($postId: String!) {
+	commentsSubscription(postId: $postId) {
+		postId
+		commentsSum
+	}
+}
