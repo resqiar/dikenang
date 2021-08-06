@@ -38,6 +38,8 @@ export class Comment {
 	author: User
 
 	@Field((_) => Post)
-	@ManyToOne((_) => Post, (post: Post) => post.comments)
+	@ManyToOne((_) => Post, (post: Post) => post.comments, {
+		onDelete: 'CASCADE',
+	})
 	post: Post
 }
