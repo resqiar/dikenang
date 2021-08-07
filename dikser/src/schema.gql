@@ -120,7 +120,7 @@ type Query {
 	posts: [Post!]!
 	post(postId: String!): Post!
 	getPostReachs(postId: String!): Int!
-	getPostComments(postId: String!): Post!
+	getPostComments(postId: String!): [Comment!]!
 }
 
 type Mutation {

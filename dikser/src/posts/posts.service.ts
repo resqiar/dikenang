@@ -312,6 +312,9 @@ export class PostsService {
 
 		if (!targetPost) throw new NotFoundException()
 
-		return targetPost
+		// Sort comments by Date
+		return targetPost.comments.sort(
+			(a, b) => Number(a.created_at) - Number(b.created_at)
+		)
 	}
 }

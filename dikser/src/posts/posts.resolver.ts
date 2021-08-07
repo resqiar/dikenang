@@ -20,6 +20,7 @@ import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { configureRedisPubSub } from '../shared/utils/redispubsub'
 import { UpvoteDTO } from './dto/votes/upvote.dto'
 import { DownvoteDTO } from './dto/votes/downvote.dto'
+import { Comment } from '../comments/entities/comment.entity'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -233,9 +234,9 @@ export class PostsResolver {
 		return this.pubSub.asyncIterator('downvoteSubscriptions')
 	}
 
-	@Query(() => Post)
+	@Query(() => [Comment])
 	@UseGuards(AuthStatusGuard)
-	async getPostComments(@Args('postId') postId: string): Promise<Post> {
+	async getPostComments(@Args('postId') postId: string): Promise<Comment[]> {
 		return this.postsService.getPostComments(postId)
 	}
 }
