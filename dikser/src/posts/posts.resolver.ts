@@ -20,6 +20,7 @@ import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { configureRedisPubSub } from '../shared/utils/redispubsub'
 import { UpvoteDTO } from './dto/votes/upvote.dto'
 import { DownvoteDTO } from './dto/votes/downvote.dto'
+import { Comment } from '../comments/entities/comment.entity'
 
 @Resolver(() => Post)
 export class PostsResolver {
@@ -103,7 +104,10 @@ export class PostsResolver {
 	 */
 	@Mutation(() => Int)
 	@UseGuards(AuthStatusGuard)
-	async addUpvote(@CurrentUser() user: User, @Args('postId') postId: string) {
+	async addUpvote(
+		@CurrentUser() user: User,
+		@Args('postId') postId: string
+	): Promise<number> {
 		const newUpvoteValue = await this.postsService.addUpvote(
 			postId,
 			user.id
@@ -132,7 +136,7 @@ export class PostsResolver {
 	async removeUpvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newUpvoteValue = await this.postsService.removeUpvote(
 			postId,
 			user.id
@@ -161,7 +165,7 @@ export class PostsResolver {
 	async addDownvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newDownvoteValue = await this.postsService.addDownvote(
 			postId,
 			user.id
@@ -190,7 +194,7 @@ export class PostsResolver {
 	async removeDownvote(
 		@CurrentUser() user: User,
 		@Args('postId') postId: string
-	) {
+	): Promise<number> {
 		const newDownvoteValue = await this.postsService.removeDownvote(
 			postId,
 			user.id
@@ -228,5 +232,11 @@ export class PostsResolver {
 	})
 	downvoteSubscription(@Args('postId') _postId: string) {
 		return this.pubSub.asyncIterator('downvoteSubscriptions')
+	}
+
+	@Query(() => [Comment])
+	@UseGuards(AuthStatusGuard)
+	async getPostComments(@Args('postId') postId: string): Promise<Comment[]> {
+		return this.postsService.getPostComments(postId)
 	}
 }

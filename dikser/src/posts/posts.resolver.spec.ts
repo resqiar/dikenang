@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
+import { Comment } from '../comments/entities/comment.entity'
 import { Relationship } from '../relationship/entities/relationship.entity'
 import { User } from '../users/entities/user.entity'
 import { DeletePostResponse } from './dto/delete-response.dto'
@@ -61,6 +62,7 @@ describe('PostsResolver', () => {
 				reachs: [new User()],
 				created_at: new Date(),
 				updated_at: new Date(),
+				comments: [new Comment()],
 				author: new User(),
 				attachments: new Attachments(),
 				relationship: new Relationship(),

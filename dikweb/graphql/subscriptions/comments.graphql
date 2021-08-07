@@ -1,0 +1,17 @@
+subscription CommentsSubscription($postId: String!) {
+	commentsSubscription(postId: $postId) {
+		postId
+		comment {
+			id
+			text
+			created_at
+			author {
+				id
+				username
+				email
+				avatar_url
+			}
+		}
+		type
+	}
+}

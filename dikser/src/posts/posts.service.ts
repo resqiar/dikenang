@@ -124,7 +124,14 @@ export class PostsService {
 			const relatedPost = await this.postsRepository.findOneOrFail(
 				postId,
 				{
-					relations: ['upvoter', 'author', 'reachs', 'downvoter'],
+					relations: [
+						'upvoter',
+						'author',
+						'reachs',
+						'downvoter',
+						'comments',
+						'comments.author',
+					],
 				}
 			)
 
@@ -298,5 +305,16 @@ export class PostsService {
 		)
 
 		return await this.postsRepository.save(targetPost)
+	}
+
+	async getPostComments(postId: string) {
+		const targetPost = await this.findById(postId)
+
+		if (!targetPost) throw new NotFoundException()
+
+		// Sort comments by Date
+		return targetPost.comments.sort(
+			(a, b) => Number(a.created_at) - Number(b.created_at)
+		)
 	}
 }

@@ -7,10 +7,12 @@ import {
 	JoinTable,
 	ManyToMany,
 	ManyToOne,
+	OneToMany,
 	OneToOne,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
+import { Comment } from '../../comments/entities/comment.entity'
 import { Relationship } from '../../relationship/entities/relationship.entity'
 import { User } from '../../users/entities/user.entity'
 import { Attachments } from './attachments.entity'
@@ -78,4 +80,9 @@ export class Post {
 		}
 	)
 	relationship: Relationship
+
+	// Comment relations
+	@Field((_) => [Comment], { nullable: true })
+	@OneToMany((_) => Comment, (comments: Comment) => comments.post)
+	comments: Comment[]
 }

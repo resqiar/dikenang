@@ -11,6 +11,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 import { Badge } from '../../badges/entities/badge.entity'
+import { Comment } from '../../comments/entities/comment.entity'
 import { Post } from '../../posts/entities/post.entity'
 import { Relationship } from '../../relationship/entities/relationship.entity'
 
@@ -58,6 +59,11 @@ export class User {
 	@Field((_) => [Post], { nullable: true })
 	@OneToMany((_) => Post, (contents: Post) => contents.author)
 	contents: Post[]
+
+	// User Comment Relations
+	@Field((_) => [Comment], { nullable: true })
+	@OneToMany((_) => Comment, (comments: Comment) => comments.author)
+	comments: Comment[]
 
 	@Field((_) => [Post], { nullable: true })
 	@ManyToMany(() => Post, (upvotes: Post) => upvotes.upvoter)

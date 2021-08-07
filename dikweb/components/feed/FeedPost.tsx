@@ -10,15 +10,20 @@ import {
 	useAddDownvoteMutation,
 	useAddUpvoteMutation,
 	useDownvoteSubscription,
+	useGetPostCommentsQuery,
 	useGetPostVotesQuery,
 	useGetPublicFeedReachsQuery,
 	useRemoveDownvoteMutation,
 	useRemoveUpvoteMutation,
 	useSetCurrentPostReachMutation,
+	useTotalCommentsSubscriptionSubscription,
 	useUpvoteSubscription,
 } from '../../generated/graphql'
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
+import CommentContainer from '../comment/CommentContainer'
+import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
+import FeedMoreItem from './FeedMoreItem'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -27,14 +32,13 @@ import ThumbUpIconOutlined from '@material-ui/icons/ThumbUpOutlined'
 import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
-import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
+import InsertCommentIcon from '@material-ui/icons/InsertComment'
+import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined'
 import ModeCommentIcon from '@material-ui/icons/ModeComment'
 import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
-import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
-import FeedMoreItem from './FeedMoreItem'
 
 interface Props {
 	profile: UserProfileType
@@ -51,20 +55,7 @@ interface Props {
 	type: string
 }
 
-export default function FeedPost({
-	profile,
-	postId,
-	authorId,
-	avatarSrc,
-	username,
-	badge,
-	timestamp,
-	caption,
-	imageSrc,
-	commentSum,
-	type,
-	onRefecthCallback,
-}: Props) {
+export default function FeedPost(props: Props) {
 	/**
 	 * This ref attached to CaptionWrapper
 	 * which will has dynamic height based on
@@ -87,12 +78,12 @@ export default function FeedPost({
 	 */
 	const getUpvoteSubscriptions = useUpvoteSubscription({
 		variables: {
-			postId: postId,
+			postId: props.postId,
 		},
 	})
 	const getDownvoteSubscriptions = useDownvoteSubscription({
 		variables: {
-			postId: postId,
+			postId: props.postId,
 		},
 	})
 
@@ -148,7 +139,7 @@ export default function FeedPost({
 	 */
 	const getPostReachViews = useGetPublicFeedReachsQuery({
 		variables: {
-			postId: postId,
+			postId: props.postId,
 		},
 	})
 
@@ -159,7 +150,7 @@ export default function FeedPost({
 	 */
 	const getPostVotes = useGetPostVotesQuery({
 		variables: {
-			postId: postId,
+			postId: props.postId,
 		},
 	})
 
@@ -173,7 +164,7 @@ export default function FeedPost({
 		 */
 		setPostReach({
 			variables: {
-				postId: postId,
+				postId: props.postId,
 			},
 		})
 	}, [])
@@ -187,7 +178,7 @@ export default function FeedPost({
 		const checkUpvoted = async () => {
 			if (!getPostVotes.data) return null
 			getPostVotes.data?.post?.upvoter?.map((value) => {
-				if (value.id === profile.id) {
+				if (value.id === props.profile.id) {
 					setIsUpvoted(true)
 				}
 			})
@@ -195,7 +186,7 @@ export default function FeedPost({
 		const checkDownvoted = async () => {
 			if (!getPostVotes.data) return null
 			getPostVotes.data?.post?.downvoter?.map((value) => {
-				if (value.id === profile.id) {
+				if (value.id === props.profile.id) {
 					setIsDownvoted(true)
 				}
 			})
@@ -229,7 +220,7 @@ export default function FeedPost({
 			// Remove downvote first
 			removeDownvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsDownvoted(false)
@@ -240,7 +231,7 @@ export default function FeedPost({
 			// Add Upvote
 			addUpvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsUpvoted(true)
@@ -248,7 +239,7 @@ export default function FeedPost({
 			// If already upvoted, remove Upvote
 			removeUpvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsUpvoted(false)
@@ -266,7 +257,7 @@ export default function FeedPost({
 			// Remove Upvote first
 			removeUpvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsUpvoted(false)
@@ -277,7 +268,7 @@ export default function FeedPost({
 			// Add Downvote
 			addDownvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsDownvoted(true)
@@ -285,12 +276,58 @@ export default function FeedPost({
 			// If already downvoted, remove Downvote
 			removeDownvote({
 				variables: {
-					postId: postId,
+					postId: props.postId,
 				},
 			})
 			setIsDownvoted(false)
 		}
 	}
+
+	/**
+	 * State to keep track of comment container,
+	 * e.g, if open comments container,
+	 * then render comment container and comment items
+	 */
+	const [openComment, setOpenComment] = useState<boolean>(false)
+
+	// Comment section toggle fade
+	const commentContainerFade = useSpring({ opacity: openComment ? 1 : 0 })
+
+	/**
+	 * @Query
+	 * Define query to the database to get the initial
+	 * value of post total comments
+	 */
+	const getPostInitialComments = useGetPostCommentsQuery({
+		variables: {
+			postId: props.postId,
+		},
+	})
+
+	/**
+	 * @Subscriptions
+	 * used as a real-time communications to provide
+	 * low latency update of how many comments in the current post
+	 */
+	const getTotalCommentSubscription =
+		useTotalCommentsSubscriptionSubscription({
+			variables: {
+				postId: props.postId,
+			},
+		})
+
+	/**
+	 * @Animation
+	 * This hooks below is used to animate comments
+	 * When update is called, these hooks will take care
+	 * of animation when number changes
+	 */
+	const commentsAnimation = useSpring({
+		comments:
+			getTotalCommentSubscription.data?.commentsSubscription.commentsSum,
+		from: { comments: 0 },
+		config: { mass: 1, tension: 500, friction: 0, clamp: true },
+	})
 
 	return (
 		<FeedPostWrapper style={fade}>
@@ -298,24 +335,26 @@ export default function FeedPost({
 				<FeedPostProfile>
 					{/* Post Avatar */}
 					<IconButton>
-						<Avatar variant="square" src={avatarSrc} />
+						<Avatar variant="square" src={props.avatarSrc} />
 					</IconButton>
 
 					<FeedPostHeaderText>
 						<FeedPostHeaderUsernameWrapper>
 							{/* Post Username */}
-							<FeedPostProfileH4>{username}</FeedPostProfileH4>
+							<FeedPostProfileH4>
+								{props.username}
+							</FeedPostProfileH4>
 
 							{/* Badge (if any) */}
-							{badge ? (
+							{props.badge ? (
 								<Chip
-									label={badge.label}
-									variant={badge.variant as any}
+									label={props.badge.label}
+									variant={props.badge.variant as any}
 									size="small"
 									style={{
-										color: `${badge.color}`,
-										background: `${badge.background}`,
-										borderColor: `${badge.border}`,
+										color: `${props.badge.color}`,
+										background: `${props.badge.background}`,
+										borderColor: `${props.badge.border}`,
 									}}
 								/>
 							) : undefined}
@@ -324,7 +363,11 @@ export default function FeedPost({
 						<FeedPostTypeTimestampWrapper>
 							{/* Post Type Icon */}
 							<Icons
-								Icon={type === 'public' ? PublicIcon : LockIcon}
+								Icon={
+									props.type === 'public'
+										? PublicIcon
+										: LockIcon
+								}
 								hasIconButton={false}
 								size={18}
 							/>
@@ -337,7 +380,7 @@ export default function FeedPost({
 
 							{/* Post TimeStamp */}
 							<FeedPostTimeStamp>
-								{Moment(timestamp).fromNow()}
+								{Moment(props.timestamp).fromNow()}
 							</FeedPostTimeStamp>
 						</FeedPostTypeTimestampWrapper>
 					</FeedPostHeaderText>
@@ -345,10 +388,10 @@ export default function FeedPost({
 
 				{/* POST MORE ITEM COMPONENT */}
 				<FeedMoreItem
-					profile={profile}
-					postAuthorId={authorId}
-					postId={postId}
-					onRefecthCallback={() => onRefecthCallback()}
+					profile={props.profile}
+					postAuthorId={props.authorId}
+					postId={props.postId}
+					onRefecthCallback={() => props.onRefecthCallback()}
 				/>
 			</FeedPostHeaderWrapper>
 
@@ -357,7 +400,7 @@ export default function FeedPost({
 				<CaptionWrapper ref={captionRef} isTruncated={truncate}>
 					<RichTextEditor
 						readOnly={true}
-						initialState={caption}
+						initialState={props.caption}
 						maxHeight="100%"
 						mobileMaxHeight="100%"
 						margin="-24px 0px 0px 0px"
@@ -381,13 +424,13 @@ export default function FeedPost({
 				{/* Post Attachments */}
 				<FeedPostAttachments>
 					{/* If attachments contains image */}
-					{imageSrc && (
+					{props.imageSrc && (
 						<Image
 							width={800}
 							height={700}
-							alt={`${username}'s post image`}
+							alt={`${props.username}'s post image`}
 							layout="responsive"
-							src={imageSrc[0]}
+							src={props.imageSrc[0]}
 							objectFit="cover"
 						/>
 					)}
@@ -450,7 +493,16 @@ export default function FeedPost({
 									border: 'none',
 								}}
 							/>
-							<VotesAltText>{commentSum}</VotesAltText>
+							<VotesAltText>
+								{/* CHECK IF THERE IS SUBSCRIPTIONS DATA */}
+								{/* IF THERE IS NO SUBSCRIPTIONS DATA, FALLBACK TO INITIAL DATA */}
+								{getTotalCommentSubscription.data
+									? commentsAnimation.comments.to((value) =>
+											Math.floor(value)
+									  )
+									: getPostInitialComments.data
+											?.getPostComments?.length}
+							</VotesAltText>
 						</VotesWrapper>
 					</FeedPostVotes>
 
@@ -499,11 +551,29 @@ export default function FeedPost({
 
 					{/* Commment */}
 					<Icons
-						Icon={InsertCommentOutlinedIcon}
+						Icon={
+							!openComment
+								? ModeCommentOutlinedIcon
+								: InsertCommentIcon
+						}
 						hasIconButton={true}
+						onClickCallback={() => {
+							if (!openComment) return setOpenComment(true)
+							setOpenComment(false)
+						}}
 					/>
 				</FeedPostButtonWrapper>
 			</FeedPostFooter>
+
+			{/* Feed Comment Component */}
+			{openComment ? (
+				<CommentSection style={commentContainerFade}>
+					<CommentContainer
+						postId={props.postId}
+						profile={props.profile}
+					/>
+				</CommentSection>
+			) : undefined}
 		</FeedPostWrapper>
 	)
 }
@@ -650,3 +720,5 @@ const FeedPostButtonWrapper = styled.div`
 	padding: 0px 8px;
 	border-top: var(--border);
 `
+
+const CommentSection = styled(animated.div)``

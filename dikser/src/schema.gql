@@ -45,6 +45,16 @@ type Post {
 	author: User!
 	attachments: Attachments
 	relationship: Relationship
+	comments: [Comment!]
+}
+
+type Comment {
+	id: String!
+	text: String!
+	created_at: DateTime
+	updated_at: DateTime
+	author: User!
+	post: Post!
 }
 
 type User {
@@ -56,6 +66,7 @@ type User {
 	created_at: DateTime
 	updated_at: DateTime
 	contents: [Post!]
+	comments: [Comment!]
 	upvotes: [Post!]
 	downvotes: [Post!]
 	viewed: [Post!]
@@ -93,6 +104,13 @@ type DownvoteDTO {
 	downvoters: [User!]!
 }
 
+type CommentsDTO {
+	postId: String!
+	comment: Comment!
+	type: String!
+	commentsSum: Int
+}
+
 type Query {
 	users: [User!]!
 	user(username: String!): User!
@@ -102,6 +120,7 @@ type Query {
 	posts: [Post!]!
 	post(postId: String!): Post!
 	getPostReachs(postId: String!): Int!
+	getPostComments(postId: String!): [Comment!]!
 }
 
 type Mutation {
@@ -126,6 +145,8 @@ type Mutation {
 		createRelationshipInput: CreateRelationshipInput!
 	): Relationship!
 	deleteRelationship: DeleteRelationshipResponse!
+	createComment(createCommentInput: CreateCommentInput!): Int!
+	deleteComment(commentId: String!): Int!
 }
 
 input UpdateUserInput {
@@ -170,7 +191,13 @@ input CreateRelationshipInput {
 	target: String!
 }
 
+input CreateCommentInput {
+	text: String!
+	postId: String!
+}
+
 type Subscription {
 	upvoteSubscription(postId: String!): UpvoteDTO!
 	downvoteSubscription(postId: String!): DownvoteDTO!
+	commentsSubscription(postId: String!): CommentsDTO!
 }
