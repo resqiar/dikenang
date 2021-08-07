@@ -237,7 +237,7 @@ export type Query = {
 	posts: Array<Post>
 	post: Post
 	getPostReachs: Scalars['Int']
-	getPostComments: Post
+	getPostComments: Array<Comment>
 }
 
 export type QueryUserArgs = {
@@ -421,21 +421,17 @@ export type GetPostCommentsQueryVariables = Exact<{
 }>
 
 export type GetPostCommentsQuery = { __typename?: 'Query' } & {
-	getPostComments: { __typename?: 'Post' } & {
-		comments?: Maybe<
-			Array<
-				{ __typename?: 'Comment' } & Pick<
-					Comment,
-					'id' | 'text' | 'created_at'
-				> & {
-						author: { __typename?: 'User' } & Pick<
-							User,
-							'id' | 'email' | 'username' | 'avatar_url'
-						>
-					}
-			>
-		>
-	}
+	getPostComments: Array<
+		{ __typename?: 'Comment' } & Pick<
+			Comment,
+			'id' | 'text' | 'created_at'
+		> & {
+				author: { __typename?: 'User' } & Pick<
+					User,
+					'id' | 'email' | 'username' | 'avatar_url'
+				>
+			}
+	>
 }
 
 export type GetPublicFeedReachsQueryVariables = Exact<{
@@ -1027,16 +1023,14 @@ export type SetCurrentPostReachMutationOptions = Apollo.BaseMutationOptions<
 export const GetPostCommentsDocument = gql`
 	query GetPostComments($postId: String!) {
 		getPostComments(postId: $postId) {
-			comments {
+			id
+			text
+			created_at
+			author {
 				id
-				text
-				created_at
-				author {
-					id
-					email
-					username
-					avatar_url
-				}
+				email
+				username
+				avatar_url
 			}
 		}
 	}
