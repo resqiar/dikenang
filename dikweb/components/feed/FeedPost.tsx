@@ -33,7 +33,7 @@ import ThumbDownIconOutlined from '@material-ui/icons/ThumbDownOutlined'
 import ThumbDownIcon from '@material-ui/icons/ThumbDown'
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt'
 import InsertCommentIcon from '@material-ui/icons/InsertComment'
-import InsertCommentOutlinedIcon from '@material-ui/icons/InsertCommentOutlined'
+import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined'
 import ModeCommentIcon from '@material-ui/icons/ModeComment'
 import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
@@ -501,7 +501,7 @@ export default function FeedPost(props: Props) {
 											Math.floor(value)
 									  )
 									: getPostInitialComments.data
-											?.getPostComments.comments?.length}
+											?.getPostComments?.length}
 							</VotesAltText>
 						</VotesWrapper>
 					</FeedPostVotes>
@@ -553,7 +553,7 @@ export default function FeedPost(props: Props) {
 					<Icons
 						Icon={
 							!openComment
-								? InsertCommentOutlinedIcon
+								? ModeCommentOutlinedIcon
 								: InsertCommentIcon
 						}
 						hasIconButton={true}
