@@ -44,6 +44,7 @@ export default function CommentContainer(props: Props) {
 		variables: {
 			postId: props.postId,
 		},
+		fetchPolicy: 'network-only',
 	})
 
 	/**
@@ -62,7 +63,7 @@ export default function CommentContainer(props: Props) {
 		 */
 		if (getPostComments.data) {
 			setPostComments(
-				getPostComments.data.getPostComments.comments as CommentType[]
+				getPostComments.data.getPostComments as CommentType[]
 			)
 
 			/**
