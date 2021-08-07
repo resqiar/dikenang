@@ -6,6 +6,7 @@ import CommentMoreItem from './CommentMoreItem'
 import { UserProfileType } from '../../types/profile.type'
 
 import { Avatar, Chip, IconButton } from '@material-ui/core'
+import BulletDivider from '../utils/BulletDivider'
 
 interface Props {
 	profile: UserProfileType
@@ -62,9 +63,20 @@ export default function Comment(props: Props) {
 				</CommentBodyHeader>
 
 				{/* TimeStamp */}
-				<CommentTimestamp>
-					{Moment(props.timestamp).fromNow()}
-				</CommentTimestamp>
+				<TimestampWrapper>
+					{/* Relative Time */}
+					<CommentTimestamp>
+						{Moment(props.timestamp).fromNow()}
+					</CommentTimestamp>
+
+					<BulletDivider color="var(--font-white-200)" />
+
+					{/* Fixed Time */}
+					<CommentTimestamp>
+						{Moment(props.timestamp).hours()}:
+						{Moment(props.timestamp).minutes()}
+					</CommentTimestamp>
+				</TimestampWrapper>
 
 				<CommentBodyText>{props.text}</CommentBodyText>
 			</CommentItemBody>
@@ -114,4 +126,10 @@ const CommentTimestamp = styled.p`
 	color: var(--font-white-300);
 	font-size: 12px;
 	font-weight: 500;
+`
+
+const TimestampWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 2px;
 `
