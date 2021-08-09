@@ -436,6 +436,7 @@ const FeedInputDialogBody = styled.div`
 	align-items: flex-start;
 	height: 100%;
 	padding: 0px 8px;
+	overflow: auto;
 
 	@media (max-width: 600px) {
 		flex-direction: column;
@@ -452,8 +453,6 @@ const RichTextAreaWrapper = styled.div<{
 	height: 100%;
 
 	@media (max-width: 600px) {
-		max-height: ${(props) =>
-			!props.previewMinimized ? '200px' : undefined};
 		overflow: auto;
 		flex-grow: 1;
 	}

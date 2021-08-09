@@ -32,7 +32,7 @@ export default function RichTextEditor(props: Props) {
 				}
 				placeholder={
 					!props.readOnly
-						? 'What interest you to share this day?'
+						? 'What interests you to share this day?'
 						: ''
 				}
 				// Makes it easier to write automated tests retrieving the content.
@@ -88,10 +88,4 @@ const RichTextEditorWrapper = styled.div<{
 	height: 100%;
 	margin: ${(props) => props.margin || undefined};
 	padding: ${(props) => props.padding || undefined};
-	max-height: ${(props) => (props.maxHeight ? props.maxHeight : '31rem')};
-
-	@media (max-width: 600px) {
-		max-height: ${(props) =>
-			props.mobileMaxHeight ? props.mobileMaxHeight : '29.5rem'};
-	}
 `

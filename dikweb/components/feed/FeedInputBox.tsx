@@ -34,7 +34,7 @@ export default function FeedInputBox({ profile, onUploadCallback }: Props) {
 				{/* Box Button */}
 				<Button
 					type="button"
-					text="What interest you to share this day?"
+					text="What interests you to share this day?"
 					border="none"
 					textAlign="start"
 					fontWeight="600"
