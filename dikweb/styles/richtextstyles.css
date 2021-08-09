@@ -6,6 +6,12 @@
 	border: none !important;
 }
 
+@media only screen and (max-width: 600px) {
+	.Draftail-Toolbar {
+		display: none !important;
+	}
+}
+
 /* Override default */
 .Draftail-Editor,
 .Draftail-Editor--readonly,
