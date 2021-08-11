@@ -42,7 +42,7 @@
 }
 
 .public-DraftStyleDefault-pre {
-	background: var(--background-dimmed-400) !important;
+	background: var(--background) !important;
 	padding: 8px 16px;
 	border-radius: 8px;
 }

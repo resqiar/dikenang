@@ -403,7 +403,7 @@ export default function FeedPost(props: Props) {
 						initialState={props.caption}
 						maxHeight="100%"
 						mobileMaxHeight="100%"
-						margin="-24px 0px 0px 0px"
+						margin="-20px 0px 0px 0px"
 						padding="0px 8px 0px 8px"
 					/>
 					<FadeEffect isTruncated={truncate} />
