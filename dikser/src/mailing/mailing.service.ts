@@ -1,19 +1,17 @@
 import { Injectable } from '@nestjs/common'
-import { MailerService } from '@nestjs-modules/mailer'
+import { MailingQueueProducer } from '../queues/producers/mailing-queue.producer'
 
 @Injectable()
 export class MailingService {
-	constructor(private mailerService: MailerService) {}
+	constructor(private emailQueueService: MailingQueueProducer) {}
 
+	/**
+	 * @Queuing
+	 * All these emails is not instantly sent to the user,
+	 * instead it will be queued in redis first, in this way,
+	 * we can reduce server constraints sending thousands of emails at once.
+	 */
 	async sendGreetingEmail(email: string, username: string) {
-		await this.mailerService.sendMail({
-			to: email,
-			subject: `Welcome to our memorable community, ${username}!`,
-			template: './greetings',
-			context: {
-				// ✏️ filling curly brackets with content
-				username: username,
-			},
-		})
+		this.emailQueueService.sendGreetingEmailToQueue(username, email)
 	}
 }

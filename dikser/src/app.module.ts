@@ -11,6 +11,7 @@ import { RelationshipModule } from './relationship/relationship.module'
 import { BadgesModule } from './badges/badges.module'
 import { MailingModule } from './mailing/mailing.module'
 import { CommentsModule } from './comments/comments.module'
+import { QueuesModule } from './queues/queues.module'
 
 @Module({
 	imports: [
@@ -54,6 +55,7 @@ import { CommentsModule } from './comments/comments.module'
 		BadgesModule,
 		MailingModule,
 		CommentsModule,
+		QueuesModule,
 	],
 	controllers: [],
 	providers: [],
