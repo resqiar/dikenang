@@ -1,13 +1,18 @@
+import { MouseEvent, useState } from 'react'
 import Router from 'next/router'
 import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
+import Input from '../input/Input'
+import styled from 'styled-components'
+import { UserProfileType } from '../../types/profile.type'
+import axiosConfig from '../../utils/axios'
+
 import {
 	SearchOutlined,
 	ChatOutlined,
 	FavoriteBorder,
-	NotificationsActiveOutlined,
 } from '@material-ui/icons'
-import Input from '../input/Input'
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import {
 	Avatar,
 	Menu,
@@ -15,12 +20,9 @@ import {
 	IconButton,
 	MenuProps,
 	Typography,
+	Badge,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import styled from 'styled-components'
-import { UserProfileType } from '../../types/profile.type'
-import { MouseEvent, useState } from 'react'
-import axiosConfig from '../../utils/axios'
 
 interface Props {
 	profile: UserProfileType
@@ -97,10 +99,18 @@ export default function Header({ profile }: Props) {
 					{/* Mockup for now, future works will replace the following */}
 					<Icons Icon={FavoriteBorder} color="purple" hasIconButton />
 					<Icons Icon={ChatOutlined} hasIconButton />
-					<Icons Icon={NotificationsActiveOutlined} hasIconButton />
 				</HeaderIconsList>
 
 				<HeaderAvatarWrapper>
+					{/* Notifications */}
+					<IconButton>
+						<Badge badgeContent={9999} color="primary">
+							<NotificationsActiveIcon
+								style={{ color: 'blue' }}
+							/>
+						</Badge>
+					</IconButton>
+
 					{/* Avatar Icon */}
 					<IconButton onClick={handleClick}>
 						<Avatar src={profile.avatar_url} />
@@ -181,4 +191,7 @@ const HeaderIconsList = styled.div`
 		display: none;
 	}
 `
-const HeaderAvatarWrapper = styled.div``
+const HeaderAvatarWrapper = styled.div`
+	display: flex;
+	align-items: center;
+`
