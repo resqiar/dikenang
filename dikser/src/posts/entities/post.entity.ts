@@ -62,7 +62,9 @@ export class Post {
 	updated_at: Date
 
 	@Field((_) => User)
-	@ManyToOne((_) => User, (author: User) => author.contents)
+	@ManyToOne((_) => User, (author: User) => author.contents, {
+		onDelete: 'CASCADE',
+	})
 	author: User
 
 	@Field((_) => Attachments, { nullable: true })
