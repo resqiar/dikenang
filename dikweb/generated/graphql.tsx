@@ -224,6 +224,7 @@ export type Notification = {
 
 export type NotificationsDto = {
 	__typename?: 'NotificationsDTO'
+	userId: Scalars['String']
 	notifications: Array<Notification>
 	unread: Scalars['Int']
 	read: Scalars['Int']
@@ -294,6 +295,7 @@ export type Subscription = {
 	__typename?: 'Subscription'
 	upvoteSubscription: UpvoteDto
 	downvoteSubscription: DownvoteDto
+	notificationSubscription: NotificationsDto
 	commentsSubscription: CommentsDto
 }
 
@@ -303,6 +305,10 @@ export type SubscriptionUpvoteSubscriptionArgs = {
 
 export type SubscriptionDownvoteSubscriptionArgs = {
 	postId: Scalars['String']
+}
+
+export type SubscriptionNotificationSubscriptionArgs = {
+	userId: Scalars['String']
 }
 
 export type SubscriptionCommentsSubscriptionArgs = {
@@ -579,6 +585,19 @@ export type DownvoteSubscription = { __typename?: 'Subscription' } & {
 		DownvoteDto,
 		'downvotes'
 	> & { downvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
+}
+
+export type UnreadNotificationsSubscriptionVariables = Exact<{
+	userId: Scalars['String']
+}>
+
+export type UnreadNotificationsSubscription = {
+	__typename?: 'Subscription'
+} & {
+	notificationSubscription: { __typename?: 'NotificationsDTO' } & Pick<
+		NotificationsDto,
+		'userId' | 'unread'
+	>
 }
 
 export type TotalCommentsSubscriptionSubscriptionVariables = Exact<{
@@ -1535,6 +1554,48 @@ export type DownvoteSubscriptionHookResult = ReturnType<
 >
 export type DownvoteSubscriptionResult =
 	Apollo.SubscriptionResult<DownvoteSubscription>
+export const UnreadNotificationsDocument = gql`
+	subscription UnreadNotifications($userId: String!) {
+		notificationSubscription(userId: $userId) {
+			userId
+			unread
+		}
+	}
+`
+
+/**
+ * __useUnreadNotificationsSubscription__
+ *
+ * To run a query within a React component, call `useUnreadNotificationsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUnreadNotificationsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUnreadNotificationsSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUnreadNotificationsSubscription(
+	baseOptions: Apollo.SubscriptionHookOptions<
+		UnreadNotificationsSubscription,
+		UnreadNotificationsSubscriptionVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useSubscription<
+		UnreadNotificationsSubscription,
+		UnreadNotificationsSubscriptionVariables
+	>(UnreadNotificationsDocument, options)
+}
+export type UnreadNotificationsSubscriptionHookResult = ReturnType<
+	typeof useUnreadNotificationsSubscription
+>
+export type UnreadNotificationsSubscriptionResult =
+	Apollo.SubscriptionResult<UnreadNotificationsSubscription>
 export const TotalCommentsSubscriptionDocument = gql`
 	subscription TotalCommentsSubscription($postId: String!) {
 		commentsSubscription(postId: $postId) {
