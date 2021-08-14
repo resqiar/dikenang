@@ -6,7 +6,10 @@ import Input from '../input/Input'
 import styled from 'styled-components'
 import { UserProfileType } from '../../types/profile.type'
 import axiosConfig from '../../utils/axios'
-import { useGetUnreadNotificationsQuery } from '../../generated/graphql'
+import {
+	useGetUnreadNotificationsQuery,
+	useUnreadNotificationsSubscription,
+} from '../../generated/graphql'
 
 import {
 	SearchOutlined,
@@ -80,8 +83,18 @@ export default function Header({ profile }: Props) {
 	 * why using poll? not real-time
 	 * see this issue
 	 */
-	const getUnreadNotifications = useGetUnreadNotificationsQuery({
-		// pollInterval: 30000,
+	const getUnreadNotifications = useGetUnreadNotificationsQuery()
+
+	/**
+	 * @Subscription
+	 * Provide low latency update of how much
+	 * users unread notifications are, and update the value
+	 * in real-time
+	 */
+	const getUnreadSubscription = useUnreadNotificationsSubscription({
+		variables: {
+			userId: profile.id,
+		},
 	})
 
 	return (
@@ -118,12 +131,18 @@ export default function Header({ profile }: Props) {
 					{/* Notifications */}
 					<IconButton>
 						{/* IF UNREAD NOTIFICATIONS IS BIGGER THAN 0 */}
-						{getUnreadNotifications.data?.notifications?.unread ||
+						{getUnreadSubscription.data?.notificationSubscription
+							.unread! > 0 ||
+						getUnreadNotifications.data?.notifications?.unread ||
 						0 > 0 ? (
 							<Badge
 								badgeContent={
-									getUnreadNotifications.data?.notifications
-										.unread
+									getUnreadSubscription.data
+										? getUnreadSubscription.data
+												?.notificationSubscription
+												.unread
+										: getUnreadNotifications.data
+												?.notifications.unread
 								}
 								color="primary"
 							>
