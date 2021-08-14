@@ -211,6 +211,24 @@ export type MutationDeleteCommentArgs = {
 	commentId: Scalars['String']
 }
 
+export type Notification = {
+	__typename?: 'Notification'
+	id: Scalars['String']
+	type: Scalars['String']
+	read?: Maybe<Scalars['Boolean']>
+	relatedPostId?: Maybe<Scalars['String']>
+	created_at?: Maybe<Scalars['DateTime']>
+	updated_at?: Maybe<Scalars['DateTime']>
+	relatedUser: User
+}
+
+export type NotificationsDto = {
+	__typename?: 'NotificationsDTO'
+	notifications: Array<Notification>
+	unread: Scalars['Int']
+	read: Scalars['Int']
+}
+
 export type Post = {
 	__typename?: 'Post'
 	id: Scalars['String']
@@ -238,6 +256,7 @@ export type Query = {
 	post: Post
 	getPostReachs: Scalars['Int']
 	getPostComments: Array<Comment>
+	notifications: NotificationsDto
 }
 
 export type QueryUserArgs = {
@@ -326,6 +345,7 @@ export type User = {
 	viewed?: Maybe<Array<Post>>
 	relationship?: Maybe<Relationship>
 	badges?: Maybe<Array<Badge>>
+	notifications?: Maybe<Array<Notification>>
 }
 
 export type AddDownvoteMutationVariables = Exact<{
@@ -491,6 +511,17 @@ export type GetPublicFeedsQuery = { __typename?: 'Query' } & {
 					>
 				>
 			}
+	>
+}
+
+export type GetUnreadNotificationsQueryVariables = Exact<{
+	[key: string]: never
+}>
+
+export type GetUnreadNotificationsQuery = { __typename?: 'Query' } & {
+	notifications: { __typename?: 'NotificationsDTO' } & Pick<
+		NotificationsDto,
+		'unread'
 	>
 }
 
@@ -1284,6 +1315,63 @@ export type GetPublicFeedsLazyQueryHookResult = ReturnType<
 export type GetPublicFeedsQueryResult = Apollo.QueryResult<
 	GetPublicFeedsQuery,
 	GetPublicFeedsQueryVariables
+>
+export const GetUnreadNotificationsDocument = gql`
+	query getUnreadNotifications {
+		notifications {
+			unread
+		}
+	}
+`
+
+/**
+ * __useGetUnreadNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetUnreadNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUnreadNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUnreadNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUnreadNotificationsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>(GetUnreadNotificationsDocument, options)
+}
+export function useGetUnreadNotificationsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>(GetUnreadNotificationsDocument, options)
+}
+export type GetUnreadNotificationsQueryHookResult = ReturnType<
+	typeof useGetUnreadNotificationsQuery
+>
+export type GetUnreadNotificationsLazyQueryHookResult = ReturnType<
+	typeof useGetUnreadNotificationsLazyQuery
+>
+export type GetUnreadNotificationsQueryResult = Apollo.QueryResult<
+	GetUnreadNotificationsQuery,
+	GetUnreadNotificationsQueryVariables
 >
 export const GetUserBadgeDocument = gql`
 	query GetUserBadge($username: String!) {

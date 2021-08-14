@@ -6,6 +6,7 @@ import Input from '../input/Input'
 import styled from 'styled-components'
 import { UserProfileType } from '../../types/profile.type'
 import axiosConfig from '../../utils/axios'
+import { useGetUnreadNotificationsQuery } from '../../generated/graphql'
 
 import {
 	SearchOutlined,
@@ -13,6 +14,7 @@ import {
 	FavoriteBorder,
 } from '@material-ui/icons'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined'
 import {
 	Avatar,
 	Menu,
@@ -71,6 +73,17 @@ export default function Header({ profile }: Props) {
 		setAnchorEl(null)
 	}
 
+	/**
+	 * @Query
+	 * Define query to the database to get the
+	 * value of user's unread notifications
+	 * why using poll? not real-time
+	 * see this issue
+	 */
+	const getUnreadNotifications = useGetUnreadNotificationsQuery({
+		// pollInterval: 30000,
+	})
+
 	return (
 		<HeaderWrapper>
 			{/* Left Side */}
@@ -104,11 +117,25 @@ export default function Header({ profile }: Props) {
 				<HeaderAvatarWrapper>
 					{/* Notifications */}
 					<IconButton>
-						<Badge badgeContent={9999} color="primary">
-							<NotificationsActiveIcon
+						{/* IF UNREAD NOTIFICATIONS IS BIGGER THAN 0 */}
+						{getUnreadNotifications.data?.notifications?.unread ||
+						0 > 0 ? (
+							<Badge
+								badgeContent={
+									getUnreadNotifications.data?.notifications
+										.unread
+								}
+								color="primary"
+							>
+								<NotificationsActiveIcon
+									style={{ color: 'blue' }}
+								/>
+							</Badge>
+						) : (
+							<NotificationsNoneOutlinedIcon
 								style={{ color: 'blue' }}
 							/>
-						</Badge>
+						)}
 					</IconButton>
 
 					{/* Avatar Icon */}
