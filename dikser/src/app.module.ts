@@ -12,6 +12,7 @@ import { BadgesModule } from './badges/badges.module'
 import { MailingModule } from './mailing/mailing.module'
 import { CommentsModule } from './comments/comments.module'
 import { QueuesModule } from './queues/queues.module'
+import { NotificationsModule } from './notifications/notifications.module'
 
 @Module({
 	imports: [
@@ -56,6 +57,7 @@ import { QueuesModule } from './queues/queues.module'
 		MailingModule,
 		CommentsModule,
 		QueuesModule,
+		NotificationsModule,
 	],
 	controllers: [],
 	providers: [],

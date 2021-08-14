@@ -12,6 +12,7 @@ import {
 } from 'typeorm'
 import { Badge } from '../../badges/entities/badge.entity'
 import { Comment } from '../../comments/entities/comment.entity'
+import { Notification } from '../../notifications/entities/notifications.entity'
 import { Post } from '../../posts/entities/post.entity'
 import { Relationship } from '../../relationship/entities/relationship.entity'
 
@@ -93,4 +94,12 @@ export class User {
 	@ManyToMany(() => Badge, (badges: Badge) => badges.owners)
 	@JoinTable()
 	badges: Badge[]
+
+	// Notifications
+	@Field((_) => [Notification], { nullable: true })
+	@OneToMany(
+		(_) => Notification,
+		(notifications: Notification) => notifications.relatedUser
+	)
+	notifications: Notification[]
 }

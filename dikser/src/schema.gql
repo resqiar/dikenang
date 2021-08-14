@@ -57,6 +57,16 @@ type Comment {
 	post: Post!
 }
 
+type Notification {
+	id: String!
+	type: String!
+	read: Boolean
+	relatedPostId: String
+	created_at: DateTime
+	updated_at: DateTime
+	relatedUser: User!
+}
+
 type User {
 	id: String!
 	username: String!
@@ -72,6 +82,7 @@ type User {
 	viewed: [Post!]
 	relationship: Relationship
 	badges: [Badge!]
+	notifications: [Notification!]
 }
 
 type DeleteBadgeResponse {
@@ -104,6 +115,12 @@ type DownvoteDTO {
 	downvoters: [User!]!
 }
 
+type NotificationsDTO {
+	notifications: [Notification!]!
+	unread: Int!
+	read: Int!
+}
+
 type CommentsDTO {
 	postId: String!
 	comment: Comment!
@@ -121,6 +138,7 @@ type Query {
 	post(postId: String!): Post!
 	getPostReachs(postId: String!): Int!
 	getPostComments(postId: String!): [Comment!]!
+	notifications: NotificationsDTO!
 }
 
 type Mutation {
@@ -199,5 +217,6 @@ input CreateCommentInput {
 type Subscription {
 	upvoteSubscription(postId: String!): UpvoteDTO!
 	downvoteSubscription(postId: String!): DownvoteDTO!
+	notificationSubscription(userId: String!): NotificationsDTO!
 	commentsSubscription(postId: String!): CommentsDTO!
 }

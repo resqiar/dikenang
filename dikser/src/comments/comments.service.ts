@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { NotificationsService } from '../notifications/notifications.service'
 import { PostsService } from '../posts/posts.service'
 import { UsersService } from '../users/users.service'
 import { CommentsDTO } from './dto/comments.dto'
@@ -13,7 +14,8 @@ export class CommentsService {
 		@InjectRepository(Comment)
 		private commentsRepository: Repository<Comment>,
 		private readonly postsService: PostsService,
-		private readonly usersService: UsersService
+		private readonly usersService: UsersService,
+		private readonly notificationsService: NotificationsService
 	) {}
 
 	async createComment(
@@ -37,6 +39,17 @@ export class CommentsService {
 			post: targetPost,
 		})
 		await this.commentsRepository.save(createComment)
+
+		// create new notifications to author of the post
+		if (targetPost.author.id !== author.id) {
+			await this.notificationsService.createNotification(
+				targetPost.author.id,
+				{
+					type: 'comment',
+					relatedPostId: targetPost.id,
+				}
+			)
+		}
 
 		// find result
 		const result = await this.postsService.findById(
