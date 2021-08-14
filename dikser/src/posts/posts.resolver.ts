@@ -21,11 +21,15 @@ import { configureRedisPubSub } from '../shared/utils/redispubsub'
 import { UpvoteDTO } from './dto/votes/upvote.dto'
 import { DownvoteDTO } from './dto/votes/downvote.dto'
 import { Comment } from '../comments/entities/comment.entity'
+import { NotificationsService } from '../notifications/notifications.service'
 
 @Resolver(() => Post)
 export class PostsResolver {
 	private pubSub: RedisPubSub
-	constructor(private readonly postsService: PostsService) {
+	constructor(
+		private readonly postsService: PostsService,
+		private readonly notificationsService: NotificationsService
+	) {
 		/**
 		 * Redis Pub/Sub configurations
 		 * @see https://github.com/davidyaha/graphql-redis-subscriptions
@@ -119,8 +123,21 @@ export class PostsResolver {
 			newUpvoteValue.upvoter
 		)
 
+		// Return upvote subscribtion value
 		await this.pubSub.publish('upvoteSubscriptions', {
 			upvoteSubscription: returnValue,
+		})
+
+		// Create Notifications to target post owner
+		const newNotification =
+			await this.notificationsService.createNotification(user, {
+				type: 'vote',
+				relatedPostId: postId,
+			})
+
+		// Return notification subscription value
+		await this.pubSub.publish('notificationsSubscription', {
+			notificationSubscription: newNotification,
 		})
 
 		return 200

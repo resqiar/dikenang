@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { NotificationsService } from '../notifications/notifications.service'
 import { RelationshipService } from '../relationship/relationship.service'
 import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
@@ -25,8 +24,7 @@ export class PostsService {
 		@InjectRepository(Attachments)
 		private readonly attachmentsRepository: Repository<Attachments>,
 		private readonly usersService: UsersService,
-		private readonly relationshipService: RelationshipService,
-		private readonly notificationsService: NotificationsService
+		private readonly relationshipService: RelationshipService
 	) {}
 
 	async create(
@@ -266,17 +264,6 @@ export class PostsService {
 
 		// Add User Upvote
 		targetPost.upvoter = [...targetPost.upvoter, upvoter]
-
-		// Create Notifications to target post owner
-		if (targetPost.author.id !== upvoter.id) {
-			await this.notificationsService.createNotification(
-				targetPost.author.id,
-				{
-					type: 'vote',
-					relatedPostId: targetPost.id,
-				}
-			)
-		}
 
 		return await this.postsRepository.save(targetPost)
 	}

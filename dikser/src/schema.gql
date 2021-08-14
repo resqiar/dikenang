@@ -116,6 +116,7 @@ type DownvoteDTO {
 }
 
 type NotificationsDTO {
+	userId: String!
 	notifications: [Notification!]!
 	unread: Int!
 	read: Int!

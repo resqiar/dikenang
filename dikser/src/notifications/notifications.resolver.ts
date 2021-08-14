@@ -41,6 +41,7 @@ export class NotificationsResolver {
 		).length
 
 		return new NotificationsDTO(
+			currentUser.id,
 			notifications,
 			unreadNotifications,
 			readNotifications
@@ -52,6 +53,6 @@ export class NotificationsResolver {
 			payload.notificationSubscription.userId === variables.userId,
 	})
 	notificationSubscription(@Args('userId') _userId: string) {
-		return this.pubSub.asyncIterator('notificationSubscription')
+		return this.pubSub.asyncIterator('notificationsSubscription')
 	}
 }
