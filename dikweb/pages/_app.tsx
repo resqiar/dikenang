@@ -6,6 +6,7 @@ import Router from 'next/router'
 import NProgress from 'nprogress'
 import '../styles/globals.css'
 import '../styles/nprogress.css'
+
 /**
  * Custom Override styles for RichTextEditor
  * @RichTextEditor @PrismDecorator
