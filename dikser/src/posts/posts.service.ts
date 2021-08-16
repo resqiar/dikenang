@@ -131,6 +131,7 @@ export class PostsService {
 						'downvoter',
 						'comments',
 						'comments.author',
+						'attachments',
 					],
 				}
 			)

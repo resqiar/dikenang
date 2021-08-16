@@ -7,6 +7,10 @@ export class CreateNotificationInput {
 	@IsIn(['vote', 'devote', 'comment', 'reply'])
 	type: string
 
+	@Field()
+	@IsUUID('all')
+	authorId: string
+
 	@Field({ nullable: true })
 	@IsUUID('all')
 	@IsOptional()

@@ -47,6 +47,7 @@ export class CommentsResolver {
 			await this.notificationsService.createNotification(user, {
 				type: 'comment',
 				relatedPostId: createCommentInput.postId,
+				authorId: user.id,
 			})
 
 		// Return notification subscription value

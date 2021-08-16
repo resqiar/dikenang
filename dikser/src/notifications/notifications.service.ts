@@ -24,7 +24,25 @@ export class NotificationsService {
 		// get all target user's notifications from the database
 		return await this.notificationRepository.find({
 			where: { relatedUser: targetUser },
+			relations: ['relatedUser'],
+			order: {
+				created_at: 'DESC',
+			},
 		})
+	}
+
+	async readNotifications(currentUser: User) {
+		/**
+		 * Search data that match for the current user
+		 * in the notification database.
+		 * Then update read status to true.
+		 */
+		return await this.notificationRepository.update(
+			{
+				relatedUser: currentUser,
+			},
+			{ read: true }
+		)
 	}
 
 	async createNotification(
@@ -44,7 +62,7 @@ export class NotificationsService {
 			createNotificationInput
 		)
 
-		// search for corresponding author
+		// search for corresponding author of the post
 		const relatedUser = await this.usersService.findById(
 			targetPost.author.id
 		)

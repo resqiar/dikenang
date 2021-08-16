@@ -1,5 +1,12 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Query, Resolver, Subscription } from '@nestjs/graphql'
+import {
+	Args,
+	Int,
+	Mutation,
+	Query,
+	Resolver,
+	Subscription,
+} from '@nestjs/graphql'
 import { RedisPubSub } from 'graphql-redis-subscriptions'
 import { AuthStatusGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
@@ -18,6 +25,13 @@ export class NotificationsResolver {
 		 * @function src/shared/utils/redispubsub.ts
 		 */
 		this.pubSub = configureRedisPubSub()
+	}
+
+	@Mutation(() => Int, { name: 'readNotifications' })
+	@UseGuards(AuthStatusGuard)
+	async readNotifications(@CurrentUser() currentUser: User): Promise<any> {
+		await this.notificationsService.readNotifications(currentUser)
+		return 200
 	}
 
 	@Query(() => NotificationsDTO, { name: 'notifications' })

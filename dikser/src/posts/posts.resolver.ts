@@ -133,6 +133,7 @@ export class PostsResolver {
 			await this.notificationsService.createNotification(user, {
 				type: 'vote',
 				relatedPostId: postId,
+				authorId: user.id,
 			})
 
 		// Return notification subscription value

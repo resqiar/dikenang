@@ -22,6 +22,11 @@ export class UsersResolver {
 		return await this.usersService.findByUsername(username)
 	}
 
+	@Query(() => User, { name: 'getUserById' })
+	async findById(@Args('id') id: string): Promise<User> {
+		return await this.usersService.findById(id)
+	}
+
 	@Query(() => User, { name: 'getMyProfile' })
 	@UseGuards(AuthStatusGuard)
 	async getMyProfile(@CurrentUser() currentUser: User): Promise<User> {

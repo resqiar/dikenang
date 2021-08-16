@@ -27,6 +27,10 @@ export class Notification {
 	})
 	read: boolean
 
+	@Field()
+	@Column()
+	authorId: string
+
 	@Field({ nullable: true })
 	@Column({ nullable: true })
 	relatedPostId: string
