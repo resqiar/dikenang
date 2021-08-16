@@ -135,42 +135,27 @@ export default function Header(props: Props) {
 				<HeaderAvatarWrapper>
 					{/* Notifications */}
 					<IconButton>
-						{/* IF UNREAD NOTIFICATIONS IS BIGGER THAN 0 */}
-						{getUnreadSubscription.data?.notificationSubscription
-							.unread! > 0 ||
-						getUnreadNotifications.data?.notifications?.unread ||
-						0 > 0 ? (
-							<Badge
-								badgeContent={
-									getUnreadSubscription.data
-										? getUnreadSubscription.data
-												?.notificationSubscription
-												.unread
-										: getUnreadNotifications.data
-												?.notifications.unread
-								}
-								style={{ marginBottom: '-4px' }}
-								color="secondary"
-								onClick={() => Router.push('/notifications')}
-							>
-								<NotificationsActiveIcon
-									style={{
-										color:
-											props.activePath === 'notifications'
-												? 'var(--color-primary)'
-												: 'var(--font-white-300)',
-									}}
-								/>
-							</Badge>
-						) : (
+						<Badge
+							badgeContent={
+								getUnreadSubscription.data
+									? getUnreadSubscription.data
+											?.notificationSubscription.unread
+									: getUnreadNotifications.data?.notifications
+											.unread
+							}
+							style={{ marginBottom: '-4px' }}
+							color="secondary"
+							onClick={() => Router.push('/notifications')}
+						>
 							<NotificationsActiveIcon
 								style={{
-									marginBottom: '-4px',
-									color: 'var(--font-white-300)',
+									color:
+										props.activePath === 'notifications'
+											? 'var(--color-primary)'
+											: 'var(--font-white-300)',
 								}}
-								onClick={() => Router.push('/notifications')}
 							/>
-						)}
+						</Badge>
 					</IconButton>
 
 					{/* Avatar Icon */}
