@@ -77,8 +77,6 @@ export default function Header(props: Props) {
 	 * @Query
 	 * Define query to the database to get the
 	 * value of user's unread notifications
-	 * why using poll? not real-time
-	 * see this issue
 	 */
 	const getUnreadNotifications = useGetUnreadNotificationsQuery()
 
