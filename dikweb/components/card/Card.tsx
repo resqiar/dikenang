@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components'
 
 interface Props {
 	children?: JSX.Element | JSX.Element[]
+	padding?: string
 	bgColor?: string
 	hasShadow?: boolean
 	hoverBg?: string
@@ -16,6 +17,7 @@ export default function Card({
 	hoverBg,
 	height,
 	width,
+	padding,
 }: Props) {
 	return (
 		<SideBarCardWrapper
@@ -24,6 +26,7 @@ export default function Card({
 			hoverBg={hoverBg}
 			height={height}
 			width={width}
+			padding={padding}
 		>
 			{children}
 		</SideBarCardWrapper>
@@ -36,10 +39,12 @@ const SideBarCardWrapper = styled.div<{
 	hoverBg?: string
 	height?: string
 	width?: string
+	padding?: string
 }>`
 	width: ${(props) => props.width || '100%'};
 	height: ${(props) => props.height || 'min-content'};
 	text-align: center;
+	padding: ${(props) => props.padding || undefined};
 	background-color: ${(props) => props.bgColor || 'transparent'};
 	border-radius: 8px;
 	margin-bottom: 8px;

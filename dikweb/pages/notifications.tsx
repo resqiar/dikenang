@@ -1,25 +1,25 @@
 import { NextPageContext } from 'next'
-import IndexBody from '../components/body/IndexBody'
+import NotificationsBody from '../components/body/NotificationsBody'
 import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
-import checkAuth from '../utils/auth'
 import { UserProfileType } from '../types/profile.type'
+import checkAuth from '../utils/auth'
 
 interface Props {
 	user: UserProfileType
 }
 
-export default function Home({ user }: Props) {
+export default function NotificationPage(props: Props) {
 	return (
 		<div>
-			{/* Default Head Meta Property */}
-			<Meta title="Dashboard — dikenang" />
+			{/* Title */}
+			<Meta title={`Notifications — ${props.user.username}`} />
 
-			{/* Header Component */}
-			<Header profile={user} activePath="dashboard" />
+			{/* Header */}
+			<Header profile={props.user} activePath="notifications" />
 
-			{/* Body Component */}
-			<IndexBody profile={user} />
+			{/* Body */}
+			<NotificationsBody profile={props.user} />
 		</div>
 	)
 }

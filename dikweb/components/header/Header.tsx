@@ -11,13 +11,9 @@ import {
 	useUnreadNotificationsSubscription,
 } from '../../generated/graphql'
 
-import {
-	SearchOutlined,
-	ChatOutlined,
-	FavoriteBorder,
-} from '@material-ui/icons'
+import { SearchOutlined } from '@material-ui/icons'
+import HomeIcon from '@material-ui/icons/Home'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined'
 import {
 	Avatar,
 	Menu,
@@ -30,6 +26,7 @@ import {
 import { withStyles } from '@material-ui/core/styles'
 
 interface Props {
+	activePath?: string
 	profile: UserProfileType
 }
 
@@ -65,7 +62,7 @@ async function handleLogOut() {
 	}
 }
 
-export default function Header({ profile }: Props) {
+export default function Header(props: Props) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 	// Handle Open Menu
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -93,7 +90,7 @@ export default function Header({ profile }: Props) {
 	 */
 	const getUnreadSubscription = useUnreadNotificationsSubscription({
 		variables: {
-			userId: profile.id,
+			userId: props.profile.id,
 		},
 	})
 
@@ -122,9 +119,17 @@ export default function Header({ profile }: Props) {
 			{/* Right Side */}
 			<HeaderIconsWrapper>
 				<HeaderIconsList>
-					{/* Mockup for now, future works will replace the following */}
-					<Icons Icon={FavoriteBorder} color="purple" hasIconButton />
-					<Icons Icon={ChatOutlined} hasIconButton />
+					{/* Dashboard Navigation */}
+					<Icons
+						Icon={HomeIcon}
+						color={
+							props.activePath === 'dashboard'
+								? 'var(--color-primary)'
+								: 'var(--font-white-300)'
+						}
+						hasIconButton
+						onClickCallback={() => Router.push('/')}
+					/>
 				</HeaderIconsList>
 
 				<HeaderAvatarWrapper>
@@ -144,22 +149,33 @@ export default function Header({ profile }: Props) {
 										: getUnreadNotifications.data
 												?.notifications.unread
 								}
-								color="primary"
+								style={{ marginBottom: '-4px' }}
+								color="secondary"
+								onClick={() => Router.push('/notifications')}
 							>
 								<NotificationsActiveIcon
-									style={{ color: 'blue' }}
+									style={{
+										color:
+											props.activePath === 'notifications'
+												? 'var(--color-primary)'
+												: 'var(--font-white-300)',
+									}}
 								/>
 							</Badge>
 						) : (
-							<NotificationsNoneOutlinedIcon
-								style={{ color: 'blue' }}
+							<NotificationsActiveIcon
+								style={{
+									marginBottom: '-4px',
+									color: 'var(--font-white-300)',
+								}}
+								onClick={() => Router.push('/notifications')}
 							/>
 						)}
 					</IconButton>
 
 					{/* Avatar Icon */}
 					<IconButton onClick={handleClick}>
-						<Avatar src={profile.avatar_url} />
+						<Avatar src={props.profile.avatar_url} />
 					</IconButton>
 
 					{/* Menu Tab */}
