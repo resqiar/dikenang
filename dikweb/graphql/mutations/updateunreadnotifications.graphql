@@ -1,0 +1,3 @@
+mutation updateUnreadNotifications {
+	readNotifications
+}

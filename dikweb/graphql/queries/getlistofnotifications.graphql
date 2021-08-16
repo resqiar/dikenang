@@ -1,0 +1,19 @@
+query getListOfNotifications {
+	notifications {
+		notifications {
+			id
+			type
+			read
+			authorId
+			relatedPostId
+			created_at
+			relatedUser {
+				id
+				username
+				avatar_url
+			}
+		}
+		unread
+		read
+	}
+}
