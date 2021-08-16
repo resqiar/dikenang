@@ -1,22 +1,95 @@
-import { Avatar } from '@material-ui/core'
 import styled from 'styled-components'
 import Image from 'next/image'
+import Moment from 'moment'
+import {
+	useGetPostCaptionAndAttachmentsQuery,
+	useGetPostCommentsQuery,
+	useGetPostVotesQuery,
+	useGetPublicFeedReachsQuery,
+	useGetUserProfileQuery,
+} from '../../generated/graphql'
+
+import { Avatar } from '@material-ui/core'
 
 interface Props {
-	username?: string
-	avatarSrc?: string
 	type: string
+	authorId: string
 	postId: string
+	timestamp: string
+	isRead?: boolean
 }
 
 export default function NotificationItem(props: Props) {
+	/**
+	 * @Query
+	 * Define a query to the database to get the
+	 * value of author of the notification.
+	 * @return id | username | avatar_url
+	 */
+	const getAuthorNotifications = useGetUserProfileQuery({
+		variables: {
+			id: props.authorId,
+		},
+	})
+
+	/**
+	 * @Query
+	 * Define query to the database to get the
+	 * value of post caption and attachments data.
+	 * @return caption | attachments => uri
+	 */
+	const getPostCaptionAndAttachments = useGetPostCaptionAndAttachmentsQuery({
+		variables: {
+			postId: props.postId,
+		},
+	})
+
+	/**
+	 * @Query
+	 * Define query to the database to get the
+	 * value of post reach views
+	 * @return number
+	 */
+	const getPostReachViews = useGetPublicFeedReachsQuery({
+		variables: {
+			postId: props.postId,
+		},
+	})
+
+	/**
+	 * @Query
+	 * Define query to the database to get the
+	 * value of post votes, eiher upvotes or downvotes
+	 * @return upvoter[] | downvoter[]
+	 */
+	const getPostVotes = useGetPostVotesQuery({
+		variables: {
+			postId: props.postId,
+		},
+	})
+
+	/**
+	 * @Query
+	 * Define query to the database to get the initial
+	 * value of post total comments
+	 * @return all comments data (need refactoring)
+	 */
+	const getPostComments = useGetPostCommentsQuery({
+		variables: {
+			postId: props.postId,
+		},
+	})
+
 	return (
-		<VoteNotificationWrapper>
+		<VoteNotificationWrapper isRead={props.isRead}>
 			{/* Avatar */}
 			<AvatarWrapper>
 				<Avatar
-					src={props.avatarSrc ? props.avatarSrc : undefined}
-					alt={`${props.username}'s avatar`}
+					src={
+						getAuthorNotifications?.data?.getUserById.avatar_url ||
+						undefined
+					}
+					alt={`${getAuthorNotifications?.data?.getUserById.username}'s avatar`}
 					style={{
 						width: '50px',
 						height: '50px',
@@ -28,37 +101,57 @@ export default function NotificationItem(props: Props) {
 			<VoteNotificationBody>
 				{/* Message */}
 				<BodyMessageWrapper>
-					<BodyUsername>{props.username}</BodyUsername>
+					{/* Username */}
+					<BodyUsername>
+						{getAuthorNotifications?.data?.getUserById.username}
+					</BodyUsername>
+
+					{/* Notification message text */}
 					<BodyMessage>
 						{props.type === 'vote'
-							? 'upvoted your post about a few seconds ago'
-							: 'commented on your post about a few seconds ago'}
+							? `upvoted your post about ${Moment(
+									props.timestamp
+							  ).fromNow()}`
+							: `commented on your post about ${Moment(
+									props.timestamp
+							  ).fromNow()}`}
 					</BodyMessage>
 				</BodyMessageWrapper>
 
 				{/* Post preview */}
 				<BodyPostPreviewWrapper>
-					<StyledImage
-						width={100}
-						height={90}
-						alt={`${props.username}'s post image`}
-						layout="fixed"
-						src="/images/bg.png"
-						objectFit="cover"
-					/>
+					{/* IF THERE IS AN ATTACHMENT IN THE POST */}
+					{getPostCaptionAndAttachments.data?.post.attachments
+						?.uri ? (
+						<StyledImage
+							width={100}
+							height={90}
+							layout="fixed"
+							src={
+								getPostCaptionAndAttachments.data?.post
+									.attachments?.uri[0]
+							}
+							objectFit="cover"
+						/>
+					) : undefined}
 
 					<PostPreviewTextWrapper>
-						{/* Caption preview */}
 						<PostPreviewCaption>
-							Lets try #dikenang new feature! Lorem ipsum dolor
-							sit, amet consectetur adipisicing elit. Alias ullam
-							quia eligendi debitis modi pariatur impedit
-							laudantium ducimus deserunt id?
+							{/* Caption preview */}
+							{getPostCaptionAndAttachments.data?.post.caption
+								? JSON.parse(
+										getPostCaptionAndAttachments.data?.post
+											.caption
+								  ).blocks[0].text
+								: undefined}
 						</PostPreviewCaption>
 
-						{/* Views comments likes */}
+						{/* Views || comments || likes */}
 						<PostPreviewDetails>
-							105 views - 4 likes - 2 comments
+							{getPostReachViews.data?.getPostReachs} view(s) -{' '}
+							{getPostVotes.data?.post.upvoter?.length} upvote(s)
+							- {getPostComments.data?.getPostComments.length}{' '}
+							comment(s)
 						</PostPreviewDetails>
 					</PostPreviewTextWrapper>
 				</BodyPostPreviewWrapper>
@@ -70,8 +163,9 @@ export default function NotificationItem(props: Props) {
 	)
 }
 
-const VoteNotificationWrapper = styled.div`
+const VoteNotificationWrapper = styled.div<{ isRead?: boolean }>`
 	padding: 12px 18px;
+	background: ${(props) => (!props.isRead ? '#101b27' : undefined)};
 	border-bottom: var(--border);
 	display: flex;
 	justify-content: space-between;
@@ -176,6 +270,7 @@ const PostPreviewCaption = styled.p`
 	width: 100%;
 	max-width: 400px;
 	font-weight: bold;
+	text-align: start;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
