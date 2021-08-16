@@ -19,7 +19,7 @@ export default function NotificationPage(props: Props) {
 			<Header profile={props.user} activePath="notifications" />
 
 			{/* Body */}
-			<NotificationsBody profile={props.user} />
+			<NotificationsBody />
 		</div>
 	)
 }
