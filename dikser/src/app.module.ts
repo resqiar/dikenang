@@ -13,6 +13,8 @@ import { MailingModule } from './mailing/mailing.module'
 import { CommentsModule } from './comments/comments.module'
 import { QueuesModule } from './queues/queues.module'
 import { NotificationsModule } from './notifications/notifications.module'
+import { ScheduleModule } from '@nestjs/schedule'
+import { CronModule } from './cron/cron.module'
 
 @Module({
 	imports: [
@@ -50,6 +52,8 @@ import { NotificationsModule } from './notifications/notifications.module'
 				return graphQLFormattedError
 			},
 		}),
+		// CRON Job Scheduler
+		ScheduleModule.forRoot(),
 		AuthModule,
 		PostsModule,
 		RelationshipModule,
@@ -58,8 +62,8 @@ import { NotificationsModule } from './notifications/notifications.module'
 		CommentsModule,
 		QueuesModule,
 		NotificationsModule,
+		CronModule,
 	],
 	controllers: [],
-	providers: [],
 })
 export class AppModule {}

@@ -93,4 +93,35 @@ export class NotificationsService {
 			readNotifications
 		)
 	}
+
+	/**
+	 * This method is used by cron service
+	 * to delete read notifications after 3 days.
+	 * Cron job will run every day at midnight time.
+	 * @see cron.service.ts
+	 */
+	async deleteReadNotifications() {
+		// Query all read notifications
+		const allReadNotifications = await this.notificationRepository.find({
+			where: { read: true },
+		})
+
+		const notificationsAfter3Days = allReadNotifications.filter((value) => {
+			// Last 3 Days date object
+			const last3Days = new Date(
+				new Date().getTime() - 3 * 24 * 60 * 60 * 1000
+			)
+
+			// return all notifications which has been read more than 3 days
+			return last3Days >= value.created_at
+		})
+
+		if (notificationsAfter3Days.length === 0) return
+
+		for (let index = 0; index < notificationsAfter3Days.length; index++) {
+			await this.notificationRepository.delete(
+				notificationsAfter3Days[index].id
+			)
+		}
+	}
 }
