@@ -132,7 +132,7 @@ export default function Header(props: Props) {
 
 				<HeaderAvatarWrapper>
 					{/* Notifications */}
-					<IconButton>
+					<IconButton onClick={() => Router.push('/notifications')}>
 						<Badge
 							badgeContent={
 								getUnreadSubscription.data
@@ -143,7 +143,6 @@ export default function Header(props: Props) {
 							}
 							style={{ marginBottom: '-4px' }}
 							color="secondary"
-							onClick={() => Router.push('/notifications')}
 						>
 							<NotificationsActiveIcon
 								style={{
