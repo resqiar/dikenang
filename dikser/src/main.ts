@@ -9,6 +9,7 @@ import * as passport from 'passport'
 import * as redis from 'redis'
 import * as connectRedis from 'connect-redis'
 import { Client } from 'connect-redis'
+import * as helmet from 'helmet'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
@@ -23,6 +24,24 @@ async function bootstrap() {
 		credentials: true,
 		allowedHeaders: ['Content-Type', 'key'],
 	})
+
+	/**
+	 * Helmet configurations
+	 * @see https://github.com/helmetjs/helmet#how-it-works
+	 */
+	app.use(
+		helmet({
+			frameguard: {
+				action: 'deny',
+			},
+			crossOriginResourcePolicy: { policy: 'same-site' },
+			crossOriginEmbedderPolicy: true,
+			crossOriginOpenerPolicy: true,
+			dnsPrefetchControl: {
+				allow: true,
+			},
+		})
+	)
 
 	// Redis config
 	const REDIS_URI = process.env.REDIS_TLS_URL
