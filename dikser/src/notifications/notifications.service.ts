@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { MailingService } from '../mailing/mailing.service'
 import { PostsService } from '../posts/posts.service'
 import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
@@ -14,7 +15,8 @@ export class NotificationsService {
 		@InjectRepository(Notification)
 		private notificationRepository: Repository<Notification>,
 		private readonly usersService: UsersService,
-		private readonly postsService: PostsService
+		private readonly postsService: PostsService,
+		private readonly mailingService: MailingService
 	) {}
 
 	async getNotifications(currentUser: User) {
@@ -123,5 +125,33 @@ export class NotificationsService {
 				notificationsAfter3Days[index].id
 			)
 		}
+	}
+
+	/**
+	 * This method is used by cron service
+	 * to send emails unread notifications to users.
+	 * Cron job will run every day at 8AM time.
+	 * @see cron.service.ts
+	 */
+	async sendUnreadNotificationsToEmail() {
+		// Find all unread notifications from the database
+		const allUnreadNotifications = await this.notificationRepository.find({
+			where: { read: false },
+			relations: ['relatedUser'],
+		})
+
+		/**
+		 * From all unread notifications,
+		 * grab only their emails, the emails will
+		 * used by nodemailer to send notifications reminder.
+		 */
+		const allRelatedUsers = allUnreadNotifications.map(
+			(value) => value.relatedUser.email
+		)
+
+		return await this.mailingService.sendNotificationsEmail([
+			// remove duplicate emails from the array
+			...new Set(allRelatedUsers),
+		])
 	}
 }
