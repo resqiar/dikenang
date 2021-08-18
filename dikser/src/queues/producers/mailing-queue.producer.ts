@@ -18,6 +18,7 @@ export class MailingQueueProducer {
 			{
 				delay: 5000, // 5 seconds
 				attempts: 5,
+				removeOnComplete: true,
 			}
 		)
 	}
