@@ -20,9 +20,11 @@ import {
 	MenuItem,
 	IconButton,
 	MenuProps,
-	Typography,
+	ListItemIcon,
+	ListItemText,
 	Badge,
 } from '@material-ui/core'
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded'
 import { withStyles } from '@material-ui/core/styles'
 
 interface Props {
@@ -33,7 +35,7 @@ interface Props {
 const StyledMenu = withStyles({
 	paper: {
 		background: 'var(--background-dimmed-500)',
-		color: 'var(--font-white-800)',
+		color: 'var(--font-white-600)',
 	},
 })((props: MenuProps) => (
 	<Menu
@@ -50,6 +52,27 @@ const StyledMenu = withStyles({
 		{...props}
 	/>
 ))
+
+const StyledMenuItem = withStyles(() => ({
+	root: {
+		'&:hover': {
+			backgroundColor: 'var(--font-black-200)',
+		},
+		'& .MuiListItemIcon-root': {
+			minWidth: '0px',
+			padding: '0px 18px 0px 8px',
+			color: 'var(--font-white-700)',
+		},
+		'& .MuiListItemText-primary': {
+			color: 'var(--font-white-700)',
+			fontWeight: 'bold',
+		},
+		'& .MuiListItemText-secondary': {
+			color: 'var(--font-white-300)',
+		},
+		fontFamily: 'var(--font-family)',
+	},
+}))(MenuItem)
 
 async function handleLogOut() {
 	try {
@@ -169,24 +192,13 @@ export default function Header(props: Props) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}
 					>
-						{/* Profile */}
-						<MenuItem
-							onClick={() =>
-								// go to relationship page
-								Router.push('/myrelationship')
-							}
-						>
-							<Typography variant="inherit">
-								My Profile
-							</Typography>
-						</MenuItem>
-
-						{/* Logout */}
-						<MenuItem onClick={handleLogOut}>
-							<Typography variant="inherit">
-								Switch Account
-							</Typography>
-						</MenuItem>
+						{/* Switch account */}
+						<StyledMenuItem onClick={handleLogOut}>
+							<ListItemIcon>
+								<AccountBoxRoundedIcon />
+							</ListItemIcon>
+							<ListItemText primary="Switch account" />
+						</StyledMenuItem>
 					</StyledMenu>
 				</HeaderAvatarWrapper>
 			</HeaderIconsWrapper>
