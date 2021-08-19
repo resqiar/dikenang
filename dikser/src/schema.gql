@@ -139,6 +139,7 @@ type Query {
 	badge(label: String!): Badge!
 	posts: [Post!]!
 	post(postId: String!): Post!
+	postByAuthorAndId(username: String!, postId: String!): Post!
 	getPostReachs(postId: String!): Int!
 	getPostComments(postId: String!): [Comment!]!
 	notifications: NotificationsDTO!

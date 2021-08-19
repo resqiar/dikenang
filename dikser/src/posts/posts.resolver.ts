@@ -68,6 +68,17 @@ export class PostsResolver {
 		return await this.postsService.findById(postId)
 	}
 
+	@Query(() => Post, { name: 'postByAuthorAndId' })
+	async findByAuthorAndId(
+		@Args('postId') postId: string,
+		@Args('username') username: string
+	): Promise<Post | undefined> {
+		return await this.postsService.findByAuthorUsernameAndPostId(
+			username,
+			postId
+		)
+	}
+
 	@Mutation(() => Post)
 	@UseGuards(AuthStatusGuard)
 	async updatePost(
@@ -96,7 +107,6 @@ export class PostsResolver {
 	}
 
 	@Query(() => Int)
-	@UseGuards(AuthStatusGuard)
 	async getPostReachs(@Args('postId') postId: string): Promise<number> {
 		return this.postsService.getPostReachs(postId)
 	}
@@ -253,7 +263,6 @@ export class PostsResolver {
 	}
 
 	@Query(() => [Comment])
-	@UseGuards(AuthStatusGuard)
 	async getPostComments(@Args('postId') postId: string): Promise<Comment[]> {
 		return this.postsService.getPostComments(postId)
 	}
