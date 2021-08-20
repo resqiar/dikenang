@@ -258,6 +258,7 @@ export type Query = {
 	badge: Badge
 	posts: Array<Post>
 	post: Post
+	postByAuthorAndId: Post
 	getPostReachs: Scalars['Int']
 	getPostComments: Array<Comment>
 	notifications: NotificationsDto
@@ -276,6 +277,11 @@ export type QueryBadgeArgs = {
 }
 
 export type QueryPostArgs = {
+	postId: Scalars['String']
+}
+
+export type QueryPostByAuthorAndIdArgs = {
+	username: Scalars['String']
 	postId: Scalars['String']
 }
 
@@ -485,6 +491,40 @@ export type GetListOfNotificationsQuery = { __typename?: 'Query' } & {
 		}
 }
 
+export type GetPostByIdQueryVariables = Exact<{
+	postId: Scalars['String']
+	username: Scalars['String']
+}>
+
+export type GetPostByIdQuery = { __typename?: 'Query' } & {
+	postByAuthorAndId: { __typename?: 'Post' } & Pick<
+		Post,
+		'id' | 'type' | 'caption' | 'created_at'
+	> & {
+			attachments?: Maybe<
+				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
+			>
+			author: { __typename?: 'User' } & Pick<
+				User,
+				'id' | 'username' | 'avatar_url'
+			> & {
+					badges?: Maybe<
+						Array<
+							{ __typename?: 'Badge' } & Pick<
+								Badge,
+								| 'id'
+								| 'label'
+								| 'variant'
+								| 'color'
+								| 'background'
+								| 'border'
+							>
+						>
+					>
+				}
+		}
+}
+
 export type GetPostCaptionAndAttachmentsQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
@@ -494,6 +534,7 @@ export type GetPostCaptionAndAttachmentsQuery = { __typename?: 'Query' } & {
 			attachments?: Maybe<
 				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
 			>
+			author: { __typename?: 'User' } & Pick<User, 'username'>
 		}
 }
 
@@ -1255,12 +1296,91 @@ export type GetListOfNotificationsQueryResult = Apollo.QueryResult<
 	GetListOfNotificationsQuery,
 	GetListOfNotificationsQueryVariables
 >
+export const GetPostByIdDocument = gql`
+	query getPostById($postId: String!, $username: String!) {
+		postByAuthorAndId(postId: $postId, username: $username) {
+			id
+			type
+			caption
+			attachments {
+				uri
+			}
+			author {
+				id
+				username
+				avatar_url
+				badges {
+					id
+					label
+					variant
+					color
+					background
+					border
+				}
+			}
+			created_at
+		}
+	}
+`
+
+/**
+ * __useGetPostByIdQuery__
+ *
+ * To run a query within a React component, call `useGetPostByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostByIdQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetPostByIdQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetPostByIdQuery,
+		GetPostByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(
+		GetPostByIdDocument,
+		options
+	)
+}
+export function useGetPostByIdLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetPostByIdQuery,
+		GetPostByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(
+		GetPostByIdDocument,
+		options
+	)
+}
+export type GetPostByIdQueryHookResult = ReturnType<typeof useGetPostByIdQuery>
+export type GetPostByIdLazyQueryHookResult = ReturnType<
+	typeof useGetPostByIdLazyQuery
+>
+export type GetPostByIdQueryResult = Apollo.QueryResult<
+	GetPostByIdQuery,
+	GetPostByIdQueryVariables
+>
 export const GetPostCaptionAndAttachmentsDocument = gql`
 	query getPostCaptionAndAttachments($postId: String!) {
 		post(postId: $postId) {
 			caption
 			attachments {
 				uri
+			}
+			author {
+				username
 			}
 		}
 	}

@@ -4,5 +4,8 @@ query getPostCaptionAndAttachments($postId: String!) {
 		attachments {
 			uri
 		}
+		author {
+			username
+		}
 	}
 }
