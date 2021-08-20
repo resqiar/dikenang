@@ -61,9 +61,7 @@ export default function NotificationsBody() {
 						</AlertTitle>
 						Since dikenang still relies on limited resources, we
 						want to make sure our service continues by automatically
-						deleting stalled data in our database. Unread
-						notifications will not be affected, so you won't miss
-						incoming notifications.
+						deleting stalled data in our database.
 					</Alert>
 				</AlertWrapper>
 
@@ -147,13 +145,13 @@ const NotificationBodyWrapper = styled.div`
 	}
 `
 
-const NotificationBodyTitle = styled.h1`
+const NotificationBodyTitle = styled.h2`
 	color: var(--font-white-700);
 	padding: 8px;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
-		padding: 4px 18px;
+		padding: 8px 18px;
 	}
 `
 
@@ -164,6 +162,11 @@ const NotFoundText = styled.h3`
 
 const AlertWrapper = styled.div`
 	padding: 18px 0px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		padding: 8px 0px;
+	}
 `
 
 // const RightBarWrapper = styled.div`

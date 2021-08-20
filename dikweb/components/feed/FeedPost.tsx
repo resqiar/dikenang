@@ -334,8 +334,12 @@ export default function FeedPost(props: Props) {
 			<FeedPostHeaderWrapper>
 				<FeedPostProfile>
 					{/* Post Avatar */}
-					<IconButton>
-						<Avatar variant="square" src={props.avatarSrc} />
+					<IconButton aria-label="Author">
+						<Avatar
+							variant="square"
+							src={props.avatarSrc}
+							alt={`${props.username}'s avatar profile picture`}
+						/>
 					</IconButton>
 
 					<FeedPostHeaderText>
@@ -390,6 +394,7 @@ export default function FeedPost(props: Props) {
 				<FeedMoreItem
 					profile={props.profile}
 					postAuthorId={props.authorId}
+					postAuthorUsername={props.username}
 					postId={props.postId}
 					onRefecthCallback={() => props.onRefecthCallback()}
 				/>
@@ -535,6 +540,7 @@ export default function FeedPost(props: Props) {
 						color={!isUpvoted ? undefined : 'var(--color-primary)'}
 						hasIconButton={true}
 						onClickCallback={handleUpvotes}
+						label="Upvote"
 					/>
 
 					{/* Downvotes */}
@@ -547,6 +553,7 @@ export default function FeedPost(props: Props) {
 						}
 						hasIconButton={true}
 						onClickCallback={handleDownvotes}
+						label="Downvote"
 					/>
 
 					{/* Commment */}
@@ -561,6 +568,7 @@ export default function FeedPost(props: Props) {
 							if (!openComment) return setOpenComment(true)
 							setOpenComment(false)
 						}}
+						label="Show comments"
 					/>
 				</FeedPostButtonWrapper>
 			</FeedPostFooter>

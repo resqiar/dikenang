@@ -149,13 +149,17 @@ export default function Header(props: Props) {
 								: 'var(--font-white-300)'
 						}
 						hasIconButton
+						label="Dashboard"
 						onClickCallback={() => Router.push('/')}
 					/>
 				</HeaderIconsList>
 
 				<HeaderAvatarWrapper>
 					{/* Notifications */}
-					<IconButton onClick={() => Router.push('/notifications')}>
+					<IconButton
+						onClick={() => Router.push('/notifications')}
+						aria-label="Notifications"
+					>
 						<Badge
 							badgeContent={
 								getUnreadSubscription.data
@@ -179,8 +183,11 @@ export default function Header(props: Props) {
 					</IconButton>
 
 					{/* Avatar Icon */}
-					<IconButton onClick={handleClick}>
-						<Avatar src={props.profile.avatar_url} />
+					<IconButton onClick={handleClick} aria-label="Account">
+						<Avatar
+							src={props.profile.avatar_url}
+							alt={`${props.profile.username}'s avatar profile picture`}
+						/>
 					</IconButton>
 
 					{/* Menu Tab */}

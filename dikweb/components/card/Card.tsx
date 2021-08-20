@@ -8,27 +8,21 @@ interface Props {
 	hoverBg?: string
 	height?: string
 	width?: string
+	cursor?: string
 }
 
-export default function Card({
-	children,
-	bgColor,
-	hasShadow,
-	hoverBg,
-	height,
-	width,
-	padding,
-}: Props) {
+export default function Card(props: Props) {
 	return (
 		<SideBarCardWrapper
-			bgColor={bgColor}
-			hasShadow={hasShadow}
-			hoverBg={hoverBg}
-			height={height}
-			width={width}
-			padding={padding}
+			bgColor={props.bgColor}
+			hasShadow={props.hasShadow}
+			hoverBg={props.hoverBg}
+			height={props.height}
+			width={props.width}
+			padding={props.padding}
+			cursor={props.cursor}
 		>
-			{children}
+			{props.children}
 		</SideBarCardWrapper>
 	)
 }
@@ -40,6 +34,7 @@ const SideBarCardWrapper = styled.div<{
 	height?: string
 	width?: string
 	padding?: string
+	cursor?: string
 }>`
 	width: ${(props) => props.width || '100%'};
 	height: ${(props) => props.height || 'min-content'};
@@ -49,7 +44,7 @@ const SideBarCardWrapper = styled.div<{
 	border-radius: 8px;
 	margin-bottom: 8px;
 	transition: 0.3s;
-	cursor: pointer;
+	cursor: ${(props) => props.cursor || undefined};
 
 	/* If props has a shadow */
 	${(props) =>

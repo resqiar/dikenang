@@ -4,8 +4,13 @@ import Icons from '../icons/Icons'
 import Router from 'next/router'
 
 import GitHubIcon from '@material-ui/icons/GitHub'
+import Button from '../button/Button'
 
-export default function AuthHeader() {
+interface Props {
+	nonAuthPage?: boolean
+}
+
+export default function AuthHeader(props: Props) {
 	return (
 		<HeaderWrapper>
 			{/* Left Side */}
@@ -37,18 +42,36 @@ export default function AuthHeader() {
 					</HeaderLinkElement>
 				</HeaderText>
 
-				{/* Github */}
-				<HeaderLinkElement
-					href="https://github.com/resqiar/dikenang"
-					target="_blank"
-					rel="noopener norefer"
-				>
-					<Icons
-						Icon={GitHubIcon}
-						hasIconButton={true}
-						color="var(--font-white-700)"
-					/>
-				</HeaderLinkElement>
+				{props.nonAuthPage ? (
+					<HeaderLinkElement>
+						<Button
+							text="Login"
+							bgColor="var(--color-primary)"
+							border="none"
+							borderRadius="20px"
+							type="button"
+							isUppercase={true}
+							fontWeight="bold"
+							padding="8px 24px"
+							color="var(--font-white-800)"
+							hoverBoxShadow="var(--box-shadow)"
+							margin="8px"
+							onClick={() => Router.push('/auth')}
+						/>
+					</HeaderLinkElement>
+				) : (
+					<HeaderLinkElement
+						href="https://github.com/resqiar/dikenang"
+						target="_blank"
+						rel="noopener norefer"
+					>
+						<Icons
+							Icon={GitHubIcon}
+							hasIconButton={true}
+							color="var(--font-white-700)"
+						/>
+					</HeaderLinkElement>
+				)}
 			</HeaderTextWrapper>
 		</HeaderWrapper>
 	)
@@ -66,9 +89,6 @@ const HeaderWrapper = styled.div`
 	@media (max-width: 600px) {
 		justify-content: space-between;
 		padding: 0px 12px 0px 24px;
-		position: sticky;
-		top: 0;
-		z-index: 0;
 	}
 `
 const HeaderBrand = styled.div`

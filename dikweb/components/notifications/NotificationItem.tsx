@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Image from 'next/image'
+import Router from 'next/router'
 import Moment from 'moment'
 import {
 	useGetPostCaptionAndAttachmentsQuery,
@@ -101,13 +102,12 @@ export default function NotificationItem(props: Props) {
 			<VoteNotificationBody>
 				{/* Message */}
 				<BodyMessageWrapper>
-					{/* Username */}
-					<BodyUsername>
-						{getAuthorNotifications?.data?.getUserById.username}
-					</BodyUsername>
-
 					{/* Notification message text */}
 					<BodyMessage>
+						{/* Username */}
+						<BodyUsername>
+							{getAuthorNotifications?.data?.getUserById.username}
+						</BodyUsername>{' '}
 						{props.type === 'vote'
 							? `upvoted your post about ${Moment(
 									props.timestamp
@@ -119,7 +119,13 @@ export default function NotificationItem(props: Props) {
 				</BodyMessageWrapper>
 
 				{/* Post preview */}
-				<BodyPostPreviewWrapper>
+				<BodyPostPreviewWrapper
+					onClick={() =>
+						Router.push(
+							`/${getPostCaptionAndAttachments.data?.post.author.username}/${props.postId}`
+						)
+					}
+				>
 					{/* IF THERE IS AN ATTACHMENT IN THE POST */}
 					{getPostCaptionAndAttachments.data?.post.attachments
 						?.uri ? (
@@ -199,7 +205,7 @@ const VoteNotificationBody = styled.div`
 
 const VoteNotificationTails = styled.div``
 
-const BodyUsername = styled.p`
+const BodyUsername = styled.span`
 	color: var(--font-white-700);
 	font-weight: bold;
 
@@ -209,8 +215,10 @@ const BodyUsername = styled.p`
 	}
 `
 
-const BodyMessage = styled.span`
+const BodyMessage = styled.div`
 	color: var(--font-white-600);
+	text-align: start;
+	padding: 8px 18px;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -234,15 +242,16 @@ const BodyMessageWrapper = styled.div`
 const BodyPostPreviewWrapper = styled.div`
 	width: 100%;
 	display: flex;
-	border-radius: 20px;
+	border-radius: 8px;
 	margin: 4px 0px;
 	gap: 18px;
-	width: 100%;
 	border: 1px solid var(--font-white-100);
+	cursor: pointer;
+	box-shadow: var(--box-shadow);
 
 	// how mobile should behave
 	@media (max-width: 600px) {
-		gap: 2px;
+		gap: 0px;
 	}
 `
 
@@ -261,8 +270,8 @@ const PostPreviewTextWrapper = styled.div`
 `
 
 const StyledImage = styled(Image)`
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
 `
 
 const PostPreviewCaption = styled.p`

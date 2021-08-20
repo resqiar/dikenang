@@ -8,13 +8,17 @@ interface Props {
 	padding?: string
 	onClickCallback?: (props?: any) => void
 	hasIconButton: boolean
+	label?: string
 }
 
 export default function Icons(props: Props) {
 	return (
 		<IconWrapper padding={props.padding}>
 			{props.hasIconButton ? (
-				<IconButton onClick={props.onClickCallback}>
+				<IconButton
+					onClick={props.onClickCallback}
+					aria-label={props.label}
+				>
 					<props.Icon
 						style={{
 							color: props.color ? props.color : '#545b5f',

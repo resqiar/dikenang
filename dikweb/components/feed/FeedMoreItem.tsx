@@ -4,6 +4,7 @@ import Icons from '../icons/Icons'
 import ConfirmationModal from '../modal/ConfirmationModal'
 import { UserProfileType } from '../../types/profile.type'
 import { useDeletePostMutation } from '../../generated/graphql'
+import Router from 'next/router'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import {
@@ -16,11 +17,14 @@ import {
 } from '@material-ui/core'
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded'
 import FaceIcon from '@material-ui/icons/Face'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import LinkIcon from '@material-ui/icons/Link'
 
 interface Props {
 	onRefecthCallback: () => void
 	profile: UserProfileType
 	postAuthorId: string
+	postAuthorUsername: string
 	postId: string
 }
 
@@ -99,6 +103,7 @@ export default function FeedMoreItem(props: Props) {
 				hasIconButton={true}
 				onClickCallback={handleClick}
 				color="var(--font-white-600)"
+				label="More"
 			/>
 
 			<StyledMenu
@@ -108,6 +113,23 @@ export default function FeedMoreItem(props: Props) {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
+				{/* Details of the Post */}
+				<StyledMenuItem
+					onClick={() =>
+						Router.push(
+							`/${props.postAuthorUsername}/${props.postId}`
+						)
+					}
+				>
+					<ListItemIcon>
+						<OpenInNewIcon />
+					</ListItemIcon>
+					<ListItemText
+						primary="Fullscreen"
+						secondary="Open and read post in fullscreen mode"
+					/>
+				</StyledMenuItem>
+
 				{/* Post Visibility */}
 				<StyledMenuItem>
 					<ListItemIcon>
@@ -116,6 +138,17 @@ export default function FeedMoreItem(props: Props) {
 					<ListItemText
 						primary="Post Visibility"
 						secondary="Post is public and can be seen by anyone"
+					/>
+				</StyledMenuItem>
+
+				{/* Details of the Post */}
+				<StyledMenuItem>
+					<ListItemIcon>
+						<LinkIcon />
+					</ListItemIcon>
+					<ListItemText
+						primary="Copy post URL"
+						secondary="save current post url to clipboard"
 					/>
 				</StyledMenuItem>
 
