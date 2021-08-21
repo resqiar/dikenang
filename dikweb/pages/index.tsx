@@ -4,19 +4,34 @@ import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
 import checkAuth from '../utils/auth'
 import { UserProfileType } from '../types/profile.type'
+import { useState } from 'react'
 
 interface Props {
 	user: UserProfileType
 }
 
 export default function Home({ user }: Props) {
+	const [notificationsState, setNotificationsState] = useState<
+		string | undefined
+	>()
+
 	return (
 		<div>
 			{/* Default Head Meta Property */}
-			<Meta title="Dashboard — dikenang" />
+			<Meta
+				title={
+					notificationsState
+						? `${notificationsState} Dashboard — Dikenang`
+						: 'Dashboard — Dikenang'
+				}
+			/>
 
 			{/* Header Component */}
-			<Header profile={user} activePath="dashboard" />
+			<Header
+				profile={user}
+				activePath="dashboard"
+				titleState={setNotificationsState}
+			/>
 
 			{/* Body Component */}
 			<IndexBody profile={user} />

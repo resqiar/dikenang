@@ -1,4 +1,10 @@
-import { MouseEvent, useState } from 'react'
+import {
+	Dispatch,
+	MouseEvent,
+	SetStateAction,
+	useEffect,
+	useState,
+} from 'react'
 import Router from 'next/router'
 import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
@@ -30,6 +36,7 @@ import { withStyles } from '@material-ui/core/styles'
 interface Props {
 	activePath?: string
 	profile: UserProfileType
+	titleState?: Dispatch<SetStateAction<string | undefined>>
 }
 
 const StyledMenu = withStyles({
@@ -114,6 +121,30 @@ export default function Header(props: Props) {
 			userId: props.profile.id,
 		},
 	})
+
+	useEffect(() => {
+		if (props.titleState) {
+			if (getUnreadSubscription.data) {
+				if (
+					getUnreadSubscription.data.notificationSubscription.unread >
+					0
+				) {
+					props.titleState(
+						`(${getUnreadSubscription.data.notificationSubscription.unread})`
+					)
+				}
+			} else {
+				if (
+					getUnreadNotifications.data?.notifications.unread ||
+					0 > 0
+				) {
+					props.titleState(
+						`(${getUnreadNotifications.data?.notifications.unread})`
+					)
+				}
+			}
+		}
+	}, [getUnreadNotifications.data, getUnreadSubscription.data])
 
 	return (
 		<HeaderWrapper>
