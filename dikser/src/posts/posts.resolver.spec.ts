@@ -1,6 +1,7 @@
 import { BadRequestException } from '@nestjs/common'
 import { Test, TestingModule } from '@nestjs/testing'
 import { Comment } from '../comments/entities/comment.entity'
+import { NotificationsService } from '../notifications/notifications.service'
 import { Relationship } from '../relationship/entities/relationship.entity'
 import { User } from '../users/entities/user.entity'
 import { DeletePostResponse } from './dto/delete-response.dto'
@@ -72,12 +73,16 @@ describe('PostsResolver', () => {
 		}),
 	}
 
+	const mockNotificationsService = {}
+
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			providers: [PostsResolver, PostsService],
+			providers: [PostsResolver, PostsService, NotificationsService],
 		})
 			.overrideProvider(PostsService)
 			.useValue(mockPostsService)
+			.overrideProvider(NotificationsService)
+			.useValue(mockNotificationsService)
 			.compile()
 
 		resolver = module.get<PostsResolver>(PostsResolver)
