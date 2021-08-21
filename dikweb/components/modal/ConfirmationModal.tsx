@@ -103,16 +103,17 @@ const ConfirmationDialogHeader = styled.div`
 	width: 100%;
 	justify-content: center;
 `
-const ConfirmationDialogHeaderText = styled.p`
+const ConfirmationDialogHeaderText = styled.h2`
 	font-weight: bold;
 	color: var(--font-white-800);
-	font-size: 18px;
 `
 const ConfirmationDialogBody = styled.div`
 	padding: 4px 16px 18px 16px;
 `
 const ConfirmationDialogBodyText = styled.p`
 	color: var(--font-white-600);
+	max-width: 350px;
+	text-align: center;
 `
 const ConfirmationDialogFooter = styled.div`
 	padding: 8px;
