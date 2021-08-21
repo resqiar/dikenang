@@ -59,20 +59,6 @@ const PostDetailPageWrapper = styled.div``
 
 export async function getServerSideProps(ctx: NextPageContext) {
 	/**
-	 * Check if cookie is exist
-	 * if not => redirect to login page.
-	 */
-	const cookie = ctx.req?.headers.cookie
-
-	if (cookie === undefined)
-		return {
-			redirect: {
-				destination: '/auth',
-				permanent: false,
-			},
-		}
-
-	/**
 	 * Get User data profile from server
 	 * if not exist => redirect to login page
 	 * @param pass NextPageContext in order to obtain
