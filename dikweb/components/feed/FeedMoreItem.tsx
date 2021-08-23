@@ -110,7 +110,11 @@ export default function FeedMoreItem(props: Props) {
 	const handleCopyClick = () => {
 		// write/save the url to clipboard
 		navigator.clipboard.writeText(
-			`${process.env.NEXT_PUBLIC_FRONTEND_HOST}/${props.postAuthorUsername}/${props.postId}`
+			`${
+				process.env.NEXT_PUBLIC_FRONTEND_HOST
+			}/${props.postAuthorUsername.replaceAll(' ', '%20')}/${
+				props.postId
+			}`
 		)
 
 		// close menu and trigger Snackbar
