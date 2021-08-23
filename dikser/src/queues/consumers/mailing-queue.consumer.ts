@@ -18,4 +18,13 @@ export class MailingQueueConsumer {
 			},
 		})
 	}
+
+	@Process('send-notifications-email')
+	async sendNotificationsEmailToUser(job: Job) {
+		await this.mailerService.sendMail({
+			to: job.data.email,
+			subject: 'You have unread notifications',
+			template: './notifications',
+		})
+	}
 }

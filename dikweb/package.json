@@ -19,6 +19,7 @@
 		"@material-ui/icons": "4.11.2",
 		"@material-ui/lab": "4.0.0-alpha.58",
 		"axios": "0.21.1",
+		"babel-preset-next": "^1.4.0",
 		"draft-js": "0.10.5",
 		"draftail": "1.4.1",
 		"graphql": "15.5.1",

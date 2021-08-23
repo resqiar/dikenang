@@ -4,6 +4,7 @@ import Icons from '../icons/Icons'
 import ConfirmationModal from '../modal/ConfirmationModal'
 import { UserProfileType } from '../../types/profile.type'
 import { useDeletePostMutation } from '../../generated/graphql'
+import Router from 'next/router'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import {
@@ -16,11 +17,18 @@ import {
 } from '@material-ui/core'
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded'
 import FaceIcon from '@material-ui/icons/Face'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
+import LinkIcon from '@material-ui/icons/Link'
+
+import Snackbar from '@material-ui/core/Snackbar'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
 
 interface Props {
 	onRefecthCallback: () => void
 	profile: UserProfileType
 	postAuthorId: string
+	postAuthorUsername: string
 	postId: string
 }
 
@@ -92,6 +100,32 @@ export default function FeedMoreItem(props: Props) {
 		setOpenDeleteModal(false)
 	}
 
+	/**
+	 * Copy to clipboard functionality.
+	 * when user click the item, it should
+	 * write post URL to the clipboard.
+	 */
+	const [copied, setCopied] = React.useState(false)
+
+	const handleCopyClick = () => {
+		// write/save the url to clipboard
+		navigator.clipboard.writeText(
+			`${process.env.NEXT_PUBLIC_FRONTEND_HOST}/${props.postAuthorUsername}/${props.postId}`
+		)
+
+		// close menu and trigger Snackbar
+		setCopied(true)
+		handleClose()
+	}
+
+	const handleCopyClose = (
+		_event: React.SyntheticEvent | React.MouseEvent,
+		reason?: string
+	) => {
+		if (reason === 'clickaway') return
+		setCopied(false)
+	}
+
 	return (
 		<FeedMoreItemWrapper>
 			<Icons
@@ -99,6 +133,7 @@ export default function FeedMoreItem(props: Props) {
 				hasIconButton={true}
 				onClickCallback={handleClick}
 				color="var(--font-white-600)"
+				label="More"
 			/>
 
 			<StyledMenu
@@ -108,6 +143,23 @@ export default function FeedMoreItem(props: Props) {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
+				{/* Details of the Post */}
+				<StyledMenuItem
+					onClick={() =>
+						Router.push(
+							`/${props.postAuthorUsername}/${props.postId}`
+						)
+					}
+				>
+					<ListItemIcon>
+						<OpenInNewIcon />
+					</ListItemIcon>
+					<ListItemText
+						primary="Fullscreen"
+						secondary="Open and read post in fullscreen mode"
+					/>
+				</StyledMenuItem>
+
 				{/* Post Visibility */}
 				<StyledMenuItem>
 					<ListItemIcon>
@@ -116,6 +168,17 @@ export default function FeedMoreItem(props: Props) {
 					<ListItemText
 						primary="Post Visibility"
 						secondary="Post is public and can be seen by anyone"
+					/>
+				</StyledMenuItem>
+
+				{/* Copy URL of the Post */}
+				<StyledMenuItem onClick={handleCopyClick}>
+					<ListItemIcon>
+						<LinkIcon />
+					</ListItemIcon>
+					<ListItemText
+						primary="Copy post URL"
+						secondary="save current post url to clipboard"
 					/>
 				</StyledMenuItem>
 
@@ -148,6 +211,32 @@ export default function FeedMoreItem(props: Props) {
 				onCloseCallback={() => setOpenDeleteModal(false)}
 				onSubmitCallback={handlePostDelete}
 				isLoading={deletePostData.loading ? true : false}
+			/>
+
+			{/* SNACKBAR COMPONENT */}
+			{/* WHEN USER COPY URL TO CLIPBOARD */}
+			{/* THIS SNACKBAR WILL BE SHOWN AFTERWARDS */}
+			<Snackbar
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
+				open={copied}
+				autoHideDuration={5000}
+				onClose={handleCopyClose}
+				message="Copied to clipboard"
+				action={
+					<>
+						<IconButton
+							size="small"
+							aria-label="close"
+							color="inherit"
+							onClick={handleCopyClose}
+						>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</>
+				}
 			/>
 		</FeedMoreItemWrapper>
 	)

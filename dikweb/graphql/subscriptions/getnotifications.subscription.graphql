@@ -1,0 +1,6 @@
+subscription UnreadNotifications($userId: String!) {
+	notificationSubscription(userId: $userId) {
+		userId
+		unread
+	}
+}

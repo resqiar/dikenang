@@ -131,6 +131,7 @@ export class PostsService {
 						'downvoter',
 						'comments',
 						'comments.author',
+						'attachments',
 					],
 				}
 			)
@@ -145,6 +146,30 @@ export class PostsService {
 			 */
 			throw new NotFoundException(e.message)
 		}
+	}
+
+	async findByAuthorUsernameAndPostId(username: string, postId: string) {
+		const relatedAuthor = await this.usersService.findByUsername(username)
+
+		const relatedPost = await this.postsRepository.findOne(postId, {
+			relations: [
+				'upvoter',
+				'author',
+				'author.badges',
+				'reachs',
+				'downvoter',
+				'comments',
+				'comments.author',
+				'attachments',
+			],
+			where: {
+				author: relatedAuthor,
+			},
+		})
+
+		// if post is not public, throw an error
+		if (relatedPost?.type === 'private') return
+		return relatedPost
 	}
 
 	async update(currentUser: User, updatePostInput: UpdatePostInput) {

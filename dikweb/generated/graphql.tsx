@@ -136,6 +136,7 @@ export type Mutation = {
 	removeDownvote: Scalars['Int']
 	createRelationship: Relationship
 	deleteRelationship: DeleteRelationshipResponse
+	readNotifications: Scalars['Int']
 	createComment: Scalars['Int']
 	deleteComment: Scalars['Int']
 }
@@ -211,6 +212,26 @@ export type MutationDeleteCommentArgs = {
 	commentId: Scalars['String']
 }
 
+export type Notification = {
+	__typename?: 'Notification'
+	id: Scalars['String']
+	type: Scalars['String']
+	read?: Maybe<Scalars['Boolean']>
+	authorId: Scalars['String']
+	relatedPostId?: Maybe<Scalars['String']>
+	created_at?: Maybe<Scalars['DateTime']>
+	updated_at?: Maybe<Scalars['DateTime']>
+	relatedUser: User
+}
+
+export type NotificationsDto = {
+	__typename?: 'NotificationsDTO'
+	userId: Scalars['String']
+	notifications: Array<Notification>
+	unread: Scalars['Int']
+	read: Scalars['Int']
+}
+
 export type Post = {
 	__typename?: 'Post'
 	id: Scalars['String']
@@ -231,17 +252,24 @@ export type Query = {
 	__typename?: 'Query'
 	users: Array<User>
 	user: User
+	getUserById: User
 	getMyProfile: User
 	badges: Array<Badge>
 	badge: Badge
 	posts: Array<Post>
 	post: Post
+	postByAuthorAndId: Post
 	getPostReachs: Scalars['Int']
 	getPostComments: Array<Comment>
+	notifications: NotificationsDto
 }
 
 export type QueryUserArgs = {
 	username: Scalars['String']
+}
+
+export type QueryGetUserByIdArgs = {
+	id: Scalars['String']
 }
 
 export type QueryBadgeArgs = {
@@ -249,6 +277,11 @@ export type QueryBadgeArgs = {
 }
 
 export type QueryPostArgs = {
+	postId: Scalars['String']
+}
+
+export type QueryPostByAuthorAndIdArgs = {
+	username: Scalars['String']
 	postId: Scalars['String']
 }
 
@@ -275,6 +308,7 @@ export type Subscription = {
 	__typename?: 'Subscription'
 	upvoteSubscription: UpvoteDto
 	downvoteSubscription: DownvoteDto
+	notificationSubscription: NotificationsDto
 	commentsSubscription: CommentsDto
 }
 
@@ -284,6 +318,10 @@ export type SubscriptionUpvoteSubscriptionArgs = {
 
 export type SubscriptionDownvoteSubscriptionArgs = {
 	postId: Scalars['String']
+}
+
+export type SubscriptionNotificationSubscriptionArgs = {
+	userId: Scalars['String']
 }
 
 export type SubscriptionCommentsSubscriptionArgs = {
@@ -326,6 +364,7 @@ export type User = {
 	viewed?: Maybe<Array<Post>>
 	relationship?: Maybe<Relationship>
 	badges?: Maybe<Array<Badge>>
+	notifications?: Maybe<Array<Notification>>
 }
 
 export type AddDownvoteMutationVariables = Exact<{
@@ -416,6 +455,89 @@ export type SetCurrentPostReachMutation = { __typename?: 'Mutation' } & Pick<
 	'addPostReachs'
 >
 
+export type UpdateUnreadNotificationsMutationVariables = Exact<{
+	[key: string]: never
+}>
+
+export type UpdateUnreadNotificationsMutation = {
+	__typename?: 'Mutation'
+} & Pick<Mutation, 'readNotifications'>
+
+export type GetListOfNotificationsQueryVariables = Exact<{
+	[key: string]: never
+}>
+
+export type GetListOfNotificationsQuery = { __typename?: 'Query' } & {
+	notifications: { __typename?: 'NotificationsDTO' } & Pick<
+		NotificationsDto,
+		'unread' | 'read'
+	> & {
+			notifications: Array<
+				{ __typename?: 'Notification' } & Pick<
+					Notification,
+					| 'id'
+					| 'type'
+					| 'read'
+					| 'authorId'
+					| 'relatedPostId'
+					| 'created_at'
+				> & {
+						relatedUser: { __typename?: 'User' } & Pick<
+							User,
+							'id' | 'username' | 'avatar_url'
+						>
+					}
+			>
+		}
+}
+
+export type GetPostByIdQueryVariables = Exact<{
+	postId: Scalars['String']
+	username: Scalars['String']
+}>
+
+export type GetPostByIdQuery = { __typename?: 'Query' } & {
+	postByAuthorAndId: { __typename?: 'Post' } & Pick<
+		Post,
+		'id' | 'type' | 'caption' | 'created_at'
+	> & {
+			attachments?: Maybe<
+				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
+			>
+			author: { __typename?: 'User' } & Pick<
+				User,
+				'id' | 'username' | 'avatar_url'
+			> & {
+					badges?: Maybe<
+						Array<
+							{ __typename?: 'Badge' } & Pick<
+								Badge,
+								| 'id'
+								| 'label'
+								| 'variant'
+								| 'color'
+								| 'background'
+								| 'border'
+							>
+						>
+					>
+				}
+		}
+}
+
+export type GetPostCaptionAndAttachmentsQueryVariables = Exact<{
+	postId: Scalars['String']
+}>
+
+export type GetPostCaptionAndAttachmentsQuery = { __typename?: 'Query' } & {
+	post: { __typename?: 'Post' } & Pick<Post, 'caption'> & {
+			attachments?: Maybe<
+				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
+			>
+			author: { __typename?: 'User' } & Pick<User, 'username'>
+		}
+}
+
 export type GetPostCommentsQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
@@ -494,6 +616,17 @@ export type GetPublicFeedsQuery = { __typename?: 'Query' } & {
 	>
 }
 
+export type GetUnreadNotificationsQueryVariables = Exact<{
+	[key: string]: never
+}>
+
+export type GetUnreadNotificationsQuery = { __typename?: 'Query' } & {
+	notifications: { __typename?: 'NotificationsDTO' } & Pick<
+		NotificationsDto,
+		'unread'
+	>
+}
+
 export type GetUserBadgeQueryVariables = Exact<{
 	username: Scalars['String']
 }>
@@ -514,6 +647,17 @@ export type GetUserBadgeQuery = { __typename?: 'Query' } & {
 			>
 		>
 	}
+}
+
+export type GetUserProfileQueryVariables = Exact<{
+	id: Scalars['String']
+}>
+
+export type GetUserProfileQuery = { __typename?: 'Query' } & {
+	getUserById: { __typename?: 'User' } & Pick<
+		User,
+		'id' | 'username' | 'avatar_url'
+	>
 }
 
 export type CommentsSubscriptionSubscriptionVariables = Exact<{
@@ -548,6 +692,19 @@ export type DownvoteSubscription = { __typename?: 'Subscription' } & {
 		DownvoteDto,
 		'downvotes'
 	> & { downvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
+}
+
+export type UnreadNotificationsSubscriptionVariables = Exact<{
+	userId: Scalars['String']
+}>
+
+export type UnreadNotificationsSubscription = {
+	__typename?: 'Subscription'
+} & {
+	notificationSubscription: { __typename?: 'NotificationsDTO' } & Pick<
+		NotificationsDto,
+		'userId' | 'unread'
+	>
 }
 
 export type TotalCommentsSubscriptionSubscriptionVariables = Exact<{
@@ -1020,6 +1177,265 @@ export type SetCurrentPostReachMutationOptions = Apollo.BaseMutationOptions<
 	SetCurrentPostReachMutation,
 	SetCurrentPostReachMutationVariables
 >
+export const UpdateUnreadNotificationsDocument = gql`
+	mutation updateUnreadNotifications {
+		readNotifications
+	}
+`
+export type UpdateUnreadNotificationsMutationFn = Apollo.MutationFunction<
+	UpdateUnreadNotificationsMutation,
+	UpdateUnreadNotificationsMutationVariables
+>
+
+/**
+ * __useUpdateUnreadNotificationsMutation__
+ *
+ * To run a mutation, you first call `useUpdateUnreadNotificationsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUnreadNotificationsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUnreadNotificationsMutation, { data, loading, error }] = useUpdateUnreadNotificationsMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpdateUnreadNotificationsMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateUnreadNotificationsMutation,
+		UpdateUnreadNotificationsMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<
+		UpdateUnreadNotificationsMutation,
+		UpdateUnreadNotificationsMutationVariables
+	>(UpdateUnreadNotificationsDocument, options)
+}
+export type UpdateUnreadNotificationsMutationHookResult = ReturnType<
+	typeof useUpdateUnreadNotificationsMutation
+>
+export type UpdateUnreadNotificationsMutationResult =
+	Apollo.MutationResult<UpdateUnreadNotificationsMutation>
+export type UpdateUnreadNotificationsMutationOptions =
+	Apollo.BaseMutationOptions<
+		UpdateUnreadNotificationsMutation,
+		UpdateUnreadNotificationsMutationVariables
+	>
+export const GetListOfNotificationsDocument = gql`
+	query getListOfNotifications {
+		notifications {
+			notifications {
+				id
+				type
+				read
+				authorId
+				relatedPostId
+				created_at
+				relatedUser {
+					id
+					username
+					avatar_url
+				}
+			}
+			unread
+			read
+		}
+	}
+`
+
+/**
+ * __useGetListOfNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetListOfNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetListOfNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetListOfNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetListOfNotificationsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		GetListOfNotificationsQuery,
+		GetListOfNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetListOfNotificationsQuery,
+		GetListOfNotificationsQueryVariables
+	>(GetListOfNotificationsDocument, options)
+}
+export function useGetListOfNotificationsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetListOfNotificationsQuery,
+		GetListOfNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetListOfNotificationsQuery,
+		GetListOfNotificationsQueryVariables
+	>(GetListOfNotificationsDocument, options)
+}
+export type GetListOfNotificationsQueryHookResult = ReturnType<
+	typeof useGetListOfNotificationsQuery
+>
+export type GetListOfNotificationsLazyQueryHookResult = ReturnType<
+	typeof useGetListOfNotificationsLazyQuery
+>
+export type GetListOfNotificationsQueryResult = Apollo.QueryResult<
+	GetListOfNotificationsQuery,
+	GetListOfNotificationsQueryVariables
+>
+export const GetPostByIdDocument = gql`
+	query getPostById($postId: String!, $username: String!) {
+		postByAuthorAndId(postId: $postId, username: $username) {
+			id
+			type
+			caption
+			attachments {
+				uri
+			}
+			author {
+				id
+				username
+				avatar_url
+				badges {
+					id
+					label
+					variant
+					color
+					background
+					border
+				}
+			}
+			created_at
+		}
+	}
+`
+
+/**
+ * __useGetPostByIdQuery__
+ *
+ * To run a query within a React component, call `useGetPostByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostByIdQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetPostByIdQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetPostByIdQuery,
+		GetPostByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(
+		GetPostByIdDocument,
+		options
+	)
+}
+export function useGetPostByIdLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetPostByIdQuery,
+		GetPostByIdQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<GetPostByIdQuery, GetPostByIdQueryVariables>(
+		GetPostByIdDocument,
+		options
+	)
+}
+export type GetPostByIdQueryHookResult = ReturnType<typeof useGetPostByIdQuery>
+export type GetPostByIdLazyQueryHookResult = ReturnType<
+	typeof useGetPostByIdLazyQuery
+>
+export type GetPostByIdQueryResult = Apollo.QueryResult<
+	GetPostByIdQuery,
+	GetPostByIdQueryVariables
+>
+export const GetPostCaptionAndAttachmentsDocument = gql`
+	query getPostCaptionAndAttachments($postId: String!) {
+		post(postId: $postId) {
+			caption
+			attachments {
+				uri
+			}
+			author {
+				username
+			}
+		}
+	}
+`
+
+/**
+ * __useGetPostCaptionAndAttachmentsQuery__
+ *
+ * To run a query within a React component, call `useGetPostCaptionAndAttachmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPostCaptionAndAttachmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPostCaptionAndAttachmentsQuery({
+ *   variables: {
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useGetPostCaptionAndAttachmentsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetPostCaptionAndAttachmentsQuery,
+		GetPostCaptionAndAttachmentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetPostCaptionAndAttachmentsQuery,
+		GetPostCaptionAndAttachmentsQueryVariables
+	>(GetPostCaptionAndAttachmentsDocument, options)
+}
+export function useGetPostCaptionAndAttachmentsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetPostCaptionAndAttachmentsQuery,
+		GetPostCaptionAndAttachmentsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetPostCaptionAndAttachmentsQuery,
+		GetPostCaptionAndAttachmentsQueryVariables
+	>(GetPostCaptionAndAttachmentsDocument, options)
+}
+export type GetPostCaptionAndAttachmentsQueryHookResult = ReturnType<
+	typeof useGetPostCaptionAndAttachmentsQuery
+>
+export type GetPostCaptionAndAttachmentsLazyQueryHookResult = ReturnType<
+	typeof useGetPostCaptionAndAttachmentsLazyQuery
+>
+export type GetPostCaptionAndAttachmentsQueryResult = Apollo.QueryResult<
+	GetPostCaptionAndAttachmentsQuery,
+	GetPostCaptionAndAttachmentsQueryVariables
+>
 export const GetPostCommentsDocument = gql`
 	query GetPostComments($postId: String!) {
 		getPostComments(postId: $postId) {
@@ -1285,6 +1701,63 @@ export type GetPublicFeedsQueryResult = Apollo.QueryResult<
 	GetPublicFeedsQuery,
 	GetPublicFeedsQueryVariables
 >
+export const GetUnreadNotificationsDocument = gql`
+	query getUnreadNotifications {
+		notifications {
+			unread
+		}
+	}
+`
+
+/**
+ * __useGetUnreadNotificationsQuery__
+ *
+ * To run a query within a React component, call `useGetUnreadNotificationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUnreadNotificationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUnreadNotificationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUnreadNotificationsQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>(GetUnreadNotificationsDocument, options)
+}
+export function useGetUnreadNotificationsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUnreadNotificationsQuery,
+		GetUnreadNotificationsQueryVariables
+	>(GetUnreadNotificationsDocument, options)
+}
+export type GetUnreadNotificationsQueryHookResult = ReturnType<
+	typeof useGetUnreadNotificationsQuery
+>
+export type GetUnreadNotificationsLazyQueryHookResult = ReturnType<
+	typeof useGetUnreadNotificationsLazyQuery
+>
+export type GetUnreadNotificationsQueryResult = Apollo.QueryResult<
+	GetUnreadNotificationsQuery,
+	GetUnreadNotificationsQueryVariables
+>
 export const GetUserBadgeDocument = gql`
 	query GetUserBadge($username: String!) {
 		user(username: $username) {
@@ -1349,6 +1822,66 @@ export type GetUserBadgeLazyQueryHookResult = ReturnType<
 export type GetUserBadgeQueryResult = Apollo.QueryResult<
 	GetUserBadgeQuery,
 	GetUserBadgeQueryVariables
+>
+export const GetUserProfileDocument = gql`
+	query getUserProfile($id: String!) {
+		getUserById(id: $id) {
+			id
+			username
+			avatar_url
+		}
+	}
+`
+
+/**
+ * __useGetUserProfileQuery__
+ *
+ * To run a query within a React component, call `useGetUserProfileQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserProfileQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserProfileQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserProfileQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserProfileQuery,
+		GetUserProfileQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetUserProfileQuery, GetUserProfileQueryVariables>(
+		GetUserProfileDocument,
+		options
+	)
+}
+export function useGetUserProfileLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserProfileQuery,
+		GetUserProfileQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUserProfileQuery,
+		GetUserProfileQueryVariables
+	>(GetUserProfileDocument, options)
+}
+export type GetUserProfileQueryHookResult = ReturnType<
+	typeof useGetUserProfileQuery
+>
+export type GetUserProfileLazyQueryHookResult = ReturnType<
+	typeof useGetUserProfileLazyQuery
+>
+export type GetUserProfileQueryResult = Apollo.QueryResult<
+	GetUserProfileQuery,
+	GetUserProfileQueryVariables
 >
 export const CommentsSubscriptionDocument = gql`
 	subscription CommentsSubscription($postId: String!) {
@@ -1447,6 +1980,48 @@ export type DownvoteSubscriptionHookResult = ReturnType<
 >
 export type DownvoteSubscriptionResult =
 	Apollo.SubscriptionResult<DownvoteSubscription>
+export const UnreadNotificationsDocument = gql`
+	subscription UnreadNotifications($userId: String!) {
+		notificationSubscription(userId: $userId) {
+			userId
+			unread
+		}
+	}
+`
+
+/**
+ * __useUnreadNotificationsSubscription__
+ *
+ * To run a query within a React component, call `useUnreadNotificationsSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useUnreadNotificationsSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUnreadNotificationsSubscription({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUnreadNotificationsSubscription(
+	baseOptions: Apollo.SubscriptionHookOptions<
+		UnreadNotificationsSubscription,
+		UnreadNotificationsSubscriptionVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useSubscription<
+		UnreadNotificationsSubscription,
+		UnreadNotificationsSubscriptionVariables
+	>(UnreadNotificationsDocument, options)
+}
+export type UnreadNotificationsSubscriptionHookResult = ReturnType<
+	typeof useUnreadNotificationsSubscription
+>
+export type UnreadNotificationsSubscriptionResult =
+	Apollo.SubscriptionResult<UnreadNotificationsSubscription>
 export const TotalCommentsSubscriptionDocument = gql`
 	subscription TotalCommentsSubscription($postId: String!) {
 		commentsSubscription(postId: $postId) {

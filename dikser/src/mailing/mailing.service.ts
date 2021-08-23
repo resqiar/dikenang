@@ -12,6 +12,10 @@ export class MailingService {
 	 * we can reduce server constraints sending thousands of emails at once.
 	 */
 	async sendGreetingEmail(email: string, username: string) {
-		this.emailQueueService.sendGreetingEmailToQueue(username, email)
+		await this.emailQueueService.sendGreetingEmailToQueue(username, email)
+	}
+
+	async sendNotificationsEmail(users: string[]) {
+		await this.emailQueueService.sendNotificationsEmailToQueue(users)
 	}
 }

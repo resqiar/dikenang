@@ -21,11 +21,15 @@ import { configureRedisPubSub } from '../shared/utils/redispubsub'
 import { UpvoteDTO } from './dto/votes/upvote.dto'
 import { DownvoteDTO } from './dto/votes/downvote.dto'
 import { Comment } from '../comments/entities/comment.entity'
+import { NotificationsService } from '../notifications/notifications.service'
 
 @Resolver(() => Post)
 export class PostsResolver {
 	private pubSub: RedisPubSub
-	constructor(private readonly postsService: PostsService) {
+	constructor(
+		private readonly postsService: PostsService,
+		private readonly notificationsService: NotificationsService
+	) {
 		/**
 		 * Redis Pub/Sub configurations
 		 * @see https://github.com/davidyaha/graphql-redis-subscriptions
@@ -64,6 +68,17 @@ export class PostsResolver {
 		return await this.postsService.findById(postId)
 	}
 
+	@Query(() => Post, { name: 'postByAuthorAndId' })
+	async findByAuthorAndId(
+		@Args('postId') postId: string,
+		@Args('username') username: string
+	): Promise<Post | undefined> {
+		return await this.postsService.findByAuthorUsernameAndPostId(
+			username,
+			postId
+		)
+	}
+
 	@Mutation(() => Post)
 	@UseGuards(AuthStatusGuard)
 	async updatePost(
@@ -92,7 +107,6 @@ export class PostsResolver {
 	}
 
 	@Query(() => Int)
-	@UseGuards(AuthStatusGuard)
 	async getPostReachs(@Args('postId') postId: string): Promise<number> {
 		return this.postsService.getPostReachs(postId)
 	}
@@ -119,8 +133,22 @@ export class PostsResolver {
 			newUpvoteValue.upvoter
 		)
 
+		// Return upvote subscribtion value
 		await this.pubSub.publish('upvoteSubscriptions', {
 			upvoteSubscription: returnValue,
+		})
+
+		// Create Notifications to target post owner
+		const newNotification =
+			await this.notificationsService.createNotification(user, {
+				type: 'vote',
+				relatedPostId: postId,
+				authorId: user.id,
+			})
+
+		// Return notification subscription value
+		await this.pubSub.publish('notificationsSubscription', {
+			notificationSubscription: newNotification,
 		})
 
 		return 200
@@ -235,7 +263,6 @@ export class PostsResolver {
 	}
 
 	@Query(() => [Comment])
-	@UseGuards(AuthStatusGuard)
 	async getPostComments(@Args('postId') postId: string): Promise<Comment[]> {
 		return this.postsService.getPostComments(postId)
 	}

@@ -1,4 +1,10 @@
-import { MouseEvent, useState } from 'react'
+import {
+	Dispatch,
+	MouseEvent,
+	SetStateAction,
+	useEffect,
+	useState,
+} from 'react'
 import Router from 'next/router'
 import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
@@ -6,12 +12,13 @@ import Input from '../input/Input'
 import styled from 'styled-components'
 import { UserProfileType } from '../../types/profile.type'
 import axiosConfig from '../../utils/axios'
-
 import {
-	SearchOutlined,
-	ChatOutlined,
-	FavoriteBorder,
-} from '@material-ui/icons'
+	useGetUnreadNotificationsQuery,
+	useUnreadNotificationsSubscription,
+} from '../../generated/graphql'
+
+import { SearchOutlined } from '@material-ui/icons'
+import HomeIcon from '@material-ui/icons/Home'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import {
 	Avatar,
@@ -19,19 +26,23 @@ import {
 	MenuItem,
 	IconButton,
 	MenuProps,
-	Typography,
+	ListItemIcon,
+	ListItemText,
 	Badge,
 } from '@material-ui/core'
+import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded'
 import { withStyles } from '@material-ui/core/styles'
 
 interface Props {
+	activePath?: string
 	profile: UserProfileType
+	titleState?: Dispatch<SetStateAction<string | undefined>>
 }
 
 const StyledMenu = withStyles({
 	paper: {
 		background: 'var(--background-dimmed-500)',
-		color: 'var(--font-white-800)',
+		color: 'var(--font-white-600)',
 	},
 })((props: MenuProps) => (
 	<Menu
@@ -49,6 +60,27 @@ const StyledMenu = withStyles({
 	/>
 ))
 
+const StyledMenuItem = withStyles(() => ({
+	root: {
+		'&:hover': {
+			backgroundColor: 'var(--font-black-200)',
+		},
+		'& .MuiListItemIcon-root': {
+			minWidth: '0px',
+			padding: '0px 18px 0px 8px',
+			color: 'var(--font-white-700)',
+		},
+		'& .MuiListItemText-primary': {
+			color: 'var(--font-white-700)',
+			fontWeight: 'bold',
+		},
+		'& .MuiListItemText-secondary': {
+			color: 'var(--font-white-300)',
+		},
+		fontFamily: 'var(--font-family)',
+	},
+}))(MenuItem)
+
 async function handleLogOut() {
 	try {
 		// go to authentication page
@@ -60,7 +92,7 @@ async function handleLogOut() {
 	}
 }
 
-export default function Header({ profile }: Props) {
+export default function Header(props: Props) {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 	// Handle Open Menu
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -70,6 +102,49 @@ export default function Header({ profile }: Props) {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
+
+	/**
+	 * @Query
+	 * Define query to the database to get the
+	 * value of user's unread notifications
+	 */
+	const getUnreadNotifications = useGetUnreadNotificationsQuery()
+
+	/**
+	 * @Subscription
+	 * Provide low latency update of how much
+	 * users unread notifications are, and update the value
+	 * in real-time
+	 */
+	const getUnreadSubscription = useUnreadNotificationsSubscription({
+		variables: {
+			userId: props.profile.id,
+		},
+	})
+
+	useEffect(() => {
+		if (props.titleState) {
+			if (getUnreadSubscription.data) {
+				if (
+					getUnreadSubscription.data.notificationSubscription.unread >
+					0
+				) {
+					props.titleState(
+						`(${getUnreadSubscription.data.notificationSubscription.unread})`
+					)
+				}
+			} else {
+				if (
+					getUnreadNotifications.data?.notifications.unread ||
+					0 > 0
+				) {
+					props.titleState(
+						`(${getUnreadNotifications.data?.notifications.unread})`
+					)
+				}
+			}
+		}
+	}, [getUnreadNotifications.data, getUnreadSubscription.data])
 
 	return (
 		<HeaderWrapper>
@@ -96,24 +171,54 @@ export default function Header({ profile }: Props) {
 			{/* Right Side */}
 			<HeaderIconsWrapper>
 				<HeaderIconsList>
-					{/* Mockup for now, future works will replace the following */}
-					<Icons Icon={FavoriteBorder} color="purple" hasIconButton />
-					<Icons Icon={ChatOutlined} hasIconButton />
+					{/* Dashboard Navigation */}
+					<Icons
+						Icon={HomeIcon}
+						color={
+							props.activePath === 'dashboard'
+								? 'var(--color-primary)'
+								: 'var(--font-white-300)'
+						}
+						hasIconButton
+						label="Dashboard"
+						onClickCallback={() => Router.push('/')}
+					/>
 				</HeaderIconsList>
 
 				<HeaderAvatarWrapper>
 					{/* Notifications */}
-					<IconButton>
-						<Badge badgeContent={9999} color="primary">
+					<IconButton
+						onClick={() => Router.push('/notifications')}
+						aria-label="Notifications"
+					>
+						<Badge
+							badgeContent={
+								getUnreadSubscription.data
+									? getUnreadSubscription.data
+											?.notificationSubscription.unread
+									: getUnreadNotifications.data?.notifications
+											.unread
+							}
+							style={{ marginBottom: '-4px' }}
+							color="secondary"
+						>
 							<NotificationsActiveIcon
-								style={{ color: 'blue' }}
+								style={{
+									color:
+										props.activePath === 'notifications'
+											? 'var(--color-primary)'
+											: 'var(--font-white-300)',
+								}}
 							/>
 						</Badge>
 					</IconButton>
 
 					{/* Avatar Icon */}
-					<IconButton onClick={handleClick}>
-						<Avatar src={profile.avatar_url} />
+					<IconButton onClick={handleClick} aria-label="Account">
+						<Avatar
+							src={props.profile.avatar_url}
+							alt={`${props.profile.username}'s avatar profile picture`}
+						/>
 					</IconButton>
 
 					{/* Menu Tab */}
@@ -125,24 +230,13 @@ export default function Header({ profile }: Props) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}
 					>
-						{/* Profile */}
-						<MenuItem
-							onClick={() =>
-								// go to relationship page
-								Router.push('/myrelationship')
-							}
-						>
-							<Typography variant="inherit">
-								My Profile
-							</Typography>
-						</MenuItem>
-
-						{/* Logout */}
-						<MenuItem onClick={handleLogOut}>
-							<Typography variant="inherit">
-								Switch Account
-							</Typography>
-						</MenuItem>
+						{/* Switch account */}
+						<StyledMenuItem onClick={handleLogOut}>
+							<ListItemIcon>
+								<AccountBoxRoundedIcon />
+							</ListItemIcon>
+							<ListItemText primary="Switch account" />
+						</StyledMenuItem>
 					</StyledMenu>
 				</HeaderAvatarWrapper>
 			</HeaderIconsWrapper>

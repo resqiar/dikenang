@@ -1,40 +1,25 @@
 import { NextPageContext } from 'next'
-import IndexBody from '../components/body/IndexBody'
+import NotificationsBody from '../components/body/NotificationsBody'
 import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
-import checkAuth from '../utils/auth'
 import { UserProfileType } from '../types/profile.type'
-import { useState } from 'react'
+import checkAuth from '../utils/auth'
 
 interface Props {
 	user: UserProfileType
 }
 
-export default function Home({ user }: Props) {
-	const [notificationsState, setNotificationsState] = useState<
-		string | undefined
-	>()
-
+export default function NotificationPage(props: Props) {
 	return (
 		<div>
-			{/* Default Head Meta Property */}
-			<Meta
-				title={
-					notificationsState
-						? `${notificationsState} Dashboard — Dikenang`
-						: 'Dashboard — Dikenang'
-				}
-			/>
+			{/* Title */}
+			<Meta title={`Notifications — ${props.user.username}`} />
 
-			{/* Header Component */}
-			<Header
-				profile={user}
-				activePath="dashboard"
-				titleState={setNotificationsState}
-			/>
+			{/* Header */}
+			<Header profile={props.user} activePath="notifications" />
 
-			{/* Body Component */}
-			<IndexBody profile={user} />
+			{/* Body */}
+			<NotificationsBody />
 		</div>
 	)
 }

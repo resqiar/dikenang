@@ -1,0 +1,24 @@
+query getPostById($postId: String!, $username: String!) {
+	postByAuthorAndId(postId: $postId, username: $username) {
+		id
+		type
+		caption
+		attachments {
+			uri
+		}
+		author {
+			id
+			username
+			avatar_url
+			badges {
+				id
+				label
+				variant
+				color
+				background
+				border
+			}
+		}
+		created_at
+	}
+}

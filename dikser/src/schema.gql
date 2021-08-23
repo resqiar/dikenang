@@ -57,6 +57,17 @@ type Comment {
 	post: Post!
 }
 
+type Notification {
+	id: String!
+	type: String!
+	read: Boolean
+	authorId: String!
+	relatedPostId: String
+	created_at: DateTime
+	updated_at: DateTime
+	relatedUser: User!
+}
+
 type User {
 	id: String!
 	username: String!
@@ -72,6 +83,7 @@ type User {
 	viewed: [Post!]
 	relationship: Relationship
 	badges: [Badge!]
+	notifications: [Notification!]
 }
 
 type DeleteBadgeResponse {
@@ -104,6 +116,13 @@ type DownvoteDTO {
 	downvoters: [User!]!
 }
 
+type NotificationsDTO {
+	userId: String!
+	notifications: [Notification!]!
+	unread: Int!
+	read: Int!
+}
+
 type CommentsDTO {
 	postId: String!
 	comment: Comment!
@@ -114,13 +133,16 @@ type CommentsDTO {
 type Query {
 	users: [User!]!
 	user(username: String!): User!
+	getUserById(id: String!): User!
 	getMyProfile: User!
 	badges: [Badge!]!
 	badge(label: String!): Badge!
 	posts: [Post!]!
 	post(postId: String!): Post!
+	postByAuthorAndId(username: String!, postId: String!): Post!
 	getPostReachs(postId: String!): Int!
 	getPostComments(postId: String!): [Comment!]!
+	notifications: NotificationsDTO!
 }
 
 type Mutation {
@@ -145,6 +167,7 @@ type Mutation {
 		createRelationshipInput: CreateRelationshipInput!
 	): Relationship!
 	deleteRelationship: DeleteRelationshipResponse!
+	readNotifications: Int!
 	createComment(createCommentInput: CreateCommentInput!): Int!
 	deleteComment(commentId: String!): Int!
 }
@@ -199,5 +222,6 @@ input CreateCommentInput {
 type Subscription {
 	upvoteSubscription(postId: String!): UpvoteDTO!
 	downvoteSubscription(postId: String!): DownvoteDTO!
+	notificationSubscription(userId: String!): NotificationsDTO!
 	commentsSubscription(postId: String!): CommentsDTO!
 }

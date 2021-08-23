@@ -2,21 +2,31 @@ import Head from 'next/head'
 
 type props = {
 	title?: string
+	description?: string
+	imageURL?: string
 }
 
-export default function Meta({ title }: props) {
+export default function Meta(props: props) {
 	return (
 		<Head>
-			<title>{title ? title : 'dikenang.'}</title>
+			<title>{props.title ? props.title : 'Dikenang'}</title>
 
 			{/* <!-- Primary Meta Tags --> */}
 			<meta
 				name="title"
-				content="dikenang. — Keep your memories alive, forever 🌺"
+				content={
+					props.title
+						? props.title
+						: 'Dikenang — Keep your memories alive, forever 🌺'
+				}
 			></meta>
 			<meta
 				name="description"
-				content="Share everything; images, videos, stories, memories, and more!"
+				content={
+					props.description
+						? props.description
+						: 'Share everything; images, videos, stories, memories, and more!'
+				}
 			></meta>
 
 			{/* <!-- Open Graph / Facebook --> */}
@@ -24,26 +34,48 @@ export default function Meta({ title }: props) {
 			<meta property="og:url" content=""></meta>
 			<meta
 				property="og:title"
-				content="dikenang. — Keep your memories alive, forever 🌺"
+				content={
+					props.title
+						? props.title
+						: 'Dikenang — Keep your memories alive, forever 🌺'
+				}
 			></meta>
 			<meta
 				property="og:description"
-				content="Share everything; images, videos, stories, memories, and more!"
+				content={
+					props.description
+						? props.description
+						: 'Share everything; images, videos, stories, memories, and more!'
+				}
 			></meta>
-			<meta property="og:image" content="/dikenang-logo.png"></meta>
+			<meta
+				property="og:image"
+				content={props.imageURL ? props.imageURL : '/dikenang-logo.png'}
+			></meta>
 
 			{/* <!-- Twitter --> */}
 			<meta property="twitter:card" content="summary_large_image"></meta>
 			<meta property="twitter:url" content=""></meta>
 			<meta
 				property="twitter:title"
-				content="dikenang. — Keep your memories alive, forever 🌺"
+				content={
+					props.title
+						? props.title
+						: 'Dikenang — Keep your memories alive, forever 🌺'
+				}
 			></meta>
 			<meta
 				property="twitter:description"
-				content="Share everything; images, videos, stories, memories, and more!"
+				content={
+					props.description
+						? props.description
+						: 'Share everything; images, videos, stories, memories, and more!'
+				}
 			></meta>
-			<meta property="twitter:image" content="/dikenang-logo.png"></meta>
+			<meta
+				property="twitter:image"
+				content={props.imageURL ? props.imageURL : '/dikenang-logo.png'}
+			></meta>
 
 			<link
 				rel="apple-touch-icon"

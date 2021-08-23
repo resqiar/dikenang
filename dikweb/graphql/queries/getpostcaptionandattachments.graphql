@@ -1,0 +1,11 @@
+query getPostCaptionAndAttachments($postId: String!) {
+	post(postId: $postId) {
+		caption
+		attachments {
+			uri
+		}
+		author {
+			username
+		}
+	}
+}
