@@ -39,6 +39,7 @@ import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
+import Viewer from '../utils/image/Viewer'
 
 interface Props {
 	profile: UserProfileType
@@ -329,6 +330,13 @@ export default function FeedPost(props: Props) {
 		config: { mass: 1, tension: 500, friction: 0, clamp: true },
 	})
 
+	/**
+	 * state to keep track whether to
+	 * show or close the image viewer
+	 * @see Viewer.tsx
+	 */
+	const [openImageViewer, setOpenImageViewer] = useState<boolean>(false)
+
 	return (
 		<FeedPostWrapper style={fade}>
 			<FeedPostHeaderWrapper>
@@ -430,13 +438,25 @@ export default function FeedPost(props: Props) {
 				<FeedPostAttachments>
 					{/* If attachments contains image */}
 					{props.imageSrc && (
-						<Image
-							width={800}
-							height={700}
-							alt={`${props.username}'s post image`}
-							layout="responsive"
-							src={props.imageSrc[0]}
-							objectFit="cover"
+						<ImageAttachmentsWrapper>
+							<Image
+								width={800}
+								height={700}
+								alt={`${props.username}'s post image`}
+								layout="responsive"
+								src={props.imageSrc[0]}
+								objectFit="cover"
+								onClick={() => setOpenImageViewer(true)}
+							/>
+						</ImageAttachmentsWrapper>
+					)}
+
+					{/* Image viewer */}
+					{props.imageSrc && (
+						<Viewer
+							imgs={[{ src: props.imageSrc[0] }]}
+							open={openImageViewer}
+							onCloseCallback={() => setOpenImageViewer(false)}
 						/>
 					)}
 				</FeedPostAttachments>
@@ -669,9 +689,13 @@ const ReadMoreChipWrapper = styled.div`
 const FeedPostAttachments = styled.div`
 	width: 100%;
 	height: 100%;
+`
+
+const ImageAttachmentsWrapper = styled.div`
 	position: relative;
 	padding-top: 18px;
 	margin-top: -4px;
+	cursor: pointer;
 `
 
 /**
