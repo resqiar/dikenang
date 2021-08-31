@@ -14,6 +14,7 @@ import {
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
 import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
+import Viewer from '../utils/image/Viewer'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -104,6 +105,13 @@ export default function FeedPostUnauthenticated(props: Props) {
 			}
 		}
 	}, [])
+
+	/**
+	 * state to keep track whether to
+	 * show or close the image viewer
+	 * @see Viewer.tsx
+	 */
+	 const [openImageViewer, setOpenImageViewer] = useState<boolean>(false)
 
 	return (
 		<FeedPostWrapper style={fade}>
@@ -200,6 +208,15 @@ export default function FeedPostUnauthenticated(props: Props) {
 							layout="responsive"
 							src={props.imageSrc[0]}
 							objectFit="cover"
+						/>
+					)}
+
+					{/* Image viewer */}
+					{props.imageSrc && (
+						<Viewer
+							imgs={[{ src: props.imageSrc[0] }]}
+							open={openImageViewer}
+							onCloseCallback={() => setOpenImageViewer(false)}
 						/>
 					)}
 				</FeedPostAttachments>

@@ -24,6 +24,7 @@ import { useSpring, animated } from 'react-spring'
 import CommentContainer from '../comment/CommentContainer'
 import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
 import FeedMoreItem from './FeedMoreItem'
+import Viewer from '../utils/image/Viewer'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -39,7 +40,6 @@ import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
-import Viewer from '../utils/image/Viewer'
 
 interface Props {
 	profile: UserProfileType
