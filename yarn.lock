@@ -2722,7 +2722,7 @@
     multer "1.4.2"
     tslib "2.2.0"
 
-"@nestjs/schedule@^1.0.1":
+"@nestjs/schedule@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@nestjs/schedule/-/schedule-1.0.1.tgz#4ab3f753c2a0f606cf969b0ec7aa4e655ea444d3"
   integrity sha512-EU2tB4rxuEgum8JlorAFvXkU982EYZm/IBa7n6kgkyps5BbxQSFf7iR1CLkP9zODO9ApZTWk5z3q9L3O7vrkoQ==
@@ -3469,7 +3469,7 @@
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
   integrity sha512-C7srjHiVG3Ey1nR6d511dtDkCEjxuN9W1HWAEjGq8kpcwmNM6JJkpC0xvabM7BXTG2wDq8Eu33iH9aQKa7IvLQ==
 
-"@types/cron@^1.7.3":
+"@types/cron@1.7.3":
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/@types/cron/-/cron-1.7.3.tgz#993db7d54646f61128c851607b64ba4495deae93"
   integrity sha512-iPmUXyIJG1Js+ldPYhOQcYU3kCAQ2FWrSkm1FJPoii2eYSn6wEW6onPukNTT0bfiflexNSRPl6KWmAIqS+36YA==
@@ -3725,10 +3725,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.3.0.tgz#d6fed7d6bc6854306da3dea1af9f874b00783e26"
   integrity sha512-8/bnjSZD86ZfpBsDlCIkNXIvm+h6wi9g7IqL+kmFkQ+Wvu3JrasgLElfiPgoo8V8vVfnEi0QVS12gbl94h9YsQ==
 
-"@types/node@14.17.9":
-  version "14.17.9"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.9.tgz#b97c057e6138adb7b720df2bd0264b03c9f504fd"
-  integrity sha512-CMjgRNsks27IDwI785YMY0KLt3co/c0cQ5foxHYv/shC2w8oOnVwz5Ubq1QG5KzrcW+AXk6gzdnxIkDnTvzu3g==
+"@types/node@14.17.12":
+  version "14.17.12"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.12.tgz#7a31f720b85a617e54e42d24c4ace136601656c7"
+  integrity sha512-vhUqgjJR1qxwTWV5Ps5txuy2XMdf7Fw+OrdChRboy8BmWUPkckOhphaohzFG6b8DW7CrxaBMdrdJ47SYFq1okw==
 
 "@types/node@15.0.3":
   version "15.0.3"
@@ -5048,7 +5048,7 @@ babel-preset-jest@^26.6.2:
     babel-plugin-jest-hoist "^26.6.2"
     babel-preset-current-node-syntax "^1.0.0"
 
-babel-preset-next@^1.4.0:
+babel-preset-next@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/babel-preset-next/-/babel-preset-next-1.4.0.tgz#6f20007befb6d888be315a64d772e0d7101b71ca"
   integrity sha512-+86BkjiV3eGyXg61QLE33KCtXna/ZGoYxGDFhtr9Nqd2tdt+gLIqQrz0NXtZW2vU5RMVISqZEKhrxPK/tFOWEg==
@@ -8678,7 +8678,7 @@ header-case@^2.0.4:
     capital-case "^1.0.4"
     tslib "^2.0.3"
 
-helmet@^4.6.0:
+helmet@4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/helmet/-/helmet-4.6.0.tgz#579971196ba93c5978eb019e4e8ec0e50076b4df"
   integrity sha512-HVqALKZlR95ROkrnesdhbbZJFi/rIVSoNq6f3jA/9u6MIbTsPh3xZwihjeI5+DO/2sOV6HMHooXcEOuwskHpTg==
@@ -13249,7 +13249,7 @@ react-dom@17.0.2:
     object-assign "^4.1.1"
     scheduler "^0.20.2"
 
-react-images-viewer@^1.6.7:
+react-images-viewer@1.6.7:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/react-images-viewer/-/react-images-viewer-1.6.7.tgz#1ec9b0ef047628dca07da17acbdb0ae61d60ec66"
   integrity sha512-ulCTQzMcpsq35PhPSNbEOwYb42Lc71C3cIG+3OfzjcDXmB9t3YDmTUdwr4cU/qYV7lyhKxirZ0PzuD4BC32seQ==
@@ -14726,10 +14726,10 @@ superagent@^6.1.0:
     readable-stream "^3.6.0"
     semver "^7.3.2"
 
-supertest@6.1.4:
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/supertest/-/supertest-6.1.4.tgz#ea8953343e0ca316e80e975b39340934f754eb06"
-  integrity sha512-giC9Zm+Bf1CZP09ciPdUyl+XlMAu6rbch79KYiYKOGcbK2R1wH8h+APul1i/3wN6RF1XfWOIF+8X1ga+7SBrug==
+supertest@6.1.6:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/supertest/-/supertest-6.1.6.tgz#6151c518f4c5ced2ac2aadb9f96f1bf8198174c8"
+  integrity sha512-0hACYGNJ8OHRg8CRITeZOdbjur7NLuNs0mBjVhdpxi7hP6t3QIbOzLON5RTUmZcy2I9riuII3+Pr2C7yztrIIg==
   dependencies:
     methods "^1.1.2"
     superagent "^6.1.0"
