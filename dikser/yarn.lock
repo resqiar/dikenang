@@ -11523,7 +11523,7 @@ netmask@^2.0.1:
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-2.0.2.tgz#8b01a07644065d536383835823bc52004ebac5e7"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
-newrelic@^8.2.0:
+newrelic@8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-8.2.0.tgz#c1a4e51dfadd67cc5a2cc6931b2f2240efc4a736"
   integrity sha512-jMgzCyiGg6aY3kBJVnRYMSzQCm5CFNDDEu1h5Nn1l3+r035laXRLCeWRu7hFZJVr9cGZUrvmShoNXbV/6LMqSA==
