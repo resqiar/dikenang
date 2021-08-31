@@ -209,6 +209,7 @@ export default function FeedPostUnauthenticated(props: Props) {
 								layout="responsive"
 								src={props.imageSrc[0]}
 								objectFit="cover"
+								onClick={() => setOpenImageViewer(true)}
 							/>
 						</ImageAttachmentsWrapper>
 					)}
