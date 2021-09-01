@@ -3,12 +3,15 @@ import styled from 'styled-components'
 interface Props {
 	text?: string
 	height?: string
+	fontSize?: string
 }
 
-export default function LoadingBrand({ text, height }: Props) {
+export default function LoadingBrand(props: Props) {
 	return (
-		<LoadingBrandWrapper height={height}>
-			<LoadingTextElement>{text ? text : 'dikenang.'}</LoadingTextElement>
+		<LoadingBrandWrapper height={props.height}>
+			<LoadingTextElement fontSize={props.fontSize}>
+				{props.text ? props.text : 'dikenang.'}
+			</LoadingTextElement>
 		</LoadingBrandWrapper>
 	)
 }
@@ -20,8 +23,8 @@ const LoadingBrandWrapper = styled.div<{ height?: string }>`
 	justify-content: center;
 	background: var(--background-dimmed);
 `
-const LoadingTextElement = styled.h1`
-	font-size: 48px;
+const LoadingTextElement = styled.h1<{ fontSize?: string }>`
+	font-size: ${(props) => props.fontSize || '48px'};
 	position: relative;
 
 	/* Fallback: Set a background color. */

@@ -13,6 +13,7 @@ import '../styles/nprogress.css'
  */
 import '../styles/richtextstyles.css'
 import '../styles/richtextdecorators.css'
+import MaintenancePage from './offline-for-maintenance'
 
 /**
  * NProgress Configs
@@ -51,6 +52,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 	 * @see apollo.ts for more
 	 */
 	const apolloClient = initializeApollo(null)
+
+	/**
+	 * If application is undergoing
+	 * maintenance, render maintenance page.
+	 */
+	if (process.env.NEXT_PUBLIC_MAINTENANCE === 'true') {
+		return <MaintenancePage />
+	}
 
 	return (
 		<ApolloProvider client={apolloClient}>
