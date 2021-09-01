@@ -26,9 +26,6 @@ export default async function checkAuth(ctx: NextPageContext) {
 					avatar_url
 					email
 					bio
-					relationship {
-						id
-					}
 				}
 			}
 		`
@@ -43,6 +40,7 @@ export default async function checkAuth(ctx: NextPageContext) {
 			query: QUERY_PROFILE,
 		})
 
+		if (!gqlRequest) return
 		return gqlRequest.data.getMyProfile
 	} catch (e) {
 		return
