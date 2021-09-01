@@ -1,3 +1,4 @@
+import LogRocket from 'logrocket'
 import { useEffect } from 'react'
 import { ApolloProvider } from '@apollo/client'
 import { initializeApollo } from '../lib/apollo'
@@ -25,6 +26,13 @@ NProgress.configure({
 })
 
 function MyApp({ Component, pageProps }: AppProps) {
+	/**
+	 * Logrocket initialization
+	 * @see https://docs.logrocket.com/docs/using-logrocket-with-server-side-rendering
+	 */
+	useEffect(() => {
+		LogRocket.init('qyuixl/dikenang-web-app')
+	}, [])
 	/**
 	 * Router events now not available when pre-rendering
 	 * moving to useEffects instead
