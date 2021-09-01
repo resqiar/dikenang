@@ -3,23 +3,23 @@
 # ------------------------------------------------------
 
 type Badge {
-	id: String!
-	label: String!
-	variant: String!
-	color: String
-	background: String
-	border: String
-	owners: [User!]
+  id: String!
+  label: String!
+  variant: String!
+  color: String
+  background: String
+  border: String
+  owners: [User!]
 }
 
 type Relationship {
-	id: String!
-	type: String
-	description: String
-	created_at: DateTime
-	updated_at: DateTime
-	partnership: [User!]
-	posts: [Post!]
+  id: String!
+  type: String
+  description: String
+  created_at: DateTime
+  updated_at: DateTime
+  partnership: [User!]
+  posts: [Post!]
 }
 
 """
@@ -28,200 +28,195 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Attachments {
-	id: String!
-	type: String!
-	uri: [String!]!
+  id: String!
+  type: String!
+  uri: [String!]!
 }
 
 type Post {
-	id: String!
-	caption: String!
-	type: String
-	upvoter: [User!]
-	downvoter: [User!]
-	reachs: [User!]
-	created_at: DateTime
-	updated_at: DateTime
-	author: User!
-	attachments: Attachments
-	relationship: Relationship
-	comments: [Comment!]
+  id: String!
+  caption: String!
+  type: String
+  upvoter: [User!]
+  downvoter: [User!]
+  reachs: [User!]
+  created_at: DateTime
+  updated_at: DateTime
+  author: User!
+  attachments: Attachments
+  relationship: Relationship
+  comments: [Comment!]
 }
 
 type Comment {
-	id: String!
-	text: String!
-	created_at: DateTime
-	updated_at: DateTime
-	author: User!
-	post: Post!
+  id: String!
+  text: String!
+  created_at: DateTime
+  updated_at: DateTime
+  author: User!
+  post: Post!
 }
 
 type Notification {
-	id: String!
-	type: String!
-	read: Boolean
-	authorId: String!
-	relatedPostId: String
-	created_at: DateTime
-	updated_at: DateTime
-	relatedUser: User!
+  id: String!
+  type: String!
+  read: Boolean
+  authorId: String!
+  relatedPostId: String
+  created_at: DateTime
+  updated_at: DateTime
+  relatedUser: User!
 }
 
 type User {
-	id: String!
-	username: String!
-	email: String!
-	bio: String
-	avatar_url: String
-	created_at: DateTime
-	updated_at: DateTime
-	contents: [Post!]
-	comments: [Comment!]
-	upvotes: [Post!]
-	downvotes: [Post!]
-	viewed: [Post!]
-	relationship: Relationship
-	badges: [Badge!]
-	notifications: [Notification!]
+  id: String!
+  username: String!
+  email: String!
+  bio: String
+  avatar_url: String
+  created_at: DateTime
+  updated_at: DateTime
+  contents: [Post!]
+  comments: [Comment!]
+  upvotes: [Post!]
+  downvotes: [Post!]
+  viewed: [Post!]
+  relationship: Relationship
+  badges: [Badge!]
+  notifications: [Notification!]
 }
 
 type DeleteBadgeResponse {
-	previous_data: Badge!
-	status: String!
-	code: Float!
+  previous_data: Badge!
+  status: String!
+  code: Float!
 }
 
 type DeleteRelationshipResponse {
-	previous_data: Relationship!
-	status: String!
-	code: Float!
+  previous_data: Relationship!
+  status: String!
+  code: Float!
 }
 
 type DeletePostResponse {
-	previous_data: Post!
-	status: String!
-	code: Float!
+  previous_data: Post!
+  status: String!
+  code: Float!
 }
 
 type UpvoteDTO {
-	postId: String!
-	upvotes: Int!
-	upvoters: [User!]!
+  postId: String!
+  upvotes: Int!
+  upvoters: [User!]!
 }
 
 type DownvoteDTO {
-	postId: String!
-	downvotes: Int!
-	downvoters: [User!]!
+  postId: String!
+  downvotes: Int!
+  downvoters: [User!]!
 }
 
 type NotificationsDTO {
-	userId: String!
-	notifications: [Notification!]!
-	unread: Int!
-	read: Int!
+  userId: String!
+  notifications: [Notification!]!
+  unread: Int!
+  read: Int!
 }
 
 type CommentsDTO {
-	postId: String!
-	comment: Comment!
-	type: String!
-	commentsSum: Int
+  postId: String!
+  comment: Comment!
+  type: String!
+  commentsSum: Int
 }
 
 type Query {
-	users: [User!]!
-	user(username: String!): User!
-	getUserById(id: String!): User!
-	getMyProfile: User!
-	badges: [Badge!]!
-	badge(label: String!): Badge!
-	posts: [Post!]!
-	post(postId: String!): Post!
-	postByAuthorAndId(username: String!, postId: String!): Post!
-	getPostReachs(postId: String!): Int!
-	getPostComments(postId: String!): [Comment!]!
-	notifications: NotificationsDTO!
+  users: [User!]!
+  user(username: String!): User!
+  getUserById(id: String!): User!
+  getMyProfile: User!
+  badges: [Badge!]!
+  badge(label: String!): Badge!
+  posts: [Post!]!
+  post(postId: String!): Post!
+  postByAuthorAndId(username: String!, postId: String!): Post!
+  getPostReachs(postId: String!): Int!
+  getPostComments(postId: String!): [Comment!]!
+  notifications: NotificationsDTO!
 }
 
 type Mutation {
-	updateUser(updateUserInput: UpdateUserInput!): User!
-	specialUpdateUser(updateUserInput: UpdateUserInput!, id: String!): User!
-	createBadge(createBadgeInput: CreateBadgeInput!): Badge!
-	addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
-	removeBadge(label: String!): DeleteBadgeResponse!
-	removeBadgeFromUser(userId: String!, label: String!): User!
-	createPost(
-		createAttachmentInput: CreateAttachmentInput
-		createPostInput: CreatePostInput!
-	): Post!
-	updatePost(updatePostInput: UpdatePostInput!): Post!
-	removePost(postId: String!): DeletePostResponse!
-	addPostReachs(postId: String!): Int!
-	addUpvote(postId: String!): Int!
-	removeUpvote(postId: String!): Int!
-	addDownvote(postId: String!): Int!
-	removeDownvote(postId: String!): Int!
-	createRelationship(
-		createRelationshipInput: CreateRelationshipInput!
-	): Relationship!
-	deleteRelationship: DeleteRelationshipResponse!
-	readNotifications: Int!
-	createComment(createCommentInput: CreateCommentInput!): Int!
-	deleteComment(commentId: String!): Int!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  specialUpdateUser(updateUserInput: UpdateUserInput!, id: String!): User!
+  createBadge(createBadgeInput: CreateBadgeInput!): Badge!
+  addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
+  removeBadge(label: String!): DeleteBadgeResponse!
+  removeBadgeFromUser(userId: String!, label: String!): User!
+  createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(postId: String!): DeletePostResponse!
+  addPostReachs(postId: String!): Int!
+  addUpvote(postId: String!): Int!
+  removeUpvote(postId: String!): Int!
+  addDownvote(postId: String!): Int!
+  removeDownvote(postId: String!): Int!
+  createRelationship(createRelationshipInput: CreateRelationshipInput!): Relationship!
+  deleteRelationship: DeleteRelationshipResponse!
+  readNotifications: Int!
+  createComment(createCommentInput: CreateCommentInput!): Int!
+  deleteComment(commentId: String!): Int!
 }
 
 input UpdateUserInput {
-	username: String
-	email: String
-	bio: String
-	avatar_url: String
+  username: String
+  email: String
+  bio: String
+  avatar_url: String
 }
 
 input CreateBadgeInput {
-	label: String!
-	variant: String
-	color: String
-	background: String
-	border: String
+  label: String!
+  variant: String
+  color: String
+  background: String
+  border: String
 }
 
 input AddUserABadgeInput {
-	userId: String!
-	badgeLabel: String!
+  userId: String!
+  badgeLabel: String!
 }
 
 input CreateAttachmentInput {
-	type: String!
-	uri: [String!]!
+  type: String!
+  uri: [String!]!
 }
 
 input CreatePostInput {
-	caption: String!
-	type: String!
+  caption: String!
+  type: String!
 }
 
 input UpdatePostInput {
-	caption: String
-	type: String
-	id: String!
+  caption: String
+  type: String
+  id: String!
 }
 
 input CreateRelationshipInput {
-	type: String!
-	description: String!
-	target: String!
+  type: String!
+  description: String!
+  target: String!
 }
 
 input CreateCommentInput {
-	text: String!
-	postId: String!
+  text: String!
+  postId: String!
 }
 
 type Subscription {
-	upvoteSubscription(postId: String!): UpvoteDTO!
-	downvoteSubscription(postId: String!): DownvoteDTO!
-	notificationSubscription(userId: String!): NotificationsDTO!
-	commentsSubscription(postId: String!): CommentsDTO!
+  upvoteSubscription(postId: String!): UpvoteDTO!
+  downvoteSubscription(postId: String!): DownvoteDTO!
+  notificationSubscription(userId: String!): NotificationsDTO!
+  commentsSubscription(postId: String!): CommentsDTO!
 }
