@@ -21,6 +21,15 @@ describe('UsersResolver', () => {
 				...updateUserInput,
 			}
 		}),
+		getBasicProfile: jest.fn((_id: string) => {
+			return {
+				id: '4500fdce-c3ff-4646-bad5-d1b7748f4b54',
+				username: 'testing',
+				avatar_url: 'http://test.test',
+				email: 'testing@example.com',
+				bio: 'testing',
+			}
+		}),
 	}
 
 	beforeEach(async () => {
@@ -45,6 +54,24 @@ describe('UsersResolver', () => {
 				username: 'testing',
 			}
 			expect(await resolver.findOne(expectedResult.username)).toEqual(
+				expectedResult
+			)
+		})
+	})
+
+	describe('get basic user information', () => {
+		it('getMyProfile() should return basic information of the user', async () => {
+			const currentUser = new User()
+
+			const expectedResult = {
+				id: expect.any(String),
+				username: expect.any(String),
+				avatar_url: expect.any(String),
+				email: expect.any(String),
+				bio: expect.any(String),
+			}
+
+			expect(await resolver.getMyProfile(currentUser)).toEqual(
 				expectedResult
 			)
 		})
