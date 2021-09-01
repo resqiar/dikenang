@@ -65,6 +65,10 @@ export class UsersService {
 		}
 	}
 
+	async getBasicProfile(id: string) {
+		return await this.userRepository.findOne(id)
+	}
+
 	async findById(id: string) {
 		try {
 			return await this.userRepository.findOneOrFail({

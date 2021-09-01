@@ -29,8 +29,10 @@ export class UsersResolver {
 
 	@Query(() => User, { name: 'getMyProfile' })
 	@UseGuards(AuthStatusGuard)
-	async getMyProfile(@CurrentUser() currentUser: User): Promise<User> {
-		return await this.usersService.findByUsername(currentUser.username)
+	async getMyProfile(
+		@CurrentUser() currentUser: User
+	): Promise<User | undefined> {
+		return await this.usersService.getBasicProfile(currentUser.id)
 	}
 
 	@Mutation(() => User, { name: 'updateUser' })
