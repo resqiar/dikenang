@@ -1,7 +1,8 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-import 'newrelic'
+import LogRocket from 'logrocket'
+LogRocket.init('qyuixl/dikenang-web-app')
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
