@@ -1,13 +1,23 @@
+import dynamic from 'next/dynamic'
 import styled from 'styled-components'
-import Header from '../../components/header/Header'
 import Meta from '../../components/meta/Meta'
 import checkAuth from '../../utils/auth'
 import fetchPost from '../../utils/fetchPost'
 import { UserProfileType } from '../../types/profile.type'
-import AuthHeader from '../../components/header/AuthHeader'
-import PostDetailBody from '../../components/body/PostDetailBody'
 import { NextPageContext } from 'next'
 import { Post } from '../../generated/graphql'
+const Header = dynamic(() => import('../../components/header/Header'), {
+	ssr: false,
+})
+const AuthHeader = dynamic(() => import('../../components/header/AuthHeader'), {
+	ssr: false,
+})
+const PostDetailBody = dynamic(
+	() => import('../../components/body/PostDetailBody'),
+	{
+		ssr: false,
+	}
+)
 
 interface Props {
 	user: UserProfileType
