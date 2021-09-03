@@ -12,11 +12,11 @@ export class CronService {
 	}
 
 	/**
-	 * Send emails to users every day at 8AM,
+	 * Send emails to users every monday at 8AM,
 	 * reminding about their unread notifications.
 	 * anyway for the template @see notifications.hbs
 	 */
-	@Cron(CronExpression.EVERY_DAY_AT_8AM)
+	@Cron('0 08 * * 1')
 	async sendNotificationsEmailsEveryDay(): Promise<void> {
 		await this.notificationsService.sendUnreadNotificationsToEmail()
 	}
