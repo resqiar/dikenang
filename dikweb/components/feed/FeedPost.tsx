@@ -440,8 +440,8 @@ export default function FeedPost(props: Props) {
 					{props.imageSrc && (
 						<ImageAttachmentsWrapper>
 							<Image
-								width={800}
-								height={700}
+								width={2}
+								height={1.5}
 								alt={`${props.username}'s post image`}
 								layout="responsive"
 								src={props.imageSrc[0]}
