@@ -1,16 +1,10 @@
 import { NextPageContext } from 'next'
-import dynamic from 'next/dynamic'
+import IndexBody from '../components/body/IndexBody'
+import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
 import checkAuth from '../utils/auth'
 import { UserProfileType } from '../types/profile.type'
 import { useState } from 'react'
-
-const Header = dynamic(() => import('../components/header/Header'), {
-	ssr: false,
-})
-const IndexBody = dynamic(() => import('../components/body/IndexBody'), {
-	ssr: false,
-})
 
 interface Props {
 	user: UserProfileType
