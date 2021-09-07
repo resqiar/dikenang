@@ -66,7 +66,10 @@ export class UsersService {
 	}
 
 	async getBasicProfile(id: string) {
-		return await this.userRepository.findOne(id)
+		console.log('C', new Date())
+		const result = await this.userRepository.findOne(id)
+		console.log('D', new Date())
+		return result
 	}
 
 	async findById(id: string) {

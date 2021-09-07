@@ -10,6 +10,7 @@ import * as bcrypt from 'bcryptjs'
 @Injectable()
 export class AuthStatusGuard implements CanActivate {
 	async canActivate(ctx: ExecutionContext): Promise<boolean> {
+		console.log('A', new Date())
 		const context = GqlExecutionContext.create(ctx)
 
 		/**
@@ -29,6 +30,7 @@ export class AuthStatusGuard implements CanActivate {
 		}
 
 		// Return user data granted from login
+		console.log('B', new Date())
 		return context.getContext().req.user
 	}
 }
