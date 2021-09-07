@@ -11,6 +11,7 @@ export default async function checkAuth(ctx: NextPageContext) {
 		 * cookie to server
 		 * @see apollo.ts for more
 		 */
+		console.log('E', new Date().getTime())
 		const apolloClient = initializeApollo(ctx)
 
 		/**
@@ -36,10 +37,11 @@ export default async function checkAuth(ctx: NextPageContext) {
 		 * This data will be used in index page for
 		 * Initial state value
 		 */
+		console.log('F', new Date().getTime())
 		const gqlRequest = await apolloClient.query({
 			query: QUERY_PROFILE,
 		})
-
+		console.log('G', new Date().getTime())
 		if (!gqlRequest) return
 		return gqlRequest.data.getMyProfile
 	} catch (e) {
