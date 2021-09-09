@@ -6,7 +6,8 @@
 		"packages": [
 			"dikser",
 			"dikweb",
-			"dikmob"
+			"dikmob",
+			"puppeteer"
 		],
 		"nohoist": [
 			"**"
