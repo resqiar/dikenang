@@ -7,13 +7,25 @@ import Icons from '../icons/Icons'
 
 export default function AutoCompleteSearch() {
 	// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-	const top100Films = [
-		{ title: 'The Shawshank Redemption', year: 1994 },
-		{ title: 'The Godfather', year: 1972 },
-		{ title: 'The Godfather: Part II', year: 1974 },
-		{ title: 'The Dark Knight', year: 2008 },
-		{ title: '12 Angry Men', year: 1957 },
-		{ title: "Schindler's List", year: 1993 },
+	const options = [
+		{ title: 'Alexander', type: 'community' },
+		{ title: 'Brotherhood1234', type: 'community' },
+		{ title: 'Hence Fighter xx12', type: 'community' },
+		{ title: 'The Hunter Knight', type: 'community' },
+		{ title: 'Angry Men', type: 'community' },
+		{ title: 'Schindler', type: 'community' },
+		{ title: 'A lof effort put here', type: 'memories' },
+		{ title: 'Holland 1945', type: 'memories' },
+		{ title: 'Firefighters', type: 'memories' },
+		{ title: 'Boots of the loops', type: 'memories' },
+		{ title: 'Cow', type: 'memories' },
+		{ title: '1889', type: 'memories' },
+		{ title: 'Massacre', type: 'memories' },
+		{ title: 'Liberation 1945', type: 'stories' },
+		{ title: 'Dump Truck', type: 'stories' },
+		{ title: 'Software Engineering', type: 'stories' },
+		{ title: 'Universe Gate', type: 'stories' },
+		{ title: '21 Century', type: 'stories' },
 	]
 
 	/**
@@ -31,7 +43,7 @@ export default function AutoCompleteSearch() {
 		groupedOptions,
 	} = useAutocomplete({
 		id: 'searchHeaderAutoComplete',
-		options: top100Films,
+		options: options,
 		autoHighlight: true,
 		onOpen: () => setIsMyInputFocused(true),
 		onClose: () => setIsMyInputFocused(false),
@@ -58,14 +70,59 @@ export default function AutoCompleteSearch() {
 					{...getInputProps()}
 				/>
 			</InputFieldWrapper>
+
 			{groupedOptions.length > 0 ? (
-				<ul {...getListboxProps()}>
-					{groupedOptions.map((option, index) => (
-						<li {...getOptionProps({ option, index })}>
-							{option.title}
-						</li>
-					))}
-				</ul>
+				<AutoCompleteItemWrapper>
+					<AutoCompleteListItemWrapper {...getListboxProps()}>
+						{groupedOptions.filter(
+							(value) => value.type === 'community'
+						).length > 0 ? (
+							<ListTitle>Trending Communities</ListTitle>
+						) : undefined}
+						{groupedOptions
+							.filter((value) => value.type === 'community')
+							.map((option, index) => (
+								<AutoCompleteList
+									{...getOptionProps({ option, index })}
+									onClick={() => alert(option.title)}
+								>
+									{option.title}
+								</AutoCompleteList>
+							))}
+
+						{groupedOptions.filter(
+							(value) => value.type === 'memories'
+						).length > 0 ? (
+							<ListTitle>Memories</ListTitle>
+						) : undefined}
+						{groupedOptions
+							.filter((value) => value.type === 'memories')
+							.map((option, index) => (
+								<AutoCompleteList
+									{...getOptionProps({ option, index })}
+									onClick={() => alert(option.title)}
+								>
+									{option.title}
+								</AutoCompleteList>
+							))}
+
+						{groupedOptions.filter(
+							(value) => value.type === 'stories'
+						).length > 0 ? (
+							<ListTitle>Stories</ListTitle>
+						) : undefined}
+						{groupedOptions
+							.filter((value) => value.type === 'stories')
+							.map((option, index) => (
+								<AutoCompleteList
+									{...getOptionProps({ option, index })}
+									onClick={() => alert(option.title)}
+								>
+									{option.title}
+								</AutoCompleteList>
+							))}
+					</AutoCompleteListItemWrapper>
+				</AutoCompleteItemWrapper>
 			) : null}
 		</HeaderSearchInput>
 	)
@@ -74,6 +131,7 @@ export default function AutoCompleteSearch() {
 const HeaderSearchInput = styled.div`
 	width: 100%;
 	padding: 0px 18px;
+	position: relative;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -104,4 +162,39 @@ const SearchInputElement = styled.input`
 	border: none;
 	padding: 9px;
 	outline: none;
+`
+const AutoCompleteItemWrapper = styled.div`
+	position: absolute;
+	top: 10;
+	right: 0;
+	left: 0;
+	z-index: 999999;
+	margin: 0px 5%;
+	padding: 12px 18px;
+	border: var(--border);
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	box-shadow: var(--box-shadow);
+	background: var(--background-dimmed-500);
+`
+
+const AutoCompleteListItemWrapper = styled.div``
+const AutoCompleteList = styled.button`
+	padding: 8px;
+	cursor: pointer;
+	color: var(--font-white-600);
+	outline: none;
+	background: none;
+	border: none;
+	font-family: var(--font-family);
+	font-size: 14px;
+
+	&:hover {
+		background: var(--background-dimmed-300);
+	}
+`
+
+const ListTitle = styled.p`
+	font-weight: bold;
+	color: var(--font-white-600);
 `
