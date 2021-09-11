@@ -8,7 +8,6 @@ import {
 import Router from 'next/router'
 import Icons from '../icons/Icons'
 import DikenangLogo from '../logo/DikenangLogo'
-import Input from '../input/Input'
 import styled from 'styled-components'
 import { UserProfileType } from '../../types/profile.type'
 import axiosConfig from '../../utils/axios'
@@ -17,7 +16,6 @@ import {
 	useUnreadNotificationsSubscription,
 } from '../../generated/graphql'
 
-import { SearchOutlined } from '@material-ui/icons'
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import {
@@ -32,6 +30,7 @@ import {
 } from '@material-ui/core'
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded'
 import { withStyles } from '@material-ui/core/styles'
+import AutoCompleteSearch from '../autocomplete/AutoComplete'
 
 interface Props {
 	activePath?: string
@@ -154,18 +153,7 @@ export default function Header(props: Props) {
 				<DikenangLogo onClickCallback={() => Router.push('/')} />
 
 				{/* Search Component */}
-				<HeaderSearchInput>
-					<Input
-						placeholder="Search for memories, partners, and stuff"
-						type="text"
-						hasIcon={true}
-						iconColor="grey"
-						focusedIconColor="var(--font-white-800)"
-						Icon={SearchOutlined}
-						// value will dismissed when onBlur
-						isDismissedOnBlur={true}
-					/>
-				</HeaderSearchInput>
+				<AutoCompleteSearch />
 			</HeaderBrand>
 
 			{/* Right Side */}
@@ -262,15 +250,6 @@ const HeaderBrand = styled.div`
 	display: flex;
 	align-items: center;
 	flex-grow: 1;
-`
-const HeaderSearchInput = styled.div`
-	width: 100%;
-	padding: 0px 18px;
-
-	// how mobile should behave
-	@media (max-width: 600px) {
-		display: none;
-	}
 `
 const HeaderIconsWrapper = styled.div`
 	display: flex;
