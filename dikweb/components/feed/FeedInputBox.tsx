@@ -101,7 +101,6 @@ const FeedInputWrapper = styled.div`
 	background-color: var(--background-dimmed-500);
 	height: fit-content;
 	border-radius: 8px;
-	box-shadow: var(--box-shadow);
 	margin-bottom: 18px;
 
 	/* How mobile should behave */
