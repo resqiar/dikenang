@@ -13,7 +13,7 @@ export default function DikenangLogo(props: Props) {
 	return (
 		<DikenangLogoWrapper onClick={props.onClickCallback}>
 			<DikenangLogoH1>
-				{props.text ? props.text : 'dikenang.'}
+				{props.text ? props.text : 'Dikenang'}
 			</DikenangLogoH1>
 		</DikenangLogoWrapper>
 	)

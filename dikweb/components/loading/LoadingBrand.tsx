@@ -10,7 +10,7 @@ export default function LoadingBrand(props: Props) {
 	return (
 		<LoadingBrandWrapper height={props.height}>
 			<LoadingTextElement fontSize={props.fontSize}>
-				{props.text ? props.text : 'dikenang.'}
+				{props.text ? props.text : 'Dikenang'}
 			</LoadingTextElement>
 		</LoadingBrandWrapper>
 	)
