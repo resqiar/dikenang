@@ -371,89 +371,90 @@ export type AddDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type AddDownvoteMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'addDownvote'
->
+export type AddDownvoteMutation = {
+	__typename?: 'Mutation'
+	addDownvote: number
+}
 
 export type AddUpvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type AddUpvoteMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'addUpvote'
->
+export type AddUpvoteMutation = { __typename?: 'Mutation'; addUpvote: number }
 
 export type CreateCommentMutationVariables = Exact<{
 	createCommentInput: CreateCommentInput
 }>
 
-export type CreateCommentMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'createComment'
->
+export type CreateCommentMutation = {
+	__typename?: 'Mutation'
+	createComment: number
+}
 
 export type CreatePostMutationVariables = Exact<{
 	createPostinput: CreatePostInput
 	createAttachmentInput?: Maybe<CreateAttachmentInput>
 }>
 
-export type CreatePostMutation = { __typename?: 'Mutation' } & {
-	createPost: { __typename?: 'Post' } & Pick<Post, 'caption' | 'type'> & {
-			author: { __typename?: 'User' } & Pick<
-				User,
-				'id' | 'username' | 'avatar_url'
-			>
+export type CreatePostMutation = {
+	__typename?: 'Mutation'
+	createPost: {
+		__typename?: 'Post'
+		caption: string
+		type?: Maybe<string>
+		author: {
+			__typename?: 'User'
+			id: string
+			username: string
+			avatar_url?: Maybe<string>
 		}
+	}
 }
 
 export type DeleteCommentMutationVariables = Exact<{
 	commentId: Scalars['String']
 }>
 
-export type DeleteCommentMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'deleteComment'
->
+export type DeleteCommentMutation = {
+	__typename?: 'Mutation'
+	deleteComment: number
+}
 
 export type DeletePostMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type DeletePostMutation = { __typename?: 'Mutation' } & {
-	removePost: { __typename?: 'DeletePostResponse' } & Pick<
-		DeletePostResponse,
-		'status'
-	>
+export type DeletePostMutation = {
+	__typename?: 'Mutation'
+	removePost: { __typename?: 'DeletePostResponse'; status: string }
 }
 
 export type RemoveDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type RemoveDownvoteMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'removeDownvote'
->
+export type RemoveDownvoteMutation = {
+	__typename?: 'Mutation'
+	removeDownvote: number
+}
 
 export type RemoveUpvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type RemoveUpvoteMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'removeUpvote'
->
+export type RemoveUpvoteMutation = {
+	__typename?: 'Mutation'
+	removeUpvote: number
+}
 
 export type SetCurrentPostReachMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type SetCurrentPostReachMutation = { __typename?: 'Mutation' } & Pick<
-	Mutation,
-	'addPostReachs'
->
+export type SetCurrentPostReachMutation = {
+	__typename?: 'Mutation'
+	addPostReachs: number
+}
 
 export type UpdateUnreadNotificationsMutationVariables = Exact<{
 	[key: string]: never
@@ -461,34 +462,35 @@ export type UpdateUnreadNotificationsMutationVariables = Exact<{
 
 export type UpdateUnreadNotificationsMutation = {
 	__typename?: 'Mutation'
-} & Pick<Mutation, 'readNotifications'>
+	readNotifications: number
+}
 
 export type GetListOfNotificationsQueryVariables = Exact<{
 	[key: string]: never
 }>
 
-export type GetListOfNotificationsQuery = { __typename?: 'Query' } & {
-	notifications: { __typename?: 'NotificationsDTO' } & Pick<
-		NotificationsDto,
-		'unread' | 'read'
-	> & {
-			notifications: Array<
-				{ __typename?: 'Notification' } & Pick<
-					Notification,
-					| 'id'
-					| 'type'
-					| 'read'
-					| 'authorId'
-					| 'relatedPostId'
-					| 'created_at'
-				> & {
-						relatedUser: { __typename?: 'User' } & Pick<
-							User,
-							'id' | 'username' | 'avatar_url'
-						>
-					}
-			>
-		}
+export type GetListOfNotificationsQuery = {
+	__typename?: 'Query'
+	notifications: {
+		__typename?: 'NotificationsDTO'
+		unread: number
+		read: number
+		notifications: Array<{
+			__typename?: 'Notification'
+			id: string
+			type: string
+			read?: Maybe<boolean>
+			authorId: string
+			relatedPostId?: Maybe<string>
+			created_at?: Maybe<any>
+			relatedUser: {
+				__typename?: 'User'
+				id: string
+				username: string
+				avatar_url?: Maybe<string>
+			}
+		}>
+	}
 }
 
 export type GetPostByIdQueryVariables = Exact<{
@@ -496,155 +498,159 @@ export type GetPostByIdQueryVariables = Exact<{
 	username: Scalars['String']
 }>
 
-export type GetPostByIdQuery = { __typename?: 'Query' } & {
-	postByAuthorAndId: { __typename?: 'Post' } & Pick<
-		Post,
-		'id' | 'type' | 'caption' | 'created_at'
-	> & {
-			attachments?: Maybe<
-				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
+export type GetPostByIdQuery = {
+	__typename?: 'Query'
+	postByAuthorAndId: {
+		__typename?: 'Post'
+		id: string
+		type?: Maybe<string>
+		caption: string
+		created_at?: Maybe<any>
+		attachments?: Maybe<{ __typename?: 'Attachments'; uri: Array<string> }>
+		author: {
+			__typename?: 'User'
+			id: string
+			username: string
+			avatar_url?: Maybe<string>
+			badges?: Maybe<
+				Array<{
+					__typename?: 'Badge'
+					id: string
+					label: string
+					variant: string
+					color?: Maybe<string>
+					background?: Maybe<string>
+					border?: Maybe<string>
+				}>
 			>
-			author: { __typename?: 'User' } & Pick<
-				User,
-				'id' | 'username' | 'avatar_url'
-			> & {
-					badges?: Maybe<
-						Array<
-							{ __typename?: 'Badge' } & Pick<
-								Badge,
-								| 'id'
-								| 'label'
-								| 'variant'
-								| 'color'
-								| 'background'
-								| 'border'
-							>
-						>
-					>
-				}
 		}
+	}
 }
 
 export type GetPostCaptionAndAttachmentsQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type GetPostCaptionAndAttachmentsQuery = { __typename?: 'Query' } & {
-	post: { __typename?: 'Post' } & Pick<Post, 'caption'> & {
-			attachments?: Maybe<
-				{ __typename?: 'Attachments' } & Pick<Attachments, 'uri'>
-			>
-			author: { __typename?: 'User' } & Pick<User, 'username'>
-		}
+export type GetPostCaptionAndAttachmentsQuery = {
+	__typename?: 'Query'
+	post: {
+		__typename?: 'Post'
+		caption: string
+		attachments?: Maybe<{ __typename?: 'Attachments'; uri: Array<string> }>
+		author: { __typename?: 'User'; username: string }
+	}
 }
 
 export type GetPostCommentsQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type GetPostCommentsQuery = { __typename?: 'Query' } & {
-	getPostComments: Array<
-		{ __typename?: 'Comment' } & Pick<
-			Comment,
-			'id' | 'text' | 'created_at'
-		> & {
-				author: { __typename?: 'User' } & Pick<
-					User,
-					'id' | 'email' | 'username' | 'avatar_url'
-				>
-			}
-	>
+export type GetPostCommentsQuery = {
+	__typename?: 'Query'
+	getPostComments: Array<{
+		__typename?: 'Comment'
+		id: string
+		text: string
+		created_at?: Maybe<any>
+		author: {
+			__typename?: 'User'
+			id: string
+			email: string
+			username: string
+			avatar_url?: Maybe<string>
+		}
+	}>
 }
 
 export type GetPublicFeedReachsQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type GetPublicFeedReachsQuery = { __typename?: 'Query' } & Pick<
-	Query,
-	'getPostReachs'
->
+export type GetPublicFeedReachsQuery = {
+	__typename?: 'Query'
+	getPostReachs: number
+}
 
 export type GetPostVotesQueryVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type GetPostVotesQuery = { __typename?: 'Query' } & {
-	post: { __typename?: 'Post' } & {
+export type GetPostVotesQuery = {
+	__typename?: 'Query'
+	post: {
+		__typename?: 'Post'
 		upvoter?: Maybe<
-			Array<{ __typename?: 'User' } & Pick<User, 'id' | 'username'>>
+			Array<{ __typename?: 'User'; id: string; username: string }>
 		>
 		downvoter?: Maybe<
-			Array<{ __typename?: 'User' } & Pick<User, 'id' | 'username'>>
+			Array<{ __typename?: 'User'; id: string; username: string }>
 		>
 	}
 }
 
 export type GetPublicFeedsQueryVariables = Exact<{ [key: string]: never }>
 
-export type GetPublicFeedsQuery = { __typename?: 'Query' } & {
-	posts: Array<
-		{ __typename?: 'Post' } & Pick<
-			Post,
-			'id' | 'caption' | 'type' | 'created_at'
-		> & {
-				author: { __typename?: 'User' } & Pick<
-					User,
-					'id' | 'username' | 'avatar_url'
-				> & {
-						badges?: Maybe<
-							Array<
-								{ __typename?: 'Badge' } & Pick<
-									Badge,
-									| 'id'
-									| 'label'
-									| 'variant'
-									| 'color'
-									| 'background'
-									| 'border'
-								>
-							>
-						>
-					}
-				attachments?: Maybe<
-					{ __typename?: 'Attachments' } & Pick<
-						Attachments,
-						'id' | 'type' | 'uri'
-					>
-				>
-			}
-	>
+export type GetPublicFeedsQuery = {
+	__typename?: 'Query'
+	posts: Array<{
+		__typename?: 'Post'
+		id: string
+		caption: string
+		type?: Maybe<string>
+		created_at?: Maybe<any>
+		author: {
+			__typename?: 'User'
+			id: string
+			username: string
+			avatar_url?: Maybe<string>
+			badges?: Maybe<
+				Array<{
+					__typename?: 'Badge'
+					id: string
+					label: string
+					variant: string
+					color?: Maybe<string>
+					background?: Maybe<string>
+					border?: Maybe<string>
+				}>
+			>
+		}
+		attachments?: Maybe<{
+			__typename?: 'Attachments'
+			id: string
+			type: string
+			uri: Array<string>
+		}>
+	}>
 }
 
 export type GetUnreadNotificationsQueryVariables = Exact<{
 	[key: string]: never
 }>
 
-export type GetUnreadNotificationsQuery = { __typename?: 'Query' } & {
-	notifications: { __typename?: 'NotificationsDTO' } & Pick<
-		NotificationsDto,
-		'unread'
-	>
+export type GetUnreadNotificationsQuery = {
+	__typename?: 'Query'
+	notifications: { __typename?: 'NotificationsDTO'; unread: number }
 }
 
 export type GetUserBadgeQueryVariables = Exact<{
 	username: Scalars['String']
 }>
 
-export type GetUserBadgeQuery = { __typename?: 'Query' } & {
-	user: { __typename?: 'User' } & {
+export type GetUserBadgeQuery = {
+	__typename?: 'Query'
+	user: {
+		__typename?: 'User'
 		badges?: Maybe<
-			Array<
-				{ __typename?: 'Badge' } & Pick<
-					Badge,
-					| 'id'
-					| 'label'
-					| 'variant'
-					| 'color'
-					| 'background'
-					| 'border'
-				>
-			>
+			Array<{
+				__typename?: 'Badge'
+				id: string
+				label: string
+				variant: string
+				color?: Maybe<string>
+				background?: Maybe<string>
+				border?: Maybe<string>
+			}>
 		>
 	}
 }
@@ -653,11 +659,15 @@ export type GetUserProfileQueryVariables = Exact<{
 	id: Scalars['String']
 }>
 
-export type GetUserProfileQuery = { __typename?: 'Query' } & {
-	getUserById: { __typename?: 'User' } & Pick<
-		User,
-		'id' | 'username' | 'avatar_url'
-	>
+export type GetUserProfileQuery = {
+	__typename?: 'Query'
+	getUserById: {
+		__typename?: 'User'
+		id: string
+		username: string
+		avatar_url?: Maybe<string>
+		bio?: Maybe<string>
+	}
 }
 
 export type CommentsSubscriptionSubscriptionVariables = Exact<{
@@ -666,32 +676,37 @@ export type CommentsSubscriptionSubscriptionVariables = Exact<{
 
 export type CommentsSubscriptionSubscription = {
 	__typename?: 'Subscription'
-} & {
-	commentsSubscription: { __typename?: 'CommentsDTO' } & Pick<
-		CommentsDto,
-		'postId' | 'type'
-	> & {
-			comment: { __typename?: 'Comment' } & Pick<
-				Comment,
-				'id' | 'text' | 'created_at'
-			> & {
-					author: { __typename?: 'User' } & Pick<
-						User,
-						'id' | 'username' | 'email' | 'avatar_url'
-					>
-				}
+	commentsSubscription: {
+		__typename?: 'CommentsDTO'
+		postId: string
+		type: string
+		comment: {
+			__typename?: 'Comment'
+			id: string
+			text: string
+			created_at?: Maybe<any>
+			author: {
+				__typename?: 'User'
+				id: string
+				username: string
+				email: string
+				avatar_url?: Maybe<string>
+			}
 		}
+	}
 }
 
 export type DownvoteSubscriptionVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type DownvoteSubscription = { __typename?: 'Subscription' } & {
-	downvoteSubscription: { __typename?: 'DownvoteDTO' } & Pick<
-		DownvoteDto,
-		'downvotes'
-	> & { downvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
+export type DownvoteSubscription = {
+	__typename?: 'Subscription'
+	downvoteSubscription: {
+		__typename?: 'DownvoteDTO'
+		downvotes: number
+		downvoters: Array<{ __typename?: 'User'; id: string }>
+	}
 }
 
 export type UnreadNotificationsSubscriptionVariables = Exact<{
@@ -700,11 +715,11 @@ export type UnreadNotificationsSubscriptionVariables = Exact<{
 
 export type UnreadNotificationsSubscription = {
 	__typename?: 'Subscription'
-} & {
-	notificationSubscription: { __typename?: 'NotificationsDTO' } & Pick<
-		NotificationsDto,
-		'userId' | 'unread'
-	>
+	notificationSubscription: {
+		__typename?: 'NotificationsDTO'
+		userId: string
+		unread: number
+	}
 }
 
 export type TotalCommentsSubscriptionSubscriptionVariables = Exact<{
@@ -713,22 +728,24 @@ export type TotalCommentsSubscriptionSubscriptionVariables = Exact<{
 
 export type TotalCommentsSubscriptionSubscription = {
 	__typename?: 'Subscription'
-} & {
-	commentsSubscription: { __typename?: 'CommentsDTO' } & Pick<
-		CommentsDto,
-		'postId' | 'commentsSum'
-	>
+	commentsSubscription: {
+		__typename?: 'CommentsDTO'
+		postId: string
+		commentsSum?: Maybe<number>
+	}
 }
 
 export type UpvoteSubscriptionVariables = Exact<{
 	postId: Scalars['String']
 }>
 
-export type UpvoteSubscription = { __typename?: 'Subscription' } & {
-	upvoteSubscription: { __typename?: 'UpvoteDTO' } & Pick<
-		UpvoteDto,
-		'upvotes'
-	> & { upvoters: Array<{ __typename?: 'User' } & Pick<User, 'id'>> }
+export type UpvoteSubscription = {
+	__typename?: 'Subscription'
+	upvoteSubscription: {
+		__typename?: 'UpvoteDTO'
+		upvotes: number
+		upvoters: Array<{ __typename?: 'User'; id: string }>
+	}
 }
 
 export const AddDownvoteDocument = gql`
@@ -1829,6 +1846,7 @@ export const GetUserProfileDocument = gql`
 			id
 			username
 			avatar_url
+			bio
 		}
 	}
 `

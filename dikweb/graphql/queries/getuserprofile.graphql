@@ -3,5 +3,6 @@ query getUserProfile($id: String!) {
 		id
 		username
 		avatar_url
+		bio
 	}
 }

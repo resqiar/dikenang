@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useGetUserProfileQuery } from '../../../generated/graphql'
 import { UserProfileType } from '../../../types/profile.type'
 import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
@@ -10,17 +11,34 @@ interface Props {
 }
 
 export default function Leftbar(props: Props) {
+	const getUserProfile = useGetUserProfileQuery({
+		variables: {
+			id: props.profile.id,
+		},
+	})
+
 	return (
 		<LeftBarWrapper>
-			{/* Card */}
-			{/* <Card bgColor="var(--background-dimmed-500)">
-				<SidebarHeader avatarSrc={profile.avatar_url} />
-				<SidebarHeaderProfile
-					username={profile.username}
-					description={profile.bio}
-				/>
-			</Card> */}
-			<SidebarSkeleton />
+			{getUserProfile.loading ? (
+				<SidebarSkeleton />
+			) : (
+				<Card bgColor="var(--background-dimmed-500)">
+					<SidebarHeader
+						avatarSrc={
+							getUserProfile.data?.getUserById.avatar_url ??
+							undefined
+						}
+					/>
+					<SidebarHeaderProfile
+						username={
+							getUserProfile.data?.getUserById.username as string
+						}
+						description={
+							getUserProfile.data?.getUserById.bio as string
+						}
+					/>
+				</Card>
+			)}
 		</LeftBarWrapper>
 	)
 }

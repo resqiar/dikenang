@@ -25,8 +25,6 @@ export default async function checkAuth(ctx: NextPageContext) {
 					id
 					username
 					avatar_url
-					email
-					bio
 				}
 			}
 		`
