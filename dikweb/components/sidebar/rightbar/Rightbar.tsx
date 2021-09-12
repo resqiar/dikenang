@@ -2,18 +2,22 @@ import styled from 'styled-components'
 import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
+import SidebarSkeleton from '../SidebarSkeleton'
 
 export default function Rightbar() {
 	return (
 		<RightBarWrapper>
 			{/* Card */}
-			<Card bgColor="var(--background-dimmed-500)">
+			{/* <Card bgColor="var(--background-dimmed-500)">
 				<SidebarHeader bannerSrc="/images/bg.png" />
 				<SidebarHeaderProfile
 					username="Your Future Partner"
 					description="Stay tune for future partner feature!"
 				/>
-			</Card>
+			</Card> */}
+
+			{/* Skeleton */}
+			<SidebarSkeleton />
 		</RightBarWrapper>
 	)
 }

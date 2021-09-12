@@ -3,22 +3,24 @@ import { UserProfileType } from '../../../types/profile.type'
 import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
+import SidebarSkeleton from '../SidebarSkeleton'
 
 interface Props {
 	profile: UserProfileType
 }
 
-export default function Leftbar({ profile }: Props) {
+export default function Leftbar(props: Props) {
 	return (
 		<LeftBarWrapper>
 			{/* Card */}
-			<Card bgColor="var(--background-dimmed-500)">
+			{/* <Card bgColor="var(--background-dimmed-500)">
 				<SidebarHeader avatarSrc={profile.avatar_url} />
 				<SidebarHeaderProfile
 					username={profile.username}
 					description={profile.bio}
 				/>
-			</Card>
+			</Card> */}
+			<SidebarSkeleton />
 		</LeftBarWrapper>
 	)
 }
