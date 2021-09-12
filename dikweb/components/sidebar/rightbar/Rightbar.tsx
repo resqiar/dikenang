@@ -3,6 +3,7 @@ import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
 import SidebarSkeleton from '../SidebarSkeleton'
+import PartnerNotFound from './PartnerNotFound'
 
 export default function Rightbar() {
 	return (
@@ -17,7 +18,9 @@ export default function Rightbar() {
 			</Card> */}
 
 			{/* Skeleton */}
-			<SidebarSkeleton />
+			{/* <SidebarSkeleton /> */}
+
+			<PartnerNotFound />
 		</RightBarWrapper>
 	)
 }
