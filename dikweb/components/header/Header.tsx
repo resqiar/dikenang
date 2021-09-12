@@ -233,10 +233,15 @@ export default function Header(props: Props) {
 }
 
 const HeaderWrapper = styled.div`
-	background: transparent;
+	background: rgba(11, 14, 16, 0.3);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
 	padding: 2px 10%;
 	display: flex;
 	min-height: 55px;
+	position: sticky;
+	top: 0;
+	z-index: 99;
 	align-items: center;
 	justify-content: space-between;
 
@@ -244,6 +249,8 @@ const HeaderWrapper = styled.div`
 	@media (max-width: 600px) {
 		justify-content: space-between;
 		padding: 0px 12px 0px 24px;
+
+		background: rgba(11, 14, 16, 0.9);
 	}
 `
 const HeaderBrand = styled.div`

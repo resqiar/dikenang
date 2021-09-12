@@ -30,7 +30,7 @@ const LeftBarWrapper = styled.div`
 	width: 100%;
 	margin: 18px 8px;
 	height: min-content;
-	top: 20px;
+	top: 100px;
 	position: sticky;
 
 	/* How mobile should behave */
