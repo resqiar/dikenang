@@ -30,6 +30,7 @@ const Wrapper = styled.div`
 	align-items: center;
 	justify-content: center;
 	border-radius: 8px;
+	cursor: default;
 	border: 2px dashed var(--font-white-200);
 `
 const IconWrapper = styled.div`
