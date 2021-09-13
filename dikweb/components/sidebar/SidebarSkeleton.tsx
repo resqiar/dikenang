@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import Card from '../card/Card'
 
 import Skeleton from '@material-ui/lab/Skeleton'
-import Avatar from '@material-ui/core/Avatar'
 
 export default function SidebarSkeleton() {
 	return (
