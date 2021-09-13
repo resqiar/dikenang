@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useGetMyRelationshipQuery } from '../../../generated/graphql'
 import Card from '../../card/Card'
 import SidebarHeader from '../header/SidebarHeader'
 import SidebarHeaderProfile from '../header/SidebarHeaderProfile'
@@ -6,21 +7,32 @@ import SidebarSkeleton from '../SidebarSkeleton'
 import PartnerNotFound from './PartnerNotFound'
 
 export default function Rightbar() {
+	/**
+	 * Check to the server whether
+	 * current user has a relationship or not,
+	 * if not return null.
+	 */
+	const getMyRelationship = useGetMyRelationshipQuery()
+
 	return (
 		<RightBarWrapper>
-			{/* Card */}
-			{/* <Card bgColor="var(--background-dimmed-500)">
-				<SidebarHeader bannerSrc="/images/bg.png" />
-				<SidebarHeaderProfile
-					username="Your Future Partner"
-					description="Stay tune for future partner feature!"
-				/>
-			</Card> */}
-
-			{/* Skeleton */}
-			{/* <SidebarSkeleton /> */}
-
-			<PartnerNotFound />
+			{getMyRelationship.loading ? (
+				<SidebarSkeleton />
+			) : (
+				[
+					getMyRelationship.data ? (
+						<Card bgColor="var(--background-dimmed-500)">
+							<SidebarHeader bannerSrc="/images/bg.png" />
+							<SidebarHeaderProfile
+								username="Your Future Partner"
+								description="Stay tune for future partner feature!"
+							/>
+						</Card>
+					) : (
+						<PartnerNotFound />
+					),
+				]
+			)}
 		</RightBarWrapper>
 	)
 }
