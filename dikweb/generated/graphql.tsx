@@ -261,6 +261,7 @@ export type Query = {
 	postByAuthorAndId: Post
 	getPostReachs: Scalars['Int']
 	getPostComments: Array<Comment>
+	getMyRelationship: Relationship
 	notifications: NotificationsDto
 }
 
@@ -490,6 +491,28 @@ export type GetListOfNotificationsQuery = {
 				avatar_url?: Maybe<string>
 			}
 		}>
+	}
+}
+
+export type GetMyRelationshipQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetMyRelationshipQuery = {
+	__typename?: 'Query'
+	getMyRelationship: {
+		__typename?: 'Relationship'
+		id: string
+		type?: Maybe<string>
+		description?: Maybe<string>
+		created_at?: Maybe<any>
+		partnership?: Maybe<
+			Array<{
+				__typename?: 'User'
+				id: string
+				username: string
+				bio?: Maybe<string>
+				avatar_url?: Maybe<string>
+			}>
+		>
 	}
 }
 
@@ -1312,6 +1335,72 @@ export type GetListOfNotificationsLazyQueryHookResult = ReturnType<
 export type GetListOfNotificationsQueryResult = Apollo.QueryResult<
 	GetListOfNotificationsQuery,
 	GetListOfNotificationsQueryVariables
+>
+export const GetMyRelationshipDocument = gql`
+	query getMyRelationship {
+		getMyRelationship {
+			id
+			type
+			description
+			created_at
+			partnership {
+				id
+				username
+				bio
+				avatar_url
+			}
+		}
+	}
+`
+
+/**
+ * __useGetMyRelationshipQuery__
+ *
+ * To run a query within a React component, call `useGetMyRelationshipQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyRelationshipQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyRelationshipQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyRelationshipQuery(
+	baseOptions?: Apollo.QueryHookOptions<
+		GetMyRelationshipQuery,
+		GetMyRelationshipQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetMyRelationshipQuery,
+		GetMyRelationshipQueryVariables
+	>(GetMyRelationshipDocument, options)
+}
+export function useGetMyRelationshipLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetMyRelationshipQuery,
+		GetMyRelationshipQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetMyRelationshipQuery,
+		GetMyRelationshipQueryVariables
+	>(GetMyRelationshipDocument, options)
+}
+export type GetMyRelationshipQueryHookResult = ReturnType<
+	typeof useGetMyRelationshipQuery
+>
+export type GetMyRelationshipLazyQueryHookResult = ReturnType<
+	typeof useGetMyRelationshipLazyQuery
+>
+export type GetMyRelationshipQueryResult = Apollo.QueryResult<
+	GetMyRelationshipQuery,
+	GetMyRelationshipQueryVariables
 >
 export const GetPostByIdDocument = gql`
 	query getPostById($postId: String!, $username: String!) {

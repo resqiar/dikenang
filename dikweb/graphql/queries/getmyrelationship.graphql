@@ -1,0 +1,14 @@
+query getMyRelationship {
+	getMyRelationship {
+		id
+		type
+		description
+		created_at
+		partnership {
+			id
+			username
+			bio
+			avatar_url
+		}
+	}
+}
