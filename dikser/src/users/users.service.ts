@@ -30,7 +30,7 @@ export class UsersService {
 			 * register user to database, @Possibly duplicate
 			 * username or email fields
 			 */
-			throw new BadRequestException(e.detail)
+			throw new BadRequestException()
 		}
 	}
 
@@ -61,7 +61,7 @@ export class UsersService {
 			 * @Error here means that client fails to get
 			 * correct data from the database/data not found
 			 */
-			throw new NotFoundException(e.detail)
+			throw new NotFoundException()
 		}
 	}
 
@@ -83,7 +83,7 @@ export class UsersService {
 			 * @Error here means that client fails to get
 			 * correct data from the database/data not found
 			 */
-			throw new NotFoundException(e.detail)
+			throw new NotFoundException()
 		}
 	}
 
@@ -107,7 +107,7 @@ export class UsersService {
 			 * update user to database, @Possibly duplicate
 			 * username or email fields
 			 */
-			throw new BadRequestException(e.detail)
+			throw new BadRequestException()
 		}
 	}
 }
