@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common'
-import { Args, Mutation, Resolver } from '@nestjs/graphql'
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql'
 import { AuthStatusGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
 import { User } from '../users/entities/user.entity'
@@ -31,5 +31,13 @@ export class RelationshipResolver {
 		@CurrentUser() currentUser: User
 	): Promise<DeleteRelationshipResponse> {
 		return this.relationshipService.delete(currentUser.id)
+	}
+
+	@Query(() => Relationship, { name: 'getMyRelationship' })
+	@UseGuards(AuthStatusGuard)
+	async getRelationship(
+		@CurrentUser() currentUser: User
+	): Promise<Relationship> {
+		return await this.relationshipService.getMyRelationship(currentUser)
 	}
 }

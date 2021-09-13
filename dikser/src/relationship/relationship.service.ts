@@ -2,6 +2,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common'
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
+import { User } from '../users/entities/user.entity'
 import { UsersService } from '../users/users.service'
 import { CreateRelationshipInput } from './dto/create-relationship.input'
 import { DeleteRelationshipResponse } from './dto/delete-relationship.dto'
@@ -93,7 +94,14 @@ export class RelationshipService {
 			 * @Error here means that client fails to get
 			 * correct data from the database/data not found
 			 */
-			throw new NotFoundException(e.message)
+			throw new NotFoundException()
 		}
+	}
+
+	async getMyRelationship(user: User) {
+		const targetUser = await this.usersService.findById(user.id)
+		if (!targetUser || !targetUser.relationship)
+			throw new NotFoundException()
+		return await this.findById(targetUser.relationship.id)
 	}
 }
