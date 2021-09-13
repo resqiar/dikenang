@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import styled from 'styled-components'
+import Icons from '../icons/Icons'
+import { useSpring, animated } from 'react-spring'
 
 import { SearchOutlined } from '@material-ui/icons'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
-import Icons from '../icons/Icons'
 
 export default function AutoCompleteSearch() {
-	// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 	const options = [
 		{ title: 'Alexander', type: 'community' },
 		{ title: 'Brotherhood1234', type: 'community' },
@@ -50,6 +50,14 @@ export default function AutoCompleteSearch() {
 		getOptionLabel: (option) => option.title,
 	})
 
+	// react-spring fade animation
+	const fadeAnimation = useSpring({
+		from: { opacity: 0 },
+		to: { opacity: 1 },
+		leave: { opacity: 0 },
+		reset: true,
+	})
+
 	return (
 		<HeaderSearchInput>
 			<InputFieldWrapper {...getRootProps()}>
@@ -72,7 +80,7 @@ export default function AutoCompleteSearch() {
 			</InputFieldWrapper>
 
 			{groupedOptions.length > 0 ? (
-				<AutoCompleteItemWrapper>
+				<AutoCompleteItemWrapper style={fadeAnimation}>
 					<AutoCompleteListItemWrapper {...getListboxProps()}>
 						{groupedOptions.filter(
 							(value) => value.type === 'community'
@@ -163,7 +171,7 @@ const SearchInputElement = styled.input`
 	padding: 9px;
 	outline: none;
 `
-const AutoCompleteItemWrapper = styled.div`
+const AutoCompleteItemWrapper = styled(animated.div)`
 	position: absolute;
 	top: 10;
 	right: 0;
