@@ -36,6 +36,7 @@ interface Props {
 	activePath?: string
 	profile: UserProfileType
 	titleState?: Dispatch<SetStateAction<string | undefined>>
+	position?: 'sticky' | 'fixed' | undefined
 }
 
 const StyledMenu = withStyles({
@@ -146,7 +147,7 @@ export default function Header(props: Props) {
 	}, [getUnreadNotifications.data, getUnreadSubscription.data])
 
 	return (
-		<HeaderWrapper>
+		<HeaderWrapper position={props.position}>
 			{/* Left Side */}
 			<HeaderBrand>
 				{/* Brand Logo */}
@@ -232,14 +233,15 @@ export default function Header(props: Props) {
 	)
 }
 
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.div<{ position?: 'sticky' | 'fixed' | undefined }>`
 	background: rgba(11, 14, 16, 0.3);
 	backdrop-filter: blur(20px);
 	-webkit-backdrop-filter: blur(20px);
 	padding: 2px 10%;
 	display: flex;
 	min-height: 55px;
-	position: sticky;
+	width: 100%;
+	position: ${(props) => props.position || 'sticky'};
 	top: 0;
 	z-index: 99;
 	align-items: center;
