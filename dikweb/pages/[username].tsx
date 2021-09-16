@@ -1,9 +1,9 @@
-import Header from '../../components/header/Header'
-import Meta from '../../components/meta/Meta'
-import checkAuth from '../../utils/auth'
+import Header from '../components/header/Header'
+import Meta from '../components/meta/Meta'
+import checkAuth from '../utils/auth'
 import { NextPageContext } from 'next'
-import { UserProfileType } from '../../types/profile.type'
-import ProfileBody from '../../components/body/ProfileBody'
+import { UserProfileType } from '../types/profile.type'
+import ProfileBody from '../components/body/ProfileBody'
 
 interface Props {
 	user: UserProfileType
@@ -16,7 +16,7 @@ export default function myrelationship(props: Props) {
 			<Meta title="Profile — Dikenang" />
 
 			{/* Header */}
-			<Header profile={props.user} position="fixed" />
+			<Header profile={props.user} />
 
 			{/* Body */}
 			<ProfileBody />
