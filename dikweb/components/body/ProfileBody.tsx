@@ -4,6 +4,8 @@ import Card from '../card/Card'
 
 import { Avatar, Chip } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faDoorClosed } from '@fortawesome/free-solid-svg-icons'
 
 export default function ProfileBody() {
 	return (
@@ -25,12 +27,14 @@ export default function ProfileBody() {
 									quality={90}
 									objectFit="cover"
 								/>
+								{/* Overlay Fade Effect */}
 								<FadeEffect />
 							</BannerWrapper>
 
 							{/* Profile Text */}
 							<ProfileTextWrapper>
 								<ProfileAvatar>
+									{/* Avatar */}
 									<AvatarElement
 										src={
 											'https://lh3.googleusercontent.com/ogw/ADea4I6Z5sS8jA45V0sn8pRm7kO_xYcZznhw222y5LxpAQ=s83-c-mo'
@@ -39,7 +43,6 @@ export default function ProfileBody() {
 									/>
 								</ProfileAvatar>
 
-								{/* Profile Text */}
 								<HeaderDetailText>
 									<UsernameWrapper>
 										{/* Username Text */}
@@ -80,6 +83,44 @@ export default function ProfileBody() {
 										development process will be updated here
 										regularly.
 									</BioElement>
+
+									{/* Followers And Stuff */}
+									<AttributesWrapper>
+										{/* Publics */}
+										<PublicFeedTextElement>
+											120
+											<PublicFeedSubTextElement>
+												Publics
+											</PublicFeedSubTextElement>
+										</PublicFeedTextElement>
+
+										{/* Followers */}
+										<PublicFeedTextElement>
+											657K
+											<PublicFeedSubTextElement>
+												Folls
+											</PublicFeedSubTextElement>
+										</PublicFeedTextElement>
+
+										{/* Upvotes */}
+										<PublicFeedTextElement>
+											987K
+											<PublicFeedSubTextElement>
+												Upvotes
+											</PublicFeedSubTextElement>
+										</PublicFeedTextElement>
+
+										{/* Relationship */}
+										<RelationshipStatusWrapper>
+											<FontAwesomeIcon
+												color="var(--font-white-800)"
+												icon={faDoorClosed}
+											/>
+											<RelationshipStatusText>
+												In Relationship
+											</RelationshipStatusText>
+										</RelationshipStatusWrapper>
+									</AttributesWrapper>
 								</HeaderDetailText>
 							</ProfileTextWrapper>
 						</ProfileHeaderWrapper>
@@ -166,7 +207,7 @@ const BannerWrapper = styled.div`
 const ProfileHeaderWrapper = styled.div``
 
 const ProfileAvatar = styled.div`
-	margin: -6% 0px 0px 5%;
+	margin: -13% 0px 0px 5%;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -212,3 +253,39 @@ const BioElement = styled.p`
 	margin-top: 4px;
 `
 const ProfileSection = styled.div``
+const AttributesWrapper = styled.div`
+	padding: 22px 0px;
+	width: 100%;
+	flex-flow: row wrap;
+	display: flex;
+	gap: 5%;
+	align-items: center;
+	justify-content: flex-start;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		padding: 18px 0px;
+		justify-content: space-evenly;
+		gap: 0;
+	}
+`
+const PublicFeedTextElement = styled.span`
+	font-weight: bold;
+	display: flex;
+	gap: 4px;
+	font-size: 15px;
+	color: var(--font-white-800);
+`
+const PublicFeedSubTextElement = styled.p`
+	font-weight: normal;
+	font-size: 15px;
+`
+const RelationshipStatusWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 6px;
+`
+const RelationshipStatusText = styled.p`
+	color: var(--font-white-800);
+	font-size: 15px;
+`
