@@ -15,6 +15,7 @@ import '../styles/richtextstyles.css'
 import '../styles/richtextdecorators.css'
 import MaintenancePage from './offline-for-maintenance'
 
+import { StylesProvider } from '@material-ui/core/styles'
 /**
  * NProgress Configs
  * Simply show loading progress at the top
@@ -63,7 +64,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	return (
 		<ApolloProvider client={apolloClient}>
-			<Component {...pageProps} />
+			<StylesProvider injectFirst>
+				<Component {...pageProps} />
+			</StylesProvider>
 		</ApolloProvider>
 	)
 }
