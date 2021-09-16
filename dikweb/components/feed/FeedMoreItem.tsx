@@ -112,7 +112,7 @@ export default function FeedMoreItem(props: Props) {
 		navigator.clipboard.writeText(
 			`${
 				process.env.NEXT_PUBLIC_FRONTEND_HOST
-			}/${props.postAuthorUsername.replaceAll(' ', '%20')}/${
+			}/story/${props.postAuthorUsername.replaceAll(' ', '%20')}/${
 				props.postId
 			}`
 		)
