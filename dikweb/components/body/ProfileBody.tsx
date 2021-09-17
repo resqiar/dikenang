@@ -6,6 +6,7 @@ import { Avatar, Chip } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDoorClosed } from '@fortawesome/free-solid-svg-icons'
+import Button from '../button/Button'
 
 export default function ProfileBody() {
 	return (
@@ -41,6 +42,21 @@ export default function ProfileBody() {
 										}
 										alt="avatar"
 									/>
+
+									{/* Follow Button */}
+									<FollowButtonWrapper>
+										<Button
+											border="none"
+											bgColor="rgb(8, 82, 155)"
+											padding="6px"
+											boxShadow="var(--box-shadow)"
+											fontWeight="bold"
+											borderRadius="20px"
+											type="button"
+											color="white"
+											text="Follow"
+										/>
+									</FollowButtonWrapper>
 								</ProfileAvatar>
 
 								<HeaderDetailText>
@@ -48,30 +64,17 @@ export default function ProfileBody() {
 										{/* Username Text */}
 										<UsernameElement>
 											Dikenang Engineering Team
-										</UsernameElement>
-
-										{/* Badge */}
-										<Chip
-											avatar={
+											{/* Verified Badge */}
+											<BadgeWrapper>
 												<VerifiedUser
 													style={{
-														color: 'white',
-														width: '15px',
-														marginTop: '-1px',
-														paddingLeft: '2px',
+														color: 'lightblue',
+														width: '18px',
+														margin: '0px 0px -5px 4px',
 													}}
 												/>
-											}
-											label="Official"
-											variant="default"
-											size="small"
-											style={{
-												fontWeight: 'bold',
-												color: 'white',
-												background:
-													'var(--color-primary)',
-											}}
-										/>
+											</BadgeWrapper>
+										</UsernameElement>
 									</UsernameWrapper>
 
 									<UniqueNameElement>
@@ -127,16 +130,16 @@ export default function ProfileBody() {
 					</Card>
 				</ProfileSection>
 
-				<Card bgColor="var(--background-dimmed-500)">
+				{/* <Card bgColor="var(--background-dimmed-500)">
 					<div style={{ height: '500px' }}></div>
-				</Card>
+				</Card> */}
 			</ProfileDetailWrapper>
 
-			<ProfileSubWrapper>
+			{/* <ProfileSubWrapper>
 				<Card bgColor="var(--background-dimmed-500)">
 					<div style={{ height: '500px' }}></div>
 				</Card>
-			</ProfileSubWrapper>
+			</ProfileSubWrapper> */}
 		</ProfileBodyWrapper>
 	)
 }
@@ -176,6 +179,7 @@ const AvatarElement = styled(Avatar)`
 	width: 125px;
 	height: 125px;
 	border: 2px solid var(--font-white-800);
+	margin-top: -50%;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -207,11 +211,13 @@ const BannerWrapper = styled.div`
 const ProfileHeaderWrapper = styled.div``
 
 const ProfileAvatar = styled.div`
-	margin: -13% 0px 0px 5%;
+	margin-left: 5%;
+	padding: 8px 0px;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
-		margin: -15% 0px 4px 0px;
+		margin-left: 0px;
+		margin-bottom: 4px;
 	}
 `
 const ProfileTextWrapper = styled.div`
@@ -279,13 +285,26 @@ const PublicFeedTextElement = styled.span`
 const PublicFeedSubTextElement = styled.p`
 	font-weight: normal;
 	font-size: 15px;
+	margin-bottom: 6px;
 `
 const RelationshipStatusWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 6px;
+	margin-bottom: 6px;
 `
 const RelationshipStatusText = styled.p`
 	color: var(--font-white-800);
 	font-size: 15px;
+`
+const FollowButtonWrapper = styled.div`
+	margin: 20px 4px 8px 4px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		margin: 12px 4px 2px 4px;
+	}
+`
+const BadgeWrapper = styled.span`
+	padding: 0px 4px;
 `
