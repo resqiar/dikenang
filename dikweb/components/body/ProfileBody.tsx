@@ -25,7 +25,7 @@ export default function ProfileBody() {
 
 const ProfileBodyWrapper = styled.div`
 	display: flex;
-	gap: 18px;
+	gap: 8px;
 	margin: 28px 128px;
 
 	// how mobile should behave
