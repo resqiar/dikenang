@@ -2,11 +2,10 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import Card from '../card/Card'
 
-import { Avatar, Chip } from '@material-ui/core'
+import { Avatar, Button } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDoorClosed } from '@fortawesome/free-solid-svg-icons'
-import Button from '../button/Button'
 
 export default function ProfileBody() {
 	return (
@@ -45,17 +44,12 @@ export default function ProfileBody() {
 
 									{/* Follow Button */}
 									<FollowButtonWrapper>
-										<Button
-											border="none"
-											bgColor="rgb(8, 82, 155)"
-											padding="6px"
-											boxShadow="var(--box-shadow)"
-											fontWeight="bold"
-											borderRadius="20px"
-											type="button"
-											color="white"
-											text="Follow"
-										/>
+										<FollowButton
+											variant="contained"
+											fullWidth={true}
+										>
+											Follow
+										</FollowButton>
 									</FollowButtonWrapper>
 								</ProfileAvatar>
 
@@ -307,4 +301,18 @@ const FollowButtonWrapper = styled.div`
 `
 const BadgeWrapper = styled.span`
 	padding: 0px 4px;
+`
+const FollowButton = styled(Button)`
+	background: var(--color-primary);
+	border-radius: 20px;
+	padding: 2px 0px;
+	color: white;
+	font-family: var(--font-family);
+	font-weight: bold;
+	text-transform: none;
+	font-size: 16px;
+
+	&:hover {
+		background: purple;
+	}
 `
