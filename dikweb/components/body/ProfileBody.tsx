@@ -124,16 +124,16 @@ export default function ProfileBody() {
 					</Card>
 				</ProfileSection>
 
-				{/* <Card bgColor="var(--background-dimmed-500)">
-					<div style={{ height: '500px' }}></div>
-				</Card> */}
-			</ProfileDetailWrapper>
-
-			{/* <ProfileSubWrapper>
 				<Card bgColor="var(--background-dimmed-500)">
 					<div style={{ height: '500px' }}></div>
 				</Card>
-			</ProfileSubWrapper> */}
+			</ProfileDetailWrapper>
+
+			<ProfileSubWrapper>
+				<Card bgColor="var(--background-dimmed-500)">
+					<div style={{ height: '500px' }}></div>
+				</Card>
+			</ProfileSubWrapper>
 		</ProfileBodyWrapper>
 	)
 }
@@ -152,7 +152,6 @@ const ProfileDetailWrapper = styled.div`
 	display: flex;
 	flex: 0.8;
 	flex-direction: column;
-	gap: 18px;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -206,7 +205,7 @@ const ProfileHeaderWrapper = styled.div``
 
 const ProfileAvatar = styled.div`
 	margin-left: 5%;
-	padding: 8px 0px;
+	padding-top: 8px;
 
 	// how mobile should behave
 	@media (max-width: 600px) {
@@ -228,7 +227,7 @@ const HeaderDetailText = styled.div`
 	flex-direction: column;
 	align-items: flex-start;
 	text-align: start;
-	padding: 18px;
+	padding: 18px 18px 0px 18px;
 	gap: 2px;
 `
 
