@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Card from '../card/Card'
+import ProfileDetails from '../profile/ProfileDetails'
 import ProfileHeader from '../profile/ProfileHeader'
 
 export default function ProfileBody() {
@@ -9,9 +10,8 @@ export default function ProfileBody() {
 				{/* Profile Header */}
 				<ProfileHeader />
 
-				<Card bgColor="var(--background-dimmed-500)">
-					<div style={{ height: '500px' }}></div>
-				</Card>
+				{/* Details Card */}
+				<ProfileDetails />
 			</ProfileDetailWrapper>
 
 			<ProfileSubWrapper>
