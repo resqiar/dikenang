@@ -54,14 +54,14 @@ export default function ProfileHeader() {
 							<UsernameWrapper>
 								{/* Username Text */}
 								<UsernameElement>
-									Dikenang Engineering Team
+									Dikenang Team
 									{/* Verified Badge */}
 									<BadgeWrapper>
 										<VerifiedUser
 											style={{
-												color: 'lightblue',
+												color: 'blue',
 												width: '18px',
-												margin: '0px 0px -5px 4px',
+												margin: '0px 0px -5px 2px',
 											}}
 										/>
 									</BadgeWrapper>
@@ -72,7 +72,8 @@ export default function ProfileHeader() {
 							<BioElement>
 								Official account for Dikenang development
 								process. All related to development process will
-								be updated here regularly.
+								be updated here regularly. Any contributions are
+								welcome!
 							</BioElement>
 
 							{/* Followers And Stuff */}
@@ -186,6 +187,12 @@ const HeaderDetailText = styled.div`
 	text-align: start;
 	padding: 18px 18px 0px 18px;
 	gap: 2px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		align-items: center;
+		text-align: center;
+	}
 `
 
 const UsernameWrapper = styled.div`
