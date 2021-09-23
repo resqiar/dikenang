@@ -7,6 +7,7 @@ import ProfileHeader from '../profile/ProfileHeader'
 import { Breadcrumbs, Link } from '@material-ui/core'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
+import ProposeRelationship from '../profile/ProposeRelationship'
 
 export default function ProfileBody() {
 	return (
@@ -39,8 +40,10 @@ export default function ProfileBody() {
 				</ProfileDetailWrapper>
 
 				<ProfileSubWrapper>
+					<ProposeRelationship />
+
 					<Card bgColor="var(--background-dimmed-500)">
-						<div style={{ height: '500px' }}></div>
+						<div style={{ height: '400px' }}></div>
 					</Card>
 				</ProfileSubWrapper>
 			</ProfileSectionWrapper>
@@ -74,7 +77,13 @@ const ProfileDetailWrapper = styled.div`
 `
 const ProfileSubWrapper = styled.div`
 	display: flex;
-	flex: 0.2;
+	flex: 0.25;
+	flex-direction: column;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		display: none;
+	}
 `
 
 const BreadcrumbsWrapper = styled.div`
