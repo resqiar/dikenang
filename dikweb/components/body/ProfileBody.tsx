@@ -63,6 +63,10 @@ const ProfileBodyWrapper = styled.div`
 const ProfileSectionWrapper = styled.div`
 	display: flex;
 	gap: 8px;
+
+	@media (max-width: 600px) {
+		flex-direction: column;
+	}
 `
 
 const ProfileDetailWrapper = styled.div`
@@ -79,11 +83,6 @@ const ProfileSubWrapper = styled.div`
 	display: flex;
 	flex: 0.25;
 	flex-direction: column;
-
-	// how mobile should behave
-	@media (max-width: 600px) {
-		display: none;
-	}
 `
 
 const BreadcrumbsWrapper = styled.div`
