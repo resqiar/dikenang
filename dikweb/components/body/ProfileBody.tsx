@@ -1,6 +1,5 @@
 import Router from 'next/router'
 import styled from 'styled-components'
-import Card from '../card/Card'
 import ProfileDetails from '../profile/ProfileDetails'
 import ProfileHeader from '../profile/ProfileHeader'
 
