@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import PrismDecorator from './PrismDecorator'
 import 'draft-js/dist/Draft.css'
 import 'draftail/dist/draftail.css'
+import createLinkifyPlugin from '@draft-js-plugins/linkify'
+import '@draft-js-plugins/linkify/lib/plugin.css'
 
 interface Props {
 	onChangeCallback?: (content: any) => void
@@ -14,6 +16,10 @@ interface Props {
 	margin?: string
 	padding?: string
 }
+
+const linkifyPlugin = createLinkifyPlugin({
+	target: '_blank',
+})
 
 export default function RichTextEditor(props: Props) {
 	return (
@@ -73,6 +79,7 @@ export default function RichTextEditor(props: Props) {
 						  ]
 						: undefined
 				}
+				plugins={[linkifyPlugin]}
 			/>
 		</RichTextEditorWrapper>
 	)

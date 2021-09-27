@@ -12,6 +12,14 @@
 	}
 }
 
+.Draftail-Editor--readonly {
+	pointer-events: auto !important;
+}
+
+.Draftail-Editor--readonly .DraftEditor-editorContainer::before {
+	display: none !important;
+}
+
 /* Override default */
 .Draftail-Editor,
 .Draftail-Editor--readonly,
