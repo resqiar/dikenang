@@ -49,6 +49,16 @@ export class User {
 	})
 	bio: string
 
+	@Field(() => Boolean)
+	@Column('boolean', { nullable: true, default: false })
+	/**
+	 * Temporary field,
+	 * whenever application grows,
+	 * this field should be moved to their own
+	 * table and relations
+	 */
+	verified: boolean
+
 	@Field({ nullable: true })
 	@Column('text', { nullable: true })
 	avatar_url: string
