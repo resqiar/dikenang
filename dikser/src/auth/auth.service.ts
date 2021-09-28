@@ -39,6 +39,7 @@ export class AuthService {
 				// create random username
 				// will generate something like 'res_phc56FWNRX2w'
 				username: Randomize(res.given_name),
+				fullname: res.given_name ?? Randomize(),
 				avatar_url: res.profile_url,
 			})
 

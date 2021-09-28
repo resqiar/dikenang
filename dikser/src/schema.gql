@@ -70,6 +70,7 @@ type Notification {
 
 type User {
   id: String!
+  fullname: String!
   username: String!
   email: String!
   bio: String

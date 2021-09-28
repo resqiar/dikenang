@@ -27,6 +27,10 @@ export class User {
 	oauth_id: string
 
 	@Field()
+	@Column({ nullable: true, default: 'Human' })
+	fullname: string
+
+	@Field()
 	@Column({
 		unique: true,
 	})
