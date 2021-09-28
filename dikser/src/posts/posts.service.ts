@@ -98,6 +98,23 @@ export class PostsService {
 		return await this.postsRepository.save(createdPost)
 	}
 
+	async findRelevance(input: string) {
+		/**
+		 * Search relevance of a certain caption
+		 * with postgres natural way.
+		 */
+		const formattedQuery = input.trim().replace(/ /g, ' & ')
+		return await this.postsRepository
+			.createQueryBuilder()
+			.select('post.caption')
+			.from(Post, 'post')
+			.where(
+				`to_tsvector('simple',post.caption) @@ plainto_tsquery('simple', :query)`,
+				{ query: `${formattedQuery}:*` }
+			)
+			.getMany()
+	}
+
 	async findAll() {
 		return await this.postsRepository.find({
 			where: {

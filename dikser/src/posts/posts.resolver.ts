@@ -241,6 +241,12 @@ export class PostsResolver {
 		return 200
 	}
 
+	@Query(() => [Post])
+	@UseGuards(AuthStatusGuard)
+	async searchPostRelevance(@Args('input') input: string): Promise<Post[]> {
+		return await this.postsService.findRelevance(input)
+	}
+
 	/**
 	 * @Subscriptions
 	 * Graphql subscriptions for upvote and

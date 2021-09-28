@@ -141,6 +141,7 @@ type Query {
   post(postId: String!): Post!
   postByAuthorAndId(username: String!, postId: String!): Post!
   getPostReachs(postId: String!): Int!
+  searchPostRelevance(input: String!): [Post!]!
   getPostComments(postId: String!): [Comment!]!
   getMyRelationship: Relationship!
   notifications: NotificationsDTO!
