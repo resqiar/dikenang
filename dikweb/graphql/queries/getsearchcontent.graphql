@@ -1,0 +1,8 @@
+query getSearchContent($input: String!) {
+	searchContent(input: $input) {
+		id
+		title
+		type
+		avatarUrl
+	}
+}

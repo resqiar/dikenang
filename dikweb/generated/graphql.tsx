@@ -254,15 +254,18 @@ export type Query = {
 	user: User
 	getUserById: User
 	getMyProfile: User
+	searchUserRelevance: Array<User>
 	badges: Array<Badge>
 	badge: Badge
 	posts: Array<Post>
 	post: Post
 	postByAuthorAndId: Post
 	getPostReachs: Scalars['Int']
+	searchPostRelevance: Array<Post>
 	getPostComments: Array<Comment>
 	getMyRelationship: Relationship
 	notifications: NotificationsDto
+	searchContent: Array<SearchOptions>
 }
 
 export type QueryUserArgs = {
@@ -271,6 +274,10 @@ export type QueryUserArgs = {
 
 export type QueryGetUserByIdArgs = {
 	id: Scalars['String']
+}
+
+export type QuerySearchUserRelevanceArgs = {
+	input: Scalars['String']
 }
 
 export type QueryBadgeArgs = {
@@ -290,8 +297,16 @@ export type QueryGetPostReachsArgs = {
 	postId: Scalars['String']
 }
 
+export type QuerySearchPostRelevanceArgs = {
+	input: Scalars['String']
+}
+
 export type QueryGetPostCommentsArgs = {
 	postId: Scalars['String']
+}
+
+export type QuerySearchContentArgs = {
+	input: Scalars['String']
 }
 
 export type Relationship = {
@@ -303,6 +318,14 @@ export type Relationship = {
 	updated_at?: Maybe<Scalars['DateTime']>
 	partnership?: Maybe<Array<User>>
 	posts?: Maybe<Array<Post>>
+}
+
+export type SearchOptions = {
+	__typename?: 'SearchOptions'
+	id?: Maybe<Scalars['String']>
+	title?: Maybe<Scalars['String']>
+	type?: Maybe<Scalars['String']>
+	avatarUrl?: Maybe<Scalars['String']>
 }
 
 export type Subscription = {
@@ -352,9 +375,11 @@ export type UpvoteDto = {
 export type User = {
 	__typename?: 'User'
 	id: Scalars['String']
+	fullname?: Maybe<Scalars['String']>
 	username: Scalars['String']
 	email: Scalars['String']
 	bio?: Maybe<Scalars['String']>
+	verified: Scalars['Boolean']
 	avatar_url?: Maybe<Scalars['String']>
 	created_at?: Maybe<Scalars['DateTime']>
 	updated_at?: Maybe<Scalars['DateTime']>
@@ -644,6 +669,21 @@ export type GetPublicFeedsQuery = {
 			type: string
 			uri: Array<string>
 		}>
+	}>
+}
+
+export type GetSearchContentQueryVariables = Exact<{
+	input: Scalars['String']
+}>
+
+export type GetSearchContentQuery = {
+	__typename?: 'Query'
+	searchContent: Array<{
+		__typename?: 'SearchOptions'
+		id?: Maybe<string>
+		title?: Maybe<string>
+		type?: Maybe<string>
+		avatarUrl?: Maybe<string>
 	}>
 }
 
@@ -1806,6 +1846,67 @@ export type GetPublicFeedsLazyQueryHookResult = ReturnType<
 export type GetPublicFeedsQueryResult = Apollo.QueryResult<
 	GetPublicFeedsQuery,
 	GetPublicFeedsQueryVariables
+>
+export const GetSearchContentDocument = gql`
+	query getSearchContent($input: String!) {
+		searchContent(input: $input) {
+			id
+			title
+			type
+			avatarUrl
+		}
+	}
+`
+
+/**
+ * __useGetSearchContentQuery__
+ *
+ * To run a query within a React component, call `useGetSearchContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSearchContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSearchContentQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetSearchContentQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetSearchContentQuery,
+		GetSearchContentQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetSearchContentQuery,
+		GetSearchContentQueryVariables
+	>(GetSearchContentDocument, options)
+}
+export function useGetSearchContentLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetSearchContentQuery,
+		GetSearchContentQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetSearchContentQuery,
+		GetSearchContentQueryVariables
+	>(GetSearchContentDocument, options)
+}
+export type GetSearchContentQueryHookResult = ReturnType<
+	typeof useGetSearchContentQuery
+>
+export type GetSearchContentLazyQueryHookResult = ReturnType<
+	typeof useGetSearchContentLazyQuery
+>
+export type GetSearchContentQueryResult = Apollo.QueryResult<
+	GetSearchContentQuery,
+	GetSearchContentQueryVariables
 >
 export const GetUnreadNotificationsDocument = gql`
 	query getUnreadNotifications {
