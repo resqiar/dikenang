@@ -40,6 +40,23 @@ export class UsersService {
 		})
 	}
 
+	async findRelevance(input: string) {
+		/**
+		 * Search relevance of a certain field
+		 * with postgres natural way.
+		 */
+		const formattedQuery = input.trim().replace(/[^a-zA-Z0-9 ]/g, '')
+		if (formattedQuery.length === 0) return
+		return await this.userRepository
+			.createQueryBuilder()
+			.select('user.username')
+			.from(User, 'user')
+			.where(`to_tsvector(user.username) @@ to_tsquery(:query)`, {
+				query: `${formattedQuery}:*`,
+			})
+			.getMany()
+	}
+
 	async findOauth(oauthId: string) {
 		/**
 		 * @Usage is to search if user already signIn by its oauthId

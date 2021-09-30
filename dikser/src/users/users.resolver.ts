@@ -52,4 +52,12 @@ export class UsersResolver {
 	): Promise<User> {
 		return await this.usersService.update(id, updateUserInput)
 	}
+
+	@Query(() => [User])
+	@UseGuards(AuthStatusGuard)
+	async searchUserRelevance(
+		@Args('input') input: string
+	): Promise<User[] | undefined> {
+		return await this.usersService.findRelevance(input)
+	}
 }
