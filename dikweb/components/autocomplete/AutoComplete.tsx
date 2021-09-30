@@ -9,6 +9,7 @@ import AutoCompleteSkeleton from './AutoCompleteSkeleton'
 
 import { SearchOutlined } from '@material-ui/icons'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
+import { Avatar } from '@material-ui/core'
 
 export default function AutoCompleteSearch() {
 	/**
@@ -114,7 +115,15 @@ export default function AutoCompleteSearch() {
 											onClick={() => alert(option.title)}
 											key={option.id}
 										>
-											{option.title}
+											<MembersWrapper>
+												<AvatarElement
+													src={option.avatarUrl}
+													alt={`${option.title}'s avatar'`}
+												/>
+												<TextElement>
+													{option.title}
+												</TextElement>
+											</MembersWrapper>
 										</AutoCompleteList>
 									))}
 
@@ -134,7 +143,9 @@ export default function AutoCompleteSearch() {
 											onClick={() => alert(option.title)}
 											key={option.id}
 										>
-											{option.title}
+											<TextElement>
+												{option.title}
+											</TextElement>
 										</AutoCompleteList>
 									))}
 							</AutoCompleteListItemWrapper>
@@ -198,14 +209,11 @@ const AutoCompleteItemWrapper = styled(animated.div)`
 
 const AutoCompleteListItemWrapper = styled.div``
 const AutoCompleteList = styled.button`
-	padding: 8px;
+	padding: 10px 8px 8px 8px;
 	cursor: pointer;
-	color: var(--font-white-600);
 	outline: none;
 	background: none;
 	border: none;
-	font-family: var(--font-family);
-	font-size: 14px;
 
 	&:hover {
 		background: var(--background-dimmed-300);
@@ -214,5 +222,23 @@ const AutoCompleteList = styled.button`
 
 const ListTitle = styled.p`
 	font-weight: bold;
+	color: var(--font-white-600);
+`
+
+const MembersWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+`
+
+const AvatarElement = styled(Avatar)`
+	height: 30px;
+	width: 30px;
+	margin-top: -4px;
+`
+
+const TextElement = styled.p`
+	font-family: var(--font-family);
+	font-size: 14px;
 	color: var(--font-white-600);
 `
