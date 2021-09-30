@@ -243,7 +243,9 @@ export class PostsResolver {
 
 	@Query(() => [Post])
 	@UseGuards(AuthStatusGuard)
-	async searchPostRelevance(@Args('input') input: string): Promise<Post[]> {
+	async searchPostRelevance(
+		@Args('input') input: string
+	): Promise<Post[] | undefined> {
 		return await this.postsService.findRelevance(input)
 	}
 

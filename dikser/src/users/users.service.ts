@@ -45,7 +45,10 @@ export class UsersService {
 		 * Search relevance of a certain field
 		 * with postgres natural way.
 		 */
-		const formattedQuery = input.trim().replace(/[^a-zA-Z0-9 ]/g, '')
+		const formattedQuery = input
+			.trim()
+			.replace(/[^a-zA-Z0-9 ]/g, '')
+			.replace(/ /g, '&')
 		if (formattedQuery.length === 0) return
 		return await this.userRepository
 			.createQueryBuilder()

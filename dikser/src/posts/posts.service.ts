@@ -103,13 +103,17 @@ export class PostsService {
 		 * Search relevance of a certain caption
 		 * with postgres natural way.
 		 */
-		const formattedQuery = input.trim().replace(/ /g, ' & ')
+		const formattedQuery = input
+			.trim()
+			.replace(/[^a-zA-Z0-9 ]/g, '')
+			.replace(/ /g, '&')
+		if (formattedQuery.length === 0) return
 		return await this.postsRepository
 			.createQueryBuilder()
 			.select('post')
 			.from(Post, 'post')
 			.where(
-				`to_tsvector('simple',post.caption) @@ plainto_tsquery('simple', :query)`,
+				`to_tsvector('simple',post.caption) @@ to_tsquery('simple', :query)`,
 				{ query: `${formattedQuery}:*` }
 			)
 			.getMany()
