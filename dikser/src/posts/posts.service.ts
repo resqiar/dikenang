@@ -106,7 +106,7 @@ export class PostsService {
 		const formattedQuery = input.trim().replace(/ /g, ' & ')
 		return await this.postsRepository
 			.createQueryBuilder()
-			.select('post.caption')
+			.select('post')
 			.from(Post, 'post')
 			.where(
 				`to_tsvector('simple',post.caption) @@ plainto_tsquery('simple', :query)`,

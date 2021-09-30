@@ -49,7 +49,7 @@ export class UsersService {
 		if (formattedQuery.length === 0) return
 		return await this.userRepository
 			.createQueryBuilder()
-			.select('user.username')
+			.select('user')
 			.from(User, 'user')
 			.where(`to_tsvector(user.username) @@ to_tsquery(:query)`, {
 				query: `${formattedQuery}:*`,
