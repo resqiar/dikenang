@@ -70,7 +70,7 @@ type Notification {
 
 type User {
   id: String!
-  fullname: String!
+  fullname: String
   username: String!
   email: String!
   bio: String
@@ -137,6 +137,7 @@ type Query {
   user(username: String!): User!
   getUserById(id: String!): User!
   getMyProfile: User!
+  searchUserRelevance(input: String!): [User!]!
   badges: [Badge!]!
   badge(label: String!): Badge!
   posts: [Post!]!
