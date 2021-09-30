@@ -92,7 +92,7 @@ export default function AutoCompleteSearch() {
 			</InputFieldWrapper>
 
 			{getSearchContentResult.loading ? (
-				<AutoCompleteSkeleton />
+				<AutoCompleteSkeleton style={fadeAnimation} />
 			) : (
 				[
 					groupedOptions.length > 0 ? (
@@ -121,7 +121,7 @@ export default function AutoCompleteSearch() {
 								{groupedOptions.filter(
 									(value) => value.type === 'stories'
 								).length > 0 ? (
-									<ListTitle>Memories</ListTitle>
+									<ListTitle>Stories</ListTitle>
 								) : undefined}
 								{groupedOptions
 									.filter((value) => value.type === 'stories')

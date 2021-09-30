@@ -17,11 +17,11 @@ const useStyles = makeStyles({
 	},
 })
 
-export default function AutoCompleteSkeleton() {
+export default function AutoCompleteSkeleton(style: any) {
 	const classes = useStyles()
 
 	return (
-		<AutoCompleteItemWrapper>
+		<AutoCompleteItemWrapper style={style}>
 			<ItemWrapper>
 				<Skeleton
 					animation="wave"
