@@ -4,10 +4,11 @@ import Icons from '../icons/Icons'
 import { useSpring, animated } from 'react-spring'
 import { useDebounce } from 'use-debounce'
 import { SearchOptions } from '../../types/searchOptions'
+import { useGetSearchContentLazyQuery } from '../../generated/graphql'
+import AutoCompleteSkeleton from './AutoCompleteSkeleton'
 
 import { SearchOutlined } from '@material-ui/icons'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
-import { useGetSearchContentLazyQuery } from '../../generated/graphql'
 
 export default function AutoCompleteSearch() {
 	/**
@@ -90,43 +91,57 @@ export default function AutoCompleteSearch() {
 				/>
 			</InputFieldWrapper>
 
-			{groupedOptions.length > 0 ? (
-				<AutoCompleteItemWrapper style={fadeAnimation}>
-					<AutoCompleteListItemWrapper {...getListboxProps()}>
-						{groupedOptions.filter(
-							(value) => value.type === 'members'
-						).length > 0 ? (
-							<ListTitle>Members</ListTitle>
-						) : undefined}
-						{groupedOptions
-							.filter((value) => value.type === 'members')
-							.map((option, index) => (
-								<AutoCompleteList
-									{...getOptionProps({ option, index })}
-									onClick={() => alert(option.title)}
-								>
-									{option.title}
-								</AutoCompleteList>
-							))}
+			{getSearchContentResult.loading ? (
+				<AutoCompleteSkeleton />
+			) : (
+				[
+					groupedOptions.length > 0 ? (
+						<AutoCompleteItemWrapper style={fadeAnimation}>
+							<AutoCompleteListItemWrapper {...getListboxProps()}>
+								{groupedOptions.filter(
+									(value) => value.type === 'members'
+								).length > 0 ? (
+									<ListTitle>Members</ListTitle>
+								) : undefined}
+								{groupedOptions
+									.filter((value) => value.type === 'members')
+									.map((option, index) => (
+										<AutoCompleteList
+											{...getOptionProps({
+												option,
+												index,
+											})}
+											onClick={() => alert(option.title)}
+											key={option.id}
+										>
+											{option.title}
+										</AutoCompleteList>
+									))}
 
-						{groupedOptions.filter(
-							(value) => value.type === 'stories'
-						).length > 0 ? (
-							<ListTitle>Memories</ListTitle>
-						) : undefined}
-						{groupedOptions
-							.filter((value) => value.type === 'stories')
-							.map((option, index) => (
-								<AutoCompleteList
-									{...getOptionProps({ option, index })}
-									onClick={() => alert(option.title)}
-								>
-									{option.title}
-								</AutoCompleteList>
-							))}
-					</AutoCompleteListItemWrapper>
-				</AutoCompleteItemWrapper>
-			) : null}
+								{groupedOptions.filter(
+									(value) => value.type === 'stories'
+								).length > 0 ? (
+									<ListTitle>Memories</ListTitle>
+								) : undefined}
+								{groupedOptions
+									.filter((value) => value.type === 'stories')
+									.map((option, index) => (
+										<AutoCompleteList
+											{...getOptionProps({
+												option,
+												index,
+											})}
+											onClick={() => alert(option.title)}
+											key={option.id}
+										>
+											{option.title}
+										</AutoCompleteList>
+									))}
+							</AutoCompleteListItemWrapper>
+						</AutoCompleteItemWrapper>
+					) : undefined,
+				]
+			)}
 		</HeaderSearchInput>
 	)
 }
