@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import { useSpring, animated } from 'react-spring'
+import { useDebounce } from 'use-debounce'
 
 import { SearchOutlined } from '@material-ui/icons'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
@@ -33,7 +34,19 @@ export default function AutoCompleteSearch() {
 	 * This is useful to create a great visual representation
 	 * of what is going on to the user.
 	 */
-	const [isMyInputFocused, setIsMyInputFocused] = useState(false)
+	const [isMyInputFocused, setIsMyInputFocused] = useState<boolean>(false)
+	/**
+	 * Store input from user here and use debounce hook
+	 * to delay about 1 second when user stop typing
+	 * (useful to reduce API calls and make search efficient).
+	 */
+	const [inputValue, setInputValue] = useState<string | undefined>()
+	const [debouncedValue] = useDebounce<string | undefined>(inputValue, 1000)
+
+	useEffect(() => {
+		if (!debouncedValue || debouncedValue.length === 0) return
+		alert(debouncedValue)
+	}, [debouncedValue])
 
 	const {
 		getRootProps,
@@ -48,6 +61,9 @@ export default function AutoCompleteSearch() {
 		onOpen: () => setIsMyInputFocused(true),
 		onClose: () => setIsMyInputFocused(false),
 		getOptionLabel: (option) => option.title,
+		clearOnBlur: false,
+		disableClearable: true,
+		onInputChange: (_e, value) => setInputValue(value),
 	})
 
 	// react-spring fade animation
@@ -85,7 +101,7 @@ export default function AutoCompleteSearch() {
 						{groupedOptions.filter(
 							(value) => value.type === 'community'
 						).length > 0 ? (
-							<ListTitle>Trending Communities</ListTitle>
+							<ListTitle>Members</ListTitle>
 						) : undefined}
 						{groupedOptions
 							.filter((value) => value.type === 'community')
