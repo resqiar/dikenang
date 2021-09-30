@@ -161,7 +161,7 @@ export class PostsService {
 			 * @Error here means that client fails to get
 			 * correct data from the database/data not found
 			 */
-			throw new NotFoundException(e.message)
+			throw new NotFoundException(e)
 		}
 	}
 
@@ -213,16 +213,16 @@ export class PostsService {
 			// Returns updated Post object
 			return await this.postsRepository.findOneOrFail(updatePostInput.id)
 		} catch (e) {
-			switch (e.status) {
+			switch (e) {
 				case 401:
-					throw new UnauthorizedException(e.message)
+					throw new UnauthorizedException(e)
 					break
 
 				case 404:
-					throw new NotFoundException(e.message)
+					throw new NotFoundException(e)
 
 				default:
-					throw new BadRequestException(e.message)
+					throw new BadRequestException(e)
 					break
 			}
 		}
@@ -252,16 +252,16 @@ export class PostsService {
 			 */
 			return new DeletePostResponse(relatedPost, 'DELETED', 200)
 		} catch (e) {
-			switch (e.status) {
+			switch (e) {
 				case 401:
-					throw new UnauthorizedException(e.message)
+					throw new UnauthorizedException(e)
 					break
 
 				case 404:
-					throw new NotFoundException(e.message)
+					throw new NotFoundException(e)
 
 				default:
-					throw new BadRequestException(e.message)
+					throw new BadRequestException(e)
 					break
 			}
 		}
