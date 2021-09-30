@@ -3,32 +3,13 @@ import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import { useSpring, animated } from 'react-spring'
 import { useDebounce } from 'use-debounce'
+import { SearchOptions } from '../../types/searchOptions'
 
 import { SearchOutlined } from '@material-ui/icons'
 import useAutocomplete from '@material-ui/lab/useAutocomplete'
+import { useGetSearchContentLazyQuery } from '../../generated/graphql'
 
 export default function AutoCompleteSearch() {
-	const options = [
-		{ title: 'Alexander', type: 'community' },
-		{ title: 'Brotherhood1234', type: 'community' },
-		{ title: 'Hence Fighter xx12', type: 'community' },
-		{ title: 'The Hunter Knight', type: 'community' },
-		{ title: 'Angry Men', type: 'community' },
-		{ title: 'Schindler', type: 'community' },
-		{ title: 'A lof effort put here', type: 'memories' },
-		{ title: 'Holland 1945', type: 'memories' },
-		{ title: 'Firefighters', type: 'memories' },
-		{ title: 'Boots of the loops', type: 'memories' },
-		{ title: 'Cow', type: 'memories' },
-		{ title: '1889', type: 'memories' },
-		{ title: 'Massacre', type: 'memories' },
-		{ title: 'Liberation 1945', type: 'stories' },
-		{ title: 'Dump Truck', type: 'stories' },
-		{ title: 'Software Engineering', type: 'stories' },
-		{ title: 'Universe Gate', type: 'stories' },
-		{ title: '21 Century', type: 'stories' },
-	]
-
 	/**
 	 * UseState to determine if input is focused or not.
 	 * This is useful to create a great visual representation
@@ -42,10 +23,22 @@ export default function AutoCompleteSearch() {
 	 */
 	const [inputValue, setInputValue] = useState<string | undefined>()
 	const [debouncedValue] = useDebounce<string | undefined>(inputValue, 1000)
+	const [getSearchContent, getSearchContentResult] =
+		useGetSearchContentLazyQuery({
+			nextFetchPolicy: 'no-cache',
+		})
 
 	useEffect(() => {
+		/**
+		 * Lazy query to get search content
+		 * from back-end using apollo graphql
+		 */
 		if (!debouncedValue || debouncedValue.length === 0) return
-		alert(debouncedValue)
+		getSearchContent({
+			variables: {
+				input: debouncedValue,
+			},
+		})
 	}, [debouncedValue])
 
 	const {
@@ -56,7 +49,9 @@ export default function AutoCompleteSearch() {
 		groupedOptions,
 	} = useAutocomplete({
 		id: 'searchHeaderAutoComplete',
-		options: options,
+		options: getSearchContentResult.data
+			? (getSearchContentResult.data.searchContent as SearchOptions[])
+			: ([] as SearchOptions[]),
 		autoHighlight: true,
 		onOpen: () => setIsMyInputFocused(true),
 		onClose: () => setIsMyInputFocused(false),
@@ -99,28 +94,12 @@ export default function AutoCompleteSearch() {
 				<AutoCompleteItemWrapper style={fadeAnimation}>
 					<AutoCompleteListItemWrapper {...getListboxProps()}>
 						{groupedOptions.filter(
-							(value) => value.type === 'community'
+							(value) => value.type === 'members'
 						).length > 0 ? (
 							<ListTitle>Members</ListTitle>
 						) : undefined}
 						{groupedOptions
-							.filter((value) => value.type === 'community')
-							.map((option, index) => (
-								<AutoCompleteList
-									{...getOptionProps({ option, index })}
-									onClick={() => alert(option.title)}
-								>
-									{option.title}
-								</AutoCompleteList>
-							))}
-
-						{groupedOptions.filter(
-							(value) => value.type === 'memories'
-						).length > 0 ? (
-							<ListTitle>Memories</ListTitle>
-						) : undefined}
-						{groupedOptions
-							.filter((value) => value.type === 'memories')
+							.filter((value) => value.type === 'members')
 							.map((option, index) => (
 								<AutoCompleteList
 									{...getOptionProps({ option, index })}
@@ -133,7 +112,7 @@ export default function AutoCompleteSearch() {
 						{groupedOptions.filter(
 							(value) => value.type === 'stories'
 						).length > 0 ? (
-							<ListTitle>Stories</ListTitle>
+							<ListTitle>Memories</ListTitle>
 						) : undefined}
 						{groupedOptions
 							.filter((value) => value.type === 'stories')
