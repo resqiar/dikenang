@@ -132,6 +132,13 @@ type CommentsDTO {
   commentsSum: Int
 }
 
+type SearchOptions {
+  id: String
+  title: String
+  type: String
+  avatarUrl: String
+}
+
 type Query {
   users: [User!]!
   user(username: String!): User!
@@ -148,6 +155,7 @@ type Query {
   getPostComments(postId: String!): [Comment!]!
   getMyRelationship: Relationship!
   notifications: NotificationsDTO!
+  searchContent(input: String!): [SearchOptions!]!
 }
 
 type Mutation {

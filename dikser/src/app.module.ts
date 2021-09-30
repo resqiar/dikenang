@@ -15,6 +15,7 @@ import { QueuesModule } from './queues/queues.module'
 import { NotificationsModule } from './notifications/notifications.module'
 import { ScheduleModule } from '@nestjs/schedule'
 import { CronModule } from './cron/cron.module'
+import { SearchModule } from './search/search.module'
 
 @Module({
 	imports: [
@@ -63,6 +64,7 @@ import { CronModule } from './cron/cron.module'
 		QueuesModule,
 		NotificationsModule,
 		CronModule,
+		SearchModule,
 	],
 	controllers: [],
 })
