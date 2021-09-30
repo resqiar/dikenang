@@ -3,38 +3,99 @@ import { useSpring, animated } from 'react-spring'
 
 import Skeleton from '@material-ui/lab/Skeleton'
 import Avatar from '@material-ui/core/Avatar'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles({
+	root: {
+		'&.MuiSkeleton-root': {
+			backgroundColor: 'var(--background-dimmed-200)',
+		},
+		'&.MuiSkeleton-wave::after': {
+			animation: 'MuiSkeleton-keyframes-wave 1s linear 0.5s infinite',
+			background:
+				'linear-gradient(80deg, transparent, rgba(0, 0, 0, 0.2), transparent)',
+		},
+	},
+})
 
 export default function FeedPostSkeleton() {
 	// React-spring fade animation hook
 	const fade = useSpring({ from: { opacity: 0 }, opacity: 1 })
+	// material ui styles
+	const classes = useStyles()
 
 	return (
 		<FeedPostSkeletonWrapper style={fade}>
 			<FeedPostHeaderSkeletonWrapper>
 				<FeedPostSkeletonProfile>
-					<Skeleton variant="rect" animation="wave">
+					<Skeleton
+						variant="rect"
+						animation="wave"
+						className={classes.root}
+					>
 						<Avatar />
 					</Skeleton>
 
 					<FeedPostHeaderSkeletonText>
-						<Skeleton animation="wave" width="80%" />
-						<Skeleton animation="wave" width="20%" />
+						<Skeleton
+							animation="wave"
+							width="80%"
+							className={classes.root}
+						/>
+						<Skeleton
+							animation="wave"
+							width="20%"
+							className={classes.root}
+						/>
 					</FeedPostHeaderSkeletonText>
 				</FeedPostSkeletonProfile>
 			</FeedPostHeaderSkeletonWrapper>
 
 			<FeedPostSkeletonBody>
 				<FeedPostSkeletonCaption>
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
-					<Skeleton animation="wave" width="100%" />
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
+					<Skeleton
+						animation="wave"
+						width="100%"
+						className={classes.root}
+					/>
 				</FeedPostSkeletonCaption>
 				<FeedPostSkeletonAttachments>
-					<Skeleton variant="rect" width="100%" animation="wave">
+					<Skeleton
+						variant="rect"
+						width="100%"
+						animation="wave"
+						className={classes.root}
+					>
 						<div style={{ paddingTop: '57%' }} />
 					</Skeleton>
 				</FeedPostSkeletonAttachments>
