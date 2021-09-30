@@ -34,7 +34,8 @@
 		"react-images-viewer": "1.6.7",
 		"react-spring": "9.2.4",
 		"styled-components": "5.3.1",
-		"subscriptions-transport-ws": "0.9.19"
+		"subscriptions-transport-ws": "0.9.19",
+		"use-debounce": "^7.0.0"
 	},
 	"devDependencies": {
 		"@graphql-codegen/cli": "2.1.1",
