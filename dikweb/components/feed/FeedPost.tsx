@@ -40,6 +40,7 @@ import PublicIcon from '@material-ui/icons/Public'
 import LockIcon from '@material-ui/icons/Lock'
 import Chip from '@material-ui/core/Chip'
 import ExpandMoreTwoToneIcon from '@material-ui/icons/ExpandMoreTwoTone'
+import { getReadingTime } from '../../utils/readingTime'
 
 interface Props {
 	profile: UserProfileType
@@ -337,6 +338,8 @@ export default function FeedPost(props: Props) {
 	 */
 	const [openImageViewer, setOpenImageViewer] = useState<boolean>(false)
 
+	const readingTime = getReadingTime(props.caption)
+
 	return (
 		<FeedPostWrapper style={fade}>
 			<FeedPostHeaderWrapper>
@@ -393,6 +396,25 @@ export default function FeedPost(props: Props) {
 							{/* Post TimeStamp */}
 							<FeedPostTimeStamp>
 								{Moment(props.timestamp).fromNow()}
+							</FeedPostTimeStamp>
+
+							{/* Post Reading Time */}
+							<FeedPostTimeStamp>
+								{readingTime.minute > 0
+									? `— ${readingTime.minute} ${
+											readingTime.minute > 1
+												? 'minutes'
+												: 'minute'
+									  } ${readingTime.second} ${
+											readingTime.second > 1
+												? 'seconds'
+												: 'second'
+									  } reading time`
+									: `— ${readingTime.second} ${
+											readingTime.second > 1
+												? 'seconds'
+												: 'second'
+									  } reading time`}
 							</FeedPostTimeStamp>
 						</FeedPostTypeTimestampWrapper>
 					</FeedPostHeaderText>
@@ -651,7 +673,7 @@ const FeedPostTypeTimestampWrapper = styled.div`
 `
 const FeedPostTimeStamp = styled.p`
 	color: var(--font-white-300);
-	margin-top: 2px;
+	margin: 2px 2px 0px 2px;
 	font-size: 12px;
 `
 
