@@ -4,25 +4,59 @@ import Meta from '../components/meta/Meta'
 import checkAuth from '../utils/auth'
 import { NextPageContext } from 'next'
 import { UserProfileType } from '../types/profile.type'
+import fetchProfile from '../utils/fetchProfile'
+import AuthHeader from '../components/header/AuthHeader'
 const ProfileBody = dynamic(() => import('../components/body/ProfileBody'), {
 	ssr: false,
 })
 
+export interface ProfileDetailProps {
+	id: string
+	username: string
+	fullname: string
+	bio: string
+	avatar_url?: string
+	verified: boolean
+}
+
 interface Props {
 	user: UserProfileType
+	profileDetail: ProfileDetailProps
 }
 
 export default function myrelationship(props: Props) {
 	return (
 		<div>
 			{/* Title */}
-			<Meta title="Profile — Dikenang" />
+			<Meta
+				title={
+					props.profileDetail
+						? `${props.profileDetail.username} | Dikenang`
+						: 'Whoops, There is Nothing Here!'
+				}
+				description={
+					props.profileDetail
+						? `See ${props.profileDetail.username}'s profile in Dikenang`
+						: undefined
+				}
+				imageURL={
+					props.profileDetail
+						? props.profileDetail.avatar_url
+						: undefined
+				}
+			/>
 
-			{/* Header */}
-			<Header profile={props.user} />
+			{/* Header Component */}
+			{/* IF USER IS AUTHENTICATED, RENDER HEADER COMPONENT */}
+			{/* IF NOT, RENDER UNAUTHENTICATED HEADER COMPONENT */}
+			{props.user ? (
+				<Header profile={props.user} />
+			) : (
+				<AuthHeader nonAuthPage={true} />
+			)}
 
 			{/* Body */}
-			<ProfileBody />
+			<ProfileBody profileDetail={props.profileDetail} />
 		</div>
 	)
 }
@@ -48,13 +82,26 @@ export async function getServerSideProps(ctx: NextPageContext) {
 	 */
 	const data = await checkAuth(ctx)
 
+	/**
+	 * Get post details data to the backend
+	 * if there is a post return back the data,
+	 * if the post is not found/error, return null
+	 * @see fetchPost.ts
+	 */
+	const profile = await fetchProfile(ctx)
+
 	if (!data)
 		return {
-			redirect: {
-				destination: '/auth',
-				permanent: false,
+			props: {
+				user: null,
+				profileDetail: profile ? profile : null,
 			},
 		}
 
-	return { props: { user: data } }
+	return {
+		props: {
+			user: data,
+			profileDetail: profile ? profile : null,
+		},
+	}
 }

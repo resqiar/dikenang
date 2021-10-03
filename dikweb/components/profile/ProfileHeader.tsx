@@ -6,8 +6,13 @@ import { Avatar, Button } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDoorClosed } from '@fortawesome/free-solid-svg-icons'
+import { ProfileDetailProps } from '../../pages/[username]'
 
-export default function ProfileHeader() {
+interface Props {
+	profileDetail: ProfileDetailProps
+}
+
+export default function ProfileHeader(props: Props) {
 	return (
 		<ProfileSection>
 			<Card bgColor="var(--background-dimmed-500)">
@@ -33,9 +38,7 @@ export default function ProfileHeader() {
 						<ProfileAvatar>
 							{/* Avatar */}
 							<AvatarElement
-								src={
-									'https://lh3.googleusercontent.com/ogw/ADea4I6Z5sS8jA45V0sn8pRm7kO_xYcZznhw222y5LxpAQ=s83-c-mo'
-								}
+								src={props.profileDetail.avatar_url}
 								alt="avatar"
 							/>
 
@@ -54,27 +57,26 @@ export default function ProfileHeader() {
 							<UsernameWrapper>
 								{/* Username Text */}
 								<UsernameElement>
-									Dikenang Team
+									{props.profileDetail.fullname}
 									{/* Verified Badge */}
-									<BadgeWrapper>
-										<VerifiedUser
-											style={{
-												color: 'blue',
-												width: '18px',
-												margin: '0px 0px -5px 2px',
-											}}
-										/>
-									</BadgeWrapper>
+									{props.profileDetail.verified ? (
+										<BadgeWrapper>
+											<VerifiedUser
+												style={{
+													color: 'blue',
+													width: '18px',
+													margin: '0px 0px -5px 2px',
+												}}
+											/>
+										</BadgeWrapper>
+									) : undefined}
 								</UsernameElement>
 							</UsernameWrapper>
 
-							<UniqueNameElement>@dikenang.dev</UniqueNameElement>
-							<BioElement>
-								Official account for Dikenang development
-								process. All related to development process will
-								be updated here regularly. Any contributions are
-								welcome!
-							</BioElement>
+							<UniqueNameElement>
+								@{props.profileDetail.username}
+							</UniqueNameElement>
+							<BioElement>{props.profileDetail.bio}</BioElement>
 
 							{/* Followers And Stuff */}
 							<AttributesWrapper>
@@ -182,6 +184,7 @@ const ProfileTextWrapper = styled.div`
 `
 const HeaderDetailText = styled.div`
 	display: flex;
+	width: 100%;
 	flex-direction: column;
 	align-items: flex-start;
 	text-align: start;

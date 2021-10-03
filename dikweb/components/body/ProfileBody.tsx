@@ -2,53 +2,100 @@ import Router from 'next/router'
 import styled from 'styled-components'
 import ProfileDetails from '../profile/ProfileDetails'
 import ProfileHeader from '../profile/ProfileHeader'
+import Button from '../button/Button'
 
 import { Breadcrumbs, Link } from '@material-ui/core'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded'
 import ProposeRelationship from '../profile/ProposeRelationship'
 import ProfileStats from '../profile/ProfileStats'
+import { ProfileDetailProps } from '../../pages/[username]'
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied'
 
-export default function ProfileBody() {
-	return (
-		<ProfileBodyWrapper>
-			{/* BreadCrumbs */}
-			<BreadcrumbsWrapper>
-				<Breadcrumbs aria-label="dashboard" color="inherit">
-					<PreviousBreadcrumbElement onClick={() => Router.push('/')}>
-						<HomeRoundedIcon
-							style={{ width: 20, height: 20, marginTop: -2 }}
-						/>
-						Dashboard
-					</PreviousBreadcrumbElement>
-					<CurrentBreadcrumbElement>
-						<AccountCircleRoundedIcon
-							style={{ width: 20, height: 20, marginTop: -2 }}
-						/>
-						Profile
-					</CurrentBreadcrumbElement>
-				</Breadcrumbs>
-			</BreadcrumbsWrapper>
+interface Props {
+	profileDetail: ProfileDetailProps
+}
 
-			<ProfileSectionWrapper>
-				<ProfileDetailWrapper>
-					{/* Profile Header */}
-					<ProfileHeader />
+export default function ProfileBody(props: Props) {
+	if (!props.profileDetail) {
+		return (
+			<PostDetailBodyNotFoundWrapper>
+				<SentimentVeryDissatisfiedIcon
+					style={{
+						fontSize: '300px',
+						color: 'var(--font-white-200)',
+					}}
+				/>
 
-					{/* Details Card */}
-					<ProfileDetails />
-				</ProfileDetailWrapper>
+				<NotFoundBodyWrapper>
+					<NotFoundBodyText>
+						Whoops! we can't find your desired page.
+					</NotFoundBodyText>
+					<NotFoundBodySub>
+						You might misspell the URL or the user you're looking
+						for is not available.
+					</NotFoundBodySub>
+					<Button
+						text="go back"
+						bgColor="var(--color-primary)"
+						border="none"
+						borderRadius="20px"
+						type="button"
+						isUppercase={true}
+						width="200px"
+						fontWeight="bold"
+						padding="8px"
+						color="var(--font-white-800)"
+						hoverBoxShadow="var(--box-shadow)"
+						margin="18px"
+						onClick={() => Router.push('/')}
+					/>
+				</NotFoundBodyWrapper>
+			</PostDetailBodyNotFoundWrapper>
+		)
+	} else {
+		return (
+			<ProfileBodyWrapper>
+				{/* BreadCrumbs */}
+				<BreadcrumbsWrapper>
+					<Breadcrumbs aria-label="dashboard" color="inherit">
+						<PreviousBreadcrumbElement
+							onClick={() => Router.push('/')}
+						>
+							<HomeRoundedIcon
+								style={{ width: 20, height: 20, marginTop: -2 }}
+							/>
+							Dashboard
+						</PreviousBreadcrumbElement>
+						<CurrentBreadcrumbElement>
+							<AccountCircleRoundedIcon
+								style={{ width: 20, height: 20, marginTop: -2 }}
+							/>
+							Profile
+						</CurrentBreadcrumbElement>
+					</Breadcrumbs>
+				</BreadcrumbsWrapper>
 
-				<ProfileSubWrapper>
-					{/* Stats */}
-					<ProfileStats />
+				<ProfileSectionWrapper>
+					<ProfileDetailWrapper>
+						{/* Profile Header */}
+						<ProfileHeader profileDetail={props.profileDetail} />
 
-					{/* Propose Relationship */}
-					<ProposeRelationship />
-				</ProfileSubWrapper>
-			</ProfileSectionWrapper>
-		</ProfileBodyWrapper>
-	)
+						{/* Details Card */}
+						<ProfileDetails />
+					</ProfileDetailWrapper>
+
+					<ProfileSubWrapper>
+						{/* Stats */}
+						<ProfileStats />
+
+						{/* Propose Relationship */}
+						<ProposeRelationship />
+					</ProfileSubWrapper>
+				</ProfileSectionWrapper>
+			</ProfileBodyWrapper>
+		)
+	}
 }
 
 const ProfileBodyWrapper = styled.div`
@@ -114,5 +161,46 @@ const CurrentBreadcrumbElement = styled(Link)`
 
 	&:hover {
 		text-decoration: none;
+	}
+`
+
+const PostDetailBodyNotFoundWrapper = styled.div`
+	width: 100%;
+	margin: 36px 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		margin: 8px;
+	}
+`
+
+const NotFoundBodyWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`
+
+const NotFoundBodyText = styled.h1`
+	color: var(--font-white-800);
+	padding: 8px 0px;
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		font-size: 26px;
+		text-align: center;
+	}
+`
+const NotFoundBodySub = styled.p`
+	color: var(--font-white-600);
+
+	// how mobile should behave
+	@media (max-width: 600px) {
+		font-size: 14px;
+		text-align: center;
 	}
 `
