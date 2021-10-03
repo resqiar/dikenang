@@ -1,7 +1,20 @@
 import styled from 'styled-components'
+import { ProfileDetailProps } from '../../pages/[username]'
 import Card from '../card/Card'
+import { useGetUserStatsQuery } from '../../generated/graphql'
+import moment from 'moment'
 
-export default function ProfileStats() {
+interface Props {
+	profileDetail: ProfileDetailProps
+}
+
+export default function ProfileStats(props: Props) {
+	const userStats = useGetUserStatsQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
+
 	return (
 		<Card bgColor="var(--background-dimmed-500)">
 			<StatsWrapper>
@@ -12,17 +25,27 @@ export default function ProfileStats() {
 				<BodyWrapper>
 					<StatsItem>
 						<StatsItemHead>Created at</StatsItemHead>
-						<StatsItemTail>12 june 1999</StatsItemTail>
+						<StatsItemTail>
+							{moment(userStats.data?.user.created_at).format(
+								'DD MMMM YYYY'
+							)}
+						</StatsItemTail>
 					</StatsItem>
 
 					<StatsItem>
 						<StatsItemHead>Badges collected</StatsItemHead>
-						<StatsItemTail>4</StatsItemTail>
+						<StatsItemTail>
+							{userStats.data?.user.badges?.length}
+						</StatsItemTail>
 					</StatsItem>
 
 					<StatsItem>
 						<StatsItemHead>Status</StatsItemHead>
-						<StatsItemTail>In Relationship</StatsItemTail>
+						<StatsItemTail>
+							{userStats.data?.user.relationship
+								? 'In Relationship'
+								: 'Available'}
+						</StatsItemTail>
 					</StatsItem>
 				</BodyWrapper>
 			</StatsWrapper>

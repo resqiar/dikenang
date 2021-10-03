@@ -87,7 +87,7 @@ export default function ProfileBody(props: Props) {
 
 					<ProfileSubWrapper>
 						{/* Stats */}
-						<ProfileStats />
+						<ProfileStats profileDetail={props.profileDetail} />
 
 						{/* Propose Relationship */}
 						<ProposeRelationship />
