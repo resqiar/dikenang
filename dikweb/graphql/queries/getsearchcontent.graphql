@@ -4,5 +4,6 @@ query getSearchContent($input: String!) {
 		title
 		type
 		avatarUrl
+		author
 	}
 }

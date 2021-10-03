@@ -326,6 +326,7 @@ export type SearchOptions = {
 	title?: Maybe<Scalars['String']>
 	type?: Maybe<Scalars['String']>
 	avatarUrl?: Maybe<Scalars['String']>
+	author?: Maybe<Scalars['String']>
 }
 
 export type Subscription = {
@@ -684,6 +685,7 @@ export type GetSearchContentQuery = {
 		title?: Maybe<string>
 		type?: Maybe<string>
 		avatarUrl?: Maybe<string>
+		author?: Maybe<string>
 	}>
 }
 
@@ -1854,6 +1856,7 @@ export const GetSearchContentDocument = gql`
 			title
 			type
 			avatarUrl
+			author
 		}
 	}
 `
