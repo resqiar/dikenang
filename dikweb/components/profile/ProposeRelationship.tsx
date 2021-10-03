@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Card from '../card/Card'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDove, faBan } from '@fortawesome/free-solid-svg-icons'
+import { faDove } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create'
 import ProposeDialog from './ProposeDialog'
