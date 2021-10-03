@@ -3,6 +3,7 @@ import { ProfileDetailProps } from '../../pages/[username]'
 import Card from '../card/Card'
 import { useGetUserStatsQuery } from '../../generated/graphql'
 import moment from 'moment'
+import ProfileStatsSkeleton from './skeleton/ProfileStatsSkeleton'
 
 interface Props {
 	profileDetail: ProfileDetailProps
@@ -22,32 +23,36 @@ export default function ProfileStats(props: Props) {
 					<HeaderTextElement>Profile Stats</HeaderTextElement>
 				</HeaderWrapper>
 
-				<BodyWrapper>
-					<StatsItem>
-						<StatsItemHead>Created at</StatsItemHead>
-						<StatsItemTail>
-							{moment(userStats.data?.user.created_at).format(
-								'DD MMMM YYYY'
-							)}
-						</StatsItemTail>
-					</StatsItem>
+				{userStats.loading ? (
+					<ProfileStatsSkeleton />
+				) : (
+					<BodyWrapper>
+						<StatsItem>
+							<StatsItemHead>Created at</StatsItemHead>
+							<StatsItemTail>
+								{moment(userStats.data?.user.created_at).format(
+									'DD MMMM YYYY'
+								)}
+							</StatsItemTail>
+						</StatsItem>
 
-					<StatsItem>
-						<StatsItemHead>Badges collected</StatsItemHead>
-						<StatsItemTail>
-							{userStats.data?.user.badges?.length}
-						</StatsItemTail>
-					</StatsItem>
+						<StatsItem>
+							<StatsItemHead>Badges collected</StatsItemHead>
+							<StatsItemTail>
+								{userStats.data?.user.badges?.length}
+							</StatsItemTail>
+						</StatsItem>
 
-					<StatsItem>
-						<StatsItemHead>Status</StatsItemHead>
-						<StatsItemTail>
-							{userStats.data?.user.relationship
-								? 'In Relationship'
-								: 'Available'}
-						</StatsItemTail>
-					</StatsItem>
-				</BodyWrapper>
+						<StatsItem>
+							<StatsItemHead>Status</StatsItemHead>
+							<StatsItemTail>
+								{userStats.data?.user.relationship
+									? 'In Relationship'
+									: 'Available'}
+							</StatsItemTail>
+						</StatsItem>
+					</BodyWrapper>
+				)}
 			</StatsWrapper>
 		</Card>
 	)
