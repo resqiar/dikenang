@@ -52,6 +52,7 @@ export class SearchService {
 					id: value.id,
 					title: JSON.parse(value.caption).blocks[0].text,
 					type: 'stories',
+					author: value.author.username,
 				})
 			})
 		}

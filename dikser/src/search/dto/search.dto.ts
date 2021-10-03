@@ -13,4 +13,7 @@ export class SearchOptions {
 
 	@Field({ nullable: true })
 	avatarUrl?: string
+
+	@Field({ nullable: true })
+	author?: string
 }

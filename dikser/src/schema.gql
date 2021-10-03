@@ -137,6 +137,7 @@ type SearchOptions {
   title: String
   type: String
   avatarUrl: String
+  author: String
 }
 
 type Query {

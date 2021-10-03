@@ -112,6 +112,7 @@ export class PostsService {
 			.createQueryBuilder()
 			.select('post')
 			.from(Post, 'post')
+			.leftJoinAndSelect('post.author', 'author')
 			.where(
 				`to_tsvector('simple',post.caption) @@ to_tsquery('simple', :query)`,
 				{ query: `${formattedQuery}:*` }
