@@ -1,18 +1,31 @@
 import styled from 'styled-components'
 import Image from 'next/image'
 import Card from '../card/Card'
+import { useGetUserAttachmentInfoQuery } from '../../generated/graphql'
 
 import { Avatar, Button } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDoorClosed } from '@fortawesome/free-solid-svg-icons'
+import { faDoorClosed, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
 import { ProfileDetailProps } from '../../pages/[username]'
+import ProfileAttachmentSkeleton from './skeleton/ProfileAttachmentSkeleton'
 
 interface Props {
 	profileDetail: ProfileDetailProps
 }
 
 export default function ProfileHeader(props: Props) {
+	/**
+	 * Query user attachment from graphql resolver
+	 * this query will be used below on publics,
+	 * folls, and also the rest.
+	 */
+	const getUserAttachmentInfo = useGetUserAttachmentInfoQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
+
 	return (
 		<ProfileSection>
 			<Card bgColor="var(--background-dimmed-500)">
@@ -79,42 +92,64 @@ export default function ProfileHeader(props: Props) {
 							<BioElement>{props.profileDetail.bio}</BioElement>
 
 							{/* Followers And Stuff */}
-							<AttributesWrapper>
-								{/* Publics */}
-								<PublicFeedTextElement>
-									120
-									<PublicFeedSubTextElement>
-										Publics
-									</PublicFeedSubTextElement>
-								</PublicFeedTextElement>
+							{getUserAttachmentInfo.loading ? (
+								<ProfileAttachmentSkeleton />
+							) : (
+								<AttributesWrapper>
+									{/* Publics */}
+									<PublicFeedTextElement>
+										{
+											getUserAttachmentInfo.data
+												?.getUserAttachment.publics
+										}
+										<PublicFeedSubTextElement>
+											Publics
+										</PublicFeedSubTextElement>
+									</PublicFeedTextElement>
 
-								{/* Followers */}
-								<PublicFeedTextElement>
-									657K
-									<PublicFeedSubTextElement>
-										Folls
-									</PublicFeedSubTextElement>
-								</PublicFeedTextElement>
+									{/* Followers */}
+									<PublicFeedTextElement>
+										{
+											getUserAttachmentInfo.data
+												?.getUserAttachment.folls
+										}
+										<PublicFeedSubTextElement>
+											Folls
+										</PublicFeedSubTextElement>
+									</PublicFeedTextElement>
 
-								{/* Upvotes */}
-								<PublicFeedTextElement>
-									987K
-									<PublicFeedSubTextElement>
-										Upvotes
-									</PublicFeedSubTextElement>
-								</PublicFeedTextElement>
+									{/* Upvotes */}
+									<PublicFeedTextElement>
+										{
+											getUserAttachmentInfo.data
+												?.getUserAttachment.upvotes
+										}
+										<PublicFeedSubTextElement>
+											Upvotes
+										</PublicFeedSubTextElement>
+									</PublicFeedTextElement>
 
-								{/* Relationship */}
-								<RelationshipStatusWrapper>
-									<FontAwesomeIcon
-										color="var(--font-white-800)"
-										icon={faDoorClosed}
-									/>
-									<RelationshipStatusText>
-										In Relationship
-									</RelationshipStatusText>
-								</RelationshipStatusWrapper>
-							</AttributesWrapper>
+									{/* Relationship */}
+									<RelationshipStatusWrapper>
+										<FontAwesomeIcon
+											color="var(--font-white-800)"
+											icon={
+												getUserAttachmentInfo.data
+													?.getUserAttachment
+													.relationship
+													? faDoorClosed
+													: faDoorOpen
+											}
+										/>
+										<RelationshipStatusText>
+											{getUserAttachmentInfo.data
+												?.getUserAttachment.relationship
+												? 'In relationship'
+												: 'Not in Relationship'}
+										</RelationshipStatusText>
+									</RelationshipStatusWrapper>
+								</AttributesWrapper>
+							)}
 						</HeaderDetailText>
 					</ProfileTextWrapper>
 				</ProfileHeaderWrapper>
