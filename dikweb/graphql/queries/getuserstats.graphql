@@ -1,0 +1,11 @@
+query getUserStats($username: String!) {
+	user(username: $username) {
+		created_at
+		badges {
+			id
+		}
+		relationship {
+			id
+		}
+	}
+}

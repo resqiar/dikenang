@@ -255,6 +255,7 @@ export type Query = {
 	getUserById: User
 	getMyProfile: User
 	searchUserRelevance: Array<User>
+	getUserAttachment: UserAttachment
 	badges: Array<Badge>
 	badge: Badge
 	posts: Array<Post>
@@ -278,6 +279,10 @@ export type QueryGetUserByIdArgs = {
 
 export type QuerySearchUserRelevanceArgs = {
 	input: Scalars['String']
+}
+
+export type QueryGetUserAttachmentArgs = {
+	username: Scalars['String']
 }
 
 export type QueryBadgeArgs = {
@@ -392,6 +397,14 @@ export type User = {
 	relationship?: Maybe<Relationship>
 	badges?: Maybe<Array<Badge>>
 	notifications?: Maybe<Array<Notification>>
+}
+
+export type UserAttachment = {
+	__typename?: 'UserAttachment'
+	publics: Scalars['Int']
+	folls: Scalars['Int']
+	upvotes: Scalars['Int']
+	relationship: Scalars['Boolean']
 }
 
 export type AddDownvoteMutationVariables = Exact<{
@@ -698,6 +711,21 @@ export type GetUnreadNotificationsQuery = {
 	notifications: { __typename?: 'NotificationsDTO'; unread: number }
 }
 
+export type GetUserAttachmentInfoQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserAttachmentInfoQuery = {
+	__typename?: 'Query'
+	getUserAttachment: {
+		__typename?: 'UserAttachment'
+		publics: number
+		folls: number
+		upvotes: number
+		relationship: boolean
+	}
+}
+
 export type GetUserBadgeQueryVariables = Exact<{
 	username: Scalars['String']
 }>
@@ -732,6 +760,41 @@ export type GetUserProfileQuery = {
 		username: string
 		avatar_url?: Maybe<string>
 		bio?: Maybe<string>
+	}
+}
+
+export type GetUserRelationshipQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserRelationshipQuery = {
+	__typename?: 'Query'
+	user: {
+		__typename?: 'User'
+		relationship?: Maybe<{
+			__typename?: 'Relationship'
+			id: string
+			type?: Maybe<string>
+			description?: Maybe<string>
+			created_at?: Maybe<any>
+			partnership?: Maybe<
+				Array<{ __typename?: 'User'; username: string }>
+			>
+		}>
+	}
+}
+
+export type GetUserStatsQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserStatsQuery = {
+	__typename?: 'Query'
+	user: {
+		__typename?: 'User'
+		created_at?: Maybe<any>
+		badges?: Maybe<Array<{ __typename?: 'Badge'; id: string }>>
+		relationship?: Maybe<{ __typename?: 'Relationship'; id: string }>
 	}
 }
 
@@ -1968,6 +2031,67 @@ export type GetUnreadNotificationsQueryResult = Apollo.QueryResult<
 	GetUnreadNotificationsQuery,
 	GetUnreadNotificationsQueryVariables
 >
+export const GetUserAttachmentInfoDocument = gql`
+	query getUserAttachmentInfo($username: String!) {
+		getUserAttachment(username: $username) {
+			publics
+			folls
+			upvotes
+			relationship
+		}
+	}
+`
+
+/**
+ * __useGetUserAttachmentInfoQuery__
+ *
+ * To run a query within a React component, call `useGetUserAttachmentInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserAttachmentInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserAttachmentInfoQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserAttachmentInfoQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserAttachmentInfoQuery,
+		GetUserAttachmentInfoQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetUserAttachmentInfoQuery,
+		GetUserAttachmentInfoQueryVariables
+	>(GetUserAttachmentInfoDocument, options)
+}
+export function useGetUserAttachmentInfoLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserAttachmentInfoQuery,
+		GetUserAttachmentInfoQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUserAttachmentInfoQuery,
+		GetUserAttachmentInfoQueryVariables
+	>(GetUserAttachmentInfoDocument, options)
+}
+export type GetUserAttachmentInfoQueryHookResult = ReturnType<
+	typeof useGetUserAttachmentInfoQuery
+>
+export type GetUserAttachmentInfoLazyQueryHookResult = ReturnType<
+	typeof useGetUserAttachmentInfoLazyQuery
+>
+export type GetUserAttachmentInfoQueryResult = Apollo.QueryResult<
+	GetUserAttachmentInfoQuery,
+	GetUserAttachmentInfoQueryVariables
+>
 export const GetUserBadgeDocument = gql`
 	query GetUserBadge($username: String!) {
 		user(username: $username) {
@@ -2093,6 +2217,136 @@ export type GetUserProfileLazyQueryHookResult = ReturnType<
 export type GetUserProfileQueryResult = Apollo.QueryResult<
 	GetUserProfileQuery,
 	GetUserProfileQueryVariables
+>
+export const GetUserRelationshipDocument = gql`
+	query getUserRelationship($username: String!) {
+		user(username: $username) {
+			relationship {
+				id
+				type
+				description
+				created_at
+				partnership {
+					username
+				}
+			}
+		}
+	}
+`
+
+/**
+ * __useGetUserRelationshipQuery__
+ *
+ * To run a query within a React component, call `useGetUserRelationshipQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserRelationshipQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserRelationshipQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserRelationshipQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserRelationshipQuery,
+		GetUserRelationshipQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetUserRelationshipQuery,
+		GetUserRelationshipQueryVariables
+	>(GetUserRelationshipDocument, options)
+}
+export function useGetUserRelationshipLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserRelationshipQuery,
+		GetUserRelationshipQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUserRelationshipQuery,
+		GetUserRelationshipQueryVariables
+	>(GetUserRelationshipDocument, options)
+}
+export type GetUserRelationshipQueryHookResult = ReturnType<
+	typeof useGetUserRelationshipQuery
+>
+export type GetUserRelationshipLazyQueryHookResult = ReturnType<
+	typeof useGetUserRelationshipLazyQuery
+>
+export type GetUserRelationshipQueryResult = Apollo.QueryResult<
+	GetUserRelationshipQuery,
+	GetUserRelationshipQueryVariables
+>
+export const GetUserStatsDocument = gql`
+	query getUserStats($username: String!) {
+		user(username: $username) {
+			created_at
+			badges {
+				id
+			}
+			relationship {
+				id
+			}
+		}
+	}
+`
+
+/**
+ * __useGetUserStatsQuery__
+ *
+ * To run a query within a React component, call `useGetUserStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserStatsQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserStatsQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserStatsQuery,
+		GetUserStatsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(
+		GetUserStatsDocument,
+		options
+	)
+}
+export function useGetUserStatsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserStatsQuery,
+		GetUserStatsQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(
+		GetUserStatsDocument,
+		options
+	)
+}
+export type GetUserStatsQueryHookResult = ReturnType<
+	typeof useGetUserStatsQuery
+>
+export type GetUserStatsLazyQueryHookResult = ReturnType<
+	typeof useGetUserStatsLazyQuery
+>
+export type GetUserStatsQueryResult = Apollo.QueryResult<
+	GetUserStatsQuery,
+	GetUserStatsQueryVariables
 >
 export const CommentsSubscriptionDocument = gql`
 	subscription CommentsSubscription($postId: String!) {

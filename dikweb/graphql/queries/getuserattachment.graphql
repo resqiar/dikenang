@@ -1,0 +1,8 @@
+query getUserAttachmentInfo($username: String!) {
+	getUserAttachment(username: $username) {
+		publics
+		folls
+		upvotes
+		relationship
+	}
+}

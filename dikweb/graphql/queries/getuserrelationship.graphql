@@ -1,0 +1,13 @@
+query getUserRelationship($username: String!) {
+	user(username: $username) {
+		relationship {
+			id
+			type
+			description
+			created_at
+			partnership {
+				username
+			}
+		}
+	}
+}
