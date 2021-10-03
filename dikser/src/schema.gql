@@ -88,6 +88,13 @@ type User {
   notifications: [Notification!]
 }
 
+type UserAttachment {
+  publics: Int!
+  folls: Int!
+  upvotes: Int!
+  relationship: Boolean!
+}
+
 type DeleteBadgeResponse {
   previous_data: Badge!
   status: String!
@@ -146,6 +153,7 @@ type Query {
   getUserById(id: String!): User!
   getMyProfile: User!
   searchUserRelevance(input: String!): [User!]!
+  getUserAttachment(username: String!): UserAttachment!
   badges: [Badge!]!
   badge(label: String!): Badge!
   posts: [Post!]!

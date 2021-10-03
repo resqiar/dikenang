@@ -74,7 +74,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
-				relations: ['badges'],
+				relations: ['badges', 'relationship'],
 			})
 		} catch (e) {
 			/**
@@ -102,6 +102,43 @@ export class UsersService {
 			 * correct data from the database/data not found
 			 */
 			throw new NotFoundException()
+		}
+	}
+
+	async getUserPublics(username: string) {
+		const targetUser = await this.userRepository.findOne({
+			where: { username: username },
+			relations: ['contents', 'contents.upvoter'],
+		})
+
+		if (!targetUser || targetUser.contents.length === 0) return
+		return targetUser.contents.filter((value) => value.type === 'public')
+	}
+
+	async getUserUpvotes(username: string) {
+		let upvotes = 0
+		const posts = await this.getUserPublics(username)
+
+		if (!posts) return 0
+
+		posts.forEach((value) => {
+			upvotes += value.upvoter.length
+		})
+
+		return upvotes
+	}
+
+	async getUserAttachment(username: string) {
+		const targetRelationship = await this.findByUsername(username)
+		const targetPublics = await this.getUserPublics(username)
+		const targetUpvotes = await this.getUserUpvotes(username)
+
+		return {
+			publics: targetPublics?.length ?? 0,
+			// Folls not implemented yet
+			folls: 0,
+			upvotes: targetUpvotes,
+			relationship: targetRelationship.relationship ? true : false,
 		}
 	}
 

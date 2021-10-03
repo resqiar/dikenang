@@ -6,6 +6,7 @@ import { UpdateUserInput } from './dto/update-user.input'
 import { CurrentUser } from '../shared/decorators/current-user.decorator'
 import { AuthStatusGuard } from '../auth/guards/auth.guard'
 import { AGuard } from '../shared/guards/a.guard'
+import { UserAttachment } from './dto/user-attachment.dto'
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -59,5 +60,12 @@ export class UsersResolver {
 		@Args('input') input: string
 	): Promise<User[] | undefined> {
 		return await this.usersService.findRelevance(input)
+	}
+
+	@Query(() => UserAttachment)
+	async getUserAttachment(
+		@Args('username') username: string
+	): Promise<UserAttachment | undefined> {
+		return await this.usersService.getUserAttachment(username)
 	}
 }
