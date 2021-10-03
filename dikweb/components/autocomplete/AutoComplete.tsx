@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
@@ -59,7 +60,6 @@ export default function AutoCompleteSearch() {
 		onClose: () => setIsMyInputFocused(false),
 		getOptionLabel: (option) => option.title,
 		clearOnBlur: false,
-		disableClearable: true,
 		onInputChange: (_e, value) => setInputValue(value),
 	})
 
@@ -112,7 +112,9 @@ export default function AutoCompleteSearch() {
 												option,
 												index,
 											})}
-											onClick={() => alert(option.title)}
+											onClick={() =>
+												Router.push(`/${option.title}`)
+											}
 											key={option.id}
 										>
 											<MembersWrapper>
@@ -140,7 +142,11 @@ export default function AutoCompleteSearch() {
 												option,
 												index,
 											})}
-											onClick={() => alert(option.title)}
+											onClick={() =>
+												Router.push(
+													`/story/${option.author}/${option.id}`
+												)
+											}
 											key={option.id}
 										>
 											<TextElement>

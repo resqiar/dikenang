@@ -3,4 +3,5 @@ export interface SearchOptions {
 	title: string
 	type: string
 	avatarUrl?: string
+	author?: string
 }
