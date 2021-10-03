@@ -3,69 +3,86 @@ import styled from 'styled-components'
 import Card from '../card/Card'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDove } from '@fortawesome/free-solid-svg-icons'
+import { faDove, faBan } from '@fortawesome/free-solid-svg-icons'
 import { Button } from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create'
 import ProposeDialog from './ProposeDialog'
+import { ProfileDetailProps } from '../../pages/[username]'
+import { useGetUserRelationshipQuery } from '../../generated/graphql'
 
-export default function ProposeRelationship() {
+interface Props {
+	profileDetail: ProfileDetailProps
+}
+
+export default function ProposeRelationship(props: Props) {
 	const [openDialog, setOpenDialog] = useState<boolean>(false)
+
+	const getUserRelations = useGetUserRelationshipQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
 
 	return (
 		<Wrapper>
-			<Card bgColor="var(--background-dimmed-500)">
-				<TextWrapper>
-					<TextHeaderElement>Propose Relationship</TextHeaderElement>
-					<TextSubElement>
-						Want to confess? let the dove sent your letter!
-					</TextSubElement>
+			{getUserRelations?.data?.user.relationship ? (
+				<Card bgColor="var(--background-dimmed-500)">
+					<TextWrapper>
+						<TextHeaderElement>
+							Propose Unavailable
+						</TextHeaderElement>
+						<TextSubElement>
+							This user already has relationship or not available
+							for connection.
+						</TextSubElement>
 
-					<IconWrapper>
-						<FontAwesomeIcon
-							style={{ width: '100%', height: '100%' }}
-							icon={faDove}
-						/>
-					</IconWrapper>
+						<IconWrapper>
+							<FontAwesomeIcon
+								style={{ width: '80px', height: '80px' }}
+								icon={faBan}
+							/>
+						</IconWrapper>
+					</TextWrapper>
+				</Card>
+			) : (
+				<Card bgColor="var(--background-dimmed-500)">
+					<TextWrapper>
+						<TextHeaderElement>
+							Propose Relationship
+						</TextHeaderElement>
+						<TextSubElement>
+							Want to confess? let the dove sent your letter!
+						</TextSubElement>
 
-					<ProposeButtonWrapper>
-						<ProposeButton
-							variant="contained"
-							fullWidth={true}
-							startIcon={
-								<CreateIcon style={{ marginTop: '-2px' }} />
-							}
-							onClick={() => setOpenDialog(true)}
-						>
-							Write a letter
-						</ProposeButton>
+						<IconWrapper>
+							<FontAwesomeIcon
+								style={{ width: '100%', height: '100%' }}
+								icon={faDove}
+							/>
+						</IconWrapper>
 
-						{/* Propose Dialog */}
-						<ProposeDialog
-							onOpen={openDialog}
-							onCloseCallback={() => setOpenDialog(false)}
-							onSubmitCallback={() => setOpenDialog(false)}
-						/>
-					</ProposeButtonWrapper>
-				</TextWrapper>
-			</Card>
+						<ProposeButtonWrapper>
+							<ProposeButton
+								variant="contained"
+								fullWidth={true}
+								startIcon={
+									<CreateIcon style={{ marginTop: '-2px' }} />
+								}
+								onClick={() => setOpenDialog(true)}
+							>
+								Write a letter
+							</ProposeButton>
 
-			{/* 
-			<Card bgColor="var(--background-dimmed-500)">
-				<TextWrapper>
-					<TextHeaderElement>Propose Unavailable</TextHeaderElement>
-					<TextSubElement>
-						This user already has relationship or not available for
-						connection.
-					</TextSubElement>
-
-					<IconWrapper>
-						<FontAwesomeIcon
-							style={{ width: '80px', height: '80px' }}
-							icon={faBan}
-						/>
-					</IconWrapper>
-				</TextWrapper>
-			</Card> */}
+							{/* Propose Dialog */}
+							<ProposeDialog
+								onOpen={openDialog}
+								onCloseCallback={() => setOpenDialog(false)}
+								onSubmitCallback={() => setOpenDialog(false)}
+							/>
+						</ProposeButtonWrapper>
+					</TextWrapper>
+				</Card>
+			)}
 		</Wrapper>
 	)
 }
