@@ -26,6 +26,11 @@ describe('SearchService', () => {
 					id: 'id',
 					caption:
 						'{"blocks":[{"key":"5aeg1","text":"world","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}',
+
+					author: {
+						id: 'id',
+						username: 'john doe',
+					},
 				},
 			]
 		}),
@@ -47,7 +52,7 @@ describe('SearchService', () => {
 	it('should return the search result in the formatted types', async () => {
 		const expectedResult: SearchOptions[] = [
 			{ id: 'id', title: 'hello', type: 'members', avatarUrl: 'url' },
-			{ id: 'id', title: 'world', type: 'stories' },
+			{ id: 'id', title: 'world', type: 'stories', author: 'john doe' },
 		]
 
 		expect(await service.searchContent('hello world')).toEqual(
