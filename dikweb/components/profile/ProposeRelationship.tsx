@@ -8,7 +8,7 @@ import { Button } from '@material-ui/core'
 import CreateIcon from '@material-ui/icons/Create'
 import ProposeDialog from './ProposeDialog'
 import { ProfileDetailProps } from '../../pages/[username]'
-import { useGetUserRelationshipQuery } from '../../generated/graphql'
+import { useGetUserStatsQuery } from '../../generated/graphql'
 
 interface Props {
 	profileDetail: ProfileDetailProps
@@ -17,7 +17,7 @@ interface Props {
 export default function ProposeRelationship(props: Props) {
 	const [openDialog, setOpenDialog] = useState<boolean>(false)
 
-	const getUserRelations = useGetUserRelationshipQuery({
+	const getUserRelations = useGetUserStatsQuery({
 		variables: {
 			username: props.profileDetail.username,
 		},
