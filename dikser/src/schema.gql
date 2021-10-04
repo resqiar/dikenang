@@ -5,6 +5,7 @@
 type Badge {
   id: String!
   label: String!
+  description: String
   variant: String!
   color: String
   background: String

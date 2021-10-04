@@ -13,6 +13,10 @@ export class Badge {
 	@Column({ unique: true })
 	label: string
 
+	@Field({ nullable: true })
+	@Column({ nullable: true })
+	description: string
+
 	@Field()
 	@Column({ nullable: true, default: 'outlined' })
 	variant: string
