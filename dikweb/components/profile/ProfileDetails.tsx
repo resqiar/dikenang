@@ -1,11 +1,17 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../card/Card'
+import { ProfileDetailProps } from '../../pages/[username]'
 
 import { Chip, Tooltip } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
+import { useGetUserBadgeQuery } from '../../generated/graphql'
 
-export default function ProfileDetails() {
+interface Props {
+	profileDetail: ProfileDetailProps
+}
+
+export default function ProfileDetails(props: Props) {
 	/**
 	 * This ref attached to Greeting Letter
 	 * which will has dynamic height based on
@@ -34,6 +40,16 @@ export default function ProfileDetails() {
 		}
 	}, [])
 
+	/**
+	 * Query user badges from graphql resolver
+	 * return an array of badge
+	 */
+	const userBadges = useGetUserBadgeQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
+
 	return (
 		<Card bgColor="var(--background-dimmed-500)">
 			{/* Badges */}
@@ -42,57 +58,42 @@ export default function ProfileDetails() {
 					<BadgesLabel>Badges Earned</BadgesLabel>
 				</BadgesLabelWrapper>
 
-				<BadgesListWrapper>
-					<TooltipElement title="Early development enjoyer" arrow>
-						<BadgesElement
-							label="Tester"
-							variant="outlined"
-							size="small"
-							fontcolor="white"
-							background=""
-							bordercolor="yellow"
-						/>
-					</TooltipElement>
-
-					<TooltipElement
-						title="A person who call themselves 'Vim Maniac'"
-						arrow
-					>
-						<BadgesElement
-							label="Keyboard-warrior"
-							variant="outlined"
-							size="small"
-							fontcolor="white"
-							background=""
-							bordercolor="white"
-						/>
-					</TooltipElement>
-
-					<TooltipElement title="Official Account" arrow>
-						<BadgesElement
-							label="Official"
-							variant="outlined"
-							size="small"
-							fontcolor="white"
-							background=""
-							bordercolor="blue"
-						/>
-					</TooltipElement>
-
-					<TooltipElement
-						title="One of the first user in Dikenang!"
-						arrow
-					>
-						<BadgesElement
-							label="First-come-first-serve"
-							variant="outlined"
-							size="small"
-							fontcolor="white"
-							background=""
-							bordercolor="red"
-						/>
-					</TooltipElement>
-				</BadgesListWrapper>
+				{userBadges.data?.user.badges &&
+				userBadges.data.user.badges.length > 0 ? (
+					<BadgesListWrapper>
+						{userBadges.data.user.badges.map((value) => (
+							<TooltipElement
+								title={
+									value.description ??
+									'No description available'
+								}
+								arrow
+							>
+								<BadgesElement
+									label={value.label as string | undefined}
+									variant={
+										value.variant as
+											| 'default'
+											| 'outlined'
+											| undefined
+									}
+									size="small"
+									fontcolor={
+										value.color as string | undefined
+									}
+									background={
+										value.background as string | undefined
+									}
+									bordercolor={
+										value.border as string | undefined
+									}
+								/>
+							</TooltipElement>
+						))}
+					</BadgesListWrapper>
+				) : (
+					<BadgesNotFound>No badge collected yet</BadgesNotFound>
+				)}
 			</BadgesWrapper>
 
 			{/* Greeting Letter */}
@@ -206,4 +207,11 @@ const ReadMoreElement = styled.p`
 	&:hover {
 		text-decoration: underline;
 	}
+`
+
+const BadgesNotFound = styled.p`
+	color: var(--font-white-600);
+	font-size: 13px;
+	text-align: start;
+	padding: 8px 0px 0px 18px;
 `

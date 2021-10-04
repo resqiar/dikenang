@@ -82,7 +82,7 @@ export default function ProfileBody(props: Props) {
 						<ProfileHeader profileDetail={props.profileDetail} />
 
 						{/* Details Card */}
-						<ProfileDetails />
+						<ProfileDetails profileDetail={props.profileDetail} />
 					</ProfileDetailWrapper>
 
 					<ProfileSubWrapper>
