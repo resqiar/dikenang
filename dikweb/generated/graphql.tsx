@@ -36,6 +36,7 @@ export type Badge = {
 	__typename?: 'Badge'
 	id: Scalars['String']
 	label: Scalars['String']
+	description: Scalars['String']
 	variant: Scalars['String']
 	color?: Maybe<Scalars['String']>
 	background?: Maybe<Scalars['String']>
@@ -739,6 +740,7 @@ export type GetUserBadgeQuery = {
 				__typename?: 'Badge'
 				id: string
 				label: string
+				description: string
 				variant: string
 				color?: Maybe<string>
 				background?: Maybe<string>
@@ -2098,6 +2100,7 @@ export const GetUserBadgeDocument = gql`
 			badges {
 				id
 				label
+				description
 				variant
 				color
 				background

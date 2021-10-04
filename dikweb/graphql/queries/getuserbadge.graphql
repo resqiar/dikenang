@@ -3,6 +3,7 @@ query GetUserBadge($username: String!) {
 		badges {
 			id
 			label
+			description
 			variant
 			color
 			background
