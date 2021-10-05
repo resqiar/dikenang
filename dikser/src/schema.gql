@@ -40,7 +40,6 @@ type Post {
   type: String
   upvoter: [User!]
   downvoter: [User!]
-  reachs: [User!]
   created_at: DateTime
   updated_at: DateTime
   author: User!
@@ -160,7 +159,6 @@ type Query {
   posts: [Post!]!
   post(postId: String!): Post!
   postByAuthorAndId(username: String!, postId: String!): Post!
-  getPostReachs(postId: String!): Int!
   searchPostRelevance(input: String!): [Post!]!
   getPostComments(postId: String!): [Comment!]!
   getMyRelationship: Relationship!
@@ -178,7 +176,6 @@ type Mutation {
   createPost(createAttachmentInput: CreateAttachmentInput, createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(postId: String!): DeletePostResponse!
-  addPostReachs(postId: String!): Int!
   addUpvote(postId: String!): Int!
   removeUpvote(postId: String!): Int!
   addDownvote(postId: String!): Int!

@@ -118,13 +118,6 @@ export default function FeedPost(props: Props) {
 	const [isDownvoted, setIsDownvoted] = useState<boolean>(false)
 
 	/**
-	 * @Mutation
-	 * Define mutations to update
-	 * current post reach (view)
-	 */
-	const [setPostReach] = useSetCurrentPostReachMutation()
-
-	/**
 	 * @Mutations
 	 * Define mutations to update
 	 * Votes either upvotes or downvotes
@@ -137,17 +130,6 @@ export default function FeedPost(props: Props) {
 	/**
 	 * @Query
 	 * Define query to the database to get the initial
-	 * value of post reach views
-	 */
-	const getPostReachViews = useGetPublicFeedReachsQuery({
-		variables: {
-			postId: props.postId,
-		},
-	})
-
-	/**
-	 * @Query
-	 * Define query to the database to get the initial
 	 * value of post votes, eiher upvotes or downvotes
 	 */
 	const getPostVotes = useGetPostVotesQuery({
@@ -155,21 +137,6 @@ export default function FeedPost(props: Props) {
 			postId: props.postId,
 		},
 	})
-
-	useEffect(() => {
-		/**
-		 * This use effect is used to bind current user to post reach/views.
-		 * When this post is shown in feeds, this function below will be called
-		 * executing graphql mutations to server, providing user current id.
-		 * When mutations finished, current post views should be increased.
-		 * @see posts.service.ts in the back-end for more info
-		 */
-		setPostReach({
-			variables: {
-				postId: props.postId,
-			},
-		})
-	}, [])
 
 	useEffect(() => {
 		/**
@@ -552,26 +519,6 @@ export default function FeedPost(props: Props) {
 							</VotesAltText>
 						</VotesWrapper>
 					</FeedPostVotes>
-
-					{/* VIEWS TOOLTIP */}
-					<FeedViewsTooltip>
-						{/* Reach Views Alt */}
-						<FeedReachViews>
-							<FeedReachViewsText>
-								{/* GET VIEWS DATA */}
-								{getPostReachViews?.data?.getPostReachs}
-							</FeedReachViewsText>
-							<FeedReachViewsSpan>
-								{/* IF VIEWS MORE THAN 2, THAT MEANS PLURAL */}
-								{getPostReachViews.data
-									? getPostReachViews?.data?.getPostReachs >=
-									  2
-										? 'views'
-										: 'view'
-									: undefined}
-							</FeedReachViewsSpan>
-						</FeedReachViews>
-					</FeedViewsTooltip>
 				</FooterAltWrapper>
 
 				{/* Votes || Comment */}

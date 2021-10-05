@@ -4,7 +4,6 @@ import {
 	CreateDateColumn,
 	Entity,
 	JoinColumn,
-	JoinTable,
 	ManyToMany,
 	ManyToOne,
 	OneToMany,
@@ -43,11 +42,6 @@ export class Post {
 		onDelete: 'CASCADE',
 	})
 	downvoter: User[]
-
-	@Field(() => [User], { nullable: true })
-	@ManyToMany((_) => User)
-	@JoinTable()
-	reachs: User[]
 
 	@Field({ nullable: true })
 	@CreateDateColumn({

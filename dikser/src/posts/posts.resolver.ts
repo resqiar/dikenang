@@ -97,20 +97,6 @@ export class PostsResolver {
 		return this.postsService.remove(currentUser, postId)
 	}
 
-	@Mutation(() => Int)
-	@UseGuards(AuthStatusGuard)
-	async addPostReachs(
-		@CurrentUser() user: User,
-		@Args('postId') postId: string
-	): Promise<number> {
-		return this.postsService.addPostReachs(postId, user.id)
-	}
-
-	@Query(() => Int)
-	async getPostReachs(@Args('postId') postId: string): Promise<number> {
-		return this.postsService.getPostReachs(postId)
-	}
-
 	/**
 	 * @param user
 	 * @param postId

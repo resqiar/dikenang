@@ -1,3 +1,0 @@
-query getPublicFeedReachs($postId: String!) {
-	getPostReachs(postId: $postId)
-}
