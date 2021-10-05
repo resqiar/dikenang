@@ -302,6 +302,11 @@ export default function FeedPost(props: Props) {
 	 */
 	const [openImageViewer, setOpenImageViewer] = useState<boolean>(false)
 
+	/**
+	 * Reading time of every post based on
+	 * how many words in the content itself
+	 * @see getReadingTime.ts
+	 */
 	const readingTime = getReadingTime(props.caption)
 
 	return (

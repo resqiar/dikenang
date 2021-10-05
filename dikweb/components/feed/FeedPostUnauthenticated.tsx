@@ -13,6 +13,7 @@ import {
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
 import Viewer from '../utils/image/Viewer'
+import { getReadingTime } from '../../utils/readingTime'
 
 import { Avatar, IconButton } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
@@ -100,6 +101,13 @@ export default function FeedPostUnauthenticated(props: Props) {
 	 */
 	const [openImageViewer, setOpenImageViewer] = useState<boolean>(false)
 
+	/**
+	 * Reading time of every post based on
+	 * how many words in the content itself
+	 * @see getReadingTime.ts
+	 */
+	const readingTime = getReadingTime(props.caption)
+
 	return (
 		<FeedPostWrapper style={fade}>
 			<FeedPostHeaderWrapper>
@@ -152,6 +160,25 @@ export default function FeedPostUnauthenticated(props: Props) {
 							{/* Post TimeStamp */}
 							<FeedPostTimeStamp>
 								{Moment(props.timestamp).fromNow()}
+							</FeedPostTimeStamp>
+
+							{/* Post Reading Time */}
+							<FeedPostTimeStamp>
+								{readingTime.minute > 0
+									? `— ${readingTime.minute} ${
+											readingTime.minute > 1
+												? 'minutes'
+												: 'minute'
+									  } ${readingTime.second} ${
+											readingTime.second > 1
+												? 'seconds'
+												: 'second'
+									  } reading time`
+									: `— ${readingTime.second} ${
+											readingTime.second > 1
+												? 'seconds'
+												: 'second'
+									  } reading time`}
 							</FeedPostTimeStamp>
 						</FeedPostTypeTimestampWrapper>
 					</FeedPostHeaderText>
