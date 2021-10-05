@@ -9,11 +9,9 @@ import {
 	Badge,
 	useGetPostCommentsQuery,
 	useGetPostVotesQuery,
-	useGetPublicFeedReachsQuery,
 } from '../../generated/graphql'
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
-import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
 import Viewer from '../utils/image/Viewer'
 
 import { Avatar, IconButton } from '@material-ui/core'
@@ -58,17 +56,6 @@ export default function FeedPostUnauthenticated(props: Props) {
 
 	// React-spring fade animation hook
 	const fade = useSpring({ from: { opacity: 0 }, opacity: 1 })
-
-	/**
-	 * @Query
-	 * Define query to the database to get the initial
-	 * value of post reach views
-	 */
-	const getPostReachViews = useGetPublicFeedReachsQuery({
-		variables: {
-			postId: props.postId,
-		},
-	})
 
 	/**
 	 * @Query
@@ -277,26 +264,6 @@ export default function FeedPostUnauthenticated(props: Props) {
 							</VotesAltText>
 						</VotesWrapper>
 					</FeedPostVotes>
-
-					{/* VIEWS TOOLTIP */}
-					<FeedViewsTooltip>
-						{/* Reach Views Alt */}
-						<FeedReachViews>
-							<FeedReachViewsText>
-								{/* GET VIEWS DATA */}
-								{getPostReachViews?.data?.getPostReachs}
-							</FeedReachViewsText>
-							<FeedReachViewsSpan>
-								{/* IF VIEWS MORE THAN 2, THAT MEANS PLURAL */}
-								{getPostReachViews.data
-									? getPostReachViews?.data?.getPostReachs >=
-									  2
-										? 'views'
-										: 'view'
-									: undefined}
-							</FeedReachViewsSpan>
-						</FeedReachViews>
-					</FeedViewsTooltip>
 				</FooterAltWrapper>
 
 				{/* Votes || Comment */}
@@ -428,24 +395,6 @@ const FooterAltWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-`
-const FeedReachViews = styled.div`
-	display: flex;
-	cursor: help;
-	padding: 8px 18px 2px;
-	align-items: center;
-`
-const FeedReachViewsText = styled.p`
-	color: var(--font-white-500);
-	font-weight: 500;
-	font-size: 12px;
-	padding: 0px 4px;
-`
-const FeedReachViewsSpan = styled.p`
-	color: var(--font-white-500);
-	font-size: 12px;
-	font-weight: 500;
-	padding: 0px 4px 0px 0px;
 `
 const FeedPostFooter = styled.div`
 	padding: 4px;

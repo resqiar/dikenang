@@ -1,3 +1,0 @@
-mutation setCurrentPostReach($postId: String!) {
-	addPostReachs(postId: $postId)
-}

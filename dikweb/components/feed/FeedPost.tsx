@@ -12,17 +12,14 @@ import {
 	useDownvoteSubscription,
 	useGetPostCommentsQuery,
 	useGetPostVotesQuery,
-	useGetPublicFeedReachsQuery,
 	useRemoveDownvoteMutation,
 	useRemoveUpvoteMutation,
-	useSetCurrentPostReachMutation,
 	useTotalCommentsSubscriptionSubscription,
 	useUpvoteSubscription,
 } from '../../generated/graphql'
 import Moment from 'moment'
 import { useSpring, animated } from 'react-spring'
 import CommentContainer from '../comment/CommentContainer'
-import FeedViewsTooltip from '../utils/tooltip/FeedViewsTooltip'
 import FeedMoreItem from './FeedMoreItem'
 import Viewer from '../utils/image/Viewer'
 
@@ -674,24 +671,6 @@ const FooterAltWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-`
-const FeedReachViews = styled.div`
-	display: flex;
-	cursor: help;
-	padding: 8px 18px 2px;
-	align-items: center;
-`
-const FeedReachViewsText = styled.p`
-	color: var(--font-white-500);
-	font-weight: 500;
-	font-size: 12px;
-	padding: 0px 4px;
-`
-const FeedReachViewsSpan = styled.p`
-	color: var(--font-white-500);
-	font-size: 12px;
-	font-weight: 500;
-	padding: 0px 4px 0px 0px;
 `
 const FeedPostFooter = styled.div`
 	padding: 4px;
