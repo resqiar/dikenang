@@ -1,11 +1,15 @@
 import dynamic from 'next/dynamic'
-import Header from '../components/header/Header'
 import Meta from '../components/meta/Meta'
 import checkAuth from '../utils/auth'
 import { NextPageContext } from 'next'
 import { UserProfileType } from '../types/profile.type'
 import fetchProfile from '../utils/fetchProfile'
-import AuthHeader from '../components/header/AuthHeader'
+const Header = dynamic(() => import('../components/header/Header'), {
+	ssr: false,
+})
+const AuthHeader = dynamic(() => import('../components/header/AuthHeader'), {
+	ssr: false,
+})
 const ProfileBody = dynamic(() => import('../components/body/ProfileBody'), {
 	ssr: false,
 })
