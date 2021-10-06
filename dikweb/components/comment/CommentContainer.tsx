@@ -167,7 +167,7 @@ export default function CommentContainer(props: Props) {
 					autoFocus
 					value={inputComment}
 					maxLength={1500}
-					rowsMax={10}
+					maxRows={10}
 					placeholder="Write something..."
 					onChange={(e) => setInputComment(e.target.value)}
 				/>
