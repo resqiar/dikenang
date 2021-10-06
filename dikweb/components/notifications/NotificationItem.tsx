@@ -6,7 +6,6 @@ import {
 	useGetPostCaptionAndAttachmentsQuery,
 	useGetPostCommentsQuery,
 	useGetPostVotesQuery,
-	useGetPublicFeedReachsQuery,
 	useGetUserProfileQuery,
 } from '../../generated/graphql'
 
@@ -40,18 +39,6 @@ export default function NotificationItem(props: Props) {
 	 * @return caption | attachments => uri
 	 */
 	const getPostCaptionAndAttachments = useGetPostCaptionAndAttachmentsQuery({
-		variables: {
-			postId: props.postId,
-		},
-	})
-
-	/**
-	 * @Query
-	 * Define query to the database to get the
-	 * value of post reach views
-	 * @return number
-	 */
-	const getPostReachViews = useGetPublicFeedReachsQuery({
 		variables: {
 			postId: props.postId,
 		},
@@ -154,7 +141,6 @@ export default function NotificationItem(props: Props) {
 
 						{/* Views || comments || likes */}
 						<PostPreviewDetails>
-							{getPostReachViews.data?.getPostReachs} view(s) -{' '}
 							{getPostVotes.data?.post.upvoter?.length} upvote(s)
 							- {getPostComments.data?.getPostComments.length}{' '}
 							comment(s)
