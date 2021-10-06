@@ -1,4 +1,3 @@
-import { Avatar, IconButton } from '@material-ui/core'
 import styled from 'styled-components'
 import Button from '../button/Button'
 import FeedInputButton from './FeedInputButton'
@@ -7,6 +6,7 @@ import ModalDialog from '../modal/ModalDialog'
 import FeedInputDialog from './FeedInputDialog'
 import { UserProfileType } from '../../types/profile.type'
 
+import { Avatar } from '@material-ui/core'
 import PhotoSizeSelectActualIcon from '@material-ui/icons/PhotoSizeSelectActual'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled'
@@ -26,9 +26,7 @@ export default function FeedInputBox({ profile, onUploadCallback }: Props) {
 			<FeedInputBoxWrapper>
 				{/* Avatar */}
 				<FeedInputBoxAvatarWrapper>
-					<IconButton>
-						<Avatar src={profile.avatar_url} />
-					</IconButton>
+					<Avatar src={profile.avatar_url} />
 				</FeedInputBoxAvatarWrapper>
 
 				{/* Box Button */}
@@ -121,7 +119,9 @@ const FeedInputBoxWrapper = styled.div`
 		padding: 0px 8px;
 	}
 `
-const FeedInputBoxAvatarWrapper = styled.div``
+const FeedInputBoxAvatarWrapper = styled.div`
+	padding: 12px 18px;
+`
 
 const FeedInputBoxAttachments = styled.div`
 	display: flex;

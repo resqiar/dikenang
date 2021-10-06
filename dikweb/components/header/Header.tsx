@@ -15,6 +15,7 @@ import {
 	useGetUnreadNotificationsQuery,
 	useUnreadNotificationsSubscription,
 } from '../../generated/graphql'
+import AutoCompleteSearch from '../autocomplete/AutoComplete'
 
 import HomeIcon from '@material-ui/icons/Home'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
@@ -30,7 +31,7 @@ import {
 } from '@material-ui/core'
 import AccountBoxRoundedIcon from '@material-ui/icons/AccountBoxRounded'
 import { withStyles } from '@material-ui/core/styles'
-import AutoCompleteSearch from '../autocomplete/AutoComplete'
+import FaceIcon from '@material-ui/icons/Face'
 
 interface Props {
 	activePath?: string
@@ -219,12 +220,27 @@ export default function Header(props: Props) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}
 					>
+						{/* Profile */}
+						<StyledMenuItem
+							onClick={() =>
+								Router.push(`/${props.profile.username}`)
+							}
+						>
+							<ListItemIcon>
+								<FaceIcon />
+							</ListItemIcon>
+							<ListItemText primary="My Profile" />
+						</StyledMenuItem>
+
 						{/* Switch account */}
 						<StyledMenuItem onClick={handleLogOut}>
 							<ListItemIcon>
 								<AccountBoxRoundedIcon />
 							</ListItemIcon>
-							<ListItemText primary="Switch account" />
+							<ListItemText
+								primary="Switch account"
+								secondary="Log out and switch account"
+							/>
 						</StyledMenuItem>
 					</StyledMenu>
 				</HeaderAvatarWrapper>

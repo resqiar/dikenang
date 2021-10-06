@@ -63,6 +63,7 @@ export default function ProfileDetails(props: Props) {
 					<BadgesListWrapper>
 						{userBadges.data.user.badges.map((value) => (
 							<TooltipElement
+								key={value.id}
 								title={
 									value.description ??
 									'No description available'

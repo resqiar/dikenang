@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import styled from 'styled-components'
 import Moment from 'moment'
 import { animated, config, useSpring } from 'react-spring'
@@ -35,13 +36,17 @@ export default function Comment(props: Props) {
 
 	return (
 		<CommentItemWrapper style={commentItemFade}>
-			<IconButton>
+			<IconButton
+				onClick={() => Router.push(`/${props.author.username}`)}
+			>
 				<Avatar src={props.author.avatar_url as string} />
 			</IconButton>
 
 			<CommentItemBody>
 				<CommentBodyHeader>
-					<CommentBodyUsername>
+					<CommentBodyUsername
+						onClick={() => Router.push(`/${props.author.username}`)}
+					>
 						{props.author.username}
 					</CommentBodyUsername>
 
@@ -115,6 +120,7 @@ const CommentBodyUsername = styled.p`
 	color: var(--font-white-800);
 	font-weight: 600;
 	font-size: 14px;
+	cursor: pointer;
 `
 
 const CommentBodyText = styled.span`

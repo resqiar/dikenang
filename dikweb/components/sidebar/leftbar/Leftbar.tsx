@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import styled from 'styled-components'
 import { useGetUserProfileQuery } from '../../../generated/graphql'
 import { UserProfileType } from '../../../types/profile.type'
@@ -18,7 +19,11 @@ export default function Leftbar(props: Props) {
 	})
 
 	return (
-		<LeftBarWrapper>
+		<LeftBarWrapper
+			onClick={() =>
+				Router.push(`/${getUserProfile.data?.getUserById.username}`)
+			}
+		>
 			{getUserProfile.loading ? (
 				<SidebarSkeleton />
 			) : (
@@ -52,6 +57,7 @@ const LeftBarWrapper = styled.div`
 	height: min-content;
 	top: 100px;
 	position: sticky;
+	cursor: pointer;
 
 	/* How mobile should behave */
 	@media (max-width: 600px) {

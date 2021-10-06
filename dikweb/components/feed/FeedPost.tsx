@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { UserProfileType } from '../../types/profile.type'
 import Image from 'next/image'
+import Router from 'next/router'
 import styled from 'styled-components'
 import Icons from '../icons/Icons'
 import RichTextEditor from '../utils/RichTextEditor'
@@ -314,7 +315,10 @@ export default function FeedPost(props: Props) {
 			<FeedPostHeaderWrapper>
 				<FeedPostProfile>
 					{/* Post Avatar */}
-					<IconButton aria-label="Author">
+					<IconButton
+						aria-label="Author"
+						onClick={() => Router.push(`/${props.username}`)}
+					>
 						<Avatar
 							variant="square"
 							src={props.avatarSrc}
@@ -325,7 +329,11 @@ export default function FeedPost(props: Props) {
 					<FeedPostHeaderText>
 						<FeedPostHeaderUsernameWrapper>
 							{/* Post Username */}
-							<FeedPostProfileH4>
+							<FeedPostProfileH4
+								onClick={() =>
+									Router.push(`/${props.username}`)
+								}
+							>
 								{props.username}
 							</FeedPostProfileH4>
 
@@ -614,6 +622,7 @@ const FeedPostProfileH4 = styled.h4`
 	color: var(--font-white-800);
 	font-weight: bold;
 	font-size: 14px;
+	cursor: pointer;
 `
 const FeedPostTypeTimestampWrapper = styled.div`
 	display: flex;
