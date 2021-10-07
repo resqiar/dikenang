@@ -123,6 +123,8 @@ export type Mutation = {
 	__typename?: 'Mutation'
 	updateUser: User
 	specialUpdateUser: User
+	follow: Scalars['Int']
+	unfollow: Scalars['Int']
 	createBadge: Badge
 	addUserABadge: User
 	removeBadge: DeleteBadgeResponse
@@ -148,6 +150,14 @@ export type MutationUpdateUserArgs = {
 export type MutationSpecialUpdateUserArgs = {
 	updateUserInput: UpdateUserInput
 	id: Scalars['String']
+}
+
+export type MutationFollowArgs = {
+	username: Scalars['String']
+}
+
+export type MutationUnfollowArgs = {
+	username: Scalars['String']
 }
 
 export type MutationCreateBadgeArgs = {
@@ -387,6 +397,8 @@ export type User = {
 	relationship?: Maybe<Relationship>
 	badges?: Maybe<Array<Badge>>
 	notifications?: Maybe<Array<Notification>>
+	followers?: Maybe<Array<User>>
+	following?: Maybe<Array<User>>
 }
 
 export type UserAttachment = {
@@ -396,6 +408,12 @@ export type UserAttachment = {
 	upvotes: Scalars['Int']
 	relationship: Scalars['Boolean']
 }
+
+export type UnfollowMutationVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type UnfollowMutation = { __typename?: 'Mutation'; unfollow: number }
 
 export type AddDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
@@ -459,6 +477,12 @@ export type DeletePostMutation = {
 	removePost: { __typename?: 'DeletePostResponse'; status: string }
 }
 
+export type FollowMutationVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type FollowMutation = { __typename?: 'Mutation'; follow: number }
+
 export type RemoveDownvoteMutationVariables = Exact<{
 	postId: Scalars['String']
 }>
@@ -484,6 +508,21 @@ export type UpdateUnreadNotificationsMutationVariables = Exact<{
 export type UpdateUnreadNotificationsMutation = {
 	__typename?: 'Mutation'
 	readNotifications: number
+}
+
+export type GetUserFollowersQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserFollowersQuery = {
+	__typename?: 'Query'
+	user: {
+		__typename?: 'User'
+		id: string
+		followers?: Maybe<
+			Array<{ __typename?: 'User'; id: string; username: string }>
+		>
+	}
 }
 
 export type GetListOfNotificationsQueryVariables = Exact<{
@@ -706,6 +745,7 @@ export type GetUserBadgeQuery = {
 	__typename?: 'Query'
 	user: {
 		__typename?: 'User'
+		id: string
 		badges?: Maybe<
 			Array<{
 				__typename?: 'Badge'
@@ -849,6 +889,51 @@ export type UpvoteSubscription = {
 	}
 }
 
+export const UnfollowDocument = gql`
+	mutation Unfollow($username: String!) {
+		unfollow(username: $username)
+	}
+`
+export type UnfollowMutationFn = Apollo.MutationFunction<
+	UnfollowMutation,
+	UnfollowMutationVariables
+>
+
+/**
+ * __useUnfollowMutation__
+ *
+ * To run a mutation, you first call `useUnfollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUnfollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [unfollowMutation, { data, loading, error }] = useUnfollowMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUnfollowMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UnfollowMutation,
+		UnfollowMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<UnfollowMutation, UnfollowMutationVariables>(
+		UnfollowDocument,
+		options
+	)
+}
+export type UnfollowMutationHookResult = ReturnType<typeof useUnfollowMutation>
+export type UnfollowMutationResult = Apollo.MutationResult<UnfollowMutation>
+export type UnfollowMutationOptions = Apollo.BaseMutationOptions<
+	UnfollowMutation,
+	UnfollowMutationVariables
+>
 export const AddDownvoteDocument = gql`
 	mutation addDownvote($postId: String!) {
 		addDownvote(postId: $postId)
@@ -1151,6 +1236,51 @@ export type DeletePostMutationOptions = Apollo.BaseMutationOptions<
 	DeletePostMutation,
 	DeletePostMutationVariables
 >
+export const FollowDocument = gql`
+	mutation Follow($username: String!) {
+		follow(username: $username)
+	}
+`
+export type FollowMutationFn = Apollo.MutationFunction<
+	FollowMutation,
+	FollowMutationVariables
+>
+
+/**
+ * __useFollowMutation__
+ *
+ * To run a mutation, you first call `useFollowMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useFollowMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [followMutation, { data, loading, error }] = useFollowMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useFollowMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		FollowMutation,
+		FollowMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<FollowMutation, FollowMutationVariables>(
+		FollowDocument,
+		options
+	)
+}
+export type FollowMutationHookResult = ReturnType<typeof useFollowMutation>
+export type FollowMutationResult = Apollo.MutationResult<FollowMutation>
+export type FollowMutationOptions = Apollo.BaseMutationOptions<
+	FollowMutation,
+	FollowMutationVariables
+>
 export const RemoveDownvoteDocument = gql`
 	mutation removeDownvote($postId: String!) {
 		removeDownvote(postId: $postId)
@@ -1295,6 +1425,68 @@ export type UpdateUnreadNotificationsMutationOptions =
 		UpdateUnreadNotificationsMutation,
 		UpdateUnreadNotificationsMutationVariables
 	>
+export const GetUserFollowersDocument = gql`
+	query getUserFollowers($username: String!) {
+		user(username: $username) {
+			id
+			followers {
+				id
+				username
+			}
+		}
+	}
+`
+
+/**
+ * __useGetUserFollowersQuery__
+ *
+ * To run a query within a React component, call `useGetUserFollowersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserFollowersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserFollowersQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserFollowersQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserFollowersQuery,
+		GetUserFollowersQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<
+		GetUserFollowersQuery,
+		GetUserFollowersQueryVariables
+	>(GetUserFollowersDocument, options)
+}
+export function useGetUserFollowersLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserFollowersQuery,
+		GetUserFollowersQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<
+		GetUserFollowersQuery,
+		GetUserFollowersQueryVariables
+	>(GetUserFollowersDocument, options)
+}
+export type GetUserFollowersQueryHookResult = ReturnType<
+	typeof useGetUserFollowersQuery
+>
+export type GetUserFollowersLazyQueryHookResult = ReturnType<
+	typeof useGetUserFollowersLazyQuery
+>
+export type GetUserFollowersQueryResult = Apollo.QueryResult<
+	GetUserFollowersQuery,
+	GetUserFollowersQueryVariables
+>
 export const GetListOfNotificationsDocument = gql`
 	query getListOfNotifications {
 		notifications {
@@ -1964,6 +2156,7 @@ export type GetUserAttachmentInfoQueryResult = Apollo.QueryResult<
 export const GetUserBadgeDocument = gql`
 	query GetUserBadge($username: String!) {
 		user(username: $username) {
+			id
 			badges {
 				id
 				label

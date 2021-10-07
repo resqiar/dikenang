@@ -1,0 +1,9 @@
+query getUserFollowers($username: String!) {
+	user(username: $username) {
+		id
+		followers {
+			id
+			username
+		}
+	}
+}
