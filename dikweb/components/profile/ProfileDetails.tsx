@@ -2,10 +2,13 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import Card from '../card/Card'
 import { ProfileDetailProps } from '../../pages/[username]'
+import {
+	useGetUserBadgeQuery,
+	useGetUserLetterQuery,
+} from '../../generated/graphql'
 
 import { Chip, Tooltip } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
-import { useGetUserBadgeQuery } from '../../generated/graphql'
 
 interface Props {
 	profileDetail: ProfileDetailProps
@@ -45,6 +48,16 @@ export default function ProfileDetails(props: Props) {
 	 * return an array of badge
 	 */
 	const userBadges = useGetUserBadgeQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
+
+	/**
+	 * Query user badges from graphql resolver
+	 * return an array of badge
+	 */
+	const userLetter = useGetUserLetterQuery({
 		variables: {
 			username: props.profileDetail.username,
 		},
@@ -104,38 +117,13 @@ export default function ProfileDetails(props: Props) {
 					ref={greetingLetterRef}
 					isTruncated={truncate}
 				>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-					Ratione dolor quam molestias, soluta exercitationem corrupti
-					quasi perferendis necessitatibus placeat eaque illum porro
-					labore expedita tenetur incidunt quaerat aut ad ab quos,
-					ullam eligendi iste! Laboriosam quia ab harum vitae placeat
-					nobis alias vero sed nulla aspernatur? Exercitationem
-					nostrum velit autem, corporis molestias cumque, minima
-					aspernatur, eligendi deleniti impedit numquam molestiae quod
-					vero ullam neque vitae reprehenderit hic consequuntur
-					accusantium at optio? Voluptates consequuntur quisquam
-					facilis dolorum! Labore placeat libero, reiciendis,
-					voluptatum saepe doloribus voluptatem dolorum eveniet,
-					<br />
-					<br />
-					quaerat est aut commodi amet quia doloremque id aliquid
-					aspernatur? Corporis et repellendus itaque iusto aspernatur!
-					Voluptas dolores mollitia dolorum debitis fugit, voluptate
-					magnam aperiam suscipit distinctio doloremque consequuntur
-					quam excepturi recusandae deserunt dicta beatae at quod
-					iusto atque vel, reiciendis id? Facilis quia numquam
-					corrupti? Ullam mollitia fuga dignissimos dolore tempora
-					veniam exercitationem reprehenderit doloremque laborum
-					beatae, tempore porro sunt in quaerat incidunt provident.
-					Facere assumenda cumque aliquid pariatur. Hic delectus,
-					cupiditate, est dignissimos tempore asperiores perferendis
-					debitis quae praesentium cumque sapiente, placeat ducimus
-					omnis illo aperiam necessitatibus officiis reprehenderit
-					quod. Reiciendis voluptate sed id ab molestias mollitia ad
-					culpa, consectetur odit consequatur sint ullam velit vitae
-					corrupti doloribus tenetur laboriosam aliquid excepturi
-					libero quo. In sed repellat nisi ad reiciendis neque at non
-					voluptas debitis explicabo distincti.
+					{userLetter.data?.user.greeting ? (
+						userLetter.data?.user.greeting
+					) : (
+						<GreetingNotFound>
+							No greeting letter yet
+						</GreetingNotFound>
+					)}
 				</GreetingLetterBody>
 				{truncate ? (
 					<ReadMoreElement onClick={() => setTruncate(false)}>
@@ -215,4 +203,10 @@ const BadgesNotFound = styled.p`
 	font-size: 13px;
 	text-align: start;
 	padding: 8px 0px 0px 18px;
+`
+
+const GreetingNotFound = styled.p`
+	color: var(--font-white-600);
+	font-size: 13px;
+	text-align: start;
 `
