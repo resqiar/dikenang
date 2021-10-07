@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import ProfileDetails from '../profile/ProfileDetails'
 import ProfileHeader from '../profile/ProfileHeader'
 import Button from '../button/Button'
+import { UserProfileType } from '../../types/profile.type'
 
 import { Breadcrumbs, Link } from '@material-ui/core'
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded'
@@ -13,6 +14,7 @@ import { ProfileDetailProps } from '../../pages/[username]'
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied'
 
 interface Props {
+	user: UserProfileType
 	profileDetail: ProfileDetailProps
 }
 
@@ -79,7 +81,10 @@ export default function ProfileBody(props: Props) {
 				<ProfileSectionWrapper>
 					<ProfileDetailWrapper>
 						{/* Profile Header */}
-						<ProfileHeader profileDetail={props.profileDetail} />
+						<ProfileHeader
+							profileDetail={props.profileDetail}
+							user={props.user}
+						/>
 
 						{/* Details Card */}
 						<ProfileDetails profileDetail={props.profileDetail} />

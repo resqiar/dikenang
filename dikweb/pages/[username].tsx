@@ -60,7 +60,10 @@ export default function myrelationship(props: Props) {
 			)}
 
 			{/* Body */}
-			<ProfileBody profileDetail={props.profileDetail} />
+			<ProfileBody
+				profileDetail={props.profileDetail}
+				user={props.user}
+			/>
 		</div>
 	)
 }

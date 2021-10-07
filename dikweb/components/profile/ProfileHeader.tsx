@@ -1,7 +1,14 @@
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import Card from '../card/Card'
-import { useGetUserAttachmentInfoQuery } from '../../generated/graphql'
+import {
+	useFollowMutation,
+	useGetUserAttachmentInfoQuery,
+	useGetUserFollowersQuery,
+	useUnfollowMutation,
+} from '../../generated/graphql'
+import { UserProfileType } from '../../types/profile.type'
 
 import { Avatar, Button } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
@@ -11,6 +18,7 @@ import { ProfileDetailProps } from '../../pages/[username]'
 import ProfileAttachmentSkeleton from './skeleton/ProfileAttachmentSkeleton'
 
 interface Props {
+	user: UserProfileType
 	profileDetail: ProfileDetailProps
 }
 
@@ -25,6 +33,56 @@ export default function ProfileHeader(props: Props) {
 			username: props.profileDetail.username,
 		},
 	})
+
+	const getUserFollowers = useGetUserFollowersQuery({
+		variables: {
+			username: props.profileDetail.username,
+		},
+	})
+
+	/**
+	 * State to manage either user has been
+	 * followed or not
+	 */
+	const [isFollowing, setIsFollowing] = useState(false)
+
+	useEffect(() => {
+		const checkFollowed = async () => {
+			if (!getUserFollowers.data) return null
+			getUserFollowers.data?.user.followers?.map((value) => {
+				if (value.id === props.user.id) {
+					setIsFollowing(true)
+				}
+			})
+		}
+
+		checkFollowed()
+	}, [getUserFollowers.data])
+
+	/**
+	 * Graphql mutations to
+	 * either follow or unfollow
+	 */
+	const [followMutation] = useFollowMutation()
+	const [unfollowMutation] = useUnfollowMutation()
+
+	const handleFoll = () => {
+		if (isFollowing) {
+			unfollowMutation({
+				variables: {
+					username: props.profileDetail.username,
+				},
+			})
+			setIsFollowing(false)
+		} else {
+			followMutation({
+				variables: {
+					username: props.profileDetail.username,
+				},
+			})
+			setIsFollowing(true)
+		}
+	}
 
 	return (
 		<ProfileSection>
@@ -56,14 +114,27 @@ export default function ProfileHeader(props: Props) {
 							/>
 
 							{/* Follow Button */}
-							<FollowButtonWrapper>
-								<FollowButton
-									variant="contained"
-									fullWidth={true}
-								>
-									Follow
-								</FollowButton>
-							</FollowButtonWrapper>
+							{props.user.id !== props.profileDetail.id ? (
+								<FollowButtonWrapper>
+									{!isFollowing ? (
+										<FollowButton
+											variant="contained"
+											fullWidth={true}
+											onClick={() => handleFoll()}
+										>
+											Follow
+										</FollowButton>
+									) : (
+										<UnfollowButton
+											variant="outlined"
+											fullWidth={true}
+											onClick={() => handleFoll()}
+										>
+											Unfollow
+										</UnfollowButton>
+									)}
+								</FollowButtonWrapper>
+							) : undefined}
 						</ProfileAvatar>
 
 						<HeaderDetailText>
@@ -316,4 +387,13 @@ const FollowButton = styled(Button)`
 	&:hover {
 		background: purple;
 	}
+`
+const UnfollowButton = styled(Button)`
+	border-radius: 20px;
+	padding: 2px 0px;
+	color: white;
+	font-family: var(--font-family);
+	font-weight: bold;
+	text-transform: none;
+	font-size: 16px;
 `
