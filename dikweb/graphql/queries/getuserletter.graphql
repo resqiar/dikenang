@@ -1,0 +1,6 @@
+query getUserLetter($username: String!) {
+	user(username: $username) {
+		id
+		greeting
+	}
+}

@@ -385,6 +385,7 @@ export type User = {
 	username: Scalars['String']
 	email: Scalars['String']
 	bio?: Maybe<Scalars['String']>
+	greeting?: Maybe<Scalars['String']>
 	verified: Scalars['Boolean']
 	avatar_url?: Maybe<Scalars['String']>
 	created_at?: Maybe<Scalars['DateTime']>
@@ -759,6 +760,15 @@ export type GetUserBadgeQuery = {
 			}>
 		>
 	}
+}
+
+export type GetUserLetterQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type GetUserLetterQuery = {
+	__typename?: 'Query'
+	user: { __typename?: 'User'; id: string; greeting?: Maybe<string> }
 }
 
 export type GetUserProfileQueryVariables = Exact<{
@@ -2219,6 +2229,65 @@ export type GetUserBadgeLazyQueryHookResult = ReturnType<
 export type GetUserBadgeQueryResult = Apollo.QueryResult<
 	GetUserBadgeQuery,
 	GetUserBadgeQueryVariables
+>
+export const GetUserLetterDocument = gql`
+	query getUserLetter($username: String!) {
+		user(username: $username) {
+			id
+			greeting
+		}
+	}
+`
+
+/**
+ * __useGetUserLetterQuery__
+ *
+ * To run a query within a React component, call `useGetUserLetterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserLetterQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserLetterQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useGetUserLetterQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		GetUserLetterQuery,
+		GetUserLetterQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<GetUserLetterQuery, GetUserLetterQueryVariables>(
+		GetUserLetterDocument,
+		options
+	)
+}
+export function useGetUserLetterLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		GetUserLetterQuery,
+		GetUserLetterQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<GetUserLetterQuery, GetUserLetterQueryVariables>(
+		GetUserLetterDocument,
+		options
+	)
+}
+export type GetUserLetterQueryHookResult = ReturnType<
+	typeof useGetUserLetterQuery
+>
+export type GetUserLetterLazyQueryHookResult = ReturnType<
+	typeof useGetUserLetterLazyQuery
+>
+export type GetUserLetterQueryResult = Apollo.QueryResult<
+	GetUserLetterQuery,
+	GetUserLetterQueryVariables
 >
 export const GetUserProfileDocument = gql`
 	query getUserProfile($id: String!) {
