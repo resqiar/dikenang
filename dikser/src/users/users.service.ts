@@ -135,8 +135,7 @@ export class UsersService {
 
 		return {
 			publics: targetPublics?.length ?? 0,
-			// Folls not implemented yet
-			folls: 0,
+			folls: targetRelationship.followers.length,
 			upvotes: targetUpvotes,
 			relationship: targetRelationship.relationship ? true : false,
 		}
