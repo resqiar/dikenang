@@ -49,6 +49,12 @@ export class User {
 	})
 	bio: string
 
+	@Field({ nullable: true })
+	@Column('text', {
+		nullable: true,
+	})
+	greeting: string
+
 	@Field(() => Boolean)
 	@Column('boolean', { nullable: true, default: false })
 	/**

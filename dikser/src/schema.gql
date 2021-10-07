@@ -74,6 +74,7 @@ type User {
   username: String!
   email: String!
   bio: String
+  greeting: String
   verified: Boolean!
   avatar_url: String
   created_at: DateTime
