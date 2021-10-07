@@ -9,13 +9,14 @@ import {
 	useUnfollowMutation,
 } from '../../generated/graphql'
 import { UserProfileType } from '../../types/profile.type'
+import { ProfileDetailProps } from '../../pages/[username]'
+import ProfileAttachmentSkeleton from './skeleton/ProfileAttachmentSkeleton'
 
-import { Avatar, Button } from '@material-ui/core'
+import { Avatar, Button, IconButton } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDoorClosed, faDoorOpen } from '@fortawesome/free-solid-svg-icons'
-import { ProfileDetailProps } from '../../pages/[username]'
-import ProfileAttachmentSkeleton from './skeleton/ProfileAttachmentSkeleton'
+import EditIcon from '@material-ui/icons/Edit'
 
 interface Props {
 	user: UserProfileType
@@ -102,6 +103,14 @@ export default function ProfileHeader(props: Props) {
 						/>
 						{/* Overlay Fade Effect */}
 						<FadeEffect />
+
+						<EditWrapper>
+							<IconButton>
+								<EditIcon
+									style={{ color: 'var(--font-white-800)' }}
+								/>
+							</IconButton>
+						</EditWrapper>
 					</BannerWrapper>
 
 					{/* Profile Text */}
@@ -301,25 +310,34 @@ const HeaderDetailText = styled.div`
 	@media (max-width: 600px) {
 		align-items: center;
 		text-align: center;
+		padding: 18px 18px 0px 18px;
 	}
 `
 
 const UsernameWrapper = styled.div`
+	width: 100%;
 	display: flex;
 	align-items: center;
 	gap: 8px;
+
+	@media (max-width: 600px) {
+		justify-content: center;
+	}
 `
 
 const UsernameElement = styled.p`
+	width: 100%;
 	color: var(--font-white-800);
 	font-size: 20px;
 	font-weight: bold;
 `
 const UniqueNameElement = styled.p`
+	width: 100%;
 	color: var(--font-white-500);
 	font-size: 14px;
 `
 const BioElement = styled.p`
+	width: 100%;
 	color: var(--font-white-700);
 	font-size: 14px;
 	margin-top: 4px;
@@ -396,4 +414,11 @@ const UnfollowButton = styled(Button)`
 	font-weight: bold;
 	text-transform: none;
 	font-size: 16px;
+`
+
+const EditWrapper = styled.div`
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 8px;
 `
