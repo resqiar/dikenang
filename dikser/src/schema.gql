@@ -86,6 +86,8 @@ type User {
   relationship: Relationship
   badges: [Badge!]
   notifications: [Notification!]
+  followers: [User!]
+  following: [User!]
 }
 
 type UserAttachment {
@@ -169,6 +171,8 @@ type Query {
 type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   specialUpdateUser(updateUserInput: UpdateUserInput!, id: String!): User!
+  follow(username: String!): Int!
+  unfollow(username: String!): Int!
   createBadge(createBadgeInput: CreateBadgeInput!): Badge!
   addUserABadge(addUserABadgeInput: AddUserABadgeInput!): User!
   removeBadge(label: String!): DeleteBadgeResponse!

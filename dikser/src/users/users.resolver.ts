@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql'
 import { UsersService } from './users.service'
 import { User } from './entities/user.entity'
 import { UseGuards } from '@nestjs/common'
@@ -67,5 +67,23 @@ export class UsersResolver {
 		@Args('username') username: string
 	): Promise<UserAttachment | undefined> {
 		return await this.usersService.getUserAttachment(username)
+	}
+
+	@Mutation(() => Int)
+	@UseGuards(AuthStatusGuard)
+	async follow(
+		@CurrentUser() currentUser: User,
+		@Args('username') username: string
+	): Promise<number | undefined> {
+		return await this.usersService.follow(currentUser, username)
+	}
+
+	@Mutation(() => Int)
+	@UseGuards(AuthStatusGuard)
+	async unfollow(
+		@CurrentUser() currentUser: User,
+		@Args('username') username: string
+	): Promise<number | undefined> {
+		return await this.usersService.unfollow(currentUser, username)
 	}
 }

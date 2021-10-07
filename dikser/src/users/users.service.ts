@@ -74,7 +74,7 @@ export class UsersService {
 		try {
 			return await this.userRepository.findOneOrFail({
 				where: { username: username },
-				relations: ['badges', 'relationship'],
+				relations: ['badges', 'relationship', 'followers', 'following'],
 			})
 		} catch (e) {
 			/**
@@ -164,5 +164,55 @@ export class UsersService {
 			 */
 			throw new BadRequestException()
 		}
+	}
+
+	async follow(currentUser: User, username: string) {
+		const user = await this.userRepository.findOne(currentUser.id, {
+			relations: ['following'],
+		})
+		const targetUser = await this.userRepository.findOne({
+			where: {
+				username: username,
+			},
+			relations: ['followers'],
+		})
+
+		if (!user || !targetUser || user.id === targetUser.id) return
+
+		// bind follow - follower
+		targetUser.followers = [...targetUser.followers, user]
+		user.following = [...user.following, targetUser]
+
+		await this.userRepository.save(user)
+		await this.userRepository.save(targetUser)
+
+		return 200
+	}
+
+	async unfollow(currentUser: User, username: string) {
+		const user = await this.userRepository.findOne(currentUser.id, {
+			relations: ['following'],
+		})
+		const targetUser = await this.userRepository.findOne({
+			where: {
+				username: username,
+			},
+			relations: ['followers'],
+		})
+
+		if (!user || !targetUser || user.id === targetUser.id) return
+
+		// bind follow - follower
+		targetUser.followers = targetUser.followers.filter(
+			(follower) => follower.id !== user.id
+		)
+		user.following = user.following.filter(
+			(following) => following.id !== targetUser.id
+		)
+
+		await this.userRepository.save(user)
+		await this.userRepository.save(targetUser)
+
+		return 200
 	}
 }

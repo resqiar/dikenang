@@ -116,4 +116,13 @@ export class User {
 		(notifications: Notification) => notifications.relatedUser
 	)
 	notifications: Notification[]
+
+	@Field((_) => [User], { nullable: true })
+	@ManyToMany(() => User, (user) => user.following)
+	@JoinTable()
+	followers: User[]
+
+	@Field((_) => [User], { nullable: true })
+	@ManyToMany(() => User, (user) => user.followers)
+	following: User[]
 }
