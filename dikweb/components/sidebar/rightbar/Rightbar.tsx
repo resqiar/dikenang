@@ -24,6 +24,7 @@ export default function Rightbar() {
 						<Card bgColor="var(--background-dimmed-500)">
 							<SidebarHeader bannerSrc="/images/bg.png" />
 							<SidebarHeaderProfile
+								fullname=""
 								username="Your Future Partner"
 								description="Stay tune for future partner feature!"
 							/>
