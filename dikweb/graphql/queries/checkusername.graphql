@@ -1,0 +1,3 @@
+query checkUsername($username: String!) {
+	checkUsername(username: $username)
+}

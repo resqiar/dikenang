@@ -261,6 +261,7 @@ export type Query = {
 	getMyProfile: User
 	searchUserRelevance: Array<User>
 	getUserAttachment: UserAttachment
+	checkUsername: Scalars['Int']
 	badges: Array<Badge>
 	badge: Badge
 	posts: Array<Post>
@@ -286,6 +287,10 @@ export type QuerySearchUserRelevanceArgs = {
 }
 
 export type QueryGetUserAttachmentArgs = {
+	username: Scalars['String']
+}
+
+export type QueryCheckUsernameArgs = {
 	username: Scalars['String']
 }
 
@@ -366,9 +371,8 @@ export type UpdatePostInput = {
 
 export type UpdateUserInput = {
 	username?: Maybe<Scalars['String']>
-	email?: Maybe<Scalars['String']>
+	fullname?: Maybe<Scalars['String']>
 	bio?: Maybe<Scalars['String']>
-	avatar_url?: Maybe<Scalars['String']>
 }
 
 export type UpvoteDto = {
@@ -502,6 +506,15 @@ export type RemoveUpvoteMutation = {
 	removeUpvote: number
 }
 
+export type UpdateProfileMutationVariables = Exact<{
+	UpdateUserInput: UpdateUserInput
+}>
+
+export type UpdateProfileMutation = {
+	__typename?: 'Mutation'
+	updateUser: { __typename?: 'User'; id: string }
+}
+
 export type UpdateUnreadNotificationsMutationVariables = Exact<{
 	[key: string]: never
 }>
@@ -510,6 +523,12 @@ export type UpdateUnreadNotificationsMutation = {
 	__typename?: 'Mutation'
 	readNotifications: number
 }
+
+export type CheckUsernameQueryVariables = Exact<{
+	username: Scalars['String']
+}>
+
+export type CheckUsernameQuery = { __typename?: 'Query'; checkUsername: number }
 
 export type GetUserFollowersQueryVariables = Exact<{
 	username: Scalars['String']
@@ -1387,6 +1406,56 @@ export type RemoveUpvoteMutationOptions = Apollo.BaseMutationOptions<
 	RemoveUpvoteMutation,
 	RemoveUpvoteMutationVariables
 >
+export const UpdateProfileDocument = gql`
+	mutation UpdateProfile($UpdateUserInput: UpdateUserInput!) {
+		updateUser(updateUserInput: $UpdateUserInput) {
+			id
+		}
+	}
+`
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+	UpdateProfileMutation,
+	UpdateProfileMutationVariables
+>
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      UpdateUserInput: // value for 'UpdateUserInput'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(
+	baseOptions?: Apollo.MutationHookOptions<
+		UpdateProfileMutation,
+		UpdateProfileMutationVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useMutation<
+		UpdateProfileMutation,
+		UpdateProfileMutationVariables
+	>(UpdateProfileDocument, options)
+}
+export type UpdateProfileMutationHookResult = ReturnType<
+	typeof useUpdateProfileMutation
+>
+export type UpdateProfileMutationResult =
+	Apollo.MutationResult<UpdateProfileMutation>
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+	UpdateProfileMutation,
+	UpdateProfileMutationVariables
+>
 export const UpdateUnreadNotificationsDocument = gql`
 	mutation updateUnreadNotifications {
 		readNotifications
@@ -1435,6 +1504,62 @@ export type UpdateUnreadNotificationsMutationOptions =
 		UpdateUnreadNotificationsMutation,
 		UpdateUnreadNotificationsMutationVariables
 	>
+export const CheckUsernameDocument = gql`
+	query checkUsername($username: String!) {
+		checkUsername(username: $username)
+	}
+`
+
+/**
+ * __useCheckUsernameQuery__
+ *
+ * To run a query within a React component, call `useCheckUsernameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckUsernameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckUsernameQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useCheckUsernameQuery(
+	baseOptions: Apollo.QueryHookOptions<
+		CheckUsernameQuery,
+		CheckUsernameQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useQuery<CheckUsernameQuery, CheckUsernameQueryVariables>(
+		CheckUsernameDocument,
+		options
+	)
+}
+export function useCheckUsernameLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<
+		CheckUsernameQuery,
+		CheckUsernameQueryVariables
+	>
+) {
+	const options = { ...defaultOptions, ...baseOptions }
+	return Apollo.useLazyQuery<CheckUsernameQuery, CheckUsernameQueryVariables>(
+		CheckUsernameDocument,
+		options
+	)
+}
+export type CheckUsernameQueryHookResult = ReturnType<
+	typeof useCheckUsernameQuery
+>
+export type CheckUsernameLazyQueryHookResult = ReturnType<
+	typeof useCheckUsernameLazyQuery
+>
+export type CheckUsernameQueryResult = Apollo.QueryResult<
+	CheckUsernameQuery,
+	CheckUsernameQueryVariables
+>
 export const GetUserFollowersDocument = gql`
 	query getUserFollowers($username: String!) {
 		user(username: $username) {
