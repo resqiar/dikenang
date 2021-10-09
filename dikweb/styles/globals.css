@@ -108,3 +108,10 @@ a {
 	--box-shadow-18: 0 4px 18px 0 rgba(0, 0, 0, 0.3);
 	--border: 1px solid rgb(71, 35, 35);
 }
+
+/* Change backdrop to blur */
+.MuiBackdrop-root {
+	background: rgba(11, 14, 16, 0.3);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+}
