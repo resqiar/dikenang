@@ -41,17 +41,8 @@ export class UsersResolver {
 	async update(
 		@CurrentUser() currentUser: User,
 		@Args('updateUserInput') updateUserInput: UpdateUserInput
-	): Promise<User> {
-		return await this.usersService.update(currentUser.id, updateUserInput)
-	}
-
-	@Mutation(() => User, { name: 'specialUpdateUser' })
-	@UseGuards(AGuard)
-	async specialUpdate(
-		@Args('id') id: string,
-		@Args('updateUserInput') updateUserInput: UpdateUserInput
-	): Promise<User> {
-		return await this.usersService.update(id, updateUserInput)
+	): Promise<User | undefined> {
+		return await this.usersService.update(currentUser, updateUserInput)
 	}
 
 	@Query(() => [User])
@@ -85,5 +76,14 @@ export class UsersResolver {
 		@Args('username') username: string
 	): Promise<number | undefined> {
 		return await this.usersService.unfollow(currentUser, username)
+	}
+
+	@Query(() => Int)
+	@UseGuards(AuthStatusGuard)
+	async checkUsername(
+		@CurrentUser() currentUser: User,
+		@Args('username') username: string
+	): Promise<number> {
+		return await this.usersService.checkUsername(currentUser, username)
 	}
 }

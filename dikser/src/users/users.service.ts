@@ -141,28 +141,13 @@ export class UsersService {
 		}
 	}
 
-	async update(id: string, updateUserInput: UpdateUserInput) {
-		try {
-			/**
-			 * update given input from @UpdateUserInput
-			 */
-			await this.userRepository.update(
-				id,
-				Object.assign({}, updateUserInput)
-			)
-
-			/**
-			 * @Returns updated User object
-			 */
-			return await this.userRepository.findOneOrFail(id)
-		} catch (e) {
-			/**
-			 * @Error here means that client fails to
-			 * update user to database, @Possibly duplicate
-			 * username or email fields
-			 */
-			throw new BadRequestException()
-		}
+	async update(currentUser: User, updateUserInput: UpdateUserInput) {
+		await this.checkUsername(currentUser, updateUserInput.username)
+		await this.userRepository.update(
+			currentUser.id,
+			Object.assign({}, updateUserInput)
+		)
+		return await this.userRepository.findOne(currentUser.id)
 	}
 
 	async follow(currentUser: User, username: string) {
@@ -212,6 +197,21 @@ export class UsersService {
 		await this.userRepository.save(user)
 		await this.userRepository.save(targetUser)
 
+		return 200
+	}
+
+	async checkUsername(currentUser: User, username?: string) {
+		if (!username || username.length < 3 || username.length > 25)
+			throw new BadRequestException(
+				'username must be atleast 3 - 25 characters'
+			)
+
+		const target = await this.userRepository.findOne({
+			where: { username: username },
+		})
+
+		if (target && target.username !== currentUser.username)
+			throw new BadRequestException('username already taken')
 		return 200
 	}
 }
