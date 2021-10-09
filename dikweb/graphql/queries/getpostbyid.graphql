@@ -8,6 +8,7 @@ query getPostById($postId: String!, $username: String!) {
 		}
 		author {
 			id
+			fullname
 			username
 			avatar_url
 			badges {

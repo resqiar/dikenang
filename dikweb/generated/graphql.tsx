@@ -122,7 +122,6 @@ export type DownvoteDto = {
 export type Mutation = {
 	__typename?: 'Mutation'
 	updateUser: User
-	specialUpdateUser: User
 	follow: Scalars['Int']
 	unfollow: Scalars['Int']
 	createBadge: Badge
@@ -145,11 +144,6 @@ export type Mutation = {
 
 export type MutationUpdateUserArgs = {
 	updateUserInput: UpdateUserInput
-}
-
-export type MutationSpecialUpdateUserArgs = {
-	updateUserInput: UpdateUserInput
-	id: Scalars['String']
 }
 
 export type MutationFollowArgs = {
@@ -612,6 +606,7 @@ export type GetPostByIdQuery = {
 		author: {
 			__typename?: 'User'
 			id: string
+			fullname?: Maybe<string>
 			username: string
 			avatar_url?: Maybe<string>
 			badges?: Maybe<
@@ -694,6 +689,7 @@ export type GetPublicFeedsQuery = {
 		author: {
 			__typename?: 'User'
 			id: string
+			fullname?: Maybe<string>
 			username: string
 			avatar_url?: Maybe<string>
 			badges?: Maybe<
@@ -799,6 +795,7 @@ export type GetUserProfileQuery = {
 	getUserById: {
 		__typename?: 'User'
 		id: string
+		fullname?: Maybe<string>
 		username: string
 		avatar_url?: Maybe<string>
 		bio?: Maybe<string>
@@ -1770,6 +1767,7 @@ export const GetPostByIdDocument = gql`
 			}
 			author {
 				id
+				fullname
 				username
 				avatar_url
 				badges {
@@ -2039,6 +2037,7 @@ export const GetPublicFeedsDocument = gql`
 			created_at
 			author {
 				id
+				fullname
 				username
 				avatar_url
 				badges {
@@ -2418,6 +2417,7 @@ export const GetUserProfileDocument = gql`
 	query getUserProfile($id: String!) {
 		getUserById(id: $id) {
 			id
+			fullname
 			username
 			avatar_url
 			bio

@@ -1,6 +1,7 @@
 query getUserProfile($id: String!) {
 	getUserById(id: $id) {
 		id
+		fullname
 		username
 		avatar_url
 		bio
