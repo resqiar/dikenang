@@ -11,6 +11,7 @@ import {
 import { UserProfileType } from '../../types/profile.type'
 import { ProfileDetailProps } from '../../pages/[username]'
 import ProfileAttachmentSkeleton from './skeleton/ProfileAttachmentSkeleton'
+import ProfileEditDialog from './ProfileEdit'
 
 import { Avatar, Button, IconButton } from '@material-ui/core'
 import { VerifiedUser } from '@material-ui/icons'
@@ -85,6 +86,8 @@ export default function ProfileHeader(props: Props) {
 		}
 	}
 
+	const [openEditDialog, setOpenEditDialog] = useState<boolean>(false)
+
 	return (
 		<ProfileSection>
 			<Card bgColor="var(--background-dimmed-500)">
@@ -104,13 +107,26 @@ export default function ProfileHeader(props: Props) {
 						{/* Overlay Fade Effect */}
 						<FadeEffect />
 
-						<EditWrapper>
-							<IconButton>
-								<EditIcon
-									style={{ color: 'var(--font-white-800)' }}
-								/>
-							</IconButton>
-						</EditWrapper>
+						{props.user.id === props.profileDetail.id ? (
+							<EditWrapper>
+								<IconButton
+									onClick={() => setOpenEditDialog(true)}
+								>
+									<EditIcon
+										style={{
+											color: 'var(--font-white-800)',
+										}}
+									/>
+								</IconButton>
+							</EditWrapper>
+						) : undefined}
+
+						<ProfileEditDialog
+							onOpen={openEditDialog}
+							onCloseCallback={() => setOpenEditDialog(false)}
+							onSubmitCallback={() => {}}
+							profileDetail={props.profileDetail}
+						/>
 					</BannerWrapper>
 
 					{/* Profile Text */}
