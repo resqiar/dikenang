@@ -151,7 +151,7 @@ export default function FeedMoreItem(props: Props) {
 				<StyledMenuItem
 					onClick={() =>
 						Router.push(
-							`/${props.postAuthorUsername}/${props.postId}`
+							`/story/${props.postAuthorUsername}/${props.postId}`
 						)
 					}
 				>
