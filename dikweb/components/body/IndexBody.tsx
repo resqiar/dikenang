@@ -202,6 +202,9 @@ export default function IndexBody({ profile }: Props) {
 										caption={value.caption}
 										type={value.type as string}
 										authorId={value.author.id}
+										fullname={
+											value.author.fullname as string
+										}
 										username={value.author.username}
 										badge={
 											value.author.badges

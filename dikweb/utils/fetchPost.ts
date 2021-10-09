@@ -27,6 +27,7 @@ export default async function fetchPost(ctx: NextPageContext) {
 					}
 					author {
 						id
+						fullname
 						username
 						avatar_url
 						badges {

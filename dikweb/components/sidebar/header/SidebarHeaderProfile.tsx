@@ -1,30 +1,41 @@
 import styled from 'styled-components'
 
 interface Props {
+	fullname: string
 	username: string
 	description: string
 }
 
-export default function SidebarHeaderProfile({ username, description }: Props) {
+export default function SidebarHeaderProfile(props: Props) {
 	return (
 		<HeaderProfileWrapper>
-			<HeaderProfileUsername>{username}</HeaderProfileUsername>
-			<HeaderProfileDescription>{description}</HeaderProfileDescription>
+			<HeaderProfileFullname>{props.fullname}</HeaderProfileFullname>
+			<HeaderProfileUsername>@{props.username}</HeaderProfileUsername>
+			<HeaderProfileDescription>
+				{props.description}
+			</HeaderProfileDescription>
 		</HeaderProfileWrapper>
 	)
 }
 
 const HeaderProfileWrapper = styled.div`
 	height: min-content;
-	padding: 2px;
 `
 
-const HeaderProfileUsername = styled.p`
-	font-weight: 600;
+const HeaderProfileFullname = styled.p`
+	font-weight: bold;
 	font-size: 14px;
 	max-lines: 1;
 	word-break: break-all;
 	color: var(--font-white-800);
+`
+
+const HeaderProfileUsername = styled.p`
+	font-size: 13px;
+	max-lines: 1;
+	word-break: break-all;
+	margin-top: 2px;
+	color: var(--font-white-600);
 `
 
 const HeaderProfileDescription = styled.p`

@@ -30,6 +30,7 @@ export default function PostDetailBody(props: Props) {
 							caption={props.postData.caption as string}
 							type={props.postData.type as string}
 							authorId={props.postData.author.id as string}
+							fullname={props.postData.author.fullname as string}
 							username={props.postData.author.username as string}
 							timestamp={props.postData.created_at}
 							imageSrc={props.postData.attachments?.uri}
@@ -105,6 +106,7 @@ export default function PostDetailBody(props: Props) {
 							caption={props.postData.caption as string}
 							type={props.postData.type as string}
 							authorId={props.postData.author.id as string}
+							fullname={props.postData.author.fullname as string}
 							username={props.postData.author.username as string}
 							timestamp={props.postData.created_at}
 							imageSrc={props.postData.attachments?.uri}

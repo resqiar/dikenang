@@ -45,6 +45,7 @@ interface Props {
 	onRefecthCallback: () => void
 	postId: string
 	authorId: string
+	fullname: string
 	username: string
 	badge?: Badge
 	timestamp: string
@@ -328,14 +329,21 @@ export default function FeedPost(props: Props) {
 
 					<FeedPostHeaderText>
 						<FeedPostHeaderUsernameWrapper>
-							{/* Post Username */}
-							<FeedPostProfileH4
+							<NameWrapper
 								onClick={() =>
 									Router.push(`/${props.username}`)
 								}
 							>
-								{props.username}
-							</FeedPostProfileH4>
+								{/* Fullname */}
+								<FeedPostFullname>
+									{props.fullname}
+								</FeedPostFullname>
+
+								{/* Post Username */}
+								<FeedPostUsername>
+									@{props.username}
+								</FeedPostUsername>
+							</NameWrapper>
 
 							{/* Badge (if any) */}
 							{props.badge ? (
@@ -613,16 +621,20 @@ const FeedPostHeaderUsernameWrapper = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	cursor: pointer;
 `
 const FeedPostProfile = styled.div`
 	display: flex;
 	align-items: center;
 `
-const FeedPostProfileH4 = styled.h4`
+const FeedPostFullname = styled.p`
 	color: var(--font-white-800);
 	font-weight: bold;
 	font-size: 14px;
-	cursor: pointer;
+`
+const FeedPostUsername = styled.p`
+	color: var(--font-white-600);
+	font-size: 12px;
 `
 const FeedPostTypeTimestampWrapper = styled.div`
 	display: flex;
@@ -716,3 +728,9 @@ const FeedPostButtonWrapper = styled.div`
 `
 
 const CommentSection = styled(animated.div)``
+
+const NameWrapper = styled.div`
+	display: flex;
+	gap: 8px;
+	align-items: center;
+`

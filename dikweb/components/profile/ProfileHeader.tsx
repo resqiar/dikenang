@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
@@ -108,7 +109,8 @@ export default function ProfileHeader(props: Props) {
 						<FadeEffect />
 
 						{/* Edit Button */}
-						{props.user.id === props.profileDetail.id ? (
+						{props.user &&
+						props.user.id === props.profileDetail.id ? (
 							<EditWrapper>
 								<IconButton
 									onClick={() => setOpenEditDialog(true)}
@@ -123,7 +125,8 @@ export default function ProfileHeader(props: Props) {
 						) : undefined}
 
 						{/* Edit Dialog */}
-						{props.user.id === props.profileDetail.id ? (
+						{props.user &&
+						props.user.id === props.profileDetail.id ? (
 							<ProfileEditDialog
 								onOpen={openEditDialog}
 								onCloseCallback={() => setOpenEditDialog(false)}
@@ -142,27 +145,41 @@ export default function ProfileHeader(props: Props) {
 							/>
 
 							{/* Follow Button */}
-							{props.user.id !== props.profileDetail.id ? (
+							{props.user ? (
+								[
+									props.user.id !== props.profileDetail.id ? (
+										<FollowButtonWrapper>
+											{!isFollowing ? (
+												<FollowButton
+													variant="contained"
+													fullWidth={true}
+													onClick={() => handleFoll()}
+												>
+													Follow
+												</FollowButton>
+											) : (
+												<UnfollowButton
+													variant="outlined"
+													fullWidth={true}
+													onClick={() => handleFoll()}
+												>
+													Unfollow
+												</UnfollowButton>
+											)}
+										</FollowButtonWrapper>
+									) : undefined,
+								]
+							) : (
 								<FollowButtonWrapper>
-									{!isFollowing ? (
-										<FollowButton
-											variant="contained"
-											fullWidth={true}
-											onClick={() => handleFoll()}
-										>
-											Follow
-										</FollowButton>
-									) : (
-										<UnfollowButton
-											variant="outlined"
-											fullWidth={true}
-											onClick={() => handleFoll()}
-										>
-											Unfollow
-										</UnfollowButton>
-									)}
+									<FollowButton
+										variant="contained"
+										fullWidth={true}
+										onClick={() => Router.push('/auth')}
+									>
+										Follow
+									</FollowButton>
 								</FollowButtonWrapper>
-							) : undefined}
+							)}
 						</ProfileAvatar>
 
 						<HeaderDetailText>

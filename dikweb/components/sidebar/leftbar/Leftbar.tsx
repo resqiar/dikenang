@@ -35,6 +35,9 @@ export default function Leftbar(props: Props) {
 						}
 					/>
 					<SidebarHeaderProfile
+						fullname={
+							getUserProfile.data?.getUserById.fullname as string
+						}
 						username={
 							getUserProfile.data?.getUserById.username as string
 						}

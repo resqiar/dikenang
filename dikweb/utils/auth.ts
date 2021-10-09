@@ -23,6 +23,7 @@ export default async function checkAuth(ctx: NextPageContext) {
 				getMyProfile {
 					id
 					username
+					fullname
 					avatar_url
 				}
 			}
