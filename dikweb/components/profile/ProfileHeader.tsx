@@ -107,6 +107,7 @@ export default function ProfileHeader(props: Props) {
 						{/* Overlay Fade Effect */}
 						<FadeEffect />
 
+						{/* Edit Button */}
 						{props.user.id === props.profileDetail.id ? (
 							<EditWrapper>
 								<IconButton
@@ -121,12 +122,14 @@ export default function ProfileHeader(props: Props) {
 							</EditWrapper>
 						) : undefined}
 
-						<ProfileEditDialog
-							onOpen={openEditDialog}
-							onCloseCallback={() => setOpenEditDialog(false)}
-							onSubmitCallback={() => {}}
-							profileDetail={props.profileDetail}
-						/>
+						{/* Edit Dialog */}
+						{props.user.id === props.profileDetail.id ? (
+							<ProfileEditDialog
+								onOpen={openEditDialog}
+								onCloseCallback={() => setOpenEditDialog(false)}
+								profileDetail={props.profileDetail}
+							/>
+						) : undefined}
 					</BannerWrapper>
 
 					{/* Profile Text */}
