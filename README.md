@@ -1,3 +1,5 @@
+> Dikenang is Somehow Abandoned and Obsolete
+
 <p align="center">
   <a href="https://dikenang.co" target="_blank"><img src="https://i.imgur.com/irBDntm.png" width="600" alt="Dikenang Logo" /></a>
 </p>
