@@ -6476,7 +6476,7 @@ conventional-commits-parser@^3.0.0, conventional-commits-parser@^3.0.7:
     through2 "^4.0.0"
     trim-off-newlines "^1.0.0"
 
-convert-draftjs@^0.2.0:
+convert-draftjs@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/convert-draftjs/-/convert-draftjs-0.2.0.tgz#dd87938d85cf48b5e6bee13403653eee88967d6e"
   integrity sha512-dx45HDgrIUqViQBntshKk+T+FeIIk+HbAJ80BlY6QqJrWcL4EK+kVviwYRUE0IA6RVIDuEBUKBd48uXSbuoq/w==
@@ -12847,10 +12847,10 @@ preview-email@3.0.4:
     pug "^3.0.2"
     uuid "^8.3.2"
 
-prismjs@1.25.0:
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
-  integrity sha512-WCjJHl1KEWbnkQom1+SzftbtXMKQoezOCYs5rECqMN+jP+apI7ftoflyqigqzopSO3hMhTEb0mFClA8lkolgEg==
+prismjs@1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.27.0.tgz#bb6ee3138a0b438a3653dd4d6ce0cc6510a45057"
+  integrity sha512-t13BGPUlFDR7wRB5kQDG4jjl7XeuH6jbJGt11JHPL96qwsEHNX2+68tFXqc1/k+/jALsbSWJKUOT/hcYAZ5LkA==
 
 proc-log@^1.0.0:
   version "1.0.0"
