@@ -6476,7 +6476,7 @@ conventional-commits-parser@^3.0.0, conventional-commits-parser@^3.0.7:
     through2 "^4.0.0"
     trim-off-newlines "^1.0.0"
 
-convert-draftjs@^0.2.0:
+convert-draftjs@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/convert-draftjs/-/convert-draftjs-0.2.0.tgz#dd87938d85cf48b5e6bee13403653eee88967d6e"
   integrity sha512-dx45HDgrIUqViQBntshKk+T+FeIIk+HbAJ80BlY6QqJrWcL4EK+kVviwYRUE0IA6RVIDuEBUKBd48uXSbuoq/w==
@@ -11493,10 +11493,10 @@ moment-timezone@^0.5.31, moment-timezone@^0.5.x:
   dependencies:
     moment ">= 2.9.0"
 
-moment@2.29.1, "moment@>= 2.9.0", moment@>=2.14.0:
-  version "2.29.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+moment@2.29.4, "moment@>= 2.9.0", moment@>=2.14.0:
+  version "2.29.4"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
+  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
 
 mri@^1.1.5:
   version "1.1.6"
